@@ -1,11 +1,11 @@
+# Exploring Advanced Collision Techniques in a Physics Engine
 | Title | Brief Description|
 |-----|-------|
 |Project Overview| Brief run through of what the project is about|
 |Project Aims| Main aims for the final outcome of the project|
-
-#### Table of Contents
-
-# Exploring Advanced Collision Techniques in a Physics Engine
+|Reasons for making this project| Main reasons for the creation of the project|
+|How to use Project| User manuel on how to operate the different aspects of the project|
+|Software Used| The software used for the project|
 
 ## Project Overview:
 This project is to show the different collision techniques and physics techniques that are employed in different physics engines. 
