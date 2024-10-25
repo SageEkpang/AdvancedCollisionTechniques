@@ -1,7 +1,7 @@
 # Exploring Advanced Collision Techniques in a Physics Engine
 | Title | Brief Description|
 |-----|-------|
-|[Project Overview](https://github.com/SageEkpang/AdvancedCollisionTechniques/edit/main/README.md#project-overview)| Brief run through of what the project is about|
+|[Project Overview](https://github.com/SageEkpang/AdvancedCollisionTechniques?tab=readme-ov-file#problem-being-solved)| Brief run through of what the project is about|
 |Project Aims| Main aims for the final outcome of the project|
 |Reasons for making this project| Main reasons for the creation of the project|
 |How to use Project| User manuel on how to operate the different aspects of the project|
