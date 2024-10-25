@@ -1,11 +1,12 @@
 # Exploring Advanced Collision Techniques in a Physics Engine
 | Title | Brief Description|
 |-----|-------|
-|Project Overview| Brief run through of what the project is about|
+|[Project Overview](https://github.com/SageEkpang/AdvancedCollisionTechniques/edit/main/README.md#project-overview)| Brief run through of what the project is about|
 |Project Aims| Main aims for the final outcome of the project|
 |Reasons for making this project| Main reasons for the creation of the project|
 |How to use Project| User manuel on how to operate the different aspects of the project|
 |Software Used| The software used for the project|
+|References| References to the information used to complete this project|
 
 ## Project Overview:
 This project is to show the different collision techniques and physics techniques that are employed in different physics engines. 
@@ -72,10 +73,3 @@ Nvidia GameWorks (2014) “Nvidia FleX” Nvidia Developer.
 S. Kockara, T. Halic, K. Iqbal, C. Bayrak and R. Rowe. (2007) "Collision detection: A survey” IEEE International Conference on Systems, Man and Cybernetics
 
 Chong Jin Ong and E. G. Gilbert. (1997) "The Gilbert-Johnson-Keerthi distance algorithm: a fast version for incremental motions" Proceedings of International Conference on Robotics and Automation
-
-
-
-
-
-
-
