@@ -2,11 +2,11 @@
 | Title | Brief Description|
 |-----|-------|
 |[Project Overview](https://github.com/SageEkpang/AdvancedCollisionTechniques?tab=readme-ov-file#problem-being-solved)| Brief run through of what the project is about|
-|Project Aims| Main aims for the final outcome of the project|
-|Reasons for making this project| Main reasons for the creation of the project|
-|How to use Project| User manuel on how to operate the different aspects of the project|
-|Software Used| The software used for the project|
-|References| References to the information used to complete this project|
+|[Project Aims](https://github.com/SageEkpang/AdvancedCollisionTechniques?tab=readme-ov-file#project-aims)| Main aims for the final outcome of the project|
+|[Reasons for making this project](https://github.com/SageEkpang/AdvancedCollisionTechniques?tab=readme-ov-file#reasons-for-making-this-project)| Main reasons for the creation of the project|
+|[How to use Project](https://github.com/SageEkpang/AdvancedCollisionTechniques?tab=readme-ov-file#how-to-use-project)| User manuel on how to operate the different aspects of the project|
+|[Software Used](https://github.com/SageEkpang/AdvancedCollisionTechniques?tab=readme-ov-file#software-used)| The software used for the project|
+|[References](https://github.com/SageEkpang/AdvancedCollisionTechniques?tab=readme-ov-file#references)| References to the information used to complete this project|
 
 ## Project Overview:
 This project is to show the different collision techniques and physics techniques that are employed in different physics engines. 
