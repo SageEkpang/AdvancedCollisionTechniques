@@ -1,4 +1,5 @@
 # Exploring Advanced Collision Techniques in a Physics Engine
+## Table of Contents
 | Title | Brief Description|
 |-----|-------|
 |[Project Overview](https://github.com/SageEkpang/AdvancedCollisionTechniques?tab=readme-ov-file#problem-being-solved)| Brief run through of what the project is about|
@@ -38,7 +39,6 @@ and present these ideas. Furthermore, this project was created to be a Dissertat
 
 ## How to use Project?:
 *To be Added*
-
 
 
 ## Software Used:
