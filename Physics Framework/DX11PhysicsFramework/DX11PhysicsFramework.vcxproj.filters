@@ -15,30 +15,54 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{9c796f30-1066-4157-a18b-1202b10ee0ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{23e67d5a-29e1-499d-92e6-8f5057431cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{909f04ff-2e3d-4b95-8210-f7225252e74a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DX11PhysicsFramework.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Structures.h" />
     <ClInclude Include="OBJLoader.h">
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="DDSTextureLoader.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11PhysicsFramework.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DX11PhysicsFramework.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="OBJLoader.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
     <ClCompile Include="DDSTextureLoader.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DX11PhysicsFramework.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

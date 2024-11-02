@@ -5,6 +5,92 @@
 
 using namespace DirectX;
 
+// CUSTOM DATA(s)
+
+typedef struct Vector3
+{
+	float x, y, z;
+
+	// Constructor 
+	Vector3(float x = 0.0f, float y = 0.0f, float z = 0.0f)
+	{
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+
+	Vector3(const Vector3& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		this->z = other.z;
+	}
+
+
+	// Operator Overloading
+
+	Vector3 operator+ (Vector3 value)
+	{
+		return Vector3(x + value.x, y + value.y, z + value.z);
+	}
+
+	Vector3 operator+ (float value)
+	{
+		return Vector3(x + value, y + value, z + value);
+	}
+
+	Vector3 operator- (Vector3 value)
+	{
+		return Vector3(x - value.x, y - value.y, z - value.z);
+	}
+
+	Vector3 operator- (float value)
+	{
+		return Vector3(x - value, y - value, z - value);
+	}
+
+	Vector3 operator++ ()
+	{
+		++x;
+		++y;
+		++z;
+		return *this;
+	}
+
+	Vector3 operator-- ()
+	{
+		--x;
+		--y;
+		--z;
+		return *this;
+	}
+
+	Vector3 operator* (Vector3 value)
+	{
+		return Vector3(x * value.x, y * value.y, z * value.z);
+	}
+
+	Vector3 operator* (float value)
+	{
+		return Vector3(x * value, y * value, z * value);
+	}
+
+	Vector3 operator/ (Vector3 value)
+	{
+		return Vector3(x / value.x, y / value.y, z / value.z);
+	}
+
+}Vector3, Vector3D;
+
+typedef struct Vector4
+{
+	float x, y, z, w;
+
+
+
+}Vector4, Vector4D;
+
+
 struct SurfaceInfo
 {
 	XMFLOAT4 AmbientMtrl;
