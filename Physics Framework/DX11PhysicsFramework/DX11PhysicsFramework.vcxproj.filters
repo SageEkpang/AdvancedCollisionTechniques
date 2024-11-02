@@ -41,7 +41,12 @@
     <ClInclude Include="Structures.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Screen.h" />
+    <ClInclude Include="Screen.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StartUp.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OBJLoader.cpp">
@@ -62,7 +67,12 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StartUp.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

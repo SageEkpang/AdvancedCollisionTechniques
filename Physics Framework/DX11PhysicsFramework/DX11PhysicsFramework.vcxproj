@@ -377,6 +377,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="StartUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleShaders.hlsl">
@@ -392,6 +393,7 @@
     <ClInclude Include="OBJLoader.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="StartUp.h" />
     <ClInclude Include="Structures.h" />
   </ItemGroup>
   <ItemGroup>

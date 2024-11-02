@@ -1,11 +1,33 @@
 #pragma once
+#ifndef STRUCTURES_H
+#define STRUCTURES_H
+
+
 #include <cstring>
 #include <d3d11.h>
 #include <directxmath.h>
 
+#include <iostream>
+#include <string>
+#include <vector>
+#include <memory>
+#include <array>
+
 using namespace DirectX;
 
 // CUSTOM DATA(s)
+
+enum PhysicsScreenState
+{
+	STATE_NONE = 0
+};
+
+enum ScreenState
+{
+	SCREEN_NEXT = 1,
+	SCREEN_CURRENT = 0,
+	SCREEN_PREVIOUS = -1
+};
 
 typedef struct Vector3
 {
@@ -80,6 +102,11 @@ typedef struct Vector3
 		return Vector3(x / value.x, y / value.y, z / value.z);
 	}
 
+	Vector3 operator/ (float value)
+	{
+		return Vector3(x / value, y / value, z / value);
+	}
+
 }Vector3, Vector3D;
 
 typedef struct Vector4
@@ -89,6 +116,16 @@ typedef struct Vector4
 
 
 }Vector4, Vector4D;
+
+typedef struct Transform3D
+{
+	Transform3D* parent;
+	Vector3 position;
+	Vector3 scale;
+	Vector3 rotation;
+
+
+}Transform3D;
 
 
 struct SurfaceInfo
@@ -142,3 +179,5 @@ struct MeshData
 	UINT VBOffset;
 	UINT IndexCount;
 };
+
+#endif
