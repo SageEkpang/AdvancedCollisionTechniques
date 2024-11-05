@@ -610,6 +610,7 @@ void DX11PhysicsFramework::Update()
 	{
 		_gameObjects[2]->Move(XMFLOAT3(0, 0, 0.02f));
 	}
+
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
 
@@ -650,6 +651,8 @@ void DX11PhysicsFramework::Draw()
 	_immediateContext->PSSetConstantBuffers(0, 1, &_constantBuffer);
 	_immediateContext->PSSetSamplers(0, 1, &_samplerLinear);
 
+
+
 	XMFLOAT4X4 tempView = _camera->GetView();
 	XMFLOAT4X4 tempProjection = _camera->GetProjection();
 
@@ -661,6 +664,8 @@ void DX11PhysicsFramework::Draw()
 	
 	_cbData.light = basicLight;
 	_cbData.EyePosW = _camera->GetPosition();
+
+
 
 	// Render all scene objects
 	for (auto gameObject : _gameObjects)
@@ -696,6 +701,8 @@ void DX11PhysicsFramework::Draw()
 		// Draw object
 		gameObject->Draw(_immediateContext);
 	}
+
+
 
     //
     // Present our back buffer to our front buffer

@@ -370,6 +370,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicScreen.cpp" />
     <ClCompile Include="DX11PhysicsFramework.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
@@ -377,6 +378,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="StartUp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -386,6 +388,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicScreen.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="DX11PhysicsFramework.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DDSTextureLoader.h" />
@@ -393,6 +397,7 @@
     <ClInclude Include="OBJLoader.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="StartUp.h" />
     <ClInclude Include="Structures.h" />
   </ItemGroup>

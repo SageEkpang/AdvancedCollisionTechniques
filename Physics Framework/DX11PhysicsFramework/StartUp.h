@@ -8,7 +8,7 @@
 #include "Screen.h"
 
 // FORWARD DEC(s)
-
+class BasicScreen;
 
 class StartUp
 {

@@ -2,7 +2,6 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-
 #include <cstring>
 #include <d3d11.h>
 #include <directxmath.h>
@@ -19,7 +18,8 @@ using namespace DirectX;
 
 enum PhysicsScreenState
 {
-	STATE_NONE = 0
+	STATE_NONE = 0,
+	STATE_BASIC_SCREEN
 };
 
 enum ScreenState

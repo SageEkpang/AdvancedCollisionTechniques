@@ -21,6 +21,15 @@
     <Filter Include="Source">
       <UniqueIdentifier>{909f04ff-2e3d-4b95-8210-f7225252e74a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PhysicScreens">
+      <UniqueIdentifier>{866c81b3-d696-4653-9d1a-6040388ce15d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysicScreens\Header">
+      <UniqueIdentifier>{5f712f78-f843-4e24-ae58-e79f9a0df390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysicScreens\Source">
+      <UniqueIdentifier>{6198a9b1-1309-4b7e-9ea5-e0dbb0547c0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OBJLoader.h">
@@ -41,11 +50,20 @@
     <ClInclude Include="Structures.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Screen.h">
+    <ClInclude Include="Constants.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="BasicScreen.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
     <ClInclude Include="StartUp.h">
-      <Filter>Header</Filter>
+      <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,10 +86,16 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Screen.cpp">
-      <Filter>Source</Filter>
+      <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenManager.cpp">
+      <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
     <ClCompile Include="StartUp.cpp">
-      <Filter>Source</Filter>
+      <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicScreen.cpp">
+      <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

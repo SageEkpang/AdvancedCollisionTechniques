@@ -74,6 +74,7 @@ private:
 	ID3D11RasterizerState* _CWcullMode; //Clockwise
 
 private:
+
 	HRESULT CreateWindowHandle(HINSTANCE hInstance, int nCmdShow);
 	HRESULT CreateD3DDevice();
 	HRESULT CreateSwapChainAndFrameBuffer();
@@ -83,6 +84,7 @@ private:
 	HRESULT InitRunTimeData();
 
 public:
+
 	~DX11PhysicsFramework();
 
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);

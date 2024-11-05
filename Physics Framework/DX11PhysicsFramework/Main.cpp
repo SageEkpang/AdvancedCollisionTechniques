@@ -1,4 +1,6 @@
 #include "DX11PhysicsFramework.h"
+#include "ScreenManager.h"
+#include "StartUp.h"
 #include <windows.h>
 #include <comdef.h>
 
@@ -7,7 +9,13 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
+	// TODO: Change to screen manager stuff here
 	DX11PhysicsFramework application = DX11PhysicsFramework();
+
+	StartUp* startContent = new StartUp();
+	ScreenManager m_Application = ScreenManager(startContent);
+
+	// if (FAILED(m_Application.))
 
 	if (FAILED(application.Initialise(hInstance, nCmdShow)))
 	{
@@ -38,8 +46,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		}
 		else
 		{
-			application.Update();
-			application.Draw();
+			m_Application.Process();
+			m_Application.Showcase();
+
+			// application.Update();
+			// application.Draw();
 		}
 	}
 
