@@ -30,10 +30,10 @@ public:
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
-	void Update(float deltaTime);
+	void Update(Camera* camera, float deltaTime) override;
 
 	/// <summary> Default Draw function for Class </summary>
-	void Draw();
+	void Draw() override;
 
 };
 

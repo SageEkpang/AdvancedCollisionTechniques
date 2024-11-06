@@ -20,8 +20,11 @@ private:
 public:
 
 	// CLASS FUNCTION(s)
+
+	/// <summary> Default Constructor for Class </summary>
 	StartUp();
 
+	/// <summary> Default Destructor for Class </summary>
 	~StartUp();
 
 

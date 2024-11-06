@@ -10,17 +10,20 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	// TODO: Change to screen manager stuff here
-	DX11PhysicsFramework application = DX11PhysicsFramework();
+	// DX11PhysicsFramework application = DX11PhysicsFramework();
 
 	StartUp* startContent = new StartUp();
 	ScreenManager m_Application = ScreenManager(startContent);
 
-	// if (FAILED(m_Application.))
-
-	if (FAILED(application.Initialise(hInstance, nCmdShow)))
+	if (FAILED(m_Application.Initialise(hInstance, nCmdShow)))
 	{
 		return -1;
 	}
+
+	//if (FAILED(application.Initialise(hInstance, nCmdShow)))
+	//{
+	//	return -1;
+	//}
 
 	// Main message loop
 	MSG msg = { 0 };
@@ -33,7 +36,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 			if (msg.message >= WM_KEYFIRST && msg.message <= WM_KEYLAST)
 			{
-				handled = application.HandleKeyboard(msg);
+				// handled = application.HandleKeyboard(msg);
+				handled = m_Application.HandleKeyboard(msg);
+				
 			}
 			else if (WM_QUIT == msg.message)
 				break;

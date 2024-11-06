@@ -194,7 +194,6 @@ HRESULT DX11PhysicsFramework::CreateSwapChainAndFrameBuffer()
 
 HRESULT DX11PhysicsFramework::InitShadersAndInputLayout()
 {
-
 	HRESULT hr = S_OK;
 	ID3DBlob* errorBlob;
 
