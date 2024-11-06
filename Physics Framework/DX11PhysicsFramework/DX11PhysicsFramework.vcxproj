@@ -379,7 +379,6 @@
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
-    <ClCompile Include="StartUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleShaders.hlsl">
@@ -398,7 +397,6 @@
     <CLInclude Include="resource.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ScreenManager.h" />
-    <ClInclude Include="StartUp.h" />
     <ClInclude Include="Structures.h" />
   </ItemGroup>
   <ItemGroup>

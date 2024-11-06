@@ -1,5 +1,7 @@
 #include "ScreenManager.h"
-#include "StartUp.h"
+
+// FORWARD DEC(s)
+#include "BasicScreen.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -47,8 +49,8 @@ void ScreenManager::Destroy()
 	if (_cubeIndexBuffer)_cubeIndexBuffer->Release();
 	if (_planeVertexBuffer)_planeVertexBuffer->Release();
 	if (_planeIndexBuffer)_planeIndexBuffer->Release();
-	if (_objMeshData.IndexBuffer) _objMeshData.IndexBuffer->Release();
-	if (_objMeshData.VertexBuffer)_objMeshData.VertexBuffer->Release();
+	// if (_objMeshData.IndexBuffer) _objMeshData.IndexBuffer->Release();
+	// if (_objMeshData.VertexBuffer)_objMeshData.VertexBuffer->Release();
 
 	if (_DSLessEqual) _DSLessEqual->Release();
 	if (_RSCullNone) _RSCullNone->Release();
@@ -63,25 +65,30 @@ void ScreenManager::Destroy()
 	if (_device)_device->Release();
 }
 
-ScreenManager::ScreenManager(StartUp* startContent)
+ScreenManager::ScreenManager()
 {
 	// Set default values for everything
 	m_CurrentPhysicsScreen = PhysicsScreenState::STATE_NONE;
 	m_CurrentScreenState = ScreenState::SCREEN_CURRENT;
-
-	// Load in Screen content
-	for (size_t i = 0; startContent->GetScreenVector().size(); ++i)
-	{
-		m_Screens.push_back(startContent->GetScreenVector()[i]);
-	}
-
-	// Set the Current screen to the first screen in the vector array
-	m_CurrentScreen = &m_Screens[0];
 }
 
 ScreenManager::~ScreenManager()
 {
 	Destroy();
+}
+
+HRESULT ScreenManager::CreateScreens()
+{
+	HRESULT hr = S_OK;
+
+	// Assign Screens to Vector
+	// m_Screens.push_back(BasicScreen("BasicScreen", _device));
+
+	// Set the Current screen to the first screen in the vector array
+	// m_CurrentScreen = &m_Screens[0];
+	m_CurrentScreen = new BasicScreen("BasicScreen", _device);
+
+	return S_OK;
 }
 
 void ScreenManager::Process()
@@ -117,7 +124,22 @@ void ScreenManager::Showcase()
 	// Begin "Drawing" the content
 	BeginRendering();
 
-	m_CurrentScreen->Draw();
+
+	// Camera and Constant Buffer Information Functionality
+	XMFLOAT4X4 tempView = _camera->GetView();
+	XMFLOAT4X4 tempProjection = _camera->GetProjection();
+
+	XMMATRIX view = XMLoadFloat4x4(&tempView);
+	XMMATRIX projection = XMLoadFloat4x4(&tempProjection);
+
+	_cbData.View = XMMatrixTranspose(view);
+	_cbData.Projection = XMMatrixTranspose(projection);
+
+	_cbData.light = basicLight;
+	_cbData.EyePosW = _camera->GetPosition();
+
+	// Draw the Current Physics Screen
+	m_CurrentScreen->Draw(_cbData, _constantBuffer, _immediateContext);
 
 	// End "Drawing" the content
 	EndRendering();
@@ -146,6 +168,9 @@ HRESULT ScreenManager::Initialise(HINSTANCE hInstance, int nShowCmd)
 	if (FAILED(hr)) return E_FAIL;
 
 	hr = InitRunTimeData();
+	if (FAILED(hr)) return E_FAIL;
+
+	hr = CreateScreens();
 	if (FAILED(hr)) return E_FAIL;
 
 	return hr;
@@ -202,7 +227,7 @@ void ScreenManager::TransitionScreen(ScreenState state, float deltaTime)
 
 HRESULT ScreenManager::CreateWindowHandle(HINSTANCE hInstance, int nShowCmd)
 {
-	const wchar_t* windowName = L"AdvancedCollision";
+	const wchar_t* windowName = L"DirectXPhysics";
 
 	WNDCLASSW wndClass;
 	wndClass.style = 0;
@@ -599,44 +624,31 @@ HRESULT ScreenManager::InitRunTimeData()
 	basicLight.SpecularPower = 10.0f;
 	basicLight.LightVecW = XMFLOAT3(0.0f, 0.5f, -1.0f);
 
-	// Material Set Up
-	Geometry herculesGeometry;
-	_objMeshData = OBJLoader::Load("Resources\\OBJ\\donut.obj", _device);
-	herculesGeometry.indexBuffer = _objMeshData.IndexBuffer;
-	herculesGeometry.numberOfIndices = _objMeshData.IndexCount;
-	herculesGeometry.vertexBuffer = _objMeshData.VertexBuffer;
-	herculesGeometry.vertexBufferOffset = _objMeshData.VBOffset;
-	herculesGeometry.vertexBufferStride = _objMeshData.VBStride;
+	//Geometry cubeGeometry;
+	//cubeGeometry.indexBuffer = _cubeIndexBuffer;
+	//cubeGeometry.vertexBuffer = _cubeVertexBuffer;
+	//cubeGeometry.numberOfIndices = 36;
+	//cubeGeometry.vertexBufferOffset = 0;
+	//cubeGeometry.vertexBufferStride = sizeof(SimpleVertex);
 
-	Geometry cubeGeometry;
-	cubeGeometry.indexBuffer = _cubeIndexBuffer;
-	cubeGeometry.vertexBuffer = _cubeVertexBuffer;
-	cubeGeometry.numberOfIndices = 36;
-	cubeGeometry.vertexBufferOffset = 0;
-	cubeGeometry.vertexBufferStride = sizeof(SimpleVertex);
+	//Geometry planeGeometry;
+	//planeGeometry.indexBuffer = _planeIndexBuffer;
+	//planeGeometry.vertexBuffer = _planeVertexBuffer;
+	//planeGeometry.numberOfIndices = 6;
+	//planeGeometry.vertexBufferOffset = 0;
+	//planeGeometry.vertexBufferStride = sizeof(SimpleVertex);
 
-	Geometry planeGeometry;
-	planeGeometry.indexBuffer = _planeIndexBuffer;
-	planeGeometry.vertexBuffer = _planeVertexBuffer;
-	planeGeometry.numberOfIndices = 6;
-	planeGeometry.vertexBufferOffset = 0;
-	planeGeometry.vertexBufferStride = sizeof(SimpleVertex);
+	//Material shinyMaterial;
+	//shinyMaterial.ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//shinyMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//shinyMaterial.specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 
-	Material shinyMaterial;
-	shinyMaterial.ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	shinyMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	shinyMaterial.specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	//Material noSpecMaterial;
+	//noSpecMaterial.ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//noSpecMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//noSpecMaterial.specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 
-	Material noSpecMaterial;
-	noSpecMaterial.ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	noSpecMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	noSpecMaterial.specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-
-
-
-	// CHOICE: May need to init all the screen classes here and push to the screens instead of using the StartUp Class
-
-
+	return S_OK;
 }
 
 void ScreenManager::BeginRendering()
@@ -654,37 +666,10 @@ void ScreenManager::BeginRendering()
 	_immediateContext->VSSetConstantBuffers(0, 1, &_constantBuffer);
 	_immediateContext->PSSetConstantBuffers(0, 1, &_constantBuffer);
 	_immediateContext->PSSetSamplers(0, 1, &_samplerLinear);
-
-	// Change this for the surface material stuff
-	_cbData.surface.AmbientMtrl = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	_cbData.surface.DiffuseMtrl = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	_cbData.surface.SpecularMtrl = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-
-	// Needed for GameObjects
-	// _cbData.World = XMMatrixTranspose();
-
-	// Set texture
-	//if (gameObject->HasTexture())
-	//{
-	//	_immediateContext->PSSetShaderResources(0, 1, gameObject->GetTextureRV());
-	//	_cbData.HasTexture = 1.0f;
-	//}
-	//else
-	//{
-	//	_cbData.HasTexture = 0.0f;
-	//}
-
-	//Write constant buffer data onto GPU
-	D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-	_immediateContext->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
-	memcpy(mappedSubresource.pData, &_cbData, sizeof(_cbData));
-	_immediateContext->Unmap(_constantBuffer, 0);
-
-
-
 }
 
 void ScreenManager::EndRendering()
 {
+	// Present Back Buffer to front
 	_swapChain->Present(0, 0);
 }

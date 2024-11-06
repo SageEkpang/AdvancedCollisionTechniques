@@ -13,18 +13,17 @@ class BasicScreen : public Screen
 {
 private:
 
-
+	std::vector<GameObject*> m_Objects;
 
 public:
 
 	// CLASS FUNCTION(s)
 
 	/// <summary> Default Constructor for Class </summary>
-	BasicScreen(std::string screenName);
+	BasicScreen(std::string screenName, ID3D11Device* device);
 
 	/// <summary> Default Destructor for Class </summary>
 	~BasicScreen();
-
 
 
 	// BASE FUNCTION(s)
@@ -32,9 +31,7 @@ public:
 	/// <summary> Default Update function for Class </summary>
 	void Update(Camera* camera, float deltaTime) override;
 
-	/// <summary> Default Draw function for Class </summary>
-	void Draw() override;
-
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext) override;
 };
 
 #endif

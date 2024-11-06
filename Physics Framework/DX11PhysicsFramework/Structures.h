@@ -2,9 +2,15 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
+#include <windows.h>
 #include <cstring>
 #include <d3d11.h>
 #include <directxmath.h>
+#include <d3d11_1.h>
+#include <d3dcompiler.h>
+#include <directxcolors.h>
+#include "DDSTextureLoader.h"
+#include "resource.h"
 
 #include <iostream>
 #include <string>
@@ -13,6 +19,7 @@
 #include <array>
 
 using namespace DirectX;
+using namespace std;
 
 // CUSTOM DATA(s)
 

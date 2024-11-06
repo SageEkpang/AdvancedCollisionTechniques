@@ -1,11 +1,18 @@
 #pragma once
 
+#include <windows.h>
+#include <cstring>
+#include <d3d11.h>
 #include <directxmath.h>
 #include <d3d11_1.h>
+
+#include <iostream>
 #include <string>
+#include <vector>
+#include <memory>
+#include <array>
 
 using namespace DirectX;
-using namespace std;
 
 struct Geometry
 {

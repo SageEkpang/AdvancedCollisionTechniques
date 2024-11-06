@@ -62,9 +62,6 @@
     <ClInclude Include="ScreenManager.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
-    <ClInclude Include="StartUp.h">
-      <Filter>PhysicScreens\Header</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OBJLoader.cpp">
@@ -89,9 +86,6 @@
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
     <ClCompile Include="ScreenManager.cpp">
-      <Filter>PhysicScreens\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="StartUp.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
     <ClCompile Include="BasicScreen.cpp">

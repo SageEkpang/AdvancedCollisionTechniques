@@ -3,24 +3,15 @@
 #define SCREEN_MANAGER_H
 
 // NEEDED INCLUDE(s)
-#include <windows.h>
-#include <d3d11_1.h>
-#include <d3dcompiler.h>
-#include <directxmath.h>
-#include <directxcolors.h>
-#include "DDSTextureLoader.h"
-#include "resource.h"
 #include "Camera.h"
 #include "Structures.h"
 #include "OBJLoader.h"
-
-#include <vector>
-
 #include "GameObject.h"
 #include "Screen.h"
 
 //  CUSTOM INCLUDE(s) / FORWARD DEC(s)
 class StartUp;
+class BasicScreen;
 
 class ScreenManager
 {
@@ -70,9 +61,6 @@ private:
 
 	Light basicLight;
 
-	MeshData _objMeshData;
-	vector<GameObject*> _gameObjects;
-
 	Camera* _camera = nullptr;
 	float _cameraOrbitRadius = 7.0f;
 	float _cameraOrbitRadiusMin = 2.0f;
@@ -91,12 +79,13 @@ private:
 private:
 
 	HRESULT CreateWindowHandle(HINSTANCE hInstance, int nShowCmd);
-	HRESULT CreateD3DDevice();
 	HRESULT CreateSwapChainAndFrameBuffer();
 	HRESULT InitShadersAndInputLayout();
 	HRESULT InitVertexIndexBuffers();
 	HRESULT InitPipelineStates();
 	HRESULT InitRunTimeData();
+	HRESULT CreateD3DDevice();
+	HRESULT CreateScreens();
 
 	void BeginRendering();
 	void EndRendering();
@@ -106,7 +95,7 @@ public:
 	// CLASS FUNCTION(s)
 
 	/// <summary> Default Constructor for Class </summary>
-	ScreenManager(StartUp* startContent);
+	ScreenManager();
 
 	/// <summary> Default Destructor for Class </summary>
 	~ScreenManager();
