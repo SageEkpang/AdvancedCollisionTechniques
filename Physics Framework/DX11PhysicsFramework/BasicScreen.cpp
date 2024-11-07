@@ -26,24 +26,22 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	GameObject* t_GameObject = new GameObject("Donut", herculesGeometry, shinyMaterial);
 	ID3D11ShaderResourceView* _StoneTextureRV = nullptr;
-	// CreateDDSTextureFromFile(device, L"Resources\\Textures\\Hercules_COLOR.dds", nullptr, &_StoneTextureRV);
+	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &_StoneTextureRV);
 
 	t_GameObject->SetScale(1.0f, 1.0f, 1.0f);
 	t_GameObject->SetPosition(-5.0f, 0.5f, 10.0f);
 	t_GameObject->SetRotation(0, 0, 0);
-	// t_GameObject->SetTextureRV(_StoneTextureRV);
+	t_GameObject->GetWorldMatrix();
+	t_GameObject->SetTextureRV(_StoneTextureRV);
 
 	m_Objects.push_back(t_GameObject);
-
-	delete t_GameObject;
-	t_GameObject = nullptr;
 }
 
 BasicScreen::~BasicScreen()
 {
 	if (!m_Objects.empty())
 	{
-
+		m_Objects.clear();
 	}
 }
 
@@ -60,34 +58,34 @@ void BasicScreen::Update(Camera* camera, float deltaTime)
 
 void BasicScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext)
 {
-	//if (!m_Objects.empty())
-	//{
-	//	for (auto& v : m_Objects)
-	//	{
-	//		Material t_Material = v->GetMaterial();
+	if (!m_Objects.empty())
+	{
+		for (auto& v : m_Objects)
+		{
+			Material t_Material = v->GetMaterial();
 
-	//		constantBufferData.surface.AmbientMtrl = XMFLOAT4(0.1, 0.1, 0.1, 0.1);
-	//		constantBufferData.surface.DiffuseMtrl = XMFLOAT4(0.1, 0.1, 0.1, 0.1);
-	//		constantBufferData.surface.SpecularMtrl = XMFLOAT4(0.1, 0.1, 0.1, 0.1);
+			constantBufferData.surface.AmbientMtrl = t_Material.ambient;
+			constantBufferData.surface.DiffuseMtrl = t_Material.diffuse;
+			constantBufferData.surface.SpecularMtrl = t_Material.specular;
 
-	//		constantBufferData.World = XMMatrixTranspose(v->GetWorldMatrix());
+			constantBufferData.World = XMMatrixTranspose(v->GetWorldMatrix());
 
-	//		if (v->HasTexture())
-	//		{
-	//			pImmediateContext->PSSetShaderResources(0, 1, v->GetTextureRV());
-	//			constantBufferData.HasTexture = 1.0f;
-	//		}
-	//		else
-	//		{
-	//			constantBufferData.HasTexture = 0.0f;
-	//		}
+			if (v->HasTexture())
+			{
+				pImmediateContext->PSSetShaderResources(0, 1, v->GetTextureRV());
+				constantBufferData.HasTexture = 1.0f;
+			}
+			else
+			{
+				constantBufferData.HasTexture = 0.0f;
+			}
 
-	//		D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-	//		pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
-	//		memcpy(mappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
-	//		pImmediateContext->Unmap(constBuff, 0);
+			D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+			pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
+			memcpy(mappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
+			pImmediateContext->Unmap(constBuff, 0);
 
-	//		v->Draw(pImmediateContext);
-	//	}
-	//}
+			v->Draw(pImmediateContext);
+		}
+	}
 }

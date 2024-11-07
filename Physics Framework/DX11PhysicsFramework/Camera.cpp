@@ -3,7 +3,17 @@
 Camera::Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
 	: _eye(position), _at(at), _up(up), _windowWidth(windowWidth), _windowHeight(windowHeight), _nearDepth(nearDepth), _farDepth(farDepth)
 {
+
+	m_World = new XMFLOAT4X4();
+
+
 	Update();
+
+
+
+
+
+
 }
 
 Camera::~Camera()

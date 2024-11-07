@@ -18,7 +18,7 @@ class ScreenManager
 private:
 
 	Screen* m_CurrentScreen = nullptr;
-	std::vector<Screen> m_Screens;
+	bool m_IsTransitioning;
 
 	ScreenState m_CurrentScreenState;
 	PhysicsScreenState m_CurrentPhysicsScreen;

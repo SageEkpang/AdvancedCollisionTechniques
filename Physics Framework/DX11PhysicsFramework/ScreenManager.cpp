@@ -70,6 +70,7 @@ ScreenManager::ScreenManager()
 	// Set default values for everything
 	m_CurrentPhysicsScreen = PhysicsScreenState::STATE_NONE;
 	m_CurrentScreenState = ScreenState::SCREEN_CURRENT;
+	m_IsTransitioning = false;
 }
 
 ScreenManager::~ScreenManager()
@@ -81,11 +82,7 @@ HRESULT ScreenManager::CreateScreens()
 {
 	HRESULT hr = S_OK;
 
-	// Assign Screens to Vector
-	// m_Screens.push_back(BasicScreen("BasicScreen", _device));
-
-	// Set the Current screen to the first screen in the vector array
-	// m_CurrentScreen = &m_Screens[0];
+	// Assign Basic Screen to Screen Variable
 	m_CurrentScreen = new BasicScreen("BasicScreen", _device);
 
 	return S_OK;
@@ -208,20 +205,24 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 
 void ScreenManager::TransitionScreen(PhysicsScreenState state, float deltaTime)
 {
-	int t_Index = 0;
-	t_Index = (int)state;
-
+	// TODO: Need a transition variable for updates
+	delete m_CurrentScreen;
 	m_CurrentScreen = nullptr;
-	m_CurrentScreen = &m_Screens[t_Index - 1]; // TODO: may need to call new here
+
+	switch (state)
+	{
+		case PhysicsScreenState::STATE_BASIC_SCREEN: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
+	}
 }
 
 void ScreenManager::TransitionScreen(ScreenState state, float deltaTime)
 {
-	int t_Index = 0;
-	t_Index = (int)m_CurrentPhysicsScreen + (int)state;
+	//PhysicsScreenState Thing;
+	//int State = (int)Thing;
+	//++State;
+	//Thing = (PhysicsScreenState)State;
 
 	m_CurrentScreen = nullptr;
-	m_CurrentScreen = &m_Screens[t_Index - 1];
 	m_CurrentScreenState = ScreenState::SCREEN_CURRENT;
 }
 

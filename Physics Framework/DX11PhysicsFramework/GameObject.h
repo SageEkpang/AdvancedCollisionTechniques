@@ -1,16 +1,6 @@
 #pragma once
 
-#include <windows.h>
-#include <cstring>
-#include <d3d11.h>
-#include <directxmath.h>
-#include <d3d11_1.h>
-
-#include <iostream>
-#include <string>
-#include <vector>
-#include <memory>
-#include <array>
+#include "Structures.h"
 
 using namespace DirectX;
 
