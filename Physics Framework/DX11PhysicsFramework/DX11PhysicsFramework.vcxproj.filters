@@ -30,6 +30,15 @@
     <Filter Include="PhysicScreens\Source">
       <UniqueIdentifier>{6198a9b1-1309-4b7e-9ea5-e0dbb0547c0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Colliders">
+      <UniqueIdentifier>{8ba39916-a5ed-4673-a34d-846652a8df46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Colliders\Header">
+      <UniqueIdentifier>{36211a9d-55fd-412d-928a-87506d9d90b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Colliders\Source">
+      <UniqueIdentifier>{f7fceda7-e32b-49e5-84dd-57d5377fbb4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OBJLoader.h">
@@ -62,6 +71,21 @@
     <ClInclude Include="ScreenManager.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneCollider.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OBJLoader.cpp">
@@ -90,6 +114,21 @@
     </ClCompile>
     <ClCompile Include="BasicScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneCollider.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

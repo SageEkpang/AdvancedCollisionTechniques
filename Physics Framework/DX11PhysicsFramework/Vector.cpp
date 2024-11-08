@@ -1,0 +1,132 @@
+#include "Vector.h"
+
+Vector3 Vector::Inverse(Vector3 Value)
+{
+	return Vector3(-1 * Value.x, -1 * Value.y, -1 * Value.z);
+}
+
+Vector3 Vector::Reverse(Vector3 Value)
+{
+	float VecX = -Value.x;
+	float VecY = -Value.y;
+	float VecZ = -Value.z;
+	return Vector3(VecX, VecY, VecZ);
+}
+
+Vector3 Vector::CalculateVelocity(Vector3 Value, float DeltaTime)
+{
+	float VecX = (Value.x / DeltaTime);
+	float VecY = (Value.y / DeltaTime);
+	float VecZ = (Value.z / DeltaTime);
+
+	return Vector3(VecX, VecY, VecZ);
+}
+
+Vector3 Vector::CalculateVelocity(float ValueX, float ValueY, float ValueZ, float DeltaTime)
+{
+	float VecX = (ValueX / DeltaTime);
+	float VecY = (ValueY / DeltaTime);
+	float VecZ = (ValueZ / DeltaTime);
+
+	return Vector3(VecX, VecY, VecZ);
+}
+
+Vector3 Vector::Pow(Vector3 value, float power)
+{
+	return Vector3(std::pow(value.x, power), std::pow(value.y, power), std::pow(value.z, power));
+}
+
+Vector3 Vector::XMFLOAT3toVector3(XMFLOAT3 value)
+{
+	Vector3 temp;
+	temp.x = value.x;
+	temp.y = value.y;
+	temp.z = value.z;
+
+	return Vector3(temp);
+}
+
+float Vector::CalculateDotProduct(Vector3 Value1, Vector3 Value2) // Dot Product
+{
+	Vector3 NormVec1 = Normalise(Value1);
+	Vector3 NormVec2 = Normalise(Value2);
+	return (NormVec1.x * NormVec2.x) + (NormVec1.y * NormVec2.y) + (NormVec1.z * NormVec2.z);
+}
+
+float Vector::CalculateDotProductNotNorm(Vector3 value1, Vector3 value2)
+{
+	return (value1.x * value2.x) + (value1.y * value2.y) + (value1.z * value2.z);
+}
+
+float Vector::CalculateDotProduct(float Value1X, float Value1Y, float Value1Z, float Value2X, float Value2Y, float Value2Z) // Dot Product
+{
+	Vector3 NormVec1 = Normalise(Vector3(Value1X, Value1Y, Value1Z));
+	Vector3 NormVec2 = Normalise(Vector3(Value2X, Value2Y, Value2Z));
+	return (NormVec1.x * NormVec2.x) + (NormVec1.y * NormVec2.y) + (NormVec1.z * NormVec2.z);
+}
+
+Vector3 Vector::CalculateCrossProductV(Vector3 Value1, Vector3 Value2)
+{
+	float TempX = (Value1.y * Value2.z - Value1.z * Value2.y);
+	float TempY = (Value1.z * Value2.x - Value1.x * Value2.z);
+	float TempZ = (Value1.x * Value2.y - Value1.y * Value2.x);
+
+	return Vector3(TempX, TempY, TempZ);
+}
+
+float Vector::CalculateCrossProduct(Vector3 Value1, Vector3 Value2)
+{
+	// Torque ? No
+	float CrossProduct =
+		(Value1.y * Value2.z - Value1.z * Value2.y) +
+		(Value1.z * Value2.x - Value1.x * Value2.z) +
+		(Value1.x * Value2.y - Value1.y * Value2.x);
+
+	return CrossProduct;
+}
+
+Vector3 Vector::CalculateCrossProduct(float Value1X, float Value1Y, float Value1Z, float Value2X, float Value2Y, float Value2Z)
+{
+	float TempX = (Value1Y * Value2Z - Value1Z * Value2Y);
+	float TempY = (Value1Z * Value2X - Value1X * Value2Z);
+	float TempZ = (Value1X * Value2Y - Value1Y * Value2X);
+
+	return Vector3(TempX, TempY, TempZ);
+}
+
+float Vector::Magnitude(Vector3 Value)
+{
+	return sqrt((Value.x * Value.x) + (Value.y * Value.y) + (Value.z * Value.z));
+}
+
+float Vector::Magnitude(float ValueX, float ValueY, float ValueZ)
+{
+	return sqrt((ValueX * ValueX) + (ValueY * ValueY) + (ValueZ * ValueZ));
+}
+
+Vector3 Vector::Normalise(Vector3 Value)
+{
+	float Length = Magnitude(Value);
+
+	float NormX = Value.x / Length;
+	float NormY = Value.y / Length;
+	float NormZ = Value.z / Length;
+
+	return Vector3(NormX, NormY, NormZ);
+}
+
+Vector3 Vector::Normalise(float ValueX, float ValueY, float ValueZ)
+{
+	float Length = Magnitude(Vector3(ValueX, ValueY, ValueZ));
+
+	float NormX = ValueX / Length;
+	float NormY = ValueY / Length;
+	float NormZ = ValueZ / Length;
+
+	return Vector3(NormX, NormY, NormZ);
+}
+
+Vector3 Vector::DistanceTo(Vector3 Value1, Vector3 Value2)
+{
+	return Vector3(Value2 - Value1);
+}

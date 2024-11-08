@@ -382,6 +382,35 @@ typedef struct Transform3D
 
 }Transform3D;
 
+typedef struct ContactPoint
+{
+	Vector3 position;
+	float penetrationDepth;
+
+	ContactPoint()
+	{
+		position = Vector3();
+		penetrationDepth = 0.0f;
+	}
+
+}ContactPoint;
+
+typedef struct CollisionManifold
+{
+	int contactPointCount;
+	ContactPoint points[4];
+
+	Vector3 collisionNormal;
+
+	CollisionManifold(int contactPointCount = 0, ContactPoint points = ContactPoint(), Vector3 collisionNormal = Vector3())
+	{
+		this->contactPointCount = contactPointCount;
+		*this->points = points;
+		this->collisionNormal = collisionNormal;
+	}
+
+}CollisionManifold;
+
 
 struct SurfaceInfo
 {
@@ -434,5 +463,7 @@ struct MeshData
 	UINT VBOffset;
 	UINT IndexCount;
 };
+
+
 
 #endif
