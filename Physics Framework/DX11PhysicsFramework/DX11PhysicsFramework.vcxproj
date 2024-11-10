@@ -373,16 +373,21 @@
     <ClCompile Include="BasicScreen.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
-    <ClCompile Include="DX11PhysicsFramework.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="PhysicsObject.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="RigidbodyObject.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -396,17 +401,22 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Constants.h" />
-    <ClInclude Include="DX11PhysicsFramework.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="PlaneCollider.h" />
+    <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Render.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="RigidbodyObject.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Structures.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>

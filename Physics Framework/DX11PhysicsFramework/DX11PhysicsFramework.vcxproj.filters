@@ -39,6 +39,15 @@
     <Filter Include="Colliders\Source">
       <UniqueIdentifier>{f7fceda7-e32b-49e5-84dd-57d5377fbb4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{42d69fbc-bcf9-43dd-8971-585fe6dfb768}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Header">
+      <UniqueIdentifier>{f1476e7c-2122-4d98-bf37-f1dc3a1e83c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Source">
+      <UniqueIdentifier>{495c2c66-cfbb-42f7-82fc-d6213a614bbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OBJLoader.h">
@@ -48,18 +57,6 @@
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DX11PhysicsFramework.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Structures.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="BasicScreen.h">
@@ -86,6 +83,33 @@
     <ClInclude Include="Vector.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsObject.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidbodyObject.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OBJLoader.cpp">
@@ -95,12 +119,6 @@
       <Filter>Helpers</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DX11PhysicsFramework.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
@@ -128,6 +146,27 @@
       <Filter>Colliders\Source</Filter>
     </ClCompile>
     <ClCompile Include="Vector.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsObject.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyObject.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>

@@ -4,6 +4,7 @@
 
 #include "Structures.h"
 #include "Constants.h"
+#include "Transform.h"
 #include "Vector.h"
 
 // FORWARD DEC(s)
@@ -18,18 +19,11 @@ class Collider abstract
 {
 protected:
 
-	Transform3D m_Transform;
-	Vector3 m_Position;
-	Vector3 m_Scale;
-	// TODO: Change to quaternion
-	Vector3 m_Rotation;
+	Transform* m_Transform;
 
 public:
 
-	Collider(Vector3 position, Vector3 scale, Vector3 rotation) 
-	: m_Position(position), m_Scale(scale), m_Rotation(rotation) { }
-	// Collider(Transform* transform)
-
+	Collider(Transform* transform) { m_Transform = transform; }
 
 	virtual bool CollidesWith(Collider& other, CollisionManifold& out) = 0;
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) = 0;
@@ -38,9 +32,9 @@ public:
 	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) = 0;
 
 	// GETTER FUNCTION(s)
-	Vector3 GetPosition() const { return m_Position; }
-	Vector3 GetScale() const { return m_Position; }
-	Vector3 GetRotation() const { return m_Rotation; }
+	Vector3 GetPosition() const { return m_Transform->GetPosition(); }
+	Vector3 GetScale() const { return m_Transform->GetScale(); }
+	Vector3 GetRotation() const { return m_Transform->GetRotation(); }
 
 };
 

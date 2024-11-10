@@ -12,6 +12,8 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	Geometry herculesGeometry;
 	MeshData _objMeshData;
 	_objMeshData = OBJLoader::Load("Resources\\OBJ\\donut.obj", device);
+	ID3D11ShaderResourceView* _StoneTextureRV = nullptr;
+	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &_StoneTextureRV);
 
 	herculesGeometry.indexBuffer = _objMeshData.IndexBuffer;
 	herculesGeometry.numberOfIndices = _objMeshData.IndexCount;
@@ -24,17 +26,25 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	shinyMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	shinyMaterial.specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 
-	GameObject* t_GameObject = new GameObject("Donut", herculesGeometry, shinyMaterial);
-	ID3D11ShaderResourceView* _StoneTextureRV = nullptr;
-	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &_StoneTextureRV);
+	GameObject* t_DonutObject = new GameObject(Tag("Donut", PhysicTag::PHYSICS_STATIC));
+	Render* t_DonutRender = new Render();
+	Transform* t_DonutTransform = new Transform();
+	RigidbodyObject* t_DonutRigidBody = new RigidbodyObject(t_DonutTransform, 5.0f);
+	SphereCollider* t_DonutCollider = new SphereCollider(t_DonutTransform, 5.0f);
 
-	t_GameObject->SetScale(1.0f, 1.0f, 1.0f);
-	t_GameObject->SetPosition(-5.0f, 0.5f, 10.0f);
-	t_GameObject->SetRotation(0, 0, 0);
-	t_GameObject->GetWorldMatrix();
-	t_GameObject->SetTextureRV(_StoneTextureRV);
+	t_DonutObject->SetTransform(t_DonutTransform);
+	t_DonutTransform->SetScale(1.0f, 1.0f, 1.0f);
+	t_DonutTransform->SetPosition(-5.0f, 0.5f, 10.0f);
 
-	m_Objects.push_back(t_GameObject);
+	t_DonutObject->SetRigidbody(t_DonutRigidBody);
+	t_DonutRigidBody->SetCollider(t_DonutCollider);
+
+	t_DonutObject->SetRender(t_DonutRender);
+	t_DonutRender->SetGeometry(herculesGeometry);
+	t_DonutRender->SetMaterial(shinyMaterial);
+	t_DonutRender->SetTextureRV(_StoneTextureRV);
+
+	m_Objects.push_back(t_DonutObject);
 }
 
 BasicScreen::~BasicScreen()
@@ -62,17 +72,17 @@ void BasicScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuf
 	{
 		for (auto& v : m_Objects)
 		{
-			Material t_Material = v->GetMaterial();
+			Material t_Material = v->GetRender()->GetMaterial();
 
 			constantBufferData.surface.AmbientMtrl = t_Material.ambient;
 			constantBufferData.surface.DiffuseMtrl = t_Material.diffuse;
 			constantBufferData.surface.SpecularMtrl = t_Material.specular;
 
-			constantBufferData.World = XMMatrixTranspose(v->GetWorldMatrix());
+			constantBufferData.World = XMMatrixTranspose(v->GetTransform()->GetWorldMatrix());
 
-			if (v->HasTexture())
+			if (v->GetRender()->HasTexture())
 			{
-				pImmediateContext->PSSetShaderResources(0, 1, v->GetTextureRV());
+				pImmediateContext->PSSetShaderResources(0, 1, v->GetRender()->GetTextureRV());
 				constantBufferData.HasTexture = 1.0f;
 			}
 			else

@@ -1,4 +1,3 @@
-#include "DX11PhysicsFramework.h"
 #include "ScreenManager.h"
 #include <windows.h>
 #include <comdef.h>

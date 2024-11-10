@@ -17,9 +17,7 @@ private:
 
 public:
 
-	// SphereCollider(Transform* transform, float radius) : Collider(transform) { m_Radius = radius; }
-	SphereCollider(Vector3 position, Vector3 scale, Vector3 rotation)
-	: Collider(position, scale, rotation) { }
+	SphereCollider(Transform* transform, float radius) : Collider(transform) { m_Radius = radius; }
 
 	// Replace these when collision manifold is implemented
 	virtual bool CollidesWith(Collider& other, CollisionManifold& out) override { return other.CollidesWith(*this, out); }

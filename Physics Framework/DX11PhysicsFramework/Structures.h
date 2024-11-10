@@ -58,7 +58,6 @@ typedef struct Tag
 	}
 };
 
-
 typedef struct Vector3
 {
 	float x, y, z;
@@ -117,8 +116,6 @@ typedef struct Vector3
 		return *this;
 	}
 
-
-
 	Vector3 operator* (Vector3 value)
 	{
 		return Vector3(x * value.x, y * value.y, z * value.z);
@@ -127,6 +124,11 @@ typedef struct Vector3
 	Vector3 operator* (float value)
 	{
 		return Vector3(x * value, y * value, z * value);
+	}
+
+	friend Vector3 operator*(float value, Vector3 rhs)
+	{
+		return rhs * value;
 	}
 
 	Vector3 operator/ (Vector3 value)
@@ -173,6 +175,20 @@ typedef struct Vector3
 		return *this;
 	}
 
+	Vector3 operator*=(float value)
+	{
+		this->x *= value;
+		this->y *= value;
+		this->z *= value;
+		return *this;
+	}
+
+	Vector3 operator^(Vector3 value)
+	{
+		return Vector3(y * value.z - z * value.y,
+			-x * value.z + z * value.x,
+			x * value.y - y * value.x);
+	}
 
 	bool operator==(Vector3 value)
 	{
@@ -185,6 +201,14 @@ typedef struct Vector3
 		return false;
 	}
 
+	Vector3 operator=(XMFLOAT3 value)
+	{
+		this->x = value.x;
+		this->y = value.y;
+		this->z = value.z;
+		return *this;
+	}
+
 	Vector3 Abs()
 	{
 		this->x = std::abs(x);
@@ -195,6 +219,10 @@ typedef struct Vector3
 	}
 
 }Vector3, Vector3D;
+
+#define VECTOR3_ZERO Vector3{0, 0, 0}
+#define VECTOR3_ONE Vector3{1, 1, 1}
+
 
 typedef struct Vector4
 {
@@ -252,11 +280,11 @@ typedef struct Vector4
 
 }Vector4, Vector4D;
 
-typedef struct Quaternion
+typedef struct Quaternion4
 {
 	float x, y, z, w;
 
-	Quaternion(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 1.0f)
+	Quaternion4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 1.0f)
 	{
 		this->x = x;
 		this->y = y;
@@ -264,7 +292,7 @@ typedef struct Quaternion
 		this->w = w;
 	}
 
-	Quaternion(const Quaternion& value)
+	Quaternion4(const Quaternion4& value)
 	{
 		this->x = value.x;
 		this->y = value.y;
@@ -272,7 +300,7 @@ typedef struct Quaternion
 		this->w = value.w;
 	}
 
-	Quaternion operator+=(Quaternion value)
+	Quaternion4 operator+=(Quaternion4 value)
 	{
 		this->x += value.x;
 		this->y += value.y;
@@ -281,7 +309,7 @@ typedef struct Quaternion
 		return *this;
 	}
 
-	Quaternion operator-=(Quaternion value)
+	Quaternion4 operator-=(Quaternion4 value)
 	{
 		this->x -= value.x;
 		this->y -= value.y;
@@ -290,7 +318,7 @@ typedef struct Quaternion
 		return *this;
 	}
 
-	Quaternion operator*=(Quaternion value)
+	Quaternion4 operator*=(Quaternion4 value)
 	{
 		this->x *= value.x;
 		this->y *= value.y;
@@ -299,7 +327,7 @@ typedef struct Quaternion
 		return *this;
 	}
 
-	Quaternion operator/=(float value)
+	Quaternion4 operator/=(float value)
 	{
 		this->x /= value;
 		this->y /= value;
@@ -309,24 +337,24 @@ typedef struct Quaternion
 	}
 
 
-	Quaternion operator~()
+	Quaternion4 operator~()
 	{
-		return Quaternion(-x, -y, -z, w);
+		return Quaternion4(-x, -y, -z, w);
 	}
 
-	Quaternion operator+(Quaternion value)
+	Quaternion4 operator+(Quaternion4 value)
 	{
-		return Quaternion(x + value.x, y + value.y, z + value.z, w + value.w);
+		return Quaternion4(x + value.x, y + value.y, z + value.z, w + value.w);
 	}
 
-	Quaternion operator-(Quaternion value)
+	Quaternion4 operator-(Quaternion4 value)
 	{
-		return Quaternion(x - value.x, y - value.y, z - value.z, w - value.w);
+		return Quaternion4(x - value.x, y - value.y, z - value.z, w - value.w);
 	}
 
-	Quaternion operator*(Quaternion value)
+	Quaternion4 operator*(Quaternion4 value)
 	{
-		return Quaternion(
+		return Quaternion4(
 			w * value.x + x * value.w + y * value.z - z * value.y, // X
 			w * value.y + y * value.w + z * value.x - x * value.z, // Y
 			w * value.z + z * value.w + x * value.y - y * value.x, // Z
@@ -334,9 +362,24 @@ typedef struct Quaternion
 		);
 	}
 
-	Quaternion operator/(float value)
+	Quaternion4 operator*(float value)
 	{
-		return Quaternion(x / value, y / value, z / value, w / value);
+		return Quaternion4(x * value, y * value, z * value, w * value);
+	}
+
+	Quaternion4 operator*(Vector3 value)
+	{
+		return Quaternion4(
+			w * value.x + y * value.z - z * value.y, // X
+			w * value.y + z * value.x - x * value.z, // Y
+			w * value.z + x * value.y - y * value.x, // Z
+			-(x * value.x + y * value.y + z * value.z) // W
+		);
+	}
+
+	Quaternion4 operator/(float value)
+	{
+		return Quaternion4(x / value, y / value, z / value, w / value);
 	}
 
 	float Magnitude(void)
@@ -354,7 +397,7 @@ typedef struct Quaternion
 		return w;
 	}
 
-	Quaternion Abs()
+	Quaternion4 Abs()
 	{
 		this->x = std::abs(x);
 		this->y = std::abs(y);
@@ -363,7 +406,7 @@ typedef struct Quaternion
 		return *this;
 	}
 
-};
+}Quaternion4;
 
 typedef struct Transform3D
 {
@@ -464,6 +507,22 @@ struct MeshData
 	UINT IndexCount;
 };
 
+struct Geometry
+{
+	ID3D11Buffer* vertexBuffer;
+	ID3D11Buffer* indexBuffer;
+	int numberOfIndices;
+
+	UINT vertexBufferStride;
+	UINT vertexBufferOffset;
+};
+
+struct Material
+{
+	XMFLOAT4 diffuse;
+	XMFLOAT4 ambient;
+	XMFLOAT4 specular;
+};
 
 
 #endif

@@ -27,8 +27,7 @@ private:
 
 public:
 
-	BoxCollider(Vector3 position, Vector3 scale, Vector3 rotation) 
-		: Collider(position, scale, rotation) { }
+	BoxCollider(Transform* transform) : Collider(transform) { }
 
 	virtual bool CollidesWith(Collider& other, CollisionManifold& out) override { return other.CollidesWith(*this, out); }
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) override;

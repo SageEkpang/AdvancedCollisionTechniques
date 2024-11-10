@@ -91,36 +91,43 @@ HRESULT ScreenManager::CreateScreens()
 void ScreenManager::Process()
 {
 	// TODO: Need to do the physics time step functionality here
-	static ULONGLONG frameStart = GetTickCount64();
+	static ULONGLONG t_FrameStart = GetTickCount64();
+	ULONGLONG t_FrameNow = GetTickCount64();
 
-	ULONGLONG frameNow = GetTickCount64();
-	float deltaTime = (frameNow - frameStart) / 1000.0f;
-	frameStart = frameNow;
+	float t_DeltaTime = m_Timer->GetDeltaTime();
+	t_FrameStart = t_FrameNow;
 
-	static float simpleCount = 0.0f;
-	simpleCount += deltaTime;
+	static float t_SimpleCount = 0.0f;
+	t_SimpleCount += t_DeltaTime;
+	m_Accumulator += t_DeltaTime;
 
-	// Update camera
-	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
+	while (m_Accumulator >= FPS60)
+	{
+		// Update camera
+		float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
 
-	float x = _cameraOrbitRadius * cos(angleAroundZ);
-	float z = _cameraOrbitRadius * sin(angleAroundZ);
+		float x = _cameraOrbitRadius * cos(angleAroundZ);
+		float z = _cameraOrbitRadius * sin(angleAroundZ);
 
-	XMFLOAT3 cameraPos = _camera->GetPosition();
-	cameraPos.x = x;
-	cameraPos.z = z;
+		XMFLOAT3 cameraPos = _camera->GetPosition();
+		cameraPos.x = x;
+		cameraPos.z = z;
 
-	_camera->SetPosition(cameraPos);
-	_camera->Update();
+		_camera->SetPosition(cameraPos);
+		_camera->Update();
 
-	m_CurrentScreen->Update(_camera, deltaTime);
+		m_CurrentScreen->Update(_camera, FPS60);
+
+		m_Accumulator -= FPS60;
+	}
+
+	m_Timer->Tick();
 }
 
 void ScreenManager::Showcase()
 {
 	// Begin "Drawing" the content
 	BeginRendering();
-
 
 	// Camera and Constant Buffer Information Functionality
 	XMFLOAT4X4 tempView = _camera->GetView();
@@ -606,11 +613,6 @@ HRESULT ScreenManager::InitRunTimeData()
 	hr = _device->CreateBuffer(&constantBufferDesc, nullptr, &_constantBuffer);
 	if (FAILED(hr)) { return hr; }
 
-	hr = CreateDDSTextureFromFile(_device, L"Resources\\Textures\\stone.dds", nullptr, &_StoneTextureRV);
-	hr = CreateDDSTextureFromFile(_device, L"Resources\\Textures\\floor.dds", nullptr, &_GroundTextureRV);
-	if (FAILED(hr)) { return hr; }
-
-
 	// Setup Camera
 	XMFLOAT3 eye = XMFLOAT3(0.0f, 2.0f, -1.0f);
 	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
@@ -625,29 +627,7 @@ HRESULT ScreenManager::InitRunTimeData()
 	basicLight.SpecularPower = 10.0f;
 	basicLight.LightVecW = XMFLOAT3(0.0f, 0.5f, -1.0f);
 
-	//Geometry cubeGeometry;
-	//cubeGeometry.indexBuffer = _cubeIndexBuffer;
-	//cubeGeometry.vertexBuffer = _cubeVertexBuffer;
-	//cubeGeometry.numberOfIndices = 36;
-	//cubeGeometry.vertexBufferOffset = 0;
-	//cubeGeometry.vertexBufferStride = sizeof(SimpleVertex);
-
-	//Geometry planeGeometry;
-	//planeGeometry.indexBuffer = _planeIndexBuffer;
-	//planeGeometry.vertexBuffer = _planeVertexBuffer;
-	//planeGeometry.numberOfIndices = 6;
-	//planeGeometry.vertexBufferOffset = 0;
-	//planeGeometry.vertexBufferStride = sizeof(SimpleVertex);
-
-	//Material shinyMaterial;
-	//shinyMaterial.ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	//shinyMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	//shinyMaterial.specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-
-	//Material noSpecMaterial;
-	//noSpecMaterial.ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	//noSpecMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	//noSpecMaterial.specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	m_Timer = new Timer();
 
 	return S_OK;
 }

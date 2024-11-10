@@ -8,6 +8,7 @@
 #include "OBJLoader.h"
 #include "GameObject.h"
 #include "Screen.h"
+#include "Timer.h"
 
 //  CUSTOM INCLUDE(s) / FORWARD DEC(s)
 class StartUp;
@@ -29,6 +30,8 @@ private:
 
 	int _WindowWidth = 1280;
 	int _WindowHeight = 768;
+	Timer* m_Timer;
+	float m_Accumulator = 0.0f;
 
 	HWND _windowHandle;
 
