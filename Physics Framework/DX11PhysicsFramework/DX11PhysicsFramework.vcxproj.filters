@@ -15,9 +15,6 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{9c796f30-1066-4157-a18b-1202b10ee0ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header">
-      <UniqueIdentifier>{23e67d5a-29e1-499d-92e6-8f5057431cd7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{909f04ff-2e3d-4b95-8210-f7225252e74a}</UniqueIdentifier>
     </Filter>
@@ -48,17 +45,14 @@
     <Filter Include="Components\Source">
       <UniqueIdentifier>{495c2c66-cfbb-42f7-82fc-d6213a614bbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helpers\Header">
+      <UniqueIdentifier>{cacc7230-f188-4cd7-80a4-9861fd51d6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers\Source">
+      <UniqueIdentifier>{819aec98-a571-49c4-9592-8af85aa12b4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OBJLoader.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="DDSTextureLoader.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="BasicScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
@@ -80,15 +74,6 @@
     <ClInclude Include="PlaneCollider.h">
       <Filter>Colliders\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Structures.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
@@ -104,23 +89,38 @@
     <ClInclude Include="RigidbodyObject.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
+    <ClInclude Include="ConvexHullCollider.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSTextureLoader.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJLoader.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
     <ClInclude Include="Quaternion.h">
-      <Filter>Helpers</Filter>
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Helpers\Header</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Helpers</Filter>
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicUtility.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OBJLoader.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="DDSTextureLoader.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -145,9 +145,6 @@
     <ClCompile Include="PlaneCollider.cpp">
       <Filter>Colliders\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Vector.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
@@ -163,11 +160,29 @@
     <ClCompile Include="RigidbodyObject.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
+    <ClCompile Include="ConvexHullCollider.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DDSTextureLoader.cpp">
+      <Filter>Helpers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJLoader.cpp">
+      <Filter>Helpers\Source</Filter>
+    </ClCompile>
     <ClCompile Include="Quaternion.cpp">
-      <Filter>Helpers</Filter>
+      <Filter>Helpers\Source</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Helpers</Filter>
+      <Filter>Helpers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Helpers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicUtility.cpp">
+      <Filter>Helpers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

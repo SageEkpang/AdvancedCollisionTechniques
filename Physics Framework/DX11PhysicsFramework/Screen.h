@@ -8,6 +8,8 @@
 #include "OBJLoader.h"
 #include "GameObject.h"
 
+#include "PhysicUtility.h"
+
 using namespace DirectX;
 
 typedef struct ScreenInformation

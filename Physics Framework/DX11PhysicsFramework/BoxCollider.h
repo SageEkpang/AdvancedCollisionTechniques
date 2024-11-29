@@ -33,7 +33,7 @@ public:
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) override;
-	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
+	// virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
 
 	inline Vector3 GetMax() { return m_Max; }
 	inline Vector3 GetMin() { return m_Min; }

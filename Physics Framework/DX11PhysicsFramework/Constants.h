@@ -2,6 +2,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include "Structures.h"
+
 // WINDOW DEFINE(s)
 #define FPS60 1.0f/60.0f
 #define MINTOL 0.0001
@@ -19,6 +21,13 @@
 #define VK_A 0x41
 #define VK_S 0x53
 #define VK_D 0x44
+
+// MATERIAL DEFINE(s)
+#define MATERIAL_SHINY Material(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f))
+#define MATERIAL_ROUGH
+#define MATERIAL_MAX Material(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f))
+#define MATERIAL_FLAT Material(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f))
+
 
 
 // INERTIA TENSOR DEFINE(s)

@@ -519,9 +519,23 @@ struct Geometry
 
 struct Material
 {
-	XMFLOAT4 diffuse;
 	XMFLOAT4 ambient;
+	XMFLOAT4 diffuse;
 	XMFLOAT4 specular;
+
+	Material()
+	{
+		this->ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+		this->diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+		this->specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+
+	Material(XMFLOAT4 ambient, XMFLOAT4 diffuse, XMFLOAT4 specular)
+	{
+		this->ambient = ambient;
+		this->diffuse = diffuse;
+		this->specular = specular;
+	}
 };
 
 

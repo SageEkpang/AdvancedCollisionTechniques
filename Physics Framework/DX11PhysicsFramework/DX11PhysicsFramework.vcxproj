@@ -374,11 +374,13 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ConvexHullCollider.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
+    <ClCompile Include="PhysicUtility.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Render.cpp" />
@@ -402,10 +404,12 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ConvexHullCollider.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="PhysicsObject.h" />
+    <ClInclude Include="PhysicUtility.h" />
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Render.h" />

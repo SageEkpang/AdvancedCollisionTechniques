@@ -24,7 +24,7 @@ public:
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) override;
-	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
+	// virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
 
 	float GetRadius() const { return m_Radius; }
 	Vector3 NearestPoint(Vector3 point);

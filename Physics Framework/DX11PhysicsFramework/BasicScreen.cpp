@@ -9,23 +9,22 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_BASIC_SCREEN;
 	m_ScreenInformation.screenState = ScreenState::SCREEN_CURRENT;
 
-	Geometry herculesGeometry;
-	MeshData _objMeshData;
-	_objMeshData = OBJLoader::Load("Resources\\OBJ\\donut.obj", device);
-	ID3D11ShaderResourceView* _StoneTextureRV = nullptr;
-	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &_StoneTextureRV);
+	// Texture Data
+	ID3D11ShaderResourceView* t_DonutTexture = nullptr;
+	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &t_DonutTexture);	
 
-	herculesGeometry.indexBuffer = _objMeshData.IndexBuffer;
-	herculesGeometry.numberOfIndices = _objMeshData.IndexCount;
-	herculesGeometry.vertexBuffer = _objMeshData.VertexBuffer;
-	herculesGeometry.vertexBufferOffset = _objMeshData.VBOffset;
-	herculesGeometry.vertexBufferStride = _objMeshData.VBStride;
+	// Mesh Data
+	Geometry t_DonutGeometry;
+	MeshData t_DonutMesh;
 
-	Material shinyMaterial;
-	shinyMaterial.ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	shinyMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	shinyMaterial.specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-
+	t_DonutMesh = OBJLoader::Load("Resources\\OBJ\\donut.obj", device);
+	t_DonutGeometry.indexBuffer = t_DonutMesh.IndexBuffer;
+	t_DonutGeometry.numberOfIndices = t_DonutMesh.IndexCount;
+	t_DonutGeometry.vertexBuffer = t_DonutMesh.VertexBuffer;
+	t_DonutGeometry.vertexBufferOffset = t_DonutMesh.VBOffset;
+	t_DonutGeometry.vertexBufferStride = t_DonutMesh.VBStride;
+	
+	// Donut Object
 	GameObject* t_DonutObject = new GameObject(Tag("Donut", PhysicTag::PHYSICS_STATIC));
 	Render* t_DonutRender = new Render();
 	Transform* t_DonutTransform = new Transform();
@@ -34,17 +33,56 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	t_DonutObject->SetTransform(t_DonutTransform);
 	t_DonutTransform->SetScale(1.0f, 1.0f, 1.0f);
-	t_DonutTransform->SetPosition(-5.0f, 0.5f, 10.0f);
+	t_DonutTransform->SetRotation(0.0f, 0.0f, 0.0f);
+	t_DonutTransform->SetPosition(-5.0f, 1.0f, 10.0f);
 
 	t_DonutObject->SetRigidbody(t_DonutRigidBody);
 	t_DonutRigidBody->SetCollider(t_DonutCollider);
 
 	t_DonutObject->SetRender(t_DonutRender);
-	t_DonutRender->SetGeometry(herculesGeometry);
-	t_DonutRender->SetMaterial(shinyMaterial);
-	t_DonutRender->SetTextureRV(_StoneTextureRV);
+	t_DonutRender->SetGeometry(t_DonutGeometry);
+	t_DonutRender->SetMaterial(MATERIAL_SHINY);
+	t_DonutRender->SetTextureRV(t_DonutTexture);
 
 	m_Objects.push_back(t_DonutObject);
+
+
+	// Plane Object
+	GameObject* t_PlaneObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_STATIC));
+	Render* t_PlaneRender = new Render();
+	Transform* t_PlaneTransform = new Transform();
+	RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 5.0f);
+	PlaneCollider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform);
+
+	t_PlaneObject->SetTransform(t_PlaneTransform);
+	t_PlaneTransform->SetScale(1.0f, 1.0f, 1.0f);
+	t_PlaneTransform->SetPosition(0.0f, 0.0f, 10.0f);
+
+	t_PlaneObject->SetRigidbody(t_PlaneRigidbody);
+	t_PlaneRigidbody->SetCollider(t_PlaneCollider);
+
+	t_PlaneObject->SetRender(t_PlaneRender);
+
+
+	Geometry t_PlaneGeometry;
+	MeshData t_PlaneMesh;
+
+	t_PlaneMesh = OBJLoader::Load("Resources\\OBJ\\plane.obj", device);
+	t_PlaneGeometry.indexBuffer = t_PlaneMesh.IndexBuffer;
+	t_PlaneGeometry.numberOfIndices = t_PlaneMesh.IndexCount;
+	t_PlaneGeometry.vertexBuffer = t_PlaneMesh.VertexBuffer;
+	t_PlaneGeometry.vertexBufferOffset = t_PlaneMesh.VBOffset;
+	t_PlaneGeometry.vertexBufferStride = t_PlaneMesh.VBStride;
+
+	t_PlaneRender->SetGeometry(t_PlaneGeometry);
+	t_PlaneRender->SetMaterial(MATERIAL_SHINY);
+
+	ID3D11ShaderResourceView* t_PlaneTexture = nullptr;
+	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &t_PlaneTexture);
+
+	t_PlaneRender->SetTextureRV(t_PlaneTexture);
+
+	 m_Objects.push_back(t_PlaneObject);
 }
 
 BasicScreen::~BasicScreen()

@@ -29,14 +29,14 @@ public:
 
 	// PlaneCollider(Transform* transform, Vector3 planeNormal) : Collider(transform) { m_PlaneNormal = planeNormal; }
 	
-	PlaneCollider(Vector3 position, Vector3 scale, Vector3 rotation)
-		: Collider(position, scale, rotation) { }
+	PlaneCollider(Transform* transform)
+		: Collider(transform) { }
 
 	virtual bool CollidesWith(Collider& other, CollisionManifold& out) override { return other.CollidesWith(*this, out); }
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) override;
-	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
+	// virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
 
 	inline Vector3 GetMax() { return m_Max; }
 	inline Vector3 GetMin() { return m_Min; }
