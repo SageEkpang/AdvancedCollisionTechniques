@@ -82,7 +82,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	t_PlaneRender->SetTextureRV(t_PlaneTexture);
 
-	 m_Objects.push_back(t_PlaneObject);
+	m_Objects.push_back(t_PlaneObject);
 }
 
 BasicScreen::~BasicScreen()

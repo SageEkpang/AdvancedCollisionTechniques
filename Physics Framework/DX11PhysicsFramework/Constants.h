@@ -17,10 +17,30 @@
 
 
 // INPUT DEFINE(s)
+#define VK_0 0X30
+#define VK_1 0X31
+#define VK_2 0x32
+#define VK_3 0x33
+#define VK_4 0x34
+#define VK_5 0X35
+#define VK_6 0x36
+#define VK_7 0x37
+#define VK_9 0x38
+
 #define VK_W 0x57
 #define VK_A 0x41
 #define VK_S 0x53
 #define VK_D 0x44
+
+#define VK_Q 0x51
+#define VK_F 0x46
+#define VK_E 0x45
+#define VK_I 0x49
+
+#define VK_C 0x43
+#define VK_Z 0x5A
+#define VK_X 0x58
+#define VK_R 0x52
 
 // MATERIAL DEFINE(s)
 #define MATERIAL_SHINY Material(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f))

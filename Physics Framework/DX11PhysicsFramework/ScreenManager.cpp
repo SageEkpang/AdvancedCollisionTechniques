@@ -71,6 +71,12 @@ ScreenManager::ScreenManager()
 	m_CurrentPhysicsScreen = PhysicsScreenState::STATE_NONE;
 	m_CurrentScreenState = ScreenState::SCREEN_CURRENT;
 	m_IsTransitioning = false;
+
+	XMFLOAT4X4 t_View;
+	XMFLOAT4X4 t_Projection;
+
+	// _camera->SetViewMatrix(t_View);
+	// _camera->SetProjectionMatrix(t_Projection);
 }
 
 ScreenManager::~ScreenManager()
@@ -90,7 +96,6 @@ HRESULT ScreenManager::CreateScreens()
 
 void ScreenManager::Process()
 {
-	// TODO: Need to do the physics time step functionality here
 	static ULONGLONG t_FrameStart = GetTickCount64();
 	ULONGLONG t_FrameNow = GetTickCount64();
 
@@ -104,18 +109,9 @@ void ScreenManager::Process()
 	while (m_Accumulator >= FPS60)
 	{
 		// Update camera
-		float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
+		_camera->Update(FPS60);
 
-		float x = _cameraOrbitRadius * cos(angleAroundZ);
-		float z = _cameraOrbitRadius * sin(angleAroundZ);
-
-		XMFLOAT3 cameraPos = _camera->GetPosition();
-		cameraPos.x = x;
-		cameraPos.z = z;
-
-		_camera->SetPosition(cameraPos);
-		_camera->Update();
-
+		// Update Screen
 		m_CurrentScreen->Update(_camera, FPS60);
 
 		m_Accumulator -= FPS60;
@@ -129,6 +125,9 @@ void ScreenManager::Showcase()
 	// Begin "Drawing" the content
 	BeginRendering();
 
+	// Light Data
+	_cbData.light = basicLight;
+
 	// Camera and Constant Buffer Information Functionality
 	XMFLOAT4X4 tempView = _camera->GetView();
 	XMFLOAT4X4 tempProjection = _camera->GetProjection();
@@ -136,14 +135,15 @@ void ScreenManager::Showcase()
 	XMMATRIX view = XMLoadFloat4x4(&tempView);
 	XMMATRIX projection = XMLoadFloat4x4(&tempProjection);
 
-	_cbData.View = XMMatrixTranspose(view);
-	_cbData.Projection = XMMatrixTranspose(projection);
+	_cbData.View = XMMatrixTranspose(view); // Can Change this to just the view
+	_cbData.Projection = XMMatrixTranspose(projection); // Can Change this to just the projection
 
-	_cbData.light = basicLight;
 	_cbData.EyePosW = _camera->GetPosition();
+	
 
 	// Draw the Current Physics Screen
 	m_CurrentScreen->Draw(_cbData, _constantBuffer, _immediateContext);
+
 
 	// End "Drawing" the content
 	EndRendering();

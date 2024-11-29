@@ -1,41 +1,121 @@
 #include "Camera.h"
 
 Camera::Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
-	: _eye(position), _at(at), _up(up), _windowWidth(windowWidth), _windowHeight(windowHeight), _nearDepth(nearDepth), _farDepth(farDepth)
+	: m_Eye(position), m_At(at), m_Up(up), _windowWidth(windowWidth), _windowHeight(windowHeight), _nearDepth(nearDepth), _farDepth(farDepth)
 {
-
 	m_World = new XMFLOAT4X4();
 
+	m_CameraSpeed = 5.0f;
+	m_CameraRotationSpeed = 5.f;
 
-	Update();
+	m_Eye = position;
+	m_At = at;
+	m_Up = up;
 
-
-
-
-
-
+	m_ForwardLook = XMFLOAT3(0.0f, 0.0f, 1.0f);
 }
 
 Camera::~Camera()
 {
+	if (m_World != nullptr)
+	{
+		delete m_World;
+		m_World = nullptr;
+	}
 }
 
-void Camera::Update()
+void Camera::Update(const float deltaTime)
 {
-    // Initialize the view matrix
+	// Getting the Inverse View Matrix
+	XMMATRIX t_TempWorld = XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_ViewMatrix));
 
-	XMFLOAT4 eye = XMFLOAT4(_eye.x, _eye.y, _eye.z, 1.0f);
-	XMFLOAT4 at = XMFLOAT4(_at.x, _at.y, _at.z, 1.0f);
-	XMFLOAT4 up = XMFLOAT4(_up.x, _up.y, _up.z, 0.0f);
+	// MOVEMENT
+	if (GetAsyncKeyState(VK_W)) { t_TempWorld.r[3] += t_TempWorld.r[2] * m_CameraSpeed * deltaTime; } // Move Forward
+	if (GetAsyncKeyState(VK_A)) { t_TempWorld.r[3] -= t_TempWorld.r[0] * m_CameraSpeed * deltaTime; } // Move Left
+	if (GetAsyncKeyState(VK_S)) { t_TempWorld.r[3] -= t_TempWorld.r[2] * m_CameraSpeed * deltaTime; } // Move Back
+	if (GetAsyncKeyState(VK_D)) { t_TempWorld.r[3] += t_TempWorld.r[0] * m_CameraSpeed * deltaTime; } // Move Right
 
-	XMVECTOR EyeVector = XMLoadFloat4(&eye);
-	XMVECTOR AtVector = XMLoadFloat4(&at);
-	XMVECTOR UpVector = XMLoadFloat4(&up);
+	// UP AND DOWN
+	if (GetAsyncKeyState(VK_E)) { t_TempWorld.r[3] += t_TempWorld.r[1] * m_CameraSpeed * deltaTime; } // Move Up
+	if (GetAsyncKeyState(VK_Q)) { t_TempWorld.r[3] -= t_TempWorld.r[1] * m_CameraSpeed * deltaTime; } // Move Down
 
-	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(EyeVector, AtVector, UpVector));
 
-    // Initialize the projection matrix
-	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(0.25f * XM_PI, _windowWidth / _windowHeight, _nearDepth, _farDepth));
+	// ROTATE (Left and Right) (Yaw)
+	if (GetAsyncKeyState(VK_LEFT)) // Rotate Left
+	{
+		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[1], XMConvertToRadians(-1 * (m_CameraRotationSpeed * 10) * deltaTime));
+		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
+		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotation);
+	}
+	if (GetAsyncKeyState(VK_RIGHT)) // Rotate Right
+	{
+		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[1], XMConvertToRadians(1 * (m_CameraRotationSpeed * 10) * deltaTime));
+		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
+		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotation);
+	}
+
+	// ROTATE (Up and Down) (Pitch)
+	if (GetAsyncKeyState(VK_UP)) // Rotate Up
+	{
+		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians(-1 * (m_CameraRotationSpeed * 10) * deltaTime));
+		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
+		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotation);
+	}
+	if (GetAsyncKeyState(VK_DOWN)) // Rotate Down
+	{
+		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians(1 * (m_CameraRotationSpeed * 10) * deltaTime));
+		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
+		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotation);
+	}
+
+	// ROTATE (ClockWise and Anti-Clockwise) (Roll)
+	if (GetAsyncKeyState(VK_Z)) // Rotate Anit-Clockwise
+	{
+		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[2], XMConvertToRadians(1 * (m_CameraRotationSpeed * 10) * deltaTime));
+		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
+		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
+	}
+	if (GetAsyncKeyState(VK_X)) // Rotate Clockwise
+	{
+		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[2], XMConvertToRadians(-1 * (m_CameraRotationSpeed * 10) * deltaTime));
+		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
+		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
+	}
+
+	XMStoreFloat4x4(m_World, t_TempWorld);
+	XMMATRIX t_TempView = XMMatrixInverse(nullptr, XMLoadFloat4x4(m_World));
+	XMStoreFloat4x4(&m_ViewMatrix, t_TempView);
+}
+//
+//void Camera::SetViewMatrix(XMFLOAT4X4& View)
+//{
+//	// LOOK TO
+//	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixLookToLH(XMLoadFloat3(&m_Eye), XMLoadFloat3(&m_ForwardLook), XMLoadFloat3(&m_Up)));
+//	View = m_ViewMatrix;
+//}
+//
+//void Camera::SetProjectionMatrix(XMFLOAT4X4& projection)
+//{
+//	XMMATRIX TempMat;
+//	float t_Aspect = _windowWidth / _windowHeight;
+//	TempMat = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), t_Aspect, 0.01, 100.0f);
+//	XMStoreFloat4x4(&m_ProjectionMatrix, TempMat);
+//	projection = m_ProjectionMatrix;
+//}
+
+inline void Camera::SetCameraPosition(float x, float y, float z)
+{
+	XMMATRIX TempWorld = XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_ViewMatrix));
+
+	TempWorld.r[3] += TempWorld.r[0] * x;
+	TempWorld.r[3] += TempWorld.r[1] * y;
+	TempWorld.r[3] += TempWorld.r[2] * z;
+
+	XMStoreFloat4x4(m_World, TempWorld);
+	XMMATRIX TempView = XMMatrixInverse(nullptr, XMLoadFloat4x4(m_World));
+	XMStoreFloat4x4(&m_ViewMatrix, TempView);
+
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixLookAtLH(XMLoadFloat3(&m_Eye), XMLoadFloat3(&m_At), XMLoadFloat3(&m_Up))); // Set AT needs this for the view matrix
 }
 
 void Camera::Reshape(FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
@@ -48,8 +128,8 @@ void Camera::Reshape(FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLO
 
 XMFLOAT4X4 Camera::GetViewProjection() const 
 { 
-	XMMATRIX view = XMLoadFloat4x4(&_view);
-	XMMATRIX projection = XMLoadFloat4x4(&_projection);
+	XMMATRIX view = XMLoadFloat4x4(&m_ViewMatrix);
+	XMMATRIX projection = XMLoadFloat4x4(&m_ProjectionMatrix);
 
 	XMFLOAT4X4 viewProj;
 
