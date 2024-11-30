@@ -17,6 +17,7 @@ private:
 
 	FLOAT _windowWidth;
 	FLOAT _windowHeight;
+
 	FLOAT _nearDepth;
 	FLOAT _farDepth;
 
@@ -49,14 +50,12 @@ public:
 	inline XMFLOAT3 GetLookAt() const { return m_At; }
 	inline XMFLOAT3 GetUp() const { return m_Up; }
 
+	XMMATRIX& GetCameraMatrix();
 
 	// SETTER FUNCTION(s)
 	inline void SetPosition(XMFLOAT3 position) { m_Eye = position; }
 	inline void SetLookAt(XMFLOAT3 lookAt) { m_At = lookAt; }
 	inline void SetUp(XMFLOAT3 up) { m_Up = up; }
-
-	// void SetViewMatrix(XMFLOAT4X4& view);
-	// void SetProjectionMatrix(XMFLOAT4X4& projection);
 
 	void SetCameraPosition(float x, float y, float z);
 

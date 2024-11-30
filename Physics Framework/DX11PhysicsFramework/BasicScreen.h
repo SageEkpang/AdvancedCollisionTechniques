@@ -31,6 +31,7 @@ public:
 	/// <summary> Default Update function for Class </summary>
 	void Update(Camera* camera, float deltaTime) override;
 
+	/// <summary> Default Draw function for Class </summary>
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext) override;
 };
 

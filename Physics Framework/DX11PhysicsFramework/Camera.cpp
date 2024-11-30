@@ -8,11 +8,16 @@ Camera::Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, F
 	m_CameraSpeed = 5.0f;
 	m_CameraRotationSpeed = 5.f;
 
-	m_Eye = position;
-	m_At = at;
-	m_Up = up;
-
 	m_ForwardLook = XMFLOAT3(0.0f, 0.0f, 1.0f);
+
+	// Set View Matrix
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixLookToLH(XMLoadFloat3(&m_Eye), XMLoadFloat3(&m_ForwardLook), XMLoadFloat3(&m_Up)));
+
+	// Set Projection Matrix
+	XMMATRIX TempMat;
+	float t_Aspect = _windowWidth / _windowHeight;
+	TempMat = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), t_Aspect, 0.01, 100.0f);
+	XMStoreFloat4x4(&m_ProjectionMatrix, TempMat);
 }
 
 Camera::~Camera()
@@ -86,22 +91,6 @@ void Camera::Update(const float deltaTime)
 	XMMATRIX t_TempView = XMMatrixInverse(nullptr, XMLoadFloat4x4(m_World));
 	XMStoreFloat4x4(&m_ViewMatrix, t_TempView);
 }
-//
-//void Camera::SetViewMatrix(XMFLOAT4X4& View)
-//{
-//	// LOOK TO
-//	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixLookToLH(XMLoadFloat3(&m_Eye), XMLoadFloat3(&m_ForwardLook), XMLoadFloat3(&m_Up)));
-//	View = m_ViewMatrix;
-//}
-//
-//void Camera::SetProjectionMatrix(XMFLOAT4X4& projection)
-//{
-//	XMMATRIX TempMat;
-//	float t_Aspect = _windowWidth / _windowHeight;
-//	TempMat = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), t_Aspect, 0.01, 100.0f);
-//	XMStoreFloat4x4(&m_ProjectionMatrix, TempMat);
-//	projection = m_ProjectionMatrix;
-//}
 
 inline void Camera::SetCameraPosition(float x, float y, float z)
 {
@@ -136,4 +125,10 @@ XMFLOAT4X4 Camera::GetViewProjection() const
 	XMStoreFloat4x4(&viewProj, view * projection);
 
 	return viewProj;
+}
+
+XMMATRIX& Camera::GetCameraMatrix()
+{
+	XMMATRIX t_TempMat = XMLoadFloat4x4(m_World);
+	return t_TempMat;
 }

@@ -26,3 +26,16 @@ void GameObject::Draw(ID3D11DeviceContext * pImmediateContext)
 {
 	m_RenderComponent->Draw(pImmediateContext);
 }
+
+void GameObject::QuickObject()
+{
+	//Render* t_TempRender = new Render();
+	//Transform* t_TempTransform = new Transform();
+	//RigidbodyObject* t_TempRigidbody = new RigidbodyObject(t_TempTransform, 1.0f);
+
+
+	
+
+
+
+}

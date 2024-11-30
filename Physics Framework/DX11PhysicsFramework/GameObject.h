@@ -49,5 +49,6 @@ public:
 	void SetRender(Render* render) { m_RenderComponent = render; }
 	void SetPhysics(PhysicsObject* physics) { m_PhysicsComponent = physics; }
 	void SetRigidbody(RigidbodyObject* rigidbody) { m_RigidbodyComponent = rigidbody; }
+	void QuickObject();
 };
 

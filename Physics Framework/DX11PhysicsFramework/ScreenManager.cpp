@@ -71,12 +71,6 @@ ScreenManager::ScreenManager()
 	m_CurrentPhysicsScreen = PhysicsScreenState::STATE_NONE;
 	m_CurrentScreenState = ScreenState::SCREEN_CURRENT;
 	m_IsTransitioning = false;
-
-	XMFLOAT4X4 t_View;
-	XMFLOAT4X4 t_Projection;
-
-	// _camera->SetViewMatrix(t_View);
-	// _camera->SetProjectionMatrix(t_Projection);
 }
 
 ScreenManager::~ScreenManager()
@@ -125,25 +119,18 @@ void ScreenManager::Showcase()
 	// Begin "Drawing" the content
 	BeginRendering();
 
+	// Transpose Matrices and Load Information from Calculated Update function
+	_cbData.View = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetView()));
+	_cbData.Projection = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetProjection()));
+
+	// Camera Position
+	_cbData.EyePosW = _camera->GetPosition();
+
 	// Light Data
 	_cbData.light = basicLight;
 
-	// Camera and Constant Buffer Information Functionality
-	XMFLOAT4X4 tempView = _camera->GetView();
-	XMFLOAT4X4 tempProjection = _camera->GetProjection();
-
-	XMMATRIX view = XMLoadFloat4x4(&tempView);
-	XMMATRIX projection = XMLoadFloat4x4(&tempProjection);
-
-	_cbData.View = XMMatrixTranspose(view); // Can Change this to just the view
-	_cbData.Projection = XMMatrixTranspose(projection); // Can Change this to just the projection
-
-	_cbData.EyePosW = _camera->GetPosition();
-	
-
 	// Draw the Current Physics Screen
 	m_CurrentScreen->Draw(_cbData, _constantBuffer, _immediateContext);
-
 
 	// End "Drawing" the content
 	EndRendering();
@@ -182,29 +169,8 @@ HRESULT ScreenManager::Initialise(HINSTANCE hInstance, int nShowCmd)
 
 bool ScreenManager::HandleKeyboard(MSG msg)
 {
-	XMFLOAT3 cameraPosition = _camera->GetPosition();
-
 	switch (msg.wParam)
 	{
-	case VK_UP:
-		_cameraOrbitRadius = max(_cameraOrbitRadiusMin, _cameraOrbitRadius - (_cameraSpeed * 0.2f));
-		return true;
-		break;
-
-	case VK_DOWN:
-		_cameraOrbitRadius = min(_cameraOrbitRadiusMax, _cameraOrbitRadius + (_cameraSpeed * 0.2f));
-		return true;
-		break;
-
-	case VK_RIGHT:
-		_cameraOrbitAngleXZ -= _cameraSpeed;
-		return true;
-		break;
-
-	case VK_LEFT:
-		_cameraOrbitAngleXZ += _cameraSpeed;
-		return true;
-		break;
 	}
 
 	return false;
@@ -224,11 +190,6 @@ void ScreenManager::TransitionScreen(PhysicsScreenState state, float deltaTime)
 
 void ScreenManager::TransitionScreen(ScreenState state, float deltaTime)
 {
-	//PhysicsScreenState Thing;
-	//int State = (int)Thing;
-	//++State;
-	//Thing = (PhysicsScreenState)State;
-
 	m_CurrentScreen = nullptr;
 	m_CurrentScreenState = ScreenState::SCREEN_CURRENT;
 }
@@ -601,6 +562,7 @@ HRESULT ScreenManager::InitRunTimeData()
 {
 	HRESULT hr = S_OK;
 
+	// Constant Buffer Init
 	D3D11_BUFFER_DESC constantBufferDesc = {};
 	constantBufferDesc.ByteWidth = sizeof(ConstantBuffer);
 	constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;

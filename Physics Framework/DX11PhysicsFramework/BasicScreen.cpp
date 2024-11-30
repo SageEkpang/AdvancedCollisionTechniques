@@ -8,21 +8,6 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_BASIC_SCREEN;
 	m_ScreenInformation.screenState = ScreenState::SCREEN_CURRENT;
-
-	// Texture Data
-	ID3D11ShaderResourceView* t_DonutTexture = nullptr;
-	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &t_DonutTexture);	
-
-	// Mesh Data
-	Geometry t_DonutGeometry;
-	MeshData t_DonutMesh;
-
-	t_DonutMesh = OBJLoader::Load("Resources\\OBJ\\donut.obj", device);
-	t_DonutGeometry.indexBuffer = t_DonutMesh.IndexBuffer;
-	t_DonutGeometry.numberOfIndices = t_DonutMesh.IndexCount;
-	t_DonutGeometry.vertexBuffer = t_DonutMesh.VertexBuffer;
-	t_DonutGeometry.vertexBufferOffset = t_DonutMesh.VBOffset;
-	t_DonutGeometry.vertexBufferStride = t_DonutMesh.VBStride;
 	
 	// Donut Object
 	GameObject* t_DonutObject = new GameObject(Tag("Donut", PhysicTag::PHYSICS_STATIC));
@@ -40,8 +25,24 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	t_DonutRigidBody->SetCollider(t_DonutCollider);
 
 	t_DonutObject->SetRender(t_DonutRender);
+
+	Geometry t_DonutGeometry;
+	MeshData t_DonutMesh;
+
+	t_DonutMesh = OBJLoader::Load("Resources\\OBJ\\donut.obj", device);
+	t_DonutGeometry.indexBuffer = t_DonutMesh.IndexBuffer;
+	t_DonutGeometry.numberOfIndices = t_DonutMesh.IndexCount;
+	t_DonutGeometry.vertexBuffer = t_DonutMesh.VertexBuffer;
+	t_DonutGeometry.vertexBufferOffset = t_DonutMesh.VBOffset;
+	t_DonutGeometry.vertexBufferStride = t_DonutMesh.VBStride;
+
 	t_DonutRender->SetGeometry(t_DonutGeometry);
 	t_DonutRender->SetMaterial(MATERIAL_SHINY);
+
+	// Texture Data
+	ID3D11ShaderResourceView* t_DonutTexture = nullptr;
+	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &t_DonutTexture);
+
 	t_DonutRender->SetTextureRV(t_DonutTexture);
 
 	m_Objects.push_back(t_DonutObject);
@@ -63,7 +64,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	t_PlaneObject->SetRender(t_PlaneRender);
 
-
+	// Mesh Data
 	Geometry t_PlaneGeometry;
 	MeshData t_PlaneMesh;
 
@@ -77,6 +78,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	t_PlaneRender->SetGeometry(t_PlaneGeometry);
 	t_PlaneRender->SetMaterial(MATERIAL_SHINY);
 
+	// Texture Data
 	ID3D11ShaderResourceView* t_PlaneTexture = nullptr;
 	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &t_PlaneTexture);
 
