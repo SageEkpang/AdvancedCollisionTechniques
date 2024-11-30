@@ -17,8 +17,8 @@ GameObject::~GameObject()
 
 void GameObject::Update(float deltaTime)
 {
-	m_TransformComponent->Update(deltaTime);
 	m_RigidbodyComponent->Update(deltaTime);
+	m_TransformComponent->Update(deltaTime);
 }
 
 
@@ -33,8 +33,6 @@ void GameObject::QuickObject()
 	//Transform* t_TempTransform = new Transform();
 	//RigidbodyObject* t_TempRigidbody = new RigidbodyObject(t_TempTransform, 1.0f);
 
-
-	
 
 
 

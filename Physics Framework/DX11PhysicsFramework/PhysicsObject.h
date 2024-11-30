@@ -25,7 +25,7 @@ protected:
 	Vector3 m_NetForce = VECTOR3_ZERO;
 
 	// Mass Variables
-	mutable float m_Gravity = 9.17;
+	mutable float m_Gravity = GRAVITY_EARTH;
 	float m_Mass = 1.0f;
 	float m_Weight = 0.0f;
 	float m_Density = 0.0f;
@@ -44,11 +44,11 @@ protected:
 
 
 	// Simulation Variables
-	bool m_SimulateGravity = false;
+	bool m_SimulateGravity = true;
 	bool m_UseAcceleration = false;
 	bool m_UseVelocity = true;
 	bool m_UseFriction = false;
-	bool m_UseDrag = false;
+	bool m_UseDrag = true;
 
 
 public:

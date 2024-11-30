@@ -35,7 +35,7 @@ RigidbodyObject::~RigidbodyObject()
 
 void RigidbodyObject::Update(float deltaTime)
 {
-	CalculateAngularVelocity(deltaTime);
+	// CalculateAngularVelocity(deltaTime);
 	PhysicsObject::Update(deltaTime);
 }
 

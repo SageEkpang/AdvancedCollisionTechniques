@@ -13,13 +13,14 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	GameObject* t_DonutObject = new GameObject(Tag("Donut", PhysicTag::PHYSICS_STATIC));
 	Render* t_DonutRender = new Render();
 	Transform* t_DonutTransform = new Transform();
-	RigidbodyObject* t_DonutRigidBody = new RigidbodyObject(t_DonutTransform, 5.0f);
+
+	RigidbodyObject* t_DonutRigidBody = new RigidbodyObject(t_DonutTransform, 1.0f);
 	SphereCollider* t_DonutCollider = new SphereCollider(t_DonutTransform, 5.0f);
 
 	t_DonutObject->SetTransform(t_DonutTransform);
 	t_DonutTransform->SetScale(1.0f, 1.0f, 1.0f);
 	t_DonutTransform->SetRotation(0.0f, 0.0f, 0.0f);
-	t_DonutTransform->SetPosition(-5.0f, 1.0f, 10.0f);
+	t_DonutTransform->SetPosition(-5.0f, 10.0f, 10.0f);
 
 	t_DonutObject->SetRigidbody(t_DonutRigidBody);
 	t_DonutRigidBody->SetCollider(t_DonutCollider);
@@ -52,7 +53,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	GameObject* t_PlaneObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_STATIC));
 	Render* t_PlaneRender = new Render();
 	Transform* t_PlaneTransform = new Transform();
-	RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 5.0f);
+	RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 0.0f);
 	PlaneCollider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform);
 
 	t_PlaneObject->SetTransform(t_PlaneTransform);

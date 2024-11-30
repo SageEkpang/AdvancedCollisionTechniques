@@ -14,7 +14,7 @@ PhysicsObject::~PhysicsObject()
 void PhysicsObject::CalculateAcceleration(float deltaTime)
 {
 	// Add NetForce to Acceleration
-	m_Acceleration += m_NetForce / m_Mass;
+	m_Acceleration += m_NetForce; // / m_Mass
 
 	// Get position and add it to the velocity of the object
 	Vector3 t_Position = m_Transform->GetPosition();
@@ -23,6 +23,21 @@ void PhysicsObject::CalculateAcceleration(float deltaTime)
 	// Change position based on velocity and set new position based on velocity
 	t_Position += m_Velocity * deltaTime;
 	m_Transform->SetPosition(t_Position);
+}
+
+void PhysicsObject::Update(float deltaTime)
+{
+	if (m_Mass == 0) return;
+
+	// Adding Forces to the NetForce
+	if (m_SimulateGravity) { m_NetForce += GravityForce(); }
+	if (m_UseDrag) { m_NetForce += DragForce(); }
+	// if (m_UseFriction) { m_NetForce += FrictionForce(); }
+
+	CalculateAcceleration(deltaTime);
+
+	m_NetForce = VECTOR3_ZERO;
+	m_Acceleration = VECTOR3_ZERO;
 }
 
 Vector3 PhysicsObject::FrictionForce()
@@ -42,6 +57,9 @@ Vector3 PhysicsObject::FrictionForce()
 
 Vector3 PhysicsObject::DragForce()
 {
+	// Check if the value is more than 0, do not want to divide by 0
+	if (m_Velocity == 0) { return Vector3(0, 0, 0); }
+
 	// Calculate drag using the fluid density, velocity squared, drag coefficient and cross sectional area
 	float DensityOfFluid = 1.225; // Density of Air 
 	float Drag = Vector::Magnitude((DensityOfFluid * Vector::Pow(m_Velocity, 2) * m_DragCoef * 1) * 0.5);
@@ -54,24 +72,16 @@ Vector3 PhysicsObject::DragForce()
 
 Vector3 PhysicsObject::GravityForce()
 {
-	Vector3 Gravity = GetGravity() * m_Mass;
-	Gravity = -1 * Gravity;
-	return Gravity;
-}
+	// Calculate the Distance from Object to Ground (0, 0, 0 will always be the ground)
+	float t_Distance = Vector::Magnitude((m_Transform->GetPosition().x - 0));
 
-void PhysicsObject::Update(float deltaTime)
-{
-	if (m_Mass == 0) return;
+	// Use Gravity Formula as Reference to mass of Object and Equation (10 reference to the "mass" of the ground, which 10 is a good angle for)
+	Vector3 t_Gravity = (GetGravity() * m_Mass * GetGravity()) / std::pow(t_Distance, 2);
 
-	// Adding Forces to the NetForce
-	if (m_SimulateGravity) { m_NetForce += GravityForce(); }
-	if (m_UseDrag) { m_NetForce += DragForce(); }
-	if (m_UseFriction) { m_NetForce += FrictionForce(); }
+	// Inverse the Gravity
+	t_Gravity *= -1;
 
-	CalculateAcceleration(deltaTime);
-
-	m_NetForce = VECTOR3_ZERO;
-	m_Acceleration = VECTOR3_ZERO;
+	return t_Gravity;
 }
 
 float PhysicsObject::GetDensity()

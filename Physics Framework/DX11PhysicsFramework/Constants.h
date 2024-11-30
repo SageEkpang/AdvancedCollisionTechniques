@@ -49,7 +49,6 @@
 #define MATERIAL_FLAT Material(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f))
 
 
-
 // INERTIA TENSOR DEFINE(s)
 
 
