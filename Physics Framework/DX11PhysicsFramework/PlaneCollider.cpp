@@ -67,6 +67,11 @@ Vector3 PlaneCollider::NearestPoint(Vector3 point)
 {
 	Vector3 PlaneNormal = Vector3(0, 1, 0);
 	float NormalDot = Vector::CalculateDotProductNotNorm(PlaneNormal, point);
-	Vector3 ClosestPoint = point - (PlaneNormal * NormalDot);
+	float t_Distance = NormalDot - Vector::Magnitude(point - m_Transform->GetPosition());
+	Vector3 ClosestPoint = point - PlaneNormal * t_Distance;
 	return ClosestPoint;
+
+	// Ax + By + Cz = d
+	// <a, b, c> = n
+	// Unit Vector
 }

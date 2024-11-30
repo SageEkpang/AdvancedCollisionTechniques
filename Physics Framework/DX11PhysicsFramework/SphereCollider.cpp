@@ -59,8 +59,9 @@ bool SphereCollider::CollidesWith(PlaneCollider& other, CollisionManifold& out)
 {
     Vector3 ClosestPoint = other.NearestPoint(GetPosition());
     float Distance = Vector::Magnitude(Vector::DistanceTo(ClosestPoint, GetPosition()));
+    float t_Radius = std::pow(m_Radius, 2);
 
-    if (Distance <= GetRadius())
+    if (Distance <= t_Radius)
     {
         out.collisionNormal = other.GetPlaneNormal();
         out.contactPointCount = 1;
@@ -74,7 +75,7 @@ bool SphereCollider::CollidesWith(PlaneCollider& other, CollisionManifold& out)
 
 Vector3 SphereCollider::NearestPoint(Vector3 point)
 {
-    Vector3 Distance = Vector::Normalise(point - GetPosition());
-    Vector3 ScaledDistance = Distance * GetRadius();
-    return ScaledDistance + GetPosition();
+    Vector3 t_Distance = Vector::Normalise(point - GetPosition());
+    Vector3 t_ScaledDistance = t_Distance * GetRadius();
+    return t_ScaledDistance + GetPosition();
 }
