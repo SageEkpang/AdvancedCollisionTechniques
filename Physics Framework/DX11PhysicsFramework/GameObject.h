@@ -9,6 +9,7 @@
 #include "Render.h"
 #include "PhysicsObject.h"
 #include "RigidbodyObject.h"
+#include "OBJLoader.h"
 
 using namespace DirectX;
 
@@ -49,6 +50,8 @@ public:
 	void SetRender(Render* render) { m_RenderComponent = render; }
 	void SetPhysics(PhysicsObject* physics) { m_PhysicsComponent = physics; }
 	void SetRigidbody(RigidbodyObject* rigidbody) { m_RigidbodyComponent = rigidbody; }
-	void QuickObject();
+
+	// HELPER FUNCTION()
+	HRESULT QuickObject(Vector3 position, Vector3 scale, Vector3 rotation, Collider* collider, char* geoFileName, Material material, const wchar_t* texFileName, ID3D11Device* device);
 };
 

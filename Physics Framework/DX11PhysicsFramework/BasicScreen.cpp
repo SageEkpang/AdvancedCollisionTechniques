@@ -8,7 +8,9 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_BASIC_SCREEN;
 	m_ScreenInformation.screenState = ScreenState::SCREEN_CURRENT;
-	
+
+	#pragma region Donut Object
+
 	// Donut Object
 	GameObject* t_DonutObject = new GameObject(Tag("Donut", PhysicTag::PHYSICS_STATIC));
 	Render* t_DonutRender = new Render();
@@ -48,6 +50,9 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	m_Objects.push_back(t_DonutObject);
 
+	#pragma endregion
+
+	#pragma region Plane Object
 
 	// Plane Object
 	GameObject* t_PlaneObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_STATIC));
@@ -86,6 +91,103 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	t_PlaneRender->SetTextureRV(t_PlaneTexture);
 
 	m_Objects.push_back(t_PlaneObject);
+
+	#pragma endregion
+
+	#pragma region Head Object
+
+	// Head Object
+	GameObject* t_HeadObject = new GameObject(Tag("Head", PhysicTag::PHYSICS_STATIC));
+	Render* t_HeadRender = new Render();
+	Transform* t_HeadTransform = new Transform();
+	RigidbodyObject* t_HeadRigidbody = new RigidbodyObject(t_HeadTransform, 0.0f);
+	PlaneCollider* t_HeadCollider = new PlaneCollider(t_HeadTransform);
+
+	t_HeadObject->SetTransform(t_HeadTransform);
+	t_HeadTransform->SetScale(0.2f, 0.2f, 0.2f);
+	t_HeadTransform->SetRotation(0.0f, 180.0f, 0.0f);
+	t_HeadTransform->SetPosition(5.0f, 5.0f, 10.0f);
+
+	t_HeadObject->SetRigidbody(t_HeadRigidbody);
+	t_HeadRigidbody->SetCollider(t_HeadCollider);
+
+	t_HeadObject->SetRender(t_HeadRender);
+
+	// Mesh Data
+	Geometry t_HeadGeometry;
+	MeshData t_HeadMesh;
+
+	t_HeadMesh = OBJLoader::Load("Resources\\OBJ\\joelModel.obj", device);
+	t_HeadGeometry.indexBuffer = t_HeadMesh.IndexBuffer;
+	t_HeadGeometry.numberOfIndices = t_HeadMesh.IndexCount;
+	t_HeadGeometry.vertexBuffer = t_HeadMesh.VertexBuffer;
+	t_HeadGeometry.vertexBufferOffset = t_HeadMesh.VBOffset;
+	t_HeadGeometry.vertexBufferStride = t_HeadMesh.VBStride;
+
+	t_HeadRender->SetGeometry(t_HeadGeometry);
+	t_HeadRender->SetMaterial(MATERIAL_SHINY);
+
+	// Texture Data
+	ID3D11ShaderResourceView* t_HeadTexture = nullptr;
+	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &t_HeadTexture);
+
+	t_HeadRender->SetTextureRV(t_HeadTexture);
+
+	m_Objects.push_back(t_HeadObject);
+
+	#pragma endregion
+
+	// Head Object
+	GameObject* t_SpikeObject = new GameObject(Tag("Spike", PhysicTag::PHYSICS_STATIC));
+	Render* t_SpikeRender = new Render();
+	Transform* t_SpikeTransform = new Transform();
+	RigidbodyObject* t_SpikeRigidbody = new RigidbodyObject(t_HeadTransform, 0.0f);
+	PlaneCollider* t_SpikeCollider = new PlaneCollider(t_HeadTransform);
+
+	t_SpikeObject->SetTransform(t_SpikeTransform);
+	t_SpikeTransform->SetScale(1.0f, 1.0f, 1.0f);
+	t_SpikeTransform->SetRotation(0.0f, 0.0f, 0.0f);
+	t_SpikeTransform->SetPosition(15.0f, 5.0f, 10.0f);
+
+	t_SpikeObject->SetRigidbody(t_SpikeRigidbody);
+	t_SpikeRigidbody->SetCollider(t_SpikeCollider);
+
+	t_SpikeObject->SetRender(t_SpikeRender);
+
+	// Mesh Data
+	Geometry t_SpikeGeometry;
+	MeshData t_SpikeMesh;
+
+	t_SpikeMesh = OBJLoader::Load("Resources\\OBJ\\SpikeBall.obj", device);
+	t_SpikeGeometry.indexBuffer = t_SpikeMesh.IndexBuffer;
+	t_SpikeGeometry.numberOfIndices = t_SpikeMesh.IndexCount;
+	t_SpikeGeometry.vertexBuffer = t_SpikeMesh.VertexBuffer;
+	t_SpikeGeometry.vertexBufferOffset = t_SpikeMesh.VBOffset;
+	t_SpikeGeometry.vertexBufferStride = t_SpikeMesh.VBStride;
+
+	t_SpikeRender->SetGeometry(t_SpikeGeometry);
+	t_SpikeRender->SetMaterial(MATERIAL_SHINY);
+
+	// Texture Data
+	ID3D11ShaderResourceView* t_SpikeTexture = nullptr;
+	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &t_SpikeTexture);
+
+	t_SpikeRender->SetTextureRV(t_SpikeTexture);
+
+	m_Objects.push_back(t_SpikeObject);
+
+
+
+
+
+	// Test Object
+	// HRESULT t_HOK = S_OK;
+
+	// GameObject* t_TestObject = new GameObject(Tag("Test", PhysicTag::PHYSICS_STATIC));
+	// SphereCollider* t_TestCollider = new SphereCollider(t_TestObject->GetTransform(), 10);
+	// t_TestObject->QuickObject(Vector3(0, 10, 10), Vector3(1, 1, 1), Vector3(0, 180, 0), NULL, "Resources\\OBJ\\joelModel.obj", MATERIAL_SHINY, L"Resources\\Textures\\stone.dds", device);
+	
+	// if (FAILED(t_HOK)) { std::cerr << "Object Was not constructed Properly" << std::endl; }
 }
 
 BasicScreen::~BasicScreen()
