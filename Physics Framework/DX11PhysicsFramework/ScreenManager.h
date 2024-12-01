@@ -78,6 +78,7 @@ private:
 
 	ID3D11RasterizerState* _CCWcullMode; //Counter Clockwise
 	ID3D11RasterizerState* _CWcullMode; //Clockwise
+	ID3D11RasterizerState* m_WifreFrameMode; // WireFrame
 
 private:
 

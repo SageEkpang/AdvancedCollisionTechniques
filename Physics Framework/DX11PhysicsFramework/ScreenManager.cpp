@@ -171,6 +171,8 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 {
 	switch (msg.wParam)
 	{
+		case VK_0: _immediateContext->RSSetState(_CWcullMode); break;
+		case VK_1: _immediateContext->RSSetState(m_WifreFrameMode); break;
 	}
 
 	return false;
@@ -517,22 +519,33 @@ HRESULT ScreenManager::InitPipelineStates()
 	_immediateContext->IASetInputLayout(_inputLayout);
 
 	// Rasterizer
+
+	// CULL NONE Rasterizer
 	D3D11_RASTERIZER_DESC cmdesc;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
 	cmdesc.FillMode = D3D11_FILL_SOLID;
 	cmdesc.CullMode = D3D11_CULL_NONE;
 	hr = _device->CreateRasterizerState(&cmdesc, &_RSCullNone);
 
+	// BASE Rasterizer
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
 	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.CullMode = D3D11_CULL_NONE;
 	cmdesc.FrontCounterClockwise = true;
 	hr = _device->CreateRasterizerState(&cmdesc, &_CCWcullMode);
 
+	// Clock Wise Rasterizer
 	cmdesc.FrontCounterClockwise = false;
 	hr = _device->CreateRasterizerState(&cmdesc, &_CWcullMode);
 
 	_immediateContext->RSSetState(_CWcullMode);
+
+	// Wireframe Rasterizer
+	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
+	cmdesc.FillMode = D3D11_FILL_WIREFRAME;
+	cmdesc.CullMode = D3D11_CULL_NONE;
+	cmdesc.FrontCounterClockwise = false;
+	hr = _device->CreateRasterizerState(&cmdesc, &m_WifreFrameMode);
 
 	D3D11_DEPTH_STENCIL_DESC dssDesc;
 	ZeroMemory(&dssDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
@@ -601,6 +614,10 @@ void ScreenManager::BeginRendering()
 	_immediateContext->OMSetRenderTargets(1, &_frameBufferView, _depthBufferView);
 	_immediateContext->ClearRenderTargetView(_frameBufferView, ClearColor);
 	_immediateContext->ClearDepthStencilView(_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	
+	// _immediateContext->RSSetState();
+
+
 
 	// Set Up Buffers and Render Scene
 	_immediateContext->VSSetShader(_vertexShader, nullptr, 0);

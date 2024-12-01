@@ -14,7 +14,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	Render* t_DonutRender = new Render();
 	Transform* t_DonutTransform = new Transform();
 
-	RigidbodyObject* t_DonutRigidBody = new RigidbodyObject(t_DonutTransform, 1.0f);
+	RigidbodyObject* t_DonutRigidBody = new RigidbodyObject(t_DonutTransform, 0.0f);
 	SphereCollider* t_DonutCollider = new SphereCollider(t_DonutTransform, 5.0f);
 
 	t_DonutObject->SetTransform(t_DonutTransform);
@@ -57,7 +57,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	PlaneCollider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform);
 
 	t_PlaneObject->SetTransform(t_PlaneTransform);
-	t_PlaneTransform->SetScale(1.0f, 1.0f, 1.0f);
+	t_PlaneTransform->SetScale(5.0f, 1.0f, 5.0f);
 	t_PlaneTransform->SetPosition(0.0f, 0.0f, 10.0f);
 
 	t_PlaneObject->SetRigidbody(t_PlaneRigidbody);
