@@ -137,7 +137,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	#pragma endregion
 
-	// Head Object
+	// Spike Object
 	GameObject* t_SpikeObject = new GameObject(Tag("Spike", PhysicTag::PHYSICS_STATIC));
 	Render* t_SpikeRender = new Render();
 	Transform* t_SpikeTransform = new Transform();
