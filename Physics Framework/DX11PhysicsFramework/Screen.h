@@ -35,7 +35,6 @@ protected:
 
 	// OBJECT VARIABLE(s)
 	std::vector<GameObject*> m_GameObjects;
-	std::vector<Collider*> m_ColliderObjects;
 
 public:
 
@@ -58,7 +57,6 @@ public:
 
 	// HELPER FUNCTION(s)
 	void InsertObjectIntoList(GameObject* gameObject);
-
 
 
 	// GETTER FUNCTION(s)

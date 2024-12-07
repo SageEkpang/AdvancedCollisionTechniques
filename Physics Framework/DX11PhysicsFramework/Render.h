@@ -4,6 +4,7 @@
 #define RENDER_H
 
 #include "Structures.h"
+#include "OBJLoader.h"
 
 class Render
 {
@@ -12,6 +13,7 @@ private:
 	Material m_Material;
 	Geometry m_Geometry;
 	ID3D11ShaderResourceView* m_TextureRV = nullptr;
+	bool m_RenderObject = true;
 
 public:
 
@@ -46,7 +48,8 @@ public:
 	void SetTextureRV(ID3D11ShaderResourceView* textureRV) { m_TextureRV = textureRV; }
 	void SetGeometry(Geometry geometry) { m_Geometry = geometry; }
 	void SetMaterial(Material material) { m_Material = material; }
-
+	void SetGeometryAndMaterial(char* fileName, Material material, ID3D11Device* device);
+	void SetTexture(const wchar_t* fileName, ID3D11Device* device);
 
 	// HELPER FUNCTION(s)
 	bool HasTexture() const { return m_TextureRV ? true : false; }

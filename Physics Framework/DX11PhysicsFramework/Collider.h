@@ -7,6 +7,8 @@
 #include "Transform.h"
 #include "Vector.h"
 
+#include "OBJLoader.h"
+
 // FORWARD DEC(s)
 class BoxCollider;
 class PlaneCollider;
@@ -20,26 +22,40 @@ class SATCollider;
 // class ConvexHullCollider / Rigidbody Collider;
 // class ComplexCollider;
 
-class Collider abstract
+class Collider
 {
 protected:
 
 	Transform* m_Transform;
+	Material m_Material;
+	Geometry m_Geometry;
+	bool m_RenderCollision = false;
 
 public:
 
+	// CLASS FUNCTION(s)
 	Collider(Transform* transform) { m_Transform = transform; }
 
-	virtual bool CollidesWith(Collider& other, CollisionManifold& out) = 0;
-	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) = 0;
-	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) = 0;
-	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) = 0;
+
+	// BASE FUNCTION(s)
+	virtual bool CollidesWith(Collider& other, CollisionManifold& out) { return false; }
+	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) { return false; }
+	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) { return false; }
+	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) { return false; }
 	// virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) = 0;
 
+	void Draw(ID3D11DeviceContext* pImmediateContext);
+
+
 	// GETTER FUNCTION(s)
-	Vector3 GetPosition() const { return m_Transform->GetPosition(); }
-	Vector3 GetScale() const { return m_Transform->GetScale(); }
-	Vector3 GetRotation() const { return m_Transform->GetRotation(); }
+	inline Transform* GetTransform() { return m_Transform; }
+
+	inline Vector3 GetPosition() const { return m_Transform->GetPosition(); }
+	inline Vector3 GetScale() const { return m_Transform->GetScale(); }
+	inline Vector3 GetRotation() const { return m_Transform->GetRotation(); }
+
+	// SETTER FUNCTION(s)
+	void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
 
 };
 

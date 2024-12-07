@@ -42,12 +42,21 @@
 #define VK_X 0x58
 #define VK_R 0x52
 
+
+// INPUT DEFINE(s) (Special Keys)
+#define VK_TAB 0x09
+#define VK_RETURN 0x0D
+#define VK_SHIFT 0x10
+#define VK_CONTROL 0x11
+#define VK_BACK 0x08
+
+
 // MATERIAL DEFINE(s)
 #define MATERIAL_SHINY Material(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f))
 #define MATERIAL_ROUGH
 #define MATERIAL_MAX Material(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f))
 #define MATERIAL_FLAT Material(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f))
-
+#define MATERIAL_WIREFRAME Material(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 0.3f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f))
 
 // INERTIA TENSOR DEFINE(s)
 

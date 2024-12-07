@@ -19,6 +19,7 @@ void Screen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID
 	{
 		for (auto& v : m_GameObjects)
 		{
+			// Draw Render Object
 			Material t_Material = v->GetRender()->GetMaterial();
 
 			constantBufferData.surface.AmbientMtrl = t_Material.ambient;
@@ -37,31 +38,34 @@ void Screen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID
 				constantBufferData.HasTexture = 0.0f;
 			}
 
-			D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-			pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
-			memcpy(mappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
+			D3D11_MAPPED_SUBRESOURCE t_ObjectMappedSubresource;
+			pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &t_ObjectMappedSubresource);
+			memcpy(t_ObjectMappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
 			pImmediateContext->Unmap(constBuff, 0);
 
 			v->Draw(pImmediateContext);
-		}
-
-		for (auto& c : m_ColliderObjects)
-		{
 
 
-			D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-			pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
-			memcpy(mappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
-			pImmediateContext->Unmap(constBuff, 0);
+			// Draw Render Collisions
 
-			// v->Draw(pImmediateContext);
+			//TODO: May need to change the RSState potentially
+			//constantBufferData.surface.AmbientMtrl = MATERIAL_WIREFRAME.ambient;
+			//constantBufferData.surface.DiffuseMtrl = MATERIAL_WIREFRAME.diffuse;
+			//constantBufferData.surface.SpecularMtrl = MATERIAL_WIREFRAME.specular;
+
+			//constantBufferData.World = XMMatrixTranspose(v->GetTransform()->GetWorldMatrix());
+
+			//D3D11_MAPPED_SUBRESOURCE t_CollMappedSubresource;
+			//pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &t_CollMappedSubresource);
+			//memcpy(t_CollMappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
+			//pImmediateContext->Unmap(constBuff, 0);
+
+			//v->Draw(pImmediateContext);
 		}
 	}
 }
 
 void Screen::InsertObjectIntoList(GameObject* gameObject)
 {
-	// Insert the Game Objects and Colliders
 	m_GameObjects.push_back(gameObject);
-	m_ColliderObjects.push_back(gameObject->GetRigidbody()->GetCollider());
 }

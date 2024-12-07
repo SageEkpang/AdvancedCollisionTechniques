@@ -176,6 +176,8 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 	{
 		case VK_0: _immediateContext->RSSetState(_CWcullMode); break;
 		case VK_1: _immediateContext->RSSetState(m_WifreFrameMode); break;
+		
+		case VK_SHIFT: break;
 	}
 
 	return false;
