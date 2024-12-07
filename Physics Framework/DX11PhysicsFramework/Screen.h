@@ -15,14 +15,12 @@ using namespace DirectX;
 typedef struct ScreenInformation
 {
 	PhysicsScreenState physicsScreenState;
-	ScreenState screenState;
 
 	ScreenInformation() = default;
 
-	ScreenInformation(PhysicsScreenState physicState, ScreenState screenState)
+	ScreenInformation(PhysicsScreenState physicState)
 	{
 		this->physicsScreenState = physicState;
-		this->screenState = screenState;
 	}
 
 } ScreenInfo;
@@ -31,8 +29,13 @@ class Screen
 {
 protected:
 
+	// SCREEN VARIABLE(s)
 	std::string m_ScreenName;
 	ScreenInformation m_ScreenInformation = ScreenInformation();
+
+	// OBJECT VARIABLE(s)
+	std::vector<GameObject*> m_GameObjects;
+	std::vector<Collider*> m_ColliderObjects;
 
 public:
 
@@ -41,16 +44,21 @@ public:
 	Screen(std::string screenName, ID3D11Device* device) { m_ScreenName = screenName; }
 
 	/// <summary> Default Destructor for Base Class </summary>
-	virtual ~Screen() { };
+	virtual ~Screen();
 
 
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
-	virtual void Update(Camera* camera, float deltaTime) { };
+	virtual void Update(float deltaTime);
 
 	/// <summary> Default Draw function for Class </summary>
-	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext) { };
+	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext);
+
+
+	// HELPER FUNCTION(s)
+	void InsertObjectIntoList(GameObject* gameObject);
+
 
 
 	// GETTER FUNCTION(s)

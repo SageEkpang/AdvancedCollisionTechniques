@@ -13,6 +13,10 @@
 //  CUSTOM INCLUDE(s) / FORWARD DEC(s)
 class StartUp;
 class BasicScreen;
+class ConvexHullScreen;
+class QuickHullScreen;
+class GJKScreen;
+class SATScreen;
 
 class ScreenManager
 {
@@ -21,7 +25,6 @@ private:
 	Screen* m_CurrentScreen = nullptr;
 	bool m_IsTransitioning;
 
-	ScreenState m_CurrentScreenState;
 	PhysicsScreenState m_CurrentPhysicsScreen;
 
 	void Destroy();
@@ -126,7 +129,6 @@ public:
 
 	/// <summary> Transitions Screens either using the Physics Screen State or the Screen State </summary>
 	void TransitionScreen(PhysicsScreenState state, float deltaTime);
-	void TransitionScreen(ScreenState state, float deltaTime);
 };
 
 #endif

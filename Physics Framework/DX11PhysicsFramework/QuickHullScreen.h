@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BASIC_SCREEN_H
-#define BASIC_SCREEN_H
+#ifndef QUICK_HULL_SCREEN_H
+#define QUICK_HULL_SCREEN_H
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
@@ -9,17 +9,17 @@
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
 
-class BasicScreen : public Screen
+class QuickHullScreen : public Screen
 {
 public:
 
 	// CLASS FUNCTION(s)
 
 	/// <summary> Default Constructor for Class </summary>
-	BasicScreen(std::string screenName, ID3D11Device* device);
+	QuickHullScreen(std::string screenName, ID3D11Device* device);
 
 	/// <summary> Default Destructor for Class </summary>
-	~BasicScreen();
+	~QuickHullScreen();
 
 
 	// BASE FUNCTION(s)

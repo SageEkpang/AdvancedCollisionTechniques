@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BASIC_SCREEN_H
-#define BASIC_SCREEN_H
+#ifndef CONVEX_HULL_SCREEN_H
+#define CONVEX_HULL_SCREEN_H
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
@@ -9,17 +9,17 @@
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
 
-class BasicScreen : public Screen
+class ConvexHullScreen : public Screen
 {
 public:
 
 	// CLASS FUNCTION(s)
 
 	/// <summary> Default Constructor for Class </summary>
-	BasicScreen(std::string screenName, ID3D11Device* device);
+	ConvexHullScreen(std::string screenName, ID3D11Device* device);
 
-	/// <summary> Default Destructor for Class </summary>
-	~BasicScreen();
+	///<summary> Default Destructor for Class </summary>
+	~ConvexHullScreen();
 
 
 	// BASE FUNCTION(s)

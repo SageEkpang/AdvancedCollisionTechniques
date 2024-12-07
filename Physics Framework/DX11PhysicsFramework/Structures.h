@@ -26,14 +26,11 @@ using namespace std;
 enum PhysicsScreenState
 {
 	STATE_NONE = 0,
-	STATE_BASIC_SCREEN
-};
-
-enum ScreenState
-{
-	SCREEN_NEXT = 1,
-	SCREEN_CURRENT = 0,
-	SCREEN_PREVIOUS = -1
+	STATE_BASIC_SCREEN,
+	STATE_CONVEX_HULL_SCREEN,
+	STATE_QUICK_HULL_SCREEN,
+	STATE_SAT_SCREEN,
+	STATE_GJK_SCREEN
 };
 
 enum PhysicTag

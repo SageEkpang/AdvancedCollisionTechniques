@@ -12,6 +12,11 @@ class BoxCollider;
 class PlaneCollider;
 class SphereCollider;
 class OBBCollider;
+
+class ConvexHullCollider;
+class QuickHullCollider;
+class GJKCollider;
+class SATCollider;
 // class ConvexHullCollider / Rigidbody Collider;
 // class ComplexCollider;
 

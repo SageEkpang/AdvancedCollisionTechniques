@@ -119,6 +119,18 @@
     <ClInclude Include="Camera.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
+    <ClInclude Include="ConvexHullScreen.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickHullScreen.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GJKScreen.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SATScreen.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -182,6 +194,18 @@
       <Filter>Helpers\Source</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
+      <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvexHullScreen.cpp">
+      <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickHullScreen.cpp">
+      <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GJKScreen.cpp">
+      <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SATScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,10 @@
 
 // FORWARD DEC(s)
 #include "BasicScreen.h"
+#include "ConvexHullScreen.h"
+#include "QuickHullScreen.h"
+#include "GJKScreen.h"
+#include "SATScreen.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -24,6 +28,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+ScreenManager::ScreenManager()
+{
+	// Set default values for everything
+	m_CurrentPhysicsScreen = PhysicsScreenState::STATE_NONE;
+	m_IsTransitioning = false;
 }
 
 void ScreenManager::Destroy()
@@ -65,14 +76,6 @@ void ScreenManager::Destroy()
 	if (_device)_device->Release();
 }
 
-ScreenManager::ScreenManager()
-{
-	// Set default values for everything
-	m_CurrentPhysicsScreen = PhysicsScreenState::STATE_NONE;
-	m_CurrentScreenState = ScreenState::SCREEN_CURRENT;
-	m_IsTransitioning = false;
-}
-
 ScreenManager::~ScreenManager()
 {
 	Destroy();
@@ -106,7 +109,7 @@ void ScreenManager::Process()
 		_camera->Update(FPS60);
 
 		// Update Screen
-		m_CurrentScreen->Update(_camera, FPS60);
+		m_CurrentScreen->Update(FPS60);
 
 		m_Accumulator -= FPS60;
 	}
@@ -180,20 +183,17 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 
 void ScreenManager::TransitionScreen(PhysicsScreenState state, float deltaTime)
 {
-	// TODO: Need a transition variable for updates
 	delete m_CurrentScreen;
 	m_CurrentScreen = nullptr;
 
 	switch (state)
 	{
 		case PhysicsScreenState::STATE_BASIC_SCREEN: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
+		case PhysicsScreenState::STATE_CONVEX_HULL_SCREEN: m_CurrentScreen = new ConvexHullScreen("ConvexHullScreen", _device); break;
+		case PhysicsScreenState::STATE_QUICK_HULL_SCREEN: m_CurrentScreen = new QuickHullScreen("QuickHullScreen", _device); break;
+		case PhysicsScreenState::STATE_SAT_SCREEN: m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device); break;
+		case PhysicsScreenState::STATE_GJK_SCREEN: m_CurrentScreen = new GJKScreen("GJKScreen", _device); break;
 	}
-}
-
-void ScreenManager::TransitionScreen(ScreenState state, float deltaTime)
-{
-	m_CurrentScreen = nullptr;
-	m_CurrentScreenState = ScreenState::SCREEN_CURRENT;
 }
 
 HRESULT ScreenManager::CreateWindowHandle(HINSTANCE hInstance, int nShowCmd)

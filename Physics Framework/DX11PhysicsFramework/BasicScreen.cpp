@@ -3,11 +3,7 @@
 BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	: Screen(screenName, device)
 {
-	// May need to add camera to this
-	m_ScreenName = screenName;
-
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_BASIC_SCREEN;
-	m_ScreenInformation.screenState = ScreenState::SCREEN_CURRENT;
 
 	#pragma region Donut Object
 
@@ -48,7 +44,8 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	t_DonutRender->SetTextureRV(t_DonutTexture);
 
-	m_Objects.push_back(t_DonutObject);
+	InsertObjectIntoList(t_DonutObject);
+
 
 	#pragma endregion
 
@@ -90,7 +87,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	t_PlaneRender->SetTextureRV(t_PlaneTexture);
 
-	m_Objects.push_back(t_PlaneObject);
+	InsertObjectIntoList(t_PlaneObject);
 
 	#pragma endregion
 
@@ -133,7 +130,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	t_HeadRender->SetTextureRV(t_HeadTexture);
 
-	m_Objects.push_back(t_HeadObject);
+	InsertObjectIntoList(t_HeadObject);
 
 	#pragma endregion
 
@@ -141,8 +138,8 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	GameObject* t_SpikeObject = new GameObject(Tag("Spike", PhysicTag::PHYSICS_STATIC));
 	Render* t_SpikeRender = new Render();
 	Transform* t_SpikeTransform = new Transform();
-	RigidbodyObject* t_SpikeRigidbody = new RigidbodyObject(t_HeadTransform, 0.0f);
-	PlaneCollider* t_SpikeCollider = new PlaneCollider(t_HeadTransform);
+	RigidbodyObject* t_SpikeRigidbody = new RigidbodyObject(t_SpikeTransform, 0.0f);
+	SphereCollider* t_SpikeCollider = new SphereCollider(t_SpikeTransform, 10.0);
 
 	t_SpikeObject->SetTransform(t_SpikeTransform);
 	t_SpikeTransform->SetScale(1.0f, 1.0f, 1.0f);
@@ -174,11 +171,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	t_SpikeRender->SetTextureRV(t_SpikeTexture);
 
-	m_Objects.push_back(t_SpikeObject);
-
-
-
-
+	InsertObjectIntoList(t_SpikeObject);
 
 	// Test Object
 	// HRESULT t_HOK = S_OK;
@@ -192,53 +185,17 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 BasicScreen::~BasicScreen()
 {
-	if (!m_Objects.empty())
-	{
-		m_Objects.clear();
-	}
+	Screen::~Screen();
+
+
+
 }
 
-void BasicScreen::Update(Camera* camera, float deltaTime)
+void BasicScreen::Update(float deltaTime)
 {
-	if (!m_Objects.empty())
-	{
-		for (auto& v : m_Objects)
-		{
-			v->Update(deltaTime);
-		}
-	}
-}
+	Screen::Update(deltaTime);
 
-void BasicScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext)
-{
-	if (!m_Objects.empty())
-	{
-		for (auto& v : m_Objects)
-		{
-			Material t_Material = v->GetRender()->GetMaterial();
 
-			constantBufferData.surface.AmbientMtrl = t_Material.ambient;
-			constantBufferData.surface.DiffuseMtrl = t_Material.diffuse;
-			constantBufferData.surface.SpecularMtrl = t_Material.specular;
 
-			constantBufferData.World = XMMatrixTranspose(v->GetTransform()->GetWorldMatrix());
 
-			if (v->GetRender()->HasTexture())
-			{
-				pImmediateContext->PSSetShaderResources(0, 1, v->GetRender()->GetTextureRV());
-				constantBufferData.HasTexture = 1.0f;
-			}
-			else
-			{
-				constantBufferData.HasTexture = 0.0f;
-			}
-
-			D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-			pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
-			memcpy(mappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
-			pImmediateContext->Unmap(constBuff, 0);
-
-			v->Draw(pImmediateContext);
-		}
-	}
 }
