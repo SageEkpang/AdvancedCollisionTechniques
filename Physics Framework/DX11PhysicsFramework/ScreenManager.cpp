@@ -174,16 +174,22 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 {
 	switch (msg.wParam)
 	{
-		case VK_0: _immediateContext->RSSetState(_CWcullMode); break;
-		case VK_1: _immediateContext->RSSetState(m_WifreFrameMode); break;
-		
-		case VK_SHIFT: break;
+		// RASTERIZER STATE(s)
+		case VK_V: _immediateContext->RSSetState(_CWcullMode); break;
+		case VK_C: _immediateContext->RSSetState(m_WifreFrameMode); break;
+
+		// TRANSITION SCREEN(s)
+		case VK_0: TransitionScreen(STATE_BASIC_SCREEN); break;
+		case VK_1: TransitionScreen(STATE_CONVEX_HULL_SCREEN); break;
+		case VK_2: TransitionScreen(STATE_QUICK_HULL_SCREEN); break;
+		case VK_3: TransitionScreen(STATE_SAT_SCREEN); break;
+		case VK_4: TransitionScreen(STATE_GJK_SCREEN); break;
 	}
 
 	return false;
 }
 
-void ScreenManager::TransitionScreen(PhysicsScreenState state, float deltaTime)
+void ScreenManager::TransitionScreen(PhysicsScreenState state)
 {
 	delete m_CurrentScreen;
 	m_CurrentScreen = nullptr;

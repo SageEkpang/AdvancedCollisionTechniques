@@ -12,8 +12,8 @@ Transform::Transform()
 
 Transform::~Transform()
 {
-	m_World = nullptr;
 	delete m_World;
+	m_World = nullptr;
 
 	if (m_Parent != nullptr)
 	{

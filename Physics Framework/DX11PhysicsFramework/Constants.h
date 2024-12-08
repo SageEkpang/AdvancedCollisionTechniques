@@ -42,6 +42,9 @@
 #define VK_X 0x58
 #define VK_R 0x52
 
+#define VK_V 0x56
+#define VK_Y 0x59
+
 
 // INPUT DEFINE(s) (Special Keys)
 #define VK_TAB 0x09
@@ -49,6 +52,9 @@
 #define VK_SHIFT 0x10
 #define VK_CONTROL 0x11
 #define VK_BACK 0x08
+
+#define VK_ADD 0x6B
+#define VK_SUBTRACT 0x6D
 
 
 // MATERIAL DEFINE(s)

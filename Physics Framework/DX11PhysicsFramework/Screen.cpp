@@ -2,7 +2,7 @@
 
 Screen::~Screen()
 {
-	if (!m_GameObjects.empty()) { m_GameObjects.clear(); }
+	m_GameObjects.clear();
 }
 
 void Screen::Update(float deltaTime)

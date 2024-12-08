@@ -128,7 +128,7 @@ public:
 	// EXTRA FUNCTION(s)
 
 	/// <summary> Transitions Screens either using the Physics Screen State or the Screen State </summary>
-	void TransitionScreen(PhysicsScreenState state, float deltaTime);
+	void TransitionScreen(PhysicsScreenState state);
 };
 
 #endif
