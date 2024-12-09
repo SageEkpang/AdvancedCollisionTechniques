@@ -29,7 +29,7 @@ protected:
 	Transform* m_Transform;
 	Material m_Material;
 	Geometry m_Geometry;
-	bool m_RenderCollision = false;
+	bool m_RenderCollision = true;
 
 public:
 
@@ -54,8 +54,11 @@ public:
 	inline Vector3 GetScale() const { return m_Transform->GetScale(); }
 	inline Vector3 GetRotation() const { return m_Transform->GetRotation(); }
 
+	inline bool GetRenderCollision() const { return m_RenderCollision; }
+
 	// SETTER FUNCTION(s)
 	void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
+	inline void SetDrawCollider(bool render) { m_RenderCollision = render; }
 
 };
 

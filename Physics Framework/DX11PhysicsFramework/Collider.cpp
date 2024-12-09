@@ -2,7 +2,7 @@
 
 void Collider::Draw(ID3D11DeviceContext* pImmediateContext)
 {
-	if (m_RenderCollision == false) return;
+	if (m_RenderCollision == false || m_Geometry.numberOfIndices < 0) return;
 
 	pImmediateContext->IASetVertexBuffers(0, 1, &m_Geometry.vertexBuffer, &m_Geometry.vertexBufferStride, &m_Geometry.vertexBufferOffset);
 	pImmediateContext->IASetIndexBuffer(m_Geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);
