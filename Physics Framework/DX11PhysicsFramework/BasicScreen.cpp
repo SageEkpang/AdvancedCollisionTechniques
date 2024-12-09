@@ -28,7 +28,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	t_DonutRender->SetGeometryAndMaterial("Resources\\OBJ\\donut.obj", MATERIAL_SHINY, device);
 	t_DonutRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-	InsertObjectIntoList(t_DonutObject);
+	// InsertObjectIntoList(t_DonutObject);
 
 	#pragma endregion
 
@@ -39,11 +39,12 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	Render* t_PlaneRender = new Render();
 	Transform* t_PlaneTransform = new Transform();
 	RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 0.0f);
-	PlaneCollider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform);
+	Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform);
 
 	// Transform
 	t_PlaneObject->SetTransform(t_PlaneTransform);
 	t_PlaneTransform->SetScale(100.0f, 1.0f, 100.0f);
+	t_PlaneTransform->SetRotation(0.0f, 0.0f, 0.0f);
 	t_PlaneTransform->SetPosition(0.0f, 0.0f, 10.0f);
 
 	// Rigidbody 
@@ -52,7 +53,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	// Collision
 	t_PlaneObject->SetCollider(t_PlaneCollider);
-	t_PlaneCollider->SetCollisionGeometry("Resources\\CollisionoOBJ\\CollisionPlane.obj", MATERIAL_WIREFRAME, device);
+	t_PlaneCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionPlane.obj", MATERIAL_WIREFRAME, device);
 
 	// Rendering
 	t_PlaneObject->SetRender(t_PlaneRender);
@@ -81,28 +82,10 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	t_HeadRigidbody->SetCollider(t_HeadCollider);
 
 	t_HeadObject->SetRender(t_HeadRender);
+	t_HeadRender->SetGeometryAndMaterial("Resources\\OBJ\\joelModel.obj", MATERIAL_SHINY, device);
+	t_HeadRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-	// Mesh Data
-	Geometry t_HeadGeometry;
-	MeshData t_HeadMesh;
-
-	t_HeadMesh = OBJLoader::Load("Resources\\OBJ\\joelModel.obj", device);
-	t_HeadGeometry.indexBuffer = t_HeadMesh.IndexBuffer;
-	t_HeadGeometry.numberOfIndices = t_HeadMesh.IndexCount;
-	t_HeadGeometry.vertexBuffer = t_HeadMesh.VertexBuffer;
-	t_HeadGeometry.vertexBufferOffset = t_HeadMesh.VBOffset;
-	t_HeadGeometry.vertexBufferStride = t_HeadMesh.VBStride;
-
-	t_HeadRender->SetGeometry(t_HeadGeometry);
-	t_HeadRender->SetMaterial(MATERIAL_SHINY);
-
-	// Texture Data
-	ID3D11ShaderResourceView* t_HeadTexture = nullptr;
-	CreateDDSTextureFromFile(device, L"Resources\\Textures\\stone.dds", nullptr, &t_HeadTexture);
-
-	t_HeadRender->SetTextureRV(t_HeadTexture);
-
-	InsertObjectIntoList(t_HeadObject);
+	// InsertObjectIntoList(t_HeadObject);
 
 	#pragma endregion
 
@@ -115,16 +98,21 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	RigidbodyObject* t_SpikeRigidbody = new RigidbodyObject(t_SpikeTransform, 0.0f);
 	Collider* t_SpikeCollider = new SphereCollider(t_SpikeTransform, 10.0);
 
+	// Transform
 	t_SpikeObject->SetTransform(t_SpikeTransform);
 	t_SpikeTransform->SetScale(1.0f, 1.0f, 1.0f);
-	t_SpikeTransform->SetRotation(0.0f, 0.0f, 0.0f);
+	// t_SpikeTransform->SetRotation(0.0f, 0.0f, 0.0f);
 	t_SpikeTransform->SetPosition(15.0f, 5.0f, 10.0f);
 
+	// Rigidbody
 	t_SpikeObject->SetRigidbody(t_SpikeRigidbody);
 	t_SpikeObject->SetCollider(t_SpikeCollider);
 
+	// Collision
 	t_SpikeRigidbody->SetCollider(t_SpikeCollider);
+	t_SpikeCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionSphere.obj", MATERIAL_WIREFRAME, device);
 
+	// Rendering
 	t_SpikeObject->SetRender(t_SpikeRender);
 	t_SpikeRender->SetGeometryAndMaterial("Resources\\OBJ\\SpikeBall.obj", MATERIAL_MAX, device);
 	t_SpikeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
@@ -132,7 +120,6 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	InsertObjectIntoList(t_SpikeObject);
 
 	#pragma endregion
-
 }
 
 BasicScreen::~BasicScreen()
@@ -143,8 +130,4 @@ BasicScreen::~BasicScreen()
 void BasicScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
-
-
-
-
 }

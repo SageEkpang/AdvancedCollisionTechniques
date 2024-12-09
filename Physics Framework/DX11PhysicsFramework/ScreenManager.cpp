@@ -56,10 +56,10 @@ void ScreenManager::Destroy()
 	if (_pixelShader)_pixelShader->Release();
 	if (_constantBuffer)_constantBuffer->Release();
 
-	if (_cubeVertexBuffer)_cubeVertexBuffer->Release();
-	if (_cubeIndexBuffer)_cubeIndexBuffer->Release();
-	if (_planeVertexBuffer)_planeVertexBuffer->Release();
-	if (_planeIndexBuffer)_planeIndexBuffer->Release();
+	// if (_cubeVertexBuffer)_cubeVertexBuffer->Release();
+	// if (_cubeIndexBuffer)_cubeIndexBuffer->Release();
+	// if (_planeVertexBuffer)_planeVertexBuffer->Release();
+	// if (_planeIndexBuffer)_planeIndexBuffer->Release();
 	// if (_objMeshData.IndexBuffer) _objMeshData.IndexBuffer->Release();
 	// if (_objMeshData.VertexBuffer)_objMeshData.VertexBuffer->Release();
 
@@ -133,7 +133,7 @@ void ScreenManager::Showcase()
 	_cbData.light = basicLight;
 
 	// Draw the Current Physics Screen
-	m_CurrentScreen->Draw(_cbData, _constantBuffer, _immediateContext);
+	m_CurrentScreen->Draw(_cbData, _constantBuffer, _immediateContext, _device);
 
 	// End "Drawing" the content
 	EndRendering();
@@ -176,7 +176,7 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 	{
 		// RASTERIZER STATE(s)
 		case VK_V: _immediateContext->RSSetState(_CWcullMode); break;
-		case VK_C: _immediateContext->RSSetState(m_WifreFrameMode); break;
+		case VK_C: _immediateContext->RSSetState(m_WireFrameMode); break;
 
 		// TRANSITION SCREEN(s)
 		case VK_0: TransitionScreen(STATE_BASIC_SCREEN); break;
@@ -388,40 +388,40 @@ HRESULT ScreenManager::InitVertexIndexBuffers()
 	HRESULT hr;
 
 	// Create vertex buffer
-	SimpleVertex vertices[] =
-	{
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(1.0f, 1.0f) },
+	//SimpleVertex vertices[] =
+	//{
+	//	{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(1.0f, 0.0f) },
+	//	{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(0.0f, 0.0f) },
+	//	{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(0.0f, 1.0f) },
+	//	{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(1.0f, 1.0f) },
 
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(0.0f, 1.0f) },
+	//	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(0.0f, 0.0f) },
+	//	{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(1.0f, 0.0f) },
+	//	{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(1.0f, 1.0f) },
+	//	{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(0.0f, 1.0f) },
 
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(0.0f, 0.0f) },
+	//	{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(0.0f, 1.0f) },
+	//	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(1.0f, 1.0f) },
+	//	{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(1.0f, 0.0f) },
+	//	{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(0.0f, 0.0f) },
 
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(1.0f, 0.0f) },
+	//	{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(1.0f, 1.0f) },
+	//	{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(0.0f, 1.0f) },
+	//	{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(0.0f, 0.0f) },
+	//	{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(1.0f, 0.0f) },
 
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+	//	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(0.0f, 1.0f) },
+	//	{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(1.0f, 1.0f) },
+	//	{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(1.0f, 0.0f) },
+	//	{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(0.0f, 0.0f) },
 
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(1.0f, 0.0f) },
-	};
+	//	{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(1.0f, 1.0f) },
+	//	{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(0.0f, 1.0f) },
+	//	{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(0.0f, 0.0f) },
+	//	{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(1.0f, 0.0f) },
+	//};
 
-	D3D11_BUFFER_DESC bd;
+	/*D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(SimpleVertex) * 24;
@@ -432,89 +432,89 @@ HRESULT ScreenManager::InitVertexIndexBuffers()
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = vertices;
 
-	hr = _device->CreateBuffer(&bd, &InitData, &_cubeVertexBuffer);
+	hr = _device->CreateBuffer(&bd, &InitData, &_cubeVertexBuffer);*/
 
-	if (FAILED(hr))
-		return hr;
+	//if (FAILED(hr))
+	//	return hr;
 
-	// Create index buffer
-	WORD indices[] =
-	{
-		3, 1, 0,
-		2, 1, 3,
+	//// Create index buffer
+	//WORD indices[] =
+	//{
+	//	3, 1, 0,
+	//	2, 1, 3,
 
-		6, 4, 5,
-		7, 4, 6,
+	//	6, 4, 5,
+	//	7, 4, 6,
 
-		11, 9, 8,
-		10, 9, 11,
+	//	11, 9, 8,
+	//	10, 9, 11,
 
-		14, 12, 13,
-		15, 12, 14,
+	//	14, 12, 13,
+	//	15, 12, 14,
 
-		19, 17, 16,
-		18, 17, 19,
+	//	19, 17, 16,
+	//	18, 17, 19,
 
-		22, 20, 21,
-		23, 20, 22
-	};
+	//	22, 20, 21,
+	//	23, 20, 22
+	//};
 
-	ZeroMemory(&bd, sizeof(bd));
+	//ZeroMemory(&bd, sizeof(bd));
 
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(WORD) * 36;
-	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	//bd.Usage = D3D11_USAGE_DEFAULT;
+	//bd.ByteWidth = sizeof(WORD) * 36;
+	//bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	//bd.CPUAccessFlags = 0;
 
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = indices;
-	hr = _device->CreateBuffer(&bd, &InitData, &_cubeIndexBuffer);
+	//ZeroMemory(&InitData, sizeof(InitData));
+	//InitData.pSysMem = indices;
+	//hr = _device->CreateBuffer(&bd, &InitData, &_cubeIndexBuffer);
 
-	if (FAILED(hr))
-		return hr;
+	//if (FAILED(hr))
+	//	return hr;
 
-	// Create vertex buffer
-	SimpleVertex planeVertices[] =
-	{
-		{ XMFLOAT3(-1.0f, -1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 5.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(5.0f, 5.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(5.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-	};
+	//// Create vertex buffer
+	//SimpleVertex planeVertices[] =
+	//{
+	//	{ XMFLOAT3(-1.0f, -1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 5.0f) },
+	//	{ XMFLOAT3(1.0f, -1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(5.0f, 5.0f) },
+	//	{ XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(5.0f, 0.0f) },
+	//	{ XMFLOAT3(-1.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+	//};
 
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(SimpleVertex) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	//ZeroMemory(&bd, sizeof(bd));
+	//bd.Usage = D3D11_USAGE_DEFAULT;
+	//bd.ByteWidth = sizeof(SimpleVertex) * 4;
+	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//bd.CPUAccessFlags = 0;
 
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = planeVertices;
+	//ZeroMemory(&InitData, sizeof(InitData));
+	//InitData.pSysMem = planeVertices;
 
-	hr = _device->CreateBuffer(&bd, &InitData, &_planeVertexBuffer);
+	//hr = _device->CreateBuffer(&bd, &InitData, &_planeVertexBuffer);
 
-	if (FAILED(hr))
-		return hr;
+	//if (FAILED(hr))
+	//	return hr;
 
-	// Create plane index buffer
-	WORD planeIndices[] =
-	{
-		0, 3, 1,
-		3, 2, 1,
-	};
+	//// Create plane index buffer
+	//WORD planeIndices[] =
+	//{
+	//	0, 3, 1,
+	//	3, 2, 1,
+	//};
 
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(WORD) * 6;
-	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	//ZeroMemory(&bd, sizeof(bd));
+	//bd.Usage = D3D11_USAGE_DEFAULT;
+	//bd.ByteWidth = sizeof(WORD) * 6;
+	//bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	//bd.CPUAccessFlags = 0;
 
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = planeIndices;
-	hr = _device->CreateBuffer(&bd, &InitData, &_planeIndexBuffer);
+	//ZeroMemory(&InitData, sizeof(InitData));
+	//InitData.pSysMem = planeIndices;
+	//hr = _device->CreateBuffer(&bd, &InitData, &_planeIndexBuffer);
 
-	if (FAILED(hr))
-		return hr;
+	//if (FAILED(hr))
+	//	return hr;
 
 	return S_OK;
 }
@@ -553,7 +553,7 @@ HRESULT ScreenManager::InitPipelineStates()
 	cmdesc.FillMode = D3D11_FILL_WIREFRAME;
 	cmdesc.CullMode = D3D11_CULL_NONE;
 	cmdesc.FrontCounterClockwise = false;
-	hr = _device->CreateRasterizerState(&cmdesc, &m_WifreFrameMode);
+	hr = _device->CreateRasterizerState(&cmdesc, &m_WireFrameMode);
 
 	D3D11_DEPTH_STENCIL_DESC dssDesc;
 	ZeroMemory(&dssDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
@@ -622,10 +622,6 @@ void ScreenManager::BeginRendering()
 	_immediateContext->OMSetRenderTargets(1, &_frameBufferView, _depthBufferView);
 	_immediateContext->ClearRenderTargetView(_frameBufferView, ClearColor);
 	_immediateContext->ClearDepthStencilView(_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	
-	// _immediateContext->RSSetState();
-
-
 
 	// Set Up Buffers and Render Scene
 	_immediateContext->VSSetShader(_vertexShader, nullptr, 0);

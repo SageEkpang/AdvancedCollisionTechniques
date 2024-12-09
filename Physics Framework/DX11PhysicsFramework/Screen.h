@@ -52,7 +52,7 @@ public:
 	virtual void Update(float deltaTime);
 
 	/// <summary> Default Draw function for Class </summary>
-	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext);
+	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
 
 	// HELPER FUNCTION(s)
