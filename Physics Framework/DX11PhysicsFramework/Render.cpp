@@ -23,6 +23,11 @@ void Render::Draw(ID3D11DeviceContext* pImmediateContext)
 {
 	if (m_RenderObject == false) return;
 
+
+
+
+
+
 	// Set vertex and index buffers
 	pImmediateContext->IASetVertexBuffers(0, 1, &m_Geometry.vertexBuffer, &m_Geometry.vertexBufferStride, &m_Geometry.vertexBufferOffset);
 	pImmediateContext->IASetIndexBuffer(m_Geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);

@@ -53,7 +53,6 @@ void Screen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID
 			memcpy(t_ObjectMappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
 			pImmediateContext->Unmap(constBuff, 0);
 
-			// v->Draw(pImmediateContext);
 			v->GetRender()->Draw(pImmediateContext);
 
 
