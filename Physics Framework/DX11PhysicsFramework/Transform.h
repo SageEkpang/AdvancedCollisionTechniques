@@ -73,7 +73,6 @@ public:
 	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(m_World); }
 
 
-
 	// SETTER FUNCTION(s)
 	void SetParent(Transform* Parent) { m_Parent = Parent; }
 

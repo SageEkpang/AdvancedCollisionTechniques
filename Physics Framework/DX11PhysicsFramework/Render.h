@@ -6,12 +6,16 @@
 #include "Structures.h"
 #include "OBJLoader.h"
 
+#include "Transform.h"
+
 class Render
 {
 private:
 
+	Transform* m_Transform;
 	Material m_Material;
 	Geometry m_Geometry;
+	XMFLOAT4X4* m_World;
 	ID3D11ShaderResourceView* m_TextureRV = nullptr;
 	bool m_RenderObject = true;
 
@@ -20,7 +24,7 @@ public:
 	// CLASS FUNCTION(s)
 
 	/// <summary> Default Constructor for Class </summary>
-	Render();
+	Render(Transform* transform);
 
 	/// <summary> Custom Constructor for Class </summary>
 	Render(Geometry geometry, Material material);
@@ -32,10 +36,10 @@ public:
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Base Update Function for Class </summary>
-	void Update(float DeltaTime) { }
+	void Update(float deltaTime);
 
 	/// <summary> Default Base Draw Function for Class </summary>
-	void Draw(ID3D11DeviceContext* pImmediateContext);
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
 
 	// GETTER FUNCTION(s)

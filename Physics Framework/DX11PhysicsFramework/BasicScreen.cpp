@@ -9,8 +9,8 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	// Donut Object
 	GameObject* t_DonutObject = new GameObject(Tag("Donut", PhysicTag::PHYSICS_STATIC));
-	Render* t_DonutRender = new Render();
 	Transform* t_DonutTransform = new Transform();
+	Render* t_DonutRender = new Render(t_DonutTransform);
 
 	RigidbodyObject* t_DonutRigidBody = new RigidbodyObject(t_DonutTransform, 0.0f);
 	Collider* t_DonutCollider = new SphereCollider(t_DonutTransform, 5.0f);
@@ -36,8 +36,8 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	// Plane Object
 	GameObject* t_PlaneObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_STATIC));
-	Render* t_PlaneRender = new Render();
 	Transform* t_PlaneTransform = new Transform();
+	Render* t_PlaneRender = new Render(t_PlaneTransform);
 	RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 0.0f);
 	Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform);
 
@@ -68,8 +68,8 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	// Head Object
 	GameObject* t_HeadObject = new GameObject(Tag("Head", PhysicTag::PHYSICS_STATIC));
-	Render* t_HeadRender = new Render();
 	Transform* t_HeadTransform = new Transform();
+	Render* t_HeadRender = new Render(t_HeadTransform);
 	RigidbodyObject* t_HeadRigidbody = new RigidbodyObject(t_HeadTransform, 0.0f);
 	PlaneCollider* t_HeadCollider = new PlaneCollider(t_HeadTransform);
 
@@ -93,15 +93,16 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	// Spike Object
 	GameObject* t_SpikeObject = new GameObject(Tag("Spike", PhysicTag::PHYSICS_STATIC));
-	Render* t_SpikeRender = new Render();
 	Transform* t_SpikeTransform = new Transform();
+
+	Render* t_SpikeRender = new Render(t_SpikeTransform);
 	RigidbodyObject* t_SpikeRigidbody = new RigidbodyObject(t_SpikeTransform, 0.0f);
 	Collider* t_SpikeCollider = new SphereCollider(t_SpikeTransform, 10.0);
 
 	// Transform
 	t_SpikeObject->SetTransform(t_SpikeTransform);
 	t_SpikeTransform->SetScale(1.0f, 1.0f, 1.0f);
-	// t_SpikeTransform->SetRotation(0.0f, 0.0f, 0.0f);
+	t_SpikeTransform->SetRotation(0.0f, 0.0f, 0.0f);
 	t_SpikeTransform->SetPosition(15.0f, 5.0f, 10.0f);
 
 	// Rigidbody

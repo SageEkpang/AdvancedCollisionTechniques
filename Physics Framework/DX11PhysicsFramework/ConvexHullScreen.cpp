@@ -7,8 +7,8 @@ ConvexHullScreen::ConvexHullScreen(std::string screenName, ID3D11Device* device)
 
 	// Spike Object
 	GameObject* t_SpikeObject = new GameObject(Tag("Spike", PhysicTag::PHYSICS_STATIC));
-	Render* t_SpikeRender = new Render();
 	Transform* t_SpikeTransform = new Transform();
+	Render* t_SpikeRender = new Render(t_SpikeTransform);
 	RigidbodyObject* t_SpikeRigidbody = new RigidbodyObject(t_SpikeTransform, 0.0f);
 	PlaneCollider* t_SpikeCollider = new PlaneCollider(t_SpikeTransform);
 

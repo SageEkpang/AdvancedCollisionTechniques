@@ -29,12 +29,13 @@ protected:
 	Transform* m_Transform;
 	Material m_Material;
 	Geometry m_Geometry;
+	XMFLOAT4X4* m_World;
 	bool m_RenderCollision = true;
 
 public:
 
 	// CLASS FUNCTION(s)
-	Collider(Transform* transform) { m_Transform = transform; }
+	Collider(Transform* transform);
 
 
 	// BASE FUNCTION(s)
@@ -44,7 +45,8 @@ public:
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) { return false; }
 	// virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) = 0;
 
-	void Draw(ID3D11DeviceContext* pImmediateContext);
+	void Update(float deltaTime);
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
 
 	// GETTER FUNCTION(s)
