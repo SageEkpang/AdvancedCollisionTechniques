@@ -14,9 +14,16 @@
 
 #include <iostream>
 #include <string>
+#include <list>
 #include <vector>
 #include <memory>
+#include <map>
 #include <array>
+#include <thread>
+#include <queue>
+#include <condition_variable>
+#include <mutex>
+#include <functional>
 
 using namespace DirectX;
 using namespace std;
@@ -27,7 +34,7 @@ enum PhysicsScreenState
 {
 	STATE_NONE = 0,
 	STATE_BASIC_SCREEN,
-	STATE_CONVEX_HULL_SCREEN,
+	STATE_CONVEX_HULL_SCREEN, // Do not need this, convex hull is made using the quick hull program
 	STATE_QUICK_HULL_SCREEN,
 	STATE_SAT_SCREEN,
 	STATE_GJK_SCREEN
