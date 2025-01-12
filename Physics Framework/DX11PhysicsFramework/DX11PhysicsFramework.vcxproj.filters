@@ -131,6 +131,13 @@
     <ClInclude Include="SATScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
+    <ClInclude Include="SATCollider.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickHullCollider.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GJKCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -208,6 +215,13 @@
     <ClCompile Include="SATScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
+    <ClCompile Include="SATCollider.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickHullCollider.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GJKCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
