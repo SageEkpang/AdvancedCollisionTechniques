@@ -51,6 +51,15 @@
     <Filter Include="Helpers\Source">
       <UniqueIdentifier>{819aec98-a571-49c4-9592-8af85aa12b4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Optimisation">
+      <UniqueIdentifier>{546fa27c-abf6-46f6-9f97-961be42ac264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Optimisation\Header">
+      <UniqueIdentifier>{4b466832-683f-4adb-a964-6641c4673f8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Optimisation\Source">
+      <UniqueIdentifier>{d2b20f0a-0f71-4c31-a7a4-fec8b8cc4c6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicScreen.h">
@@ -137,7 +146,18 @@
     <ClInclude Include="QuickHullCollider.h">
       <Filter>Colliders\Header</Filter>
     </ClInclude>
-    <ClInclude Include="GJKCollider.h" />
+    <ClInclude Include="GJKCollider.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>Optimisation\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Optimisation\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryPool.h">
+      <Filter>Optimisation\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -221,7 +241,18 @@
     <ClCompile Include="QuickHullCollider.cpp">
       <Filter>Colliders\Source</Filter>
     </ClCompile>
-    <ClCompile Include="GJKCollider.cpp" />
+    <ClCompile Include="GJKCollider.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Optimisation\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>Optimisation\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryPool.cpp">
+      <Filter>Optimisation\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

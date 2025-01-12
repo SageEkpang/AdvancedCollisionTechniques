@@ -381,7 +381,9 @@
     <ClCompile Include="GJKScreen.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="Octree.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
     <ClCompile Include="PhysicUtility.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
@@ -395,6 +397,7 @@
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector.cpp" />
@@ -417,7 +420,9 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GJKCollider.h" />
     <ClInclude Include="GJKScreen.h" />
+    <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="Octree.h" />
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="PhysicUtility.h" />
     <ClInclude Include="PlaneCollider.h" />
@@ -433,6 +438,7 @@
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Structures.h" />
+    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector.h" />
