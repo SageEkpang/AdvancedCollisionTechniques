@@ -4,6 +4,9 @@
 
 #include "Structures.h"
 
+class BoxCollider;
+class OBBCollider;
+
 class Vector
 {
 private:
@@ -17,7 +20,6 @@ public:
 	// BASE FUNCTION(s)
 
 	// Basic Maths
-
 	static Vector3 Inverse(Vector3 Value);
 	static Vector3 Reverse(Vector3 Value);
 
@@ -29,7 +31,6 @@ public:
 	static Vector3 XMFLOAT3toVector3(XMFLOAT3 value);
 
 	// Vector Maths
-
 	static float CalculateDotProduct(Vector3 Value1, Vector3 Value2);
 	static float CalculateDotProductNotNorm(Vector3 value1, Vector3 value2);
 	static float CalculateDotProduct(float Value1X, float Value1Y, float Value1Z, float Value2X, float Value2Y, float Value2Z);
@@ -45,6 +46,12 @@ public:
 	static Vector3 Normalise(float ValueX, float ValueY, float ValueZ);
 
 	static Vector3 DistanceTo(Vector3 Value1, Vector3 Value2);
+
+	// SAT Testing
+	static Interval GetInterval(BoxCollider& box, const Vector3& axis);
+	static Interval GetInterval(OBBCollider& OBBBox, const Vector3& axis);
+
+	static bool OverlapOnAxis(BoxCollider& box, OBBCollider& OBBBox, const Vector3& axis);
 
 };
 

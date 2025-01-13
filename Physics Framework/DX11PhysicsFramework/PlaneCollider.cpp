@@ -63,15 +63,23 @@ bool PlaneCollider::CollidesWith(BoxCollider& other, CollisionManifold& out)
 	return true;
 }
 
+bool PlaneCollider::CollidesWith(OBBCollider& other, CollisionManifold& out)
+{
+
+	return false;
+}
+
 Vector3 PlaneCollider::NearestPoint(Vector3 point)
 {
-	Vector3 PlaneNormal = Vector3(0, 1, 0);
-	float NormalDot = Vector::CalculateDotProductNotNorm(PlaneNormal, point);
+	float NormalDot = Vector::CalculateDotProductNotNorm(m_PlaneNormal, point);
 	float t_Distance = NormalDot - Vector::Magnitude(point - m_Transform->GetPosition());
-	Vector3 ClosestPoint = point - PlaneNormal * t_Distance;
+	Vector3 ClosestPoint = point - m_PlaneNormal * t_Distance;
 	return ClosestPoint;
+}
 
-	// Ax + By + Cz = d
-	// <a, b, c> = n
-	// Unit Vector
+bool PlaneCollider::PointOnPlane(Vector3 point)
+{
+	float t_Dot = Vector::CalculateDotProduct(point, m_PlaneNormal);
+	float t_PlaneDistance = Vector::Magnitude(point - m_Transform->GetPosition());
+	return t_Dot - t_PlaneDistance == 0.0f;
 }

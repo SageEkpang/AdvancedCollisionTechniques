@@ -1,4 +1,6 @@
 #include "Vector.h"
+#include "BoxCollider.h"
+#include "OBBCollider.h"
 
 Vector3 Vector::Inverse(Vector3 Value)
 {
@@ -129,4 +131,76 @@ Vector3 Vector::Normalise(float ValueX, float ValueY, float ValueZ)
 Vector3 Vector::DistanceTo(Vector3 Value1, Vector3 Value2)
 {
 	return Vector3(Value2 - Value1);
+}
+
+Interval Vector::GetInterval(BoxCollider& box, const Vector3& axis)
+{
+	Vector3 t_Min = box.GetMin();
+	Vector3 t_Max = box.GetMax();
+
+	Vector3 t_Vertex[8] = {
+		Vector3(t_Min.x, t_Max.y, t_Max.z),
+		Vector3(t_Min.x, t_Max.y, t_Min.z),
+		Vector3(t_Min.x, t_Min.y, t_Max.z),
+		Vector3(t_Min.x, t_Min.y, t_Min.z),
+
+		Vector3(t_Max.x, t_Max.y, t_Max.z),
+		Vector3(t_Max.x, t_Max.y, t_Min.z),
+		Vector3(t_Max.x, t_Min.y, t_Max.z),
+		Vector3(t_Max.x, t_Min.y, t_Min.z)
+	};
+
+	Interval t_Result;
+	t_Result.min = t_Result.max = Vector::CalculateDotProduct(axis, t_Vertex[0]);
+
+	for (int i = 1; i < 8; ++i)
+	{
+		float t_Projection = Vector::CalculateDotProduct(axis, t_Vertex[i]);
+		t_Result.min = (t_Projection < t_Result.min) ? t_Projection : t_Result.min;
+		t_Result.max = (t_Projection > t_Result.max) ? t_Projection : t_Result.max;
+	}
+
+	return t_Result;
+}
+
+Interval Vector::GetInterval(OBBCollider& OBBBox, const Vector3& axis)
+{
+	Vector3 t_Vertex[8];
+	Vector3 t_Position = OBBBox.GetPosition();
+	Vector3 t_Size = OBBBox.GetScale();
+	const float* t_Orientation = OBBBox.GetOrientationArray();
+
+	Vector3 t_Axis[] = {
+		Vector3(t_Orientation[0], t_Orientation[1], t_Orientation[2]),
+		Vector3(t_Orientation[3], t_Orientation[4], t_Orientation[5]),
+		Vector3(t_Orientation[6], t_Orientation[7], t_Orientation[8])
+	};
+
+	t_Vertex[0] = t_Position + t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
+	t_Vertex[1] = t_Position - t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
+	t_Vertex[2] = t_Position + t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
+	t_Vertex[3] = t_Position + t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z;
+	t_Vertex[4] = t_Position - t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z;
+	t_Vertex[5] = t_Position + t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z;
+	t_Vertex[6] = t_Position - t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z;
+	t_Vertex[7] = t_Position - t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
+
+	Interval t_Result;
+	t_Result.min = t_Result.max = Vector::CalculateDotProduct(axis, t_Vertex[0]);
+
+	for (int i = 1; i < 8; ++i)
+	{
+		float t_Projection = Vector::CalculateDotProduct(axis, t_Vertex[i]);
+		t_Result.min = (t_Projection < t_Result.min) ? t_Projection : t_Result.min;
+		t_Result.max = (t_Projection > t_Result.max) ? t_Projection : t_Result.max;
+	}
+
+	return t_Result;
+}
+
+bool Vector::OverlapOnAxis(BoxCollider& box, OBBCollider& OBBBox, const Vector3& axis)
+{
+	Interval t_Box = GetInterval(box, axis);
+	Interval t_OBBBox = GetInterval(OBBBox, axis);
+	return ((t_OBBBox.min <= t_Box.max) && (t_Box.min <= t_OBBBox.max));
 }

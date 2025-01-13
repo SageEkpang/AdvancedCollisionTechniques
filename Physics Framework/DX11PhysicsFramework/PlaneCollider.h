@@ -27,16 +27,13 @@ private:
 
 public:
 
-	// PlaneCollider(Transform* transform, Vector3 planeNormal) : Collider(transform) { m_PlaneNormal = planeNormal; }
-	
-	PlaneCollider(Transform* transform)
-		: Collider(transform) { }
+	PlaneCollider(Transform* transform) : Collider(transform) { }
 
 	virtual bool CollidesWith(Collider& other, CollisionManifold& out) override { return other.CollidesWith(*this, out); }
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) override;
-	// virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
+	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
 
 	inline Vector3 GetMax() { return m_Max; }
 	inline Vector3 GetMin() { return m_Min; }
@@ -44,7 +41,9 @@ public:
 	inline Vector3 GetHalfExtents() { return m_Extents / 2; }
 	inline Vector3 GetCentrePoint() { return m_CentrePoint; }
 	inline Vector3 GetPlaneNormal() { return m_PlaneNormal; }
+
 	Vector3 NearestPoint(Vector3 point);
+	bool PointOnPlane(Vector3 point);
 };
 
 #endif;

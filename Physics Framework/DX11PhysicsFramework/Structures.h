@@ -227,6 +227,12 @@ typedef struct Vector3
 #define VECTOR3_ZERO Vector3{0, 0, 0}
 #define VECTOR3_ONE Vector3{1, 1, 1}
 
+typedef struct Interval
+{
+	float min;
+	float max;
+
+}Interval;
 
 typedef struct Vector4
 {

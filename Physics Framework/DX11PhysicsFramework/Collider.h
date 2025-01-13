@@ -15,12 +15,10 @@ class PlaneCollider;
 class SphereCollider;
 class OBBCollider;
 
-class ConvexHullCollider;
+class ConvexHullCollider; // TODO: Remove this later on, do not need this
 class QuickHullCollider;
 class GJKCollider;
 class SATCollider;
-// class ConvexHullCollider / Rigidbody Collider;
-// class ComplexCollider;
 
 class Collider
 {
@@ -39,15 +37,14 @@ public:
 
 
 	// BASE FUNCTION(s)
+	void Update(float deltaTime);
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+
 	virtual bool CollidesWith(Collider& other, CollisionManifold& out) { return false; }
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) { return false; }
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) { return false; }
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) { return false; }
-	// virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) = 0;
-
-	void Update(float deltaTime);
-	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
-
+	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) { return false; }
 
 	// GETTER FUNCTION(s)
 	inline Transform* GetTransform() { return m_Transform; }

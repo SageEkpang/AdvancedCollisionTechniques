@@ -5,7 +5,6 @@
 // ABSTRACT CLASS(s)
 #include "Collider.h"
 
-
 // NEEDED INCLUDE(s)
 #include "Structures.h"
 #include "Constants.h"
@@ -27,13 +26,14 @@ private:
 
 public:
 
+	// CLASS FUNCTION(s)
 	BoxCollider(Transform* transform) : Collider(transform) { }
 
 	virtual bool CollidesWith(Collider& other, CollisionManifold& out) override { return other.CollidesWith(*this, out); }
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) override;
-	// virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
+	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
 
 	inline Vector3 GetMax() { return m_Max; }
 	inline Vector3 GetMin() { return m_Min; }
@@ -41,6 +41,7 @@ public:
 	inline Vector3 GetHalfExtents() { return m_Extents / 2; }
 	inline Vector3 GetCentrePoint() { return m_CentrePoint; }
 	Vector3 NearestPoint(Vector3 point);
+	bool PointInBox(Vector3 point);
 
 };
 

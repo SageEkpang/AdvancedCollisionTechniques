@@ -82,6 +82,18 @@ bool BoxCollider::CollidesWith(PlaneCollider& other, CollisionManifold& out)
 	return fabsf(t_Distance) <= t_Length;
 }
 
+bool BoxCollider::CollidesWith(OBBCollider& other, CollisionManifold& out)
+{
+	
+
+
+
+
+
+
+	return false;
+}
+
 Vector3 BoxCollider::NearestPoint(Vector3 point)
 {
 	// Min and Max Extents of Box Collider
@@ -100,4 +112,17 @@ Vector3 BoxCollider::NearestPoint(Vector3 point)
 
 	// Return final computed video
 	return Vector3(t_NearPointX, t_NearPointY, t_NearPointZ);
+}
+
+bool BoxCollider::PointInBox(Vector3 point)
+{
+	Vector3 t_Min = m_Min; // Might Not Work
+	Vector3 t_Max = m_Max;
+	
+	// Not in Box
+	if (point.x < t_Min.x || point.y < t_Min.y || point.z < t_Min.z) { return false; }
+	if (point.x > t_Max.x || point.y > t_Max.y || point.z > t_Max.z) { return false; }
+
+	// In Box
+	return true;
 }

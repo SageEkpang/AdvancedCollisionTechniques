@@ -382,6 +382,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MemoryPool.cpp" />
+    <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Octree.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
@@ -421,6 +422,7 @@
     <ClInclude Include="GJKCollider.h" />
     <ClInclude Include="GJKScreen.h" />
     <ClInclude Include="MemoryPool.h" />
+    <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Octree.h" />
     <ClInclude Include="PhysicsObject.h" />
