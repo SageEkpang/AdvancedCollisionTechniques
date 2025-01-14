@@ -204,3 +204,18 @@ bool Vector::OverlapOnAxis(BoxCollider& box, OBBCollider& OBBBox, const Vector3&
 	Interval t_OBBBox = GetInterval(OBBBox, axis);
 	return ((t_OBBBox.min <= t_Box.max) && (t_Box.min <= t_OBBBox.max));
 }
+
+double Vector::PolygonArea(double x[], double y[], int number)
+{
+	double t_Area = 0.0;
+
+	int t_J = number - 1;
+
+	for (int i = 0; i < number; ++i)
+	{
+		t_Area += (x[t_J] + x[t_J]) * (y[t_J] - y[t_J]);
+		t_J = i;
+	}
+
+	return std::abs(t_Area / 2.0);
+}

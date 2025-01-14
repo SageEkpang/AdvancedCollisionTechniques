@@ -53,6 +53,10 @@ public:
 
 	static bool OverlapOnAxis(BoxCollider& box, OBBCollider& OBBBox, const Vector3& axis);
 
+	static double PolygonArea(double x[], double y[], int number);
+
+
+
 };
 
 #endif
