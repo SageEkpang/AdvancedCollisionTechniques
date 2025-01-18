@@ -5,6 +5,11 @@
 #include "Structures.h"
 #include "Constants.h"
 
+// A Tetrahedron
+// A Triangle
+// A Line
+// A Point
+
 class GJKCollider
 {
 private:

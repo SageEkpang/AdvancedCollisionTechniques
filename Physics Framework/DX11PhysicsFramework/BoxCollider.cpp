@@ -2,6 +2,7 @@
 #include "SphereCollider.h"
 #include "PlaneCollider.h"
 #include "OBBCollider.h"
+#include "SATCollider.h"
 
 bool BoxCollider::CollidesWith(BoxCollider& other, CollisionManifold& out)
 {
@@ -91,8 +92,7 @@ bool BoxCollider::CollidesWith(OBBCollider& other, CollisionManifold& out)
 
 bool BoxCollider::CollidesWith(SATCollider& other, CollisionManifold& out)
 {
-	// Axis Identity Matricx
-
+	// Axis Identity Matrix
 	Vector3 t_Axis[3] = {
 		Vector3(1, 0, 0),
 		Vector3(0, 1, 0),
@@ -101,7 +101,7 @@ bool BoxCollider::CollidesWith(SATCollider& other, CollisionManifold& out)
 
 	for (int i = 0; i < 3; ++i)
 	{
-		if (i) // TODO: Replace with Function for SAT
+		if (other.OverlapAxis(this, t_Axis))
 		{
 			return false;
 		}

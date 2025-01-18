@@ -5,6 +5,7 @@
 // ABSTRACT CLASS(s)
 #include "Collider.h"
 
+// NEEDED INCLUDE(s)
 #include "Constants.h"
 #include "Structures.h"
 
@@ -22,15 +23,12 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	// NOTE: May need to change the box to just a transform or collider variable
 	bool OverlapAxis(BoxCollider* box, Vector3* axis);
-
 
 
 
 	// GETTER FUNCTION(s)
 	Interval GetInterval() const { return m_SATInterval; }
-
 
 
 

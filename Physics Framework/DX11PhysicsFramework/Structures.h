@@ -213,6 +213,34 @@ typedef struct Vector3
 		return *this;
 	}
 
+	// GREATER THAN / LESS THAN
+	bool operator >(Vector3 value)
+	{
+		bool t_TempX = this->x > value.x ? true : false;
+		bool t_TempY = this->y > value.y ? true : false;
+		bool t_TempZ = this->z > value.z ? true : false;
+		
+		if (t_TempX && t_TempY && t_TempZ) { return true; }
+
+		return false;
+	}
+
+	bool operator <(Vector3 value)
+	{
+		bool t_TempX = this->x < value.x ? true : false;
+		bool t_TempY = this->y < value.y ? true : false;
+		bool t_TempZ = this->z < value.z ? true : false;
+
+		if (t_TempX && t_TempY && t_TempZ) { return true; }
+
+		return false;
+	}
+
+
+
+
+
+	// ABSOLUTE
 	Vector3 Abs()
 	{
 		this->x = std::abs(x);

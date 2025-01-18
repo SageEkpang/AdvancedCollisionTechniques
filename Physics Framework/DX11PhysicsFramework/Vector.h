@@ -48,10 +48,10 @@ public:
 	static Vector3 DistanceTo(Vector3 Value1, Vector3 Value2);
 
 	// SAT Testing
-	static Interval GetInterval(BoxCollider& box, const Vector3& axis);
-	static Interval GetInterval(OBBCollider& OBBBox, const Vector3& axis);
+	static Interval GetInterval(BoxCollider* box, Vector3* axis);
+	static Interval GetInterval(OBBCollider* OBBBox, Vector3* axis);
 
-	static bool OverlapOnAxis(BoxCollider& box, OBBCollider& OBBBox, const Vector3& axis);
+	static bool OverlapOnAxis(BoxCollider* box, OBBCollider* OBBBox, Vector3* axis);
 
 	static double PolygonArea(double x[], double y[], int number);
 

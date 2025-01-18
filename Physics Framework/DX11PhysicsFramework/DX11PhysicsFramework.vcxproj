@@ -374,7 +374,6 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ConvexHullCollider.cpp" />
     <ClCompile Include="ConvexHullScreen.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="GJKCollider.cpp" />
@@ -415,7 +414,6 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ConvexHullCollider.h" />
     <ClInclude Include="ConvexHullScreen.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="GameObject.h" />

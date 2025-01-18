@@ -98,9 +98,6 @@
     <ClInclude Include="RigidbodyObject.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
-    <ClInclude Include="ConvexHullCollider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Helpers\Header</Filter>
     </ClInclude>
@@ -201,9 +198,6 @@
     </ClCompile>
     <ClCompile Include="RigidbodyObject.cpp">
       <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ConvexHullCollider.cpp">
-      <Filter>Colliders\Source</Filter>
     </ClCompile>
     <ClCompile Include="DDSTextureLoader.cpp">
       <Filter>Helpers\Source</Filter>
