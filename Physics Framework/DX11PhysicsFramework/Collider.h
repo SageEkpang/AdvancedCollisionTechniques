@@ -15,7 +15,6 @@ class PlaneCollider;
 class SphereCollider;
 class OBBCollider;
 
-class ConvexHullCollider; // TODO: Remove this later on, do not need this
 class QuickHullCollider;
 class GJKCollider;
 class SATCollider;
@@ -45,6 +44,8 @@ public:
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) { return false; }
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) { return false; }
 	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) { return false; }
+
+	virtual bool CollidesWith(SATCollider& other, CollisionManifold& out) { return false; }
 
 	// GETTER FUNCTION(s)
 	inline Transform* GetTransform() { return m_Transform; }

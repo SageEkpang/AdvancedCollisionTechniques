@@ -35,6 +35,8 @@ public:
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
 
+	virtual bool CollidesWith(SATCollider& other, CollisionManifold& out) override; // TODO: Add to other classes
+
 	inline Vector3 GetMax() { return m_Max; }
 	inline Vector3 GetMin() { return m_Min; }
 	inline Vector3 GetExtents() { return m_Extents; }

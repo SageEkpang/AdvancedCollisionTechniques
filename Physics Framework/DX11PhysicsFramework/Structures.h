@@ -227,6 +227,7 @@ typedef struct Vector3
 #define VECTOR3_ZERO Vector3{0, 0, 0}
 #define VECTOR3_ONE Vector3{1, 1, 1}
 
+// Struct for SAT Collisions
 typedef struct Interval
 {
 	float min;
