@@ -69,6 +69,15 @@
     <Filter Include="Collision\Source">
       <UniqueIdentifier>{82fc81e6-c1cb-40ef-96aa-94060c7c8cc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GeometryGen">
+      <UniqueIdentifier>{250ff11a-8df9-4f37-8a4b-f2de507ed753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeometryGen\Header">
+      <UniqueIdentifier>{01a09138-a2ac-4840-b6f7-40588feb427c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeometryGen\Source">
+      <UniqueIdentifier>{444f6b5b-2298-42da-aa0c-4cb20925b527}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicScreen.h">
@@ -146,9 +155,6 @@
     <ClInclude Include="SATScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
-    <ClInclude Include="QuickHullCollider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Octree.h">
       <Filter>Optimisation\Header</Filter>
     </ClInclude>
@@ -161,14 +167,20 @@
     <ClInclude Include="OBBCollider.h">
       <Filter>Colliders\Header</Filter>
     </ClInclude>
-    <ClInclude Include="JarvisMarchHull.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
     <ClInclude Include="GJKCollider.h">
       <Filter>Collision\Header</Filter>
     </ClInclude>
     <ClInclude Include="SATCollider.h">
       <Filter>Collision\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EPACollider.h">
+      <Filter>GeometryGen\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="JarvisMarchHull.h">
+      <Filter>GeometryGen\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickHullCollider.h">
+      <Filter>GeometryGen\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,9 +256,6 @@
     <ClCompile Include="SATScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
-    <ClCompile Include="QuickHullCollider.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Octree.cpp">
       <Filter>Optimisation\Source</Filter>
     </ClCompile>
@@ -259,14 +268,20 @@
     <ClCompile Include="OBBCollider.cpp">
       <Filter>Colliders\Source</Filter>
     </ClCompile>
-    <ClCompile Include="JarvisMarchHull.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
     <ClCompile Include="GJKCollider.cpp">
       <Filter>Collision\Source</Filter>
     </ClCompile>
     <ClCompile Include="SATCollider.cpp">
       <Filter>Collision\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EPACollider.cpp">
+      <Filter>GeometryGen\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="JarvisMarchHull.cpp">
+      <Filter>GeometryGen\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickHullCollider.cpp">
+      <Filter>GeometryGen\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

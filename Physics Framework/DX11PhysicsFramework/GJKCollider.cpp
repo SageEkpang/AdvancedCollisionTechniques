@@ -137,7 +137,34 @@ bool GJKCollider::Triangle(Simplex points, Vector3 direction)
 
 bool GJKCollider::Tetrahedron(Simplex points, Vector3 direction)
 {
+	Vector3 t_A = points[0];
+	Vector3 t_B = points[1];
+	Vector3 t_C = points[2];
+	Vector3 t_D = points[3];
 
+	Vector3 t_AB = t_B - t_A;
+	Vector3 t_AC = t_C - t_A;
+	Vector3 t_AD = t_D - t_A;
+	Vector3 t_AO =     - t_A;
+
+	Vector3 t_ABC = Vector::CalculateCrossProductV(t_AB, t_AC);
+	Vector3 t_ACD = Vector::CalculateCrossProductV(t_AC, t_AD);
+	Vector3 t_ADB = Vector::CalculateCrossProductV(t_AD, t_AB);
+
+	if (SameDirection(t_ABC, t_AO))
+	{
+		return Triangle(points = {t_A, t_B, t_C}, direction);
+	}
+
+	if (SameDirection(t_ACD, t_AO))
+	{
+		return Triangle(points = {t_A, t_C, t_D}, direction);
+	}
+
+	if (SameDirection(t_ADB, t_AO))
+	{
+		return Triangle(points = {t_A, t_D, t_B}, direction);
+	}
 
 	return false;
 }

@@ -335,6 +335,12 @@ typedef struct Vector4
 		this->w = w;
 	}
 
+	Vector3 xyz()
+	{
+		Vector3 t_Temp = Vector3(this->x, this->y, this->z);
+		return t_Temp;
+	}
+
 	Vector4(Vector4& value)
 	{
 		this->x = value.x;
@@ -539,10 +545,12 @@ typedef struct ContactPoint
 
 typedef struct CollisionManifold
 {
-	int contactPointCount;
 	ContactPoint points[4];
+	int contactPointCount;
+	float penetrationDepth;
 
 	Vector3 collisionNormal;
+	bool hasCollision;
 
 	CollisionManifold(int contactPointCount = 0, ContactPoint points = ContactPoint(), Vector3 collisionNormal = Vector3())
 	{
