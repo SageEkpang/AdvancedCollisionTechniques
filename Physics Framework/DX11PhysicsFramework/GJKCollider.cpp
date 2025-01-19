@@ -73,7 +73,7 @@ bool GJKCollider::Line(Simplex points, Vector3 direction)
 	Vector3 t_B = points[1];
 
 	Vector3 t_AB = t_B - t_A;
-	Vector3 t_AO = - t_A;
+	Vector3 t_AO =     - t_A;
 
 	if (SameDirection(t_AB, t_AO))
 	{
@@ -96,7 +96,7 @@ bool GJKCollider::Triangle(Simplex points, Vector3 direction)
 
 	Vector3 t_AB = t_B - t_A;
 	Vector3 t_AC = t_C - t_A;
-	Vector3 t_AO = - t_A;
+	Vector3 t_AO =     - t_A;
 
 	Vector3 t_ABC = Vector::CalculateCrossProductV(t_AB, t_AC);
 
@@ -114,10 +114,23 @@ bool GJKCollider::Triangle(Simplex points, Vector3 direction)
 	}
 	else
 	{
-
+		if (SameDirection(Vector::CalculateCrossProductV(t_AB, t_ABC), t_AO))
+		{
+			return Line(points = { t_A, t_B}, direction);
+		}
+		else
+		{
+			if (SameDirection(t_ABC, t_AO))
+			{
+				direction = t_ABC;
+			}
+			else
+			{
+				points = { t_A, t_C, t_B };
+				direction = -t_ABC;
+			}
+		}
 	}
-
-
 
 	return false;
 }
