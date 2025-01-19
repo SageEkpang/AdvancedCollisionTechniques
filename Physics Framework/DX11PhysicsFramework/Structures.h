@@ -25,6 +25,7 @@
 #include <mutex>
 #include <functional>
 #include <random>
+#include <algorithm>
 
 using namespace DirectX;
 using namespace std;
@@ -103,6 +104,15 @@ typedef struct Vector3
 	Vector3 operator- (float value)
 	{
 		return Vector3(x - value, y - value, z - value);
+	}
+
+	Vector3 operator -()
+	{
+		this->x *= -1;
+		this->y *= -1;
+		this->z *= -1;
+
+		return *this;
 	}
 
 	Vector3 operator++ ()
@@ -255,6 +265,55 @@ typedef struct Vector3
 
 #define VECTOR3_ZERO Vector3{0, 0, 0}
 #define VECTOR3_ONE Vector3{1, 1, 1}
+
+typedef struct Simplex
+{
+private:
+
+	std::array<Vector3, 4> points;
+	unsigned size;
+
+public:
+
+	Simplex()
+	{
+		points[0] = Vector3();
+		points[1] = Vector3();
+		points[2] = Vector3();
+		points[3] = Vector3();
+
+		size = 0;
+	}
+
+	Simplex& operator=(std::initializer_list<Vector3> list)
+	{
+		for (auto v = list.begin(); v != list.end(); ++v)
+		{
+			points[std::distance(list.begin(), v)] = *v;
+		}
+		size = list.size();
+
+		return *this;
+	}
+
+	void push_front(Vector3 point)
+	{
+		points[0] = point;
+		points[1] = points[0];
+		points[2] = points[1];
+		points[3] = points[2];
+
+		size = min(size + 1, 4u);
+	}
+
+	Vector3& operator[](unsigned i) { return points[i]; }
+	unsigned GetSize() const { return size; }
+
+	auto begin() const { return points.begin(); }
+	auto end() const { return points.end() - (4 - size); }
+
+}Simplex3D;
+
 
 // Struct for SAT Collisions
 typedef struct Interval
@@ -493,6 +552,72 @@ typedef struct CollisionManifold
 	}
 
 }CollisionManifold;
+
+typedef struct Edge
+{
+	Vector3 edgeStart;
+	Vector3 edgeEnd;
+
+	Edge(Vector3 edgeStart = Vector3(), Vector3 edgeEnd = Vector3())
+	{
+		this->edgeStart = edgeStart;
+		this->edgeEnd = edgeEnd;
+	}
+
+	Edge(const Edge& value)
+	{
+		this->edgeStart = value.edgeStart;
+		this->edgeEnd = value.edgeEnd;
+	}
+
+	Edge operator =(Edge value)
+	{
+		this->edgeStart = value.edgeStart;
+		this->edgeEnd = value.edgeEnd;
+
+		return *this;
+	}
+
+	bool operator ==(Edge value)
+	{
+		bool t_TempStart = this->edgeStart == value.edgeStart ? true : false;
+		bool t_TempEnd = this->edgeEnd == value.edgeEnd ? true : false;
+
+		return (t_TempStart && t_TempEnd);
+	}
+
+}Edge3D;
+
+typedef struct Face // REFERRING TO A TRIANGLE FACE (CW or CWW)
+{
+	Vector3 v1;
+	Vector3 v2;
+	Vector3 v3;
+
+	Face(Vector3 v1 = Vector3(), Vector3 v2 = Vector3(), Vector3 v3 = Vector3())
+	{
+		this->v1 = v1;
+		this->v2 = v2;
+		this->v3 = v3;
+	}
+
+	Face(const Face& value)
+	{
+		this->v1 = value.v1;
+		this->v2 = value.v2;
+		this->v3 = value.v3;
+	}
+
+	Face operator =(Face value)
+	{
+		this->v1 = value.v1;
+		this->v2 = value.v2;
+		this->v3 = value.v3;
+
+		return *this;
+	}
+
+}Face3D;
 
 
 // GRAPHICS STRUCT(s)

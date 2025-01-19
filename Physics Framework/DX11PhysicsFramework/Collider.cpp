@@ -82,3 +82,23 @@ void Collider::SetCollisionGeometry(char* fileName, Material material, ID3D11Dev
 	m_Geometry = t_Geometry;
 	m_Material = material;
 }
+
+Vector3 Collider::FindFurthestPoint(Vector3 direction)
+{
+	// STEP 1: Find the Max Point
+	Vector3 t_MaxPoint;
+	float t_MaxDistance = -FLT_MAX;
+
+	for (auto& v : m_Vertices)
+	{
+		float t_Distance = Vector::CalculateDotProduct(v, direction);
+
+		if (t_Distance > t_MaxDistance)
+		{
+			t_MaxDistance = t_Distance;
+			t_MaxPoint = v;
+		}
+	}
+
+	return t_MaxPoint;
+}

@@ -23,11 +23,15 @@ class Collider
 {
 protected:
 
+	// BASE VARIABLE(s)
 	Transform* m_Transform;
 	Material m_Material;
 	Geometry m_Geometry;
 	XMFLOAT4X4* m_World;
 	bool m_RenderCollision = true;
+
+	// VERTEX VARIABLE(s)
+	std::vector<Vector3> m_Vertices;
 
 public:
 
@@ -59,6 +63,9 @@ public:
 	// SETTER FUNCTION(s)
 	void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
 	inline void SetDrawCollider(bool render) { m_RenderCollision = render; }
+
+	// HELPER
+	Vector3 FindFurthestPoint(Vector3 direction); // GJK Algo Function
 
 };
 

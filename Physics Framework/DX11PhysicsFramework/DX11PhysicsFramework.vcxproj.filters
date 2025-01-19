@@ -60,6 +60,15 @@
     <Filter Include="Optimisation\Source">
       <UniqueIdentifier>{d2b20f0a-0f71-4c31-a7a4-fec8b8cc4c6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{e4be6d75-3b4d-433a-919b-2e2299f8433b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\Header">
+      <UniqueIdentifier>{5841a447-385f-4db1-be4f-80c394b143aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\Source">
+      <UniqueIdentifier>{82fc81e6-c1cb-40ef-96aa-94060c7c8cc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicScreen.h">
@@ -137,13 +146,7 @@
     <ClInclude Include="SATScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
-    <ClInclude Include="SATCollider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
     <ClInclude Include="QuickHullCollider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="GJKCollider.h">
       <Filter>Colliders\Header</Filter>
     </ClInclude>
     <ClInclude Include="Octree.h">
@@ -158,7 +161,15 @@
     <ClInclude Include="OBBCollider.h">
       <Filter>Colliders\Header</Filter>
     </ClInclude>
-    <ClInclude Include="JarvisMarchHull.h" />
+    <ClInclude Include="JarvisMarchHull.h">
+      <Filter>Colliders\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GJKCollider.h">
+      <Filter>Collision\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SATCollider.h">
+      <Filter>Collision\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -233,13 +244,7 @@
     <ClCompile Include="SATScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
-    <ClCompile Include="SATCollider.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
     <ClCompile Include="QuickHullCollider.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="GJKCollider.cpp">
       <Filter>Colliders\Source</Filter>
     </ClCompile>
     <ClCompile Include="Octree.cpp">
@@ -254,7 +259,15 @@
     <ClCompile Include="OBBCollider.cpp">
       <Filter>Colliders\Source</Filter>
     </ClCompile>
-    <ClCompile Include="JarvisMarchHull.cpp" />
+    <ClCompile Include="JarvisMarchHull.cpp">
+      <Filter>Colliders\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GJKCollider.cpp">
+      <Filter>Collision\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SATCollider.cpp">
+      <Filter>Collision\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

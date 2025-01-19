@@ -22,6 +22,28 @@ Vector3 JarvisMarchHull::PivotAroundEdge(Vector3 edge, std::vector<Vector3> poin
 	return Vector3();
 }
 
+Edge JarvisMarchHull::OutwardsPoints(Edge edge, std::vector<Vector3> points)
+{
+	// Find outmost point relative to edge
+
+
+	for (int i = 0; i < points.size(); ++i)
+	{
+
+		if (edge.edgeStart == edge.edgeEnd)
+		{
+			return Edge(edge.edgeStart, points[i]);
+		}
+		
+
+
+
+	}
+
+
+	return 0;
+}
+
 void JarvisMarchHull::BuildConvexHull(std::vector<Vector3> clusterOfPoints)
 {
 	std::vector<Vector3> t_Output;
@@ -63,10 +85,14 @@ void JarvisMarchHull::BuildConvexHull(std::vector<Vector3> clusterOfPoints)
 	std::vector<Edge> t_SearchQue;
 	t_SearchQue.push_back(Edge(clusterOfPoints[t_PointIndex], clusterOfPoints[t_LargestIndex])); // Inserting the Edges into the Search Que array
 	
+	Face t_TempFace;
 	// STEP 4: Search for the Different Points that make the Convex Hull
+
+	srand(time(NULL));
 
 	do
 	{
+		int t_RandomIndex = rand() % t_SearchQue.size();
 
 
 
