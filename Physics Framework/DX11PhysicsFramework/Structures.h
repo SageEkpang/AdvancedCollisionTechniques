@@ -24,6 +24,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <functional>
+#include <random>
 
 using namespace DirectX;
 using namespace std;
@@ -34,7 +35,7 @@ enum PhysicsScreenState
 {
 	STATE_NONE = 0,
 	STATE_BASIC_SCREEN,
-	STATE_CONVEX_HULL_SCREEN, // Do not need this, convex hull is made using the quick hull program
+	STATE_CONVEX_HULL_SCREEN, // Do not need this, convex hull is made using the quick hull program, TODO: remove later
 	STATE_QUICK_HULL_SCREEN,
 	STATE_SAT_SCREEN,
 	STATE_GJK_SCREEN
@@ -456,7 +457,7 @@ typedef struct Transform3D
 
 	Transform3D(Transform3D* parent = nullptr, Vector3 position = Vector3(), Vector3 scale = Vector3(), Vector3 rotation = Vector3())
 	{
-		parent = new Transform3D();
+		this->parent = parent;
 		this->position = position;
 		this->scale = scale;
 		this->rotation = rotation;
@@ -494,6 +495,7 @@ typedef struct CollisionManifold
 }CollisionManifold;
 
 
+// GRAPHICS STRUCT(s)
 struct SurfaceInfo
 {
 	XMFLOAT4 AmbientMtrl;
@@ -576,6 +578,5 @@ struct Material
 		this->specular = specular;
 	}
 };
-
 
 #endif

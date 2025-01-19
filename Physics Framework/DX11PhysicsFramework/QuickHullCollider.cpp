@@ -19,7 +19,7 @@ QuickHullCollider::~QuickHullCollider()
 // p = Point
 // d + 1 = 
 // Simplex = Triangle or Tetrahedron to Arbitrary Dimensions (3D - Tetrahedron)
-
+// v1, v2, v3, v4 Is the starting simplex for the Quick Hull
 
 std::vector<Vector3> QuickHullCollider::BuildConvexHull(std::vector<Vector3> points)
 {
