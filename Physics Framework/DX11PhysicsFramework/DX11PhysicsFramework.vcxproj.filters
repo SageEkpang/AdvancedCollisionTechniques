@@ -203,6 +203,7 @@
     <ClInclude Include="CollisionContact.h">
       <Filter>CollisionResolution</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialCoefficient.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -316,6 +317,7 @@
     <ClCompile Include="CollisionContact.cpp">
       <Filter>CollisionResolution</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialCoefficient.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

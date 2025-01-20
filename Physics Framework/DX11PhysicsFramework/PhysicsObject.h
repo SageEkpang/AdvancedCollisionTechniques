@@ -33,7 +33,7 @@ protected:
 
 	// Force Variables
 	float m_Drag = 1.0f;
-	float m_DragCoef = DRACOEF_CUBE;
+	float m_DragCoef = 1.0f;
 	float m_Friction = 1.0f;
 	float m_FrictionCoef = 0.0f;
 

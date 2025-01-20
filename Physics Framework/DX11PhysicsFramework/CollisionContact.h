@@ -9,10 +9,13 @@
 #include "Constants.h"
 #include "Structures.h"
 
+// CLASS INCLUDE(s)
 
 class CollisionContact
 {
 private:
+
+
 
 	float t_Restiution;
 	Vector3 t_ContactNormal;
@@ -21,7 +24,12 @@ private:
 
 public:
 
+	// CLASS FUNCTION(s)
+	CollisionContact();
+	~CollisionContact();
 
+
+	// BASE FUNCTION(s)
 
 
 

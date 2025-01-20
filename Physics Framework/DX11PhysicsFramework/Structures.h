@@ -26,6 +26,7 @@
 #include <functional>
 #include <random>
 #include <algorithm>
+#include <utility>
 
 using namespace DirectX;
 using namespace std;

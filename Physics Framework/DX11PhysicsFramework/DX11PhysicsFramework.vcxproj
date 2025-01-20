@@ -391,6 +391,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MassAggregate.cpp" />
     <ClCompile Include="MassPointSpring.cpp" />
+    <ClCompile Include="MaterialCoefficient.cpp" />
     <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
@@ -436,6 +437,7 @@
     <ClInclude Include="JarvisMarchHull.h" />
     <ClInclude Include="MassAggregate.h" />
     <ClInclude Include="MassPointSpring.h" />
+    <ClInclude Include="MaterialCoefficient.h" />
     <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="OBJLoader.h" />
