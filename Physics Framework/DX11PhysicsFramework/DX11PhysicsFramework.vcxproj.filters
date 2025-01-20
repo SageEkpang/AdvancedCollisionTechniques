@@ -60,15 +60,6 @@
     <Filter Include="Optimisation\Source">
       <UniqueIdentifier>{d2b20f0a-0f71-4c31-a7a4-fec8b8cc4c6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Collision">
-      <UniqueIdentifier>{e4be6d75-3b4d-433a-919b-2e2299f8433b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Collision\Header">
-      <UniqueIdentifier>{5841a447-385f-4db1-be4f-80c394b143aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Collision\Source">
-      <UniqueIdentifier>{82fc81e6-c1cb-40ef-96aa-94060c7c8cc8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GeometryGen">
       <UniqueIdentifier>{250ff11a-8df9-4f37-8a4b-f2de507ed753}</UniqueIdentifier>
     </Filter>
@@ -77,6 +68,24 @@
     </Filter>
     <Filter Include="GeometryGen\Source">
       <UniqueIdentifier>{444f6b5b-2298-42da-aa0c-4cb20925b527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MassPhysics">
+      <UniqueIdentifier>{d7824f22-d2c7-488d-889b-fde8dc73dae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{1026c1d0-b69d-4e1b-a6d9-5c864c900dae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionTesting">
+      <UniqueIdentifier>{e4be6d75-3b4d-433a-919b-2e2299f8433b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionTesting\Header">
+      <UniqueIdentifier>{5841a447-385f-4db1-be4f-80c394b143aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionTesting\Source">
+      <UniqueIdentifier>{82fc81e6-c1cb-40ef-96aa-94060c7c8cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionResolution">
+      <UniqueIdentifier>{3fb0418f-e976-43bf-ad21-fc21ae713992}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -107,13 +116,7 @@
     <ClInclude Include="Render.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsObject.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="RigidbodyObject.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
@@ -168,10 +171,10 @@
       <Filter>Colliders\Header</Filter>
     </ClInclude>
     <ClInclude Include="GJKCollider.h">
-      <Filter>Collision\Header</Filter>
+      <Filter>CollisionTesting\Header</Filter>
     </ClInclude>
     <ClInclude Include="SATCollider.h">
-      <Filter>Collision\Header</Filter>
+      <Filter>CollisionTesting\Header</Filter>
     </ClInclude>
     <ClInclude Include="EPACollider.h">
       <Filter>GeometryGen\Header</Filter>
@@ -181,6 +184,24 @@
     </ClInclude>
     <ClInclude Include="QuickHullCollider.h">
       <Filter>GeometryGen\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MassAggregate.h">
+      <Filter>MassPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="MassPointSpring.h">
+      <Filter>MassPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidbodyObject.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsObject.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionContact.h">
+      <Filter>CollisionResolution</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -214,13 +235,7 @@
     <ClCompile Include="Render.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsObject.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="RigidbodyObject.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="DDSTextureLoader.cpp">
@@ -269,10 +284,10 @@
       <Filter>Colliders\Source</Filter>
     </ClCompile>
     <ClCompile Include="GJKCollider.cpp">
-      <Filter>Collision\Source</Filter>
+      <Filter>CollisionTesting\Source</Filter>
     </ClCompile>
     <ClCompile Include="SATCollider.cpp">
-      <Filter>Collision\Source</Filter>
+      <Filter>CollisionTesting\Source</Filter>
     </ClCompile>
     <ClCompile Include="EPACollider.cpp">
       <Filter>GeometryGen\Source</Filter>
@@ -282,6 +297,24 @@
     </ClCompile>
     <ClCompile Include="QuickHullCollider.cpp">
       <Filter>GeometryGen\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MassAggregate.cpp">
+      <Filter>MassPhysics</Filter>
+    </ClCompile>
+    <ClCompile Include="MassPointSpring.cpp">
+      <Filter>MassPhysics</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyObject.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsObject.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionContact.cpp">
+      <Filter>CollisionResolution</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -107,6 +107,8 @@ public:
 
 	inline bool IsCollideable() const { return m_Collider != nullptr; }
 
+	inline Transform* GetTransform() { return m_Transform; }
+
 
 	// SETTER FUNCTION(s)
 	void SetCollider(Collider* collider) { m_Collider = collider; }

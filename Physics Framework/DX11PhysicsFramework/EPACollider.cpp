@@ -73,7 +73,6 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider* collider
 				t_NewFaces.push_back(edgeIndex1);
 				t_NewFaces.push_back(edgeIndex2);
 				t_NewFaces.push_back(t_Polytope.size());
-
 			}
 
 			t_Polytope.push_back(t_Support);
