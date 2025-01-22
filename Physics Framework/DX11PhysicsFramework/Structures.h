@@ -12,21 +12,26 @@
 #include "DDSTextureLoader.h"
 #include "resource.h"
 
+#include <algorithm>
+#include <array>
+#include <condition_variable>
+#include <functional>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <list>
-#include <vector>
+#include <limits>
+#include <cassert>
+#include <cinttypes>
 #include <memory>
 #include <map>
-#include <array>
+#include <mutex>
+#include <unordered_map>
 #include <thread>
 #include <queue>
-#include <condition_variable>
-#include <mutex>
-#include <functional>
 #include <random>
-#include <algorithm>
 #include <utility>
+#include <vector>
 
 using namespace DirectX;
 using namespace std;
@@ -249,6 +254,11 @@ typedef struct Vector3
 	}
 
 
+	// FUNCTION(s)
+	float LengthSquared() const
+	{
+		return x * x + y * y + z * z;
+	}
 
 
 
@@ -266,6 +276,63 @@ typedef struct Vector3
 
 #define VECTOR3_ZERO Vector3{0, 0, 0}
 #define VECTOR3_ONE Vector3{1, 1, 1}
+
+typedef struct Ray
+{
+	const Vector3 S;
+	const Vector3 V;
+	const float vInvLengthSquared;
+
+	Ray(const Vector3& S, const Vector3& V)
+		: S(S), V(V), vInvLengthSquared( 1 / this->V.LengthSquared())
+	{
+
+	}
+
+}Ray;
+
+typedef struct VertexDataSource
+{
+	const Vector3* ptr;
+	size_t count;
+
+	VertexDataSource(const Vector3* ptr, size_t count)
+		: ptr(ptr), count(count)
+	{
+
+	}
+
+	VertexDataSource(const std::vector<Vector3>& vec)
+		: ptr(vec.data()), count(vec.size())
+	{
+
+	}
+
+	VertexDataSource() 
+		: ptr(nullptr), count(0)
+	{
+
+	}
+	
+	VertexDataSource& operator=(const VertexDataSource& other) = default;
+
+	size_t size() const {
+		return count;
+	}
+
+	const Vector3& operator[](size_t index) const {
+		return ptr[index];
+	}
+
+	const Vector3* begin() const {
+		return ptr;
+	}
+
+	const Vector3* end() const {
+		return ptr + count;
+	}
+
+}VertexDataSource;
 
 typedef struct Simplex
 {

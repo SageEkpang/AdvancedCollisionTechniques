@@ -87,6 +87,12 @@
     <Filter Include="CollisionResolution">
       <UniqueIdentifier>{3fb0418f-e976-43bf-ad21-fc21ae713992}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics\Header">
+      <UniqueIdentifier>{c79b3c7e-ebed-4828-8d3f-fd8837627451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Source">
+      <UniqueIdentifier>{e3ef51e7-278d-47c0-b392-4b52d7e2d3b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicScreen.h">
@@ -191,19 +197,30 @@
     <ClInclude Include="MassPointSpring.h">
       <Filter>MassPhysics</Filter>
     </ClInclude>
-    <ClInclude Include="RigidbodyObject.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsObject.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionContact.h">
       <Filter>CollisionResolution</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialCoefficient.h" />
+    <ClInclude Include="Particle.h">
+      <Filter>Physics\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsObject.h">
+      <Filter>Physics\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidbodyObject.h">
+      <Filter>Physics\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialCoefficient.h">
+      <Filter>Physics\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvexHull.h">
+      <Filter>GeometryGen\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="HalfEdgeMesh.h">
+      <Filter>GeometryGen\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshBuilder.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Pool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -305,19 +322,30 @@
     <ClCompile Include="MassPointSpring.cpp">
       <Filter>MassPhysics</Filter>
     </ClCompile>
-    <ClCompile Include="RigidbodyObject.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsObject.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionContact.cpp">
       <Filter>CollisionResolution</Filter>
     </ClCompile>
-    <ClCompile Include="MaterialCoefficient.cpp" />
+    <ClCompile Include="Particle.cpp">
+      <Filter>Physics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsObject.cpp">
+      <Filter>Physics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyObject.cpp">
+      <Filter>Physics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialCoefficient.cpp">
+      <Filter>Physics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvexHull.cpp">
+      <Filter>GeometryGen\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HalfEdgeMesh.cpp">
+      <Filter>GeometryGen\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshBuilder.cpp" />
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Pool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

@@ -96,6 +96,11 @@ Vector3 Vector::CalculateCrossProduct(float Value1X, float Value1Y, float Value1
 	return Vector3(TempX, TempY, TempZ);
 }
 
+float Vector::MagnitudeNoSqrt(Vector3 Value)
+{
+	return (Value.x * Value.x) + (Value.y * Value.y) + (Value.z * Value.z);
+}
+
 float Vector::Magnitude(Vector3 Value)
 {
 	return sqrt((Value.x * Value.x) + (Value.y * Value.y) + (Value.z * Value.z));

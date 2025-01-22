@@ -39,6 +39,7 @@ public:
 	static Vector3 CalculateCrossProduct(float Value1X, float Value1Y, float Value1Z, float Value2X, float Value2Y, float Value2Z);
 	static float CalculateCrossProduct(Vector3 Value1, Vector3 Value2);
 
+	static float MagnitudeNoSqrt(Vector3 Value);
 	static float Magnitude(Vector3 Value); // May need to convert this back to non-static later on
 	static float Magnitude(float ValueX, float ValueY, float ValueZ);
 

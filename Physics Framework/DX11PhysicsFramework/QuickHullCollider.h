@@ -17,7 +17,6 @@ private: // PRIVATE VARIABLE(s)
 	std::vector<Vector3> m_PointCluster; // NOTE: Point Cloud that needs to tbe calculated
 	std::vector<Face> m_ConvexHull;
 
-
 private: // PRIVATE  FUNCTION(s)
 
 	// BASE FUNCTION(s)

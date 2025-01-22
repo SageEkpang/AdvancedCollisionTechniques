@@ -20,8 +20,8 @@ void CollisionContact::ResolveCollision(RigidbodyObject* rigidbodyObjectA, Rigid
 {
 	ResolveVelocity(rigidbodyObjectA, rigidbodyObjectB, CoefRest, duration);
 	ResolveInterpenetration(rigidbodyObjectA, rigidbodyObjectB, duration);
-
 }
+
 // TODO: Need to make the rods for the collision code
 // At Collision
 void CollisionContact::ResolveVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)

@@ -20,7 +20,6 @@ std::vector<Vector3> QuickHullCollider::BuildInitGeometry(std::vector<Vector3> p
 	t_TempPoints.insert(t_TempPoints.end(), points.begin(), points.end());
 
 
-	// STEP
 
 
 	return std::vector<Vector3>();
@@ -31,7 +30,6 @@ std::vector<Vector3> QuickHullCollider::BuildConvexHull(std::vector<Vector3> clu
 {
 	// STEP 1: Make init Geometry
 	BuildInitGeometry(clusterOfPoints);
-
 
 	// STEP 2: Connecting Points and Planes in 3D Quick Hull
 
