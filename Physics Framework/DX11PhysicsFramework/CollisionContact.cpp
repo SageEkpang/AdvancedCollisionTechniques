@@ -10,7 +10,7 @@ CollisionContact::CollisionContact()
 
 CollisionContact::~CollisionContact()
 {
-
+	
 
 
 }
@@ -19,10 +19,11 @@ CollisionContact::~CollisionContact()
 void CollisionContact::ResolveCollision(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)
 {
 	ResolveVelocity(rigidbodyObjectA, rigidbodyObjectB, CoefRest, duration);
-	// TODO: Resolve Interpenetration (Might be another variable to do with the penetration)
+	ResolveInterpenetration(rigidbodyObjectA, rigidbodyObjectB, duration);
 
 }
-
+// TODO: Need to make the rods for the collision code
+// At Collision
 void CollisionContact::ResolveVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)
 {
 	Vector3 t_SeperatingVelocity = CalculateSeparatingVelocity(rigidbodyObjectA, rigidbodyObjectB);
@@ -49,6 +50,64 @@ void CollisionContact::ResolveVelocity(RigidbodyObject* rigidbodyObjectA, Rigidb
 	// Goes the opposite way
 	if (rigidbodyObjectB) { rigidbodyObjectB->SetVelocity(rigidbodyObjectB->GetVelocity() + t_ImpulsePerMass * -rigidbodyObjectB->GetInverseMass()); }
 
+
+
+}
+
+// At Rest
+void CollisionContact::ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)
+{
+	Vector3 t_SeperatingVelocity = CalculateSeparatingVelocity(rigidbodyObjectA, rigidbodyObjectB);
+
+	if (t_SeperatingVelocity > 0)
+	{
+		// If contact is seperatingt or stationary there is no impulse required
+		return;
+	}
+
+	Vector3 t_NewSepVelocity = -t_SeperatingVelocity * CoefRest;
+
+	Vector3 t_AccCausedVelocity = rigidbodyObjectA->GetAcceleration();
+
+	if (rigidbodyObjectB)
+	{
+		t_AccCausedVelocity -= rigidbodyObjectB->GetAcceleration();
+	}
+
+
+	Vector3 t_AccCausedSepVelocity = t_AccCausedVelocity * m_ContactNormal * duration; // TODO: May need to pass in contact normal to the function via the collision code
+
+	if (t_AccCausedSepVelocity < 0)
+	{
+		t_NewSepVelocity += CoefRest * t_AccCausedSepVelocity;
+		if (t_NewSepVelocity < 0)
+		{
+			t_NewSepVelocity = 0;
+		}
+	}
+
+	Vector3 t_DeltaVelocity = t_NewSepVelocity - t_SeperatingVelocity;
+
+	float t_TotalInverseMass = rigidbodyObjectA->GetInverseMass();
+
+	if (rigidbodyObjectB)
+	{
+		t_TotalInverseMass += rigidbodyObjectB->GetInverseMass();
+	}
+
+	if (t_TotalInverseMass <= 0) return;
+
+
+	Vector3 t_Impulse = t_DeltaVelocity / t_TotalInverseMass;
+
+	Vector3 t_ImpulsePerMass = m_ContactNormal * t_Impulse;
+
+	rigidbodyObjectA->SetVelocity(rigidbodyObjectA->GetVelocity() + t_ImpulsePerMass * rigidbodyObjectA->GetInverseMass());
+
+	if (rigidbodyObjectB)
+	{
+		rigidbodyObjectB->SetVelocity(rigidbodyObjectB->GetVelocity() + t_ImpulsePerMass * -rigidbodyObjectB->GetInverseMass());
+	}
 
 
 }
