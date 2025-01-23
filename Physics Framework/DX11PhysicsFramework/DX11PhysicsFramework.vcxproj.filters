@@ -188,9 +188,6 @@
     <ClInclude Include="JarvisMarchHull.h">
       <Filter>GeometryGen\Header</Filter>
     </ClInclude>
-    <ClInclude Include="QuickHullCollider.h">
-      <Filter>GeometryGen\Header</Filter>
-    </ClInclude>
     <ClInclude Include="MassAggregate.h">
       <Filter>MassPhysics</Filter>
     </ClInclude>
@@ -212,9 +209,16 @@
     <ClInclude Include="MaterialCoefficient.h">
       <Filter>Physics\Header</Filter>
     </ClInclude>
-    <ClInclude Include="HalfEdgeMesh.h">
-      <Filter>GeometryGen\Header</Filter>
-    </ClInclude>
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Pool.h" />
+    <ClInclude Include="Ray.h" />
+    <ClInclude Include="VertexDataSource.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="ConvexHull.h" />
+    <ClInclude Include="HalfEdgeMesh.h" />
+    <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="QuickHull.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -307,9 +311,6 @@
     <ClCompile Include="JarvisMarchHull.cpp">
       <Filter>GeometryGen\Source</Filter>
     </ClCompile>
-    <ClCompile Include="QuickHullCollider.cpp">
-      <Filter>GeometryGen\Source</Filter>
-    </ClCompile>
     <ClCompile Include="MassAggregate.cpp">
       <Filter>MassPhysics</Filter>
     </ClCompile>
@@ -330,9 +331,6 @@
     </ClCompile>
     <ClCompile Include="MaterialCoefficient.cpp">
       <Filter>Physics\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="HalfEdgeMesh.cpp">
-      <Filter>GeometryGen\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

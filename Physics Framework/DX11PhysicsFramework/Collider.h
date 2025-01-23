@@ -15,7 +15,6 @@ class PlaneCollider;
 class SphereCollider;
 class OBBCollider;
 
-class QuickHullCollider;
 class GJKCollider;
 class SATCollider;
 
