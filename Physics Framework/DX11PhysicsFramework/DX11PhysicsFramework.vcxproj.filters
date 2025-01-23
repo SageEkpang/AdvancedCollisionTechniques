@@ -212,15 +212,9 @@
     <ClInclude Include="MaterialCoefficient.h">
       <Filter>Physics\Header</Filter>
     </ClInclude>
-    <ClInclude Include="ConvexHull.h">
-      <Filter>GeometryGen\Header</Filter>
-    </ClInclude>
     <ClInclude Include="HalfEdgeMesh.h">
       <Filter>GeometryGen\Header</Filter>
     </ClInclude>
-    <ClInclude Include="MeshBuilder.h" />
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="Pool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -337,15 +331,9 @@
     <ClCompile Include="MaterialCoefficient.cpp">
       <Filter>Physics\Source</Filter>
     </ClCompile>
-    <ClCompile Include="ConvexHull.cpp">
-      <Filter>GeometryGen\Source</Filter>
-    </ClCompile>
     <ClCompile Include="HalfEdgeMesh.cpp">
       <Filter>GeometryGen\Source</Filter>
     </ClCompile>
-    <ClCompile Include="MeshBuilder.cpp" />
-    <ClCompile Include="Plane.cpp" />
-    <ClCompile Include="Pool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
