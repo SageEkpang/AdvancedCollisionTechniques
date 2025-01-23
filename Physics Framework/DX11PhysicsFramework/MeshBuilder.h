@@ -4,11 +4,8 @@
 
 #include "Constants.h"
 #include "Structures.h"
-
-/*
 #include "Plane.h"
 #include "Pool.h"
-*/
 
 template <typename T>
 class MeshBuilder
@@ -33,7 +30,6 @@ public:
 		}
 	};
 
-
 	struct Face 
 	{
 		size_t he;
@@ -41,9 +37,9 @@ public:
 		T m_mostDistantPointDist;
 		size_t m_mostDistantPoint;
 		size_t m_visibilityCheckedOnIteration;
-		std::uint8_t m_isVisibleFaceOnCurrentIteration : 1;
-		std::uint8_t m_inFaceStack : 1;
-		std::uint8_t m_horizonEdgesOnCurrentIteration : 3; // Bit for each half edge assigned to this face, each being 0 or 1 depending on whether the edge belongs to horizon edge
+		std::uint8_t m_isVisibleFaceOnCurrentIteration = 1;
+		std::uint8_t m_inFaceStack = 1;
+		std::uint8_t m_horizonEdgesOnCurrentIteration = 3; // Bit for each half edge assigned to this face, each being 0 or 1 depending on whether the edge belongs to horizon edge
 		std::unique_ptr<std::vector<size_t>> m_pointsOnPositiveSide;
 
 		Face() : m_he(std::numeric_limits<size_t>::max()),

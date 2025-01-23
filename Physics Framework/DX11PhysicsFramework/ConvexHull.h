@@ -7,6 +7,7 @@
 
 #include "MeshBuilder.h"
 
+// template<typename T>
 class ConvexHull
 {
 private:
@@ -20,6 +21,8 @@ public:
 	// CLASS FUNCTION(s)
 	ConvexHull();
 	ConvexHull(const ConvexHull& o);
+	ConvexHull(ConvexHull&& o);
+	// ConvexHull(const MeshBuilder<T>& mesh, const VertexDataSource& pointCloud, bool CCW, bool useOriginalIndices);
 	~ConvexHull();
 
 
@@ -34,11 +37,34 @@ public:
 
 		m_Indices = o.m_Indices;
 
-
+		if (o.m_OptimizedVertexBuffer)
+		{
+			m_OptimizedVertexBuffer.reset(new std::vector<Vector3>(*o.m_OptimizedVertexBuffer));
+			m_Vertices = VertexDataSource(*m_OptimizedVertexBuffer);
+		}
+		else
+		{
+			m_Vertices = o.m_Vertices;
+		}
 	}
 
-
-
+	ConvexHull& operator=(ConvexHull&& o)
+	{
+		if (&o == this) {
+			return *this;
+		}
+		m_Indices = std::move(o.m_Indices);
+		if (o.m_OptimizedVertexBuffer) {
+			m_OptimizedVertexBuffer = std::move(o.m_OptimizedVertexBuffer);
+			o.m_Vertices = VertexDataSource();
+			m_Vertices = VertexDataSource(*m_OptimizedVertexBuffer);
+		}
+		else 
+		{
+			m_Vertices = o.m_Vertices;
+		}
+		return *this;
+	}
 
 
 
