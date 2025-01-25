@@ -17,6 +17,10 @@ private:
 	Vector3 m_Min;
 	Vector3 m_Orientation;
 
+	Vector3 m_CenterPoint; // Position
+	Vector3 m_U[3]; // Tensor
+	float m_Extents[3]; // Extents
+
 	float m_Size[3]; // TODO: Fill this with values
 	float m_OrientationArray[9]; // Make a function for this instead
 

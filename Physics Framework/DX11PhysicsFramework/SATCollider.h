@@ -15,6 +15,10 @@ private:
 
 	Interval m_SATInterval;
 
+	Vector3 m_centrePoint; // Position
+	Vector3 m_U[3]; // Local x-, y-, and z-
+	Vector3 t_Extents; // Halfwidth Extents of OBB along Each Axis
+
 public:
 
 	// CLASS FUNCTION(s)
@@ -24,7 +28,6 @@ public:
 
 	// HELPER FUNCTION(s)
 	bool OverlapAxis(BoxCollider* box, Vector3* axis);
-
 
 
 	// GETTER FUNCTION(s)
