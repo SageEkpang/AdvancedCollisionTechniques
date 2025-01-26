@@ -93,6 +93,12 @@
     <Filter Include="Physics\Source">
       <UniqueIdentifier>{e3ef51e7-278d-47c0-b392-4b52d7e2d3b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MassPhysics\Header">
+      <UniqueIdentifier>{5469ff18-80a2-455d-bd90-e69e8b2076fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MassPhysics\Source">
+      <UniqueIdentifier>{92ea8b8a-f5b2-49d3-96d6-0c6d6d029662}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicScreen.h">
@@ -188,12 +194,6 @@
     <ClInclude Include="JarvisMarchHull.h">
       <Filter>GeometryGen\Header</Filter>
     </ClInclude>
-    <ClInclude Include="MassAggregate.h">
-      <Filter>MassPhysics</Filter>
-    </ClInclude>
-    <ClInclude Include="MassPointSpring.h">
-      <Filter>MassPhysics</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionContact.h">
       <Filter>CollisionResolution</Filter>
     </ClInclude>
@@ -219,6 +219,12 @@
     <ClInclude Include="HalfEdgeMesh.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="QuickHull.h" />
+    <ClInclude Include="MassAggregate.h">
+      <Filter>MassPhysics\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MassPointSpring.h">
+      <Filter>MassPhysics\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -311,12 +317,6 @@
     <ClCompile Include="JarvisMarchHull.cpp">
       <Filter>GeometryGen\Source</Filter>
     </ClCompile>
-    <ClCompile Include="MassAggregate.cpp">
-      <Filter>MassPhysics</Filter>
-    </ClCompile>
-    <ClCompile Include="MassPointSpring.cpp">
-      <Filter>MassPhysics</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionContact.cpp">
       <Filter>CollisionResolution</Filter>
     </ClCompile>
@@ -331,6 +331,12 @@
     </ClCompile>
     <ClCompile Include="MaterialCoefficient.cpp">
       <Filter>Physics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MassAggregate.cpp">
+      <Filter>MassPhysics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MassPointSpring.cpp">
+      <Filter>MassPhysics\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

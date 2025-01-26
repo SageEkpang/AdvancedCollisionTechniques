@@ -27,6 +27,8 @@ protected:
 	Material m_Material;
 	Geometry m_Geometry;
 	XMFLOAT4X4* m_World;
+
+	bool m_IsCollidable = true;
 	bool m_RenderCollision = true;
 
 	// VERTEX VARIABLE(s)
@@ -60,6 +62,7 @@ public:
 	inline bool GetRenderCollision() const { return m_RenderCollision; }
 
 	// SETTER FUNCTION(s)
+	void SetIsCollidable(bool isCollidable) { m_IsCollidable = isCollidable; }
 	void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
 	inline void SetDrawCollider(bool render) { m_RenderCollision = render; }
 

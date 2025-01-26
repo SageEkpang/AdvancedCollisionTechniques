@@ -31,15 +31,19 @@ private: // PRIVATE VARIABLE(s)
 	Octant* m_Octant;
 	int m_RegionAmount;
 
-public: // PUBLIC FUNCTION(s)
-
-	// CLASS FUNCTION(s)
-	Octree();
-	~Octree();
-
+private: // PRIVATE FUNCTION(s)
 
 	// BASE FUNCTION(s)
 	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
+
+
+public: // PUBLIC FUNCTION(s)
+
+	// CLASS FUNCTION(s)
+	Octree(Vector3 centre, float halfWidth, int stopDepth);
+	~Octree();
+
+
 	
 	void InsertEntity();
 	void InsertEntities();

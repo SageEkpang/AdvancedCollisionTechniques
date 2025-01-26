@@ -26,6 +26,8 @@ RigidbodyObject::RigidbodyObject(Transform* transform, float radius, float mass)
 	m_InertiaTensor._11 = (2 / 5) * mass * std::pow(radius, 2.0f);
 	m_InertiaTensor._22 = (2 / 5) * mass * std::pow(radius, 2.0f);
 	m_InertiaTensor._33 = (2 / 5) * mass * std::pow(radius, 2.0f);
+
+	// NOTE: The inertia tensor for the mass aregate system would not be to be used due to spring forces and constants
 }
 
 RigidbodyObject::~RigidbodyObject()
@@ -37,6 +39,24 @@ void RigidbodyObject::Update(float deltaTime)
 {
 	// CalculateAngularVelocity(deltaTime);
 	PhysicsObject::Update(deltaTime);
+}
+
+void RigidbodyObject::AddForceAddBodyPoint(const Vector3& force, const Vector3& point)
+{
+	// Convert to coordinates relative to center of mass.
+	// Vector3 t_Point;
+
+
+}
+
+void RigidbodyObject::AddForceAtPoint(const Vector3& force, const Vector3& point)
+{
+	Vector3 t_Point = point;
+	t_Point -= m_Transform->GetPosition();
+
+	m_NetForce += force;
+	// m_Torque += t_Point % force;
+
 }
 
 void RigidbodyObject::AddRelativeForce(Vector3 force, Vector3 point)
@@ -73,12 +93,11 @@ void RigidbodyObject::CalculateAngularVelocity(float DeltaTime)
 	// Set Orientation
 	Quaternion4 Orient = m_Transform->GetOrientation();
 	Orient += (Orient * m_AngularVelocity) * 0.5 * DeltaTime;
-	if (Orient.Magnitude() != 0)
-	{
-		m_Transform->SetOrientation(Orient / Orient.Magnitude());
-	}
+
+	// Calculate the Orientation and augmenting the transform
+	if (Orient.Magnitude() != 0) { m_Transform->SetOrientation(Orient / Orient.Magnitude()); }
 
 	// Dampen the Angular Velocity
-	m_AngularVelocity *= std::pow(m_Damping, DeltaTime);
+	m_AngularVelocity *= std::pow(m_AngularDamping, DeltaTime);
 	m_Torque = Vector3();
 }

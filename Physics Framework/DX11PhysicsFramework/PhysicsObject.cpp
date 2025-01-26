@@ -29,7 +29,7 @@ void PhysicsObject::Update(float deltaTime)
 {
 	if (m_Mass == 0) return;
 
-	// Adding Forces to the NetForce
+	// NET FORCE ACCUMULATION
 	if (m_SimulateGravity) { m_NetForce += GravityForce(); }
 	if (m_UseDrag) { m_NetForce += DragForce(); }
 	// if (m_UseFriction) { m_NetForce += FrictionForce(); }

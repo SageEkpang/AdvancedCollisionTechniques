@@ -12,6 +12,9 @@
 #include "BoxCollider.h"
 #include "PlaneCollider.h"	
 
+
+// PHYSICS BODY
+
 class PhysicsObject
 {
 protected:
@@ -47,7 +50,7 @@ protected:
 	bool m_SimulateGravity = true;
 	bool m_UseAcceleration = false;
 	bool m_UseVelocity = true;
-	bool m_UseFriction = false;
+	bool m_UseFriction = false; // NOTE: This is a dampinging value of the project
 	bool m_UseDrag = true;
 
 

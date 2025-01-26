@@ -6,15 +6,20 @@
 #include "Constants.h"
 #include "PhysicsObject.h"
 
+
+// RIGIDBODY PHYSICS
+
 class RigidbodyObject : public PhysicsObject
 {
 private:
 
 	XMFLOAT3X3 m_InertiaTensor;
+
 	Vector3 m_Torque = VECTOR3_ZERO;
 	Vector3 m_AngularVelocity = VECTOR3_ZERO;
+
 	Quaternion4 m_Orientation;
-	float m_Damping = 0.99f;
+	float m_AngularDamping = 0.99f;
 
 public:
 
@@ -28,6 +33,14 @@ public:
 	void Update(float deltaTime) override;
 
 
+	// The direction of the force is given in world coordinates
+	void AddForceAddBodyPoint(const Vector3& force, const Vector3& point);
+
+	// Not Applied to the at the center of mass, it may be split into both a force and torque
+	void AddForceAtPoint(const Vector3& force, const Vector3& point);
+
+
+
 	// ADDITIONAL FUNCTION(s)
 
 	/// <summary> Add a Relative Force to the point on the object </summary>
@@ -38,10 +51,10 @@ public:
 
 
 	// GETTER FUNCTION(s)
-	inline float GetDamping() { return m_Damping; }
+	inline float GetAngularDamping() { return m_AngularDamping; }
 
 	// SETTER FUNCTION(s)
-	void SetDamping(float damping) { m_Damping = damping; }
+	void SetAngularDamping(float damping) { m_AngularDamping = damping; }
 
 };
 

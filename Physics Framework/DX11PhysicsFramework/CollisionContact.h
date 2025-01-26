@@ -16,8 +16,9 @@ class CollisionContact
 {
 private:
 
-	float m_Penetration;
+	Vector3 m_ContactPoint;
 	Vector3 m_ContactNormal;
+	float m_Penetration;
 
 	// NOTE: Duration Equals DeltaTime
 	void ResolveVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
@@ -27,9 +28,7 @@ private:
 protected:
 
 	void ResolveCollision(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
-
 	Vector3 CalculateSeparatingVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB) const;
-
 
 public:
 

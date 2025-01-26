@@ -49,9 +49,6 @@ void CollisionContact::ResolveVelocity(RigidbodyObject* rigidbodyObjectA, Rigidb
 
 	// Goes the opposite way
 	if (rigidbodyObjectB) { rigidbodyObjectB->SetVelocity(rigidbodyObjectB->GetVelocity() + t_ImpulsePerMass * -rigidbodyObjectB->GetInverseMass()); }
-
-
-
 }
 
 // At Rest
@@ -133,12 +130,9 @@ void CollisionContact::ResolveInterpenetration(RigidbodyObject* rigidbodyObjectA
 	if (rigidbodyObjectB) { t_ParticleMovementB = t_MovePerMass * -rigidbodyObjectB->GetInverseMass(); }
 	else { t_ParticleMovementB = Vector3(); }
 
-
 	rigidbodyObjectA->GetTransform()->SetPosition(rigidbodyObjectA->GetTransform()->GetPosition() + t_ParticleMovementA);
 
 	if (rigidbodyObjectB) { rigidbodyObjectB->GetTransform()->SetPosition(rigidbodyObjectB->GetTransform()->GetPosition() + t_ParticleMovementB); }
-
-
 }
 
 Vector3 CollisionContact::CalculateSeparatingVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB) const
