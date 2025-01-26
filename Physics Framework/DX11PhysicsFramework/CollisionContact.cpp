@@ -22,8 +22,7 @@ void CollisionContact::ResolveCollision(RigidbodyObject* rigidbodyObjectA, Rigid
 	ResolveInterpenetration(rigidbodyObjectA, rigidbodyObjectB, duration);
 }
 
-// TODO: Need to make the rods for the collision code
-// At Collision
+// NOTE: This is for when objects have just collided
 void CollisionContact::ResolveVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)
 {
 	Vector3 t_SeperatingVelocity = CalculateSeparatingVelocity(rigidbodyObjectA, rigidbodyObjectB);
@@ -51,7 +50,8 @@ void CollisionContact::ResolveVelocity(RigidbodyObject* rigidbodyObjectA, Rigidb
 	if (rigidbodyObjectB) { rigidbodyObjectB->SetVelocity(rigidbodyObjectB->GetVelocity() + t_ImpulsePerMass * -rigidbodyObjectB->GetInverseMass()); }
 }
 
-// At Rest
+// NOTE: The above function is the same as the below, but the below function factors in the accerlation of the objects as well as velocity, use below function instead
+// NOTE: This is for when objects are at rest against each other, might have to have a check for this via velocity of the object in a certain direction
 void CollisionContact::ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)
 {
 	Vector3 t_SeperatingVelocity = CalculateSeparatingVelocity(rigidbodyObjectA, rigidbodyObjectB);
