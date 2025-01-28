@@ -50,7 +50,7 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider* collider
 
 			for (size_t i = 0; i < t_Normals.size(); ++i)
 			{
-				if (SameDirection(t_Normals[i].xyz(), t_Support))
+				if (SameDirection(t_Normals[t_MinFace].xyz(), t_Support))
 				{
 					size_t t_F = i * 3;
 
@@ -138,7 +138,7 @@ void EPACollider::AddIfUniqueEdge(std::vector<std::pair<size_t, size_t>>& edges,
 
 std::pair<std::vector<Vector4>, size_t> EPACollider::GetFaceNormals(std::vector<Vector3> polytope, std::vector<size_t> faces)
 {
-	std::vector<Vector4> t_Normals;
+	std::vector<Vector4> t_NormalArray;
 	size_t t_MinTriangle = 0;
 	float t_MinDistance = FLT_MAX;
 
@@ -157,7 +157,8 @@ std::pair<std::vector<Vector4>, size_t> EPACollider::GetFaceNormals(std::vector<
 			t_Distance *= -1;
 		}
 
-		t_Normals.emplace_back(t_Normal, t_Distance);
+		Vector4 t_TempNorm = Vector4(t_Normal.x, t_Normal.y, t_Normal.z, t_Distance);
+		t_NormalArray.emplace_back(t_TempNorm);
 
 		if (t_Distance < t_MinDistance)
 		{
@@ -166,5 +167,5 @@ std::pair<std::vector<Vector4>, size_t> EPACollider::GetFaceNormals(std::vector<
 		}
 	}
 
-	return { t_Normals, t_MinTriangle};
+	return { t_NormalArray, t_MinTriangle };
 }

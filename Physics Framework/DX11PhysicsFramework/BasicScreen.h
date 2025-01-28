@@ -8,9 +8,14 @@
 
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
+#include "CollisionContact.h"
 
 class BasicScreen : public Screen
 {
+private:
+
+	CollisionContact* m_CollisionContact;
+
 public:
 
 	// CLASS FUNCTION(s)
@@ -20,6 +25,13 @@ public:
 
 	/// <summary> Default Destructor for Class </summary>
 	~BasicScreen();
+
+
+
+	// HELPER FUNCTION(s)
+	void ResolveCollision(GameObject* object1, GameObject* object2);
+
+
 
 
 	// BASE FUNCTION(s)

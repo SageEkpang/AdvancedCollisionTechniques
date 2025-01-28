@@ -4,21 +4,17 @@ CollisionContact::CollisionContact()
 {
 
 
-
-
 }
 
 CollisionContact::~CollisionContact()
 {
-	
 
 
 }
 
-
 void CollisionContact::ResolveCollision(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)
 {
-	ResolveVelocity(rigidbodyObjectA, rigidbodyObjectB, CoefRest, duration);
+	ResolveVelocityAlt(rigidbodyObjectA, rigidbodyObjectB, CoefRest, duration);
 	ResolveInterpenetration(rigidbodyObjectA, rigidbodyObjectB, duration);
 }
 

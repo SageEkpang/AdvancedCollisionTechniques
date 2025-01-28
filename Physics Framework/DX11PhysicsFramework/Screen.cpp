@@ -9,8 +9,23 @@ void Screen::Update(float deltaTime)
 {
 	if (!m_GameObjects.empty())
 	{
-		for (auto& v : m_GameObjects) { v->Update(deltaTime); }
+		// Updating the Physics Objects Within the Respect
+		for (auto& v : m_GameObjects) 
+		{ 
+			v->Update(deltaTime); 
+		}
+
+		for (auto& v : m_GameObjects)
+		{
+
+		}
+
+
+
 	}
+
+
+
 }
 
 void Screen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)

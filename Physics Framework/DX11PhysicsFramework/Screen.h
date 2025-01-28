@@ -46,6 +46,7 @@ public:
 	virtual ~Screen();
 
 
+
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
@@ -55,8 +56,10 @@ public:
 	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
 
+
 	// HELPER FUNCTION(s)
 	void InsertObjectIntoList(GameObject* gameObject);
+
 
 
 	// GETTER FUNCTION(s)

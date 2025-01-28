@@ -60,6 +60,7 @@ public:
 	inline Vector3 GetRotation() const { return m_Transform->GetRotation(); }
 
 	inline bool GetRenderCollision() const { return m_RenderCollision; }
+	inline bool GetIsColliedable() const { return m_IsCollidable; }
 
 	// SETTER FUNCTION(s)
 	void SetIsCollidable(bool isCollidable) { m_IsCollidable = isCollidable; }

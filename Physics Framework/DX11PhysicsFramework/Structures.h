@@ -48,6 +48,32 @@ enum PhysicsScreenState
 	STATE_GJK_SCREEN
 };
 
+enum MaterialTypes
+{
+	MATERIAL_SILICON,
+	MATERIAL_ALUMINA,
+	MATERIAL_STAINLESS_STEEL,
+	MATERIAL_TUNGSTEN,
+	MATERIAL_ALUMINUM,
+	MATERIAL_COPPER,
+	MATERIAL_NICKEL,
+	MATERIAL_ZINC
+};
+
+enum DragShapeTypes
+{
+	DRAG_SPHERE,
+	DRAG_HALF_SPHERE,
+	DRAG_CONE,
+	DRAG_CUBE,
+	DRAG_ANGLED_CUBE,
+	DRAG_LONG_CYLINDER,
+	DRAG_SHORT_CYLINDER,
+	DRAG_STREAMLINED_BODY,
+	DRAG_STREAMLINED_HALF_BODY
+};
+
+
 enum PhysicTag
 {
 	NONE,
@@ -403,10 +429,12 @@ typedef struct Vector4
 		this->w = w;
 	}
 
-	Vector3 xyz()
+	Vector4(Vector3 value, float distance)
 	{
-		Vector3 t_Temp = Vector3(this->x, this->y, this->z);
-		return t_Temp;
+		this->x = value.x;
+		this->y = value.y;
+		this->z = value.z;
+		this->w = distance;
 	}
 
 	Vector4(Vector4& value)
@@ -415,6 +443,12 @@ typedef struct Vector4
 		this->y = value.y;
 		this->z = value.z;
 		this->w = value.w;
+	}
+
+	Vector3 xyz()
+	{
+		Vector3 t_Temp = Vector3(this->x, this->y, this->z);
+		return t_Temp;
 	}
 
 	Vector4 operator+(Vector4 value)
@@ -451,7 +485,7 @@ typedef struct Vector4
 		return Vector4(x * value.x, y * value.y, z * value.z, w * value.w);
 	}
 
-}Vector4, Vector4D;
+}Vector4;
 
 typedef struct Quaternion4
 {

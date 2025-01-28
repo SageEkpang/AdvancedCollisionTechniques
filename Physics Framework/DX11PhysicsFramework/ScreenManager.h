@@ -13,7 +13,6 @@
 //  CUSTOM INCLUDE(s) / FORWARD DEC(s)
 class StartUp;
 class BasicScreen;
-class ConvexHullScreen;
 class QuickHullScreen;
 class GJKScreen;
 class SATScreen;

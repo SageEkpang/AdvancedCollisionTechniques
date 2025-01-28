@@ -99,6 +99,12 @@
     <Filter Include="MassPhysics\Source">
       <UniqueIdentifier>{92ea8b8a-f5b2-49d3-96d6-0c6d6d029662}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CollisionResolution\Header">
+      <UniqueIdentifier>{645d6b8e-8499-4f2b-94a4-812069fcdbef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionResolution\Source">
+      <UniqueIdentifier>{10249e68-76a1-4399-931f-bb08f56d8f22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicScreen.h">
@@ -158,9 +164,6 @@
     <ClInclude Include="Camera.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
-    <ClInclude Include="ConvexHullScreen.h">
-      <Filter>PhysicScreens\Header</Filter>
-    </ClInclude>
     <ClInclude Include="QuickHullScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
@@ -194,9 +197,6 @@
     <ClInclude Include="JarvisMarchHull.h">
       <Filter>GeometryGen\Header</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionContact.h">
-      <Filter>CollisionResolution</Filter>
-    </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Physics\Header</Filter>
     </ClInclude>
@@ -224,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="MassPointSpring.h">
       <Filter>MassPhysics\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionContact.h">
+      <Filter>CollisionResolution\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,9 +284,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
-    <ClCompile Include="ConvexHullScreen.cpp">
-      <Filter>PhysicScreens\Source</Filter>
-    </ClCompile>
     <ClCompile Include="QuickHullScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
@@ -317,9 +317,6 @@
     <ClCompile Include="JarvisMarchHull.cpp">
       <Filter>GeometryGen\Source</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionContact.cpp">
-      <Filter>CollisionResolution</Filter>
-    </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Physics\Source</Filter>
     </ClCompile>
@@ -337,6 +334,9 @@
     </ClCompile>
     <ClCompile Include="MassPointSpring.cpp">
       <Filter>MassPhysics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionContact.cpp">
+      <Filter>CollisionResolution\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 #include "Structures.h"
 #include "Constants.h"
 #include "PhysicsObject.h"
-
+#include "MaterialCoefficient.h"
 
 // RIGIDBODY PHYSICS
 
@@ -13,13 +13,19 @@ class RigidbodyObject : public PhysicsObject
 {
 private:
 
+	// ROTATION TENSOR (MATRIX)
 	XMFLOAT3X3 m_InertiaTensor;
+
+	// ROTATION VARIABLE(s)
+	Quaternion4 m_Orientation;
 
 	Vector3 m_Torque = VECTOR3_ZERO;
 	Vector3 m_AngularVelocity = VECTOR3_ZERO;
-
-	Quaternion4 m_Orientation;
 	float m_AngularDamping = 0.99f;
+
+	
+	// MATERIAL VARIABLE(s) 
+	MaterialTypes m_MaterialType;
 
 public:
 
@@ -52,10 +58,11 @@ public:
 
 	// GETTER FUNCTION(s)
 	inline float GetAngularDamping() { return m_AngularDamping; }
+	inline MaterialTypes GetMaterial() const { return m_MaterialType; }
 
 	// SETTER FUNCTION(s)
 	void SetAngularDamping(float damping) { m_AngularDamping = damping; }
-
+	void SetMaterial(MaterialTypes material) { m_MaterialType = material; }
 };
 
 #endif
