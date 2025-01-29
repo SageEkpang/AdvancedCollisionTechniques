@@ -14,8 +14,8 @@ CollisionContact::~CollisionContact()
 
 void CollisionContact::ResolveCollision(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)
 {
-	ResolveVelocityAlt(rigidbodyObjectA, rigidbodyObjectB, CoefRest, duration);
-	ResolveInterpenetration(rigidbodyObjectA, rigidbodyObjectB, duration);
+	// ResolveVelocityAlt(rigidbodyObjectA, rigidbodyObjectB, CoefRest, duration);
+	// ResolveInterpenetration(rigidbodyObjectA, rigidbodyObjectB, duration);
 }
 
 // NOTE: This is for when objects have just collided
@@ -54,7 +54,7 @@ void CollisionContact::ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, Rig
 
 	if (t_SeperatingVelocity > 0)
 	{
-		// If contact is seperatingt or stationary there is no impulse required
+		// If contact is seperating or stationary there is no impulse required
 		return;
 	}
 
@@ -68,7 +68,7 @@ void CollisionContact::ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, Rig
 	}
 
 
-	Vector3 t_AccCausedSepVelocity = t_AccCausedVelocity * m_ContactNormal * duration; // TODO: May need to pass in contact normal to the function via the collision code
+	Vector3 t_AccCausedSepVelocity = t_AccCausedVelocity * m_ContactNormal * duration;
 
 	if (t_AccCausedSepVelocity < 0)
 	{
@@ -95,24 +95,24 @@ void CollisionContact::ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, Rig
 
 	Vector3 t_ImpulsePerMass = m_ContactNormal * t_Impulse;
 
-	rigidbodyObjectA->SetVelocity(rigidbodyObjectA->GetVelocity() + t_ImpulsePerMass * rigidbodyObjectA->GetInverseMass());
-
-	if (rigidbodyObjectB)
-	{
-		rigidbodyObjectB->SetVelocity(rigidbodyObjectB->GetVelocity() + t_ImpulsePerMass * -rigidbodyObjectB->GetInverseMass());
-	}
-
-
+	rigidbodyObjectA->ApplyImpulse(t_ImpulsePerMass * rigidbodyObjectA->GetInverseMass());
+	rigidbodyObjectB->ApplyImpulse(t_ImpulsePerMass * -rigidbodyObjectB->GetInverseMass());
 }
 
-void CollisionContact::ResolveInterpenetration(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float duration)
+void CollisionContact::ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB)
 {
 	if (m_Penetration <= 0) return;
 
-	// Move Objects based on Inverse Mass
-	float t_TotalInverseMass = rigidbodyObjectA->GetInverseMass();
+	RigidbodyObject* t_RigidbodyObjectA = gameObjectA->GetRigidbody();
+	RigidbodyObject* t_RigidbodyObjectB = gameObjectB->GetRigidbody();
 
-	if (rigidbodyObjectB) { t_TotalInverseMass += rigidbodyObjectB->GetInverseMass(); }
+	Transform* t_TransformA = gameObjectA->GetTransform();
+	Transform* t_TransformB = gameObjectB->GetTransform();
+
+	// Move Objects based on Inverse Mass
+	float t_TotalInverseMass = t_RigidbodyObjectA->GetInverseMass();
+
+	if (t_RigidbodyObjectB) { t_TotalInverseMass += t_RigidbodyObjectB->GetInverseMass(); }
 
 	// If infinite mass, return (Good for stationary / static objects)
 	if (t_TotalInverseMass <= 0) return;
@@ -120,15 +120,15 @@ void CollisionContact::ResolveInterpenetration(RigidbodyObject* rigidbodyObjectA
 	Vector3 t_MovePerMass = m_ContactNormal * (m_Penetration / t_TotalInverseMass);
 
 	// TODO: Find out what particle movement is 
-	Vector3 t_ParticleMovementA = t_MovePerMass * rigidbodyObjectA->GetInverseMass();
+	Vector3 t_ParticleMovementA = t_MovePerMass * t_RigidbodyObjectA->GetInverseMass();
 	Vector3 t_ParticleMovementB;
 
-	if (rigidbodyObjectB) { t_ParticleMovementB = t_MovePerMass * -rigidbodyObjectB->GetInverseMass(); }
+	if (t_RigidbodyObjectB) { t_ParticleMovementB = t_MovePerMass * -t_RigidbodyObjectB->GetInverseMass(); }
 	else { t_ParticleMovementB = Vector3(); }
 
-	rigidbodyObjectA->GetTransform()->SetPosition(rigidbodyObjectA->GetTransform()->GetPosition() + t_ParticleMovementA);
+	t_TransformA->SetPosition(t_TransformA->GetPosition() + t_ParticleMovementA);
 
-	if (rigidbodyObjectB) { rigidbodyObjectB->GetTransform()->SetPosition(rigidbodyObjectB->GetTransform()->GetPosition() + t_ParticleMovementB); }
+	if (t_TransformB) { t_TransformB->SetPosition(t_TransformB->GetPosition() + t_ParticleMovementB); }
 }
 
 Vector3 CollisionContact::CalculateSeparatingVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB) const

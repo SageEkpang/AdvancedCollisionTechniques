@@ -4,6 +4,7 @@
 // ABSTRACT CLASS(s)
 #include "Collider.h"
 #include "RigidbodyObject.h"
+#include "GameObject.h"
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
@@ -23,8 +24,6 @@ private:
 
 	// NOTE: Duration Equals DeltaTime
 	void ResolveVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
-	void ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
-	void ResolveInterpenetration(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float duration);
 
 protected:
 
@@ -42,6 +41,8 @@ public:
 	/// <summary> Resolve Collision Code for the Collision of the Game Objects
 	void ResolveCollision(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
 
+	void ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
+	void ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB);
 
 	// SETTER FUNCTION(s)
 	void SetContactNormal(Vector3 normal) { m_ContactNormal = normal; }

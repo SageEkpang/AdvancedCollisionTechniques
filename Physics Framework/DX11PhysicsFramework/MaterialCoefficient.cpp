@@ -5,7 +5,7 @@
 
 MaterialCoefficient::MaterialCoefficient()
 {
-	// 
+	Mat2 t_MaterialPair;
 	t_MaterialPair.first = MATERIAL_SILICON;
 	t_MaterialPair.second = MATERIAL_ZINC;
 
@@ -27,6 +27,8 @@ MaterialCoefficient::MaterialCoefficient()
 MaterialCoefficient::~MaterialCoefficient()
 {
 	m_MaterialRestitution.clear();
+	m_MaterialFriction.clear();
+	m_ShapeDrag.clear();
 }
 
 double MaterialCoefficient::MaterialRestCoef(MaterialTypes materialA, MaterialTypes materialB)

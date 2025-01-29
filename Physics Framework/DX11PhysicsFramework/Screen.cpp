@@ -17,11 +17,8 @@ void Screen::Update(float deltaTime)
 
 		for (auto& v : m_GameObjects)
 		{
-
+			// Collision Code here
 		}
-
-
-
 	}
 
 

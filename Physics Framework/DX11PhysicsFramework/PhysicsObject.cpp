@@ -31,7 +31,9 @@ void PhysicsObject::Update(float deltaTime)
 
 	// NET FORCE ACCUMULATION
 	if (m_SimulateGravity) { m_NetForce += GravityForce(); }
-	if (m_UseDrag) { m_NetForce += DragForce(); }
+
+	// TODO: Turn these back on when done with the physics implementation
+	// if (m_UseDrag) { m_NetForce += DragForce(); }
 	// if (m_UseFriction) { m_NetForce += FrictionForce(); }
 
 	CalculateAcceleration(deltaTime);

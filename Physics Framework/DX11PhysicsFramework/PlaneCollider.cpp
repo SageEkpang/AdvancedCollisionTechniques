@@ -40,6 +40,9 @@ bool PlaneCollider::CollidesWith(SphereCollider& other, CollisionManifold& out)
 	if (Distance <= other.GetRadius())
 	{
 		out.collisionNormal = GetPlaneNormal();
+		out.contactPointCount = 1.0;
+		Vector3 t_ClosestPoint = other.NearestPoint(GetPosition());
+		out.points[0].penetrationDepth = fabs(Vector::Magnitude(GetPosition() - ClosestPoint));
 		return true;
 	}
 

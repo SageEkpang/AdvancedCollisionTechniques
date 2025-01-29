@@ -15,7 +15,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	Render* t_DonutRender = new Render(t_DonutTransform);
 
 	RigidbodyObject* t_DonutRigidBody = new RigidbodyObject(t_DonutTransform, 1.0f);
-	Collider* t_DonutCollider = new SphereCollider(t_DonutTransform, 5.0f);
+	Collider* t_DonutCollider = new SphereCollider(t_DonutTransform, 1.0f);
 
 	t_DonutObject->SetTransform(t_DonutTransform);
 	t_DonutTransform->SetScale(1.0f, 1.0f, 1.0f);
@@ -34,6 +34,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	#pragma endregion
 
+
 	#pragma region Plane Object
 
 	// Plane Object
@@ -41,7 +42,8 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	Transform* t_PlaneTransform = new Transform();
 	Render* t_PlaneRender = new Render(t_PlaneTransform);
 	RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 0.0f);
-	Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform);
+	// Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform); // FIXME: Planar Collisions Tweaking Out
+	Collider* t_PlaneCollider = new BoxCollider(t_PlaneTransform);
 
 	// Transform
 	t_PlaneObject->SetTransform(t_PlaneTransform);
@@ -88,7 +90,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	t_HeadRender->SetGeometryAndMaterial("Resources\\OBJ\\joelModel.obj", MATERIAL_SHINY, device);
 	t_HeadRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-	InsertObjectIntoList(t_HeadObject);
+	// InsertObjectIntoList(t_HeadObject);
 
 	#pragma endregion
 
@@ -100,7 +102,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	Render* t_SpikeRender = new Render(t_SpikeTransform);
 	RigidbodyObject* t_SpikeRigidbody = new RigidbodyObject(t_SpikeTransform, 1.0f);
-	Collider* t_SpikeCollider = new SphereCollider(t_SpikeTransform, 10.0);
+	Collider* t_SpikeCollider = new SphereCollider(t_SpikeTransform, 1.0);
 
 	// Transform
 	t_SpikeObject->SetTransform(t_SpikeTransform);
@@ -132,7 +134,8 @@ BasicScreen::~BasicScreen()
 	Screen::~Screen();
 }
 
-void BasicScreen::ResolveCollision(GameObject* object1, GameObject* object2)
+// TODO: Make this a static function within the Collision contact class with parameters for the intact, can be used for the Octree and Thread Pooling
+void BasicScreen::ResolveCollision()
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
@@ -145,22 +148,38 @@ void BasicScreen::ResolveCollision(GameObject* object1, GameObject* object2)
 			// Do not do the Same Game Object
 			if (i == j) { continue; }
 
+			// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
+			GameObject* t_ObjectAGame = m_GameObjects[i];
+			GameObject* t_ObjectBGame = m_GameObjects[j];
+
+			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
+			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
+
+
 			// See if there is a Collider on the rigidbody
-			if (m_GameObjects[i]->GetRigidbody()->IsCollideable() && m_GameObjects[j]->GetRigidbody()->IsCollideable())
+			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
 			{
+
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-				if (m_GameObjects[i]->GetCollider()->CollidesWith(*m_GameObjects[j]->GetCollider(), t_ColManifold))
+				if (t_ObjectARig->GetCollider()->CollidesWith(*t_ObjectBRig->GetCollider(), t_ColManifold))
 				{
 					// Material Coef Calculate
-					MaterialCoefficient t_MaterialCoef;
-					double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+					//MaterialCoefficient t_MaterialCoef;
+					//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+					//float t_TempRest = 3.0f; // TODO: Change this back to normal restit when the materials are implemented 
 
+					//m_CollisionContact->SetContactNormal(t_ColManifold.collisionNormal);
+					//m_CollisionContact->SetPenetration(t_ColManifold.penetrationDepth);
 
-					m_CollisionContact->SetContactNormal(t_ColManifold.collisionNormal);
-					m_CollisionContact->SetPenetration(t_ColManifold.penetrationDepth);
+					//// m_CollisionContact->ResolveCollision(t_ObjectA, t_ObjectB, (float)t_TempRest, 1.0);
 
-					// Collision Contact, Resolution, Response and Velocity / Position Resolution
-					m_CollisionContact->ResolveCollision(m_GameObjects[i]->GetRigidbody(), m_GameObjects[j]->GetRigidbody(), (float)t_RestCoef, 1);
+					//// Collision Contact, Resolution, Response and Velocity / Position Resolution
+					//m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, (float)t_TempRest, 1.0);
+					//m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame);
+
+					Vector3 thing = Vector3(0, 1, 0);
+					t_ObjectARig->ApplyImpulse(thing); // TODO: Add Impulse instead of normal calculation
+
 				}
 			}
 
@@ -173,4 +192,5 @@ void BasicScreen::ResolveCollision(GameObject* object1, GameObject* object2)
 void BasicScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
+	ResolveCollision();
 }

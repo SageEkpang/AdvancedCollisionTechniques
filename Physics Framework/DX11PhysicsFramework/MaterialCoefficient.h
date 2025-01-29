@@ -15,7 +15,6 @@ class MaterialCoefficient
 private:
 
 	// MATERIAL RESTIUTION Coef
-	Mat2 t_MaterialPair;
 	std::map<Mat2, double> m_MaterialRestitution;
 	std::map<Mat2, double> m_MaterialFriction;
 	std::map<DragShapeTypes, double> m_ShapeDrag;

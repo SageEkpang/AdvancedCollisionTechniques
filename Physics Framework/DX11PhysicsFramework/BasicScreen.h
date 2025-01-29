@@ -29,7 +29,9 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	void ResolveCollision(GameObject* object1, GameObject* object2);
+
+	// TODO: Put this in collision class
+	void ResolveCollision();
 
 
 

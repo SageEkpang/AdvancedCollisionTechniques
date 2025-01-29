@@ -4,7 +4,7 @@
 
 #include "Constants.h"
 #include "Structures.h"
-#include "GameObject.h"
+#include "PhysicsObject.h"
 
 typedef struct Octant
 {
@@ -28,6 +28,7 @@ class Octree
 {
 private: // PRIVATE VARIABLE(s)
 
+	// INIT VARIABLE(s)
 	Octant* m_Octant;
 	int m_RegionAmount;
 
@@ -43,13 +44,15 @@ public: // PUBLIC FUNCTION(s)
 	Octree(Vector3 centre, float halfWidth, int stopDepth);
 	~Octree();
 
-
 	
-	void InsertEntity();
-	void InsertEntities();
+	void InsertEntity(PhysicsObject* physicsEntity);
+	void InsertEntities(std::vector<PhysicsObject*> physicsEntities);
 
 	void QueryTree();
+	void QueryTree(Octant* octantTree);
+
 	void ClearOctant(int index);
+	void ClearOctant();
 
 
 	// GETTER FUNCTION(s)
