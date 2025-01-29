@@ -30,7 +30,7 @@ void PhysicsObject::Update(float deltaTime)
 	if (m_Mass == 0) return;
 
 	// NET FORCE ACCUMULATION
-	if (m_SimulateGravity) { m_NetForce += GravityForce(); }
+	// if (m_SimulateGravity) { m_NetForce += GravityForce(); }
 
 	// TODO: Turn these back on when done with the physics implementation
 	// if (m_UseDrag) { m_NetForce += DragForce(); }
@@ -44,10 +44,7 @@ void PhysicsObject::Update(float deltaTime)
 
 Vector3 PhysicsObject::FrictionForce()
 {
-	// Horizontal Friction = Force - Friction Force = m * a
-	// Vertical Friction = NormalForce - Gravity * Mass = 0
-
-	float NormalForce = m_Gravity * m_Mass;
+	float NormalForce = m_Gravity * m_Mass; // NOTE: This would be the normal of the ground to the object.
 	float CoefFric = 0.9; // Friction Coefficent
 	float Friction = CoefFric * NormalForce;
 
@@ -72,18 +69,27 @@ Vector3 PhysicsObject::DragForce()
 	return CopyVelocity;
 }
 
+// NOTE: Gravity Formula changed to be more simpler relative to objects
 Vector3 PhysicsObject::GravityForce()
 {
 	// Calculate the Distance from Object to Ground (0, 0, 0 will always be the ground)
-	float t_Distance = Vector::Magnitude((m_Transform->GetPosition().x - 0));
 
-	// Use Gravity Formula as Reference to mass of Object and Equation (10 reference to the "mass" of the ground, which 10 is a good angle for)
-	Vector3 t_Gravity = (GetGravity() * m_Mass * GetGravity()) / std::pow(t_Distance, 2);
+	Vector3 t_Gravity = GetGravity() * m_Mass; // NOTE: Simplified Gravity Formula
 
 	// Inverse the Gravity
 	t_Gravity *= -1;
 
 	return t_Gravity;
+}
+
+Vector3 PhysicsObject::TensionForce()
+{
+	Vector3 t_Tension = (m_Mass * GetGravity()) + (m_Mass * m_Acceleration);
+
+	Vector3 t_CopyVelocity = m_Velocity * -1;
+	t_CopyVelocity = Vector::Normalise(t_CopyVelocity) * t_Tension; // TODO: Make sure that this works in the future
+
+	return t_CopyVelocity;
 }
 
 float PhysicsObject::GetDensity()

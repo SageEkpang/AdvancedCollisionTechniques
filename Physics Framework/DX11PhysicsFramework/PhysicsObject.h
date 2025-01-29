@@ -70,14 +70,23 @@ public:
 	/// <summary>  Calculate the acceleration force of the object </summary>
 	void CalculateAcceleration(float deltaTime);
 
+
+	// PHYSICS FORMULA FUNCTION(s)
+
 	/// <summary> Add Friction force that effects an objects movement on the ground or a surface </summary>
 	Vector3 FrictionForce();
 
 	/// <summary> Add Drag force that effects the objects movement with wind and a counter force to the game object </summary>
-	Vector3 DragForce();
+	Vector3 DragForce(); // NOTE: Air Resistance
 
 	/// <summary> Add Gravity force that effects the objects downwards force </summary>
 	Vector3 GravityForce();
+
+	/// <summary> Add Tension force that effects the object spring / rope calculation </summary>
+	Vector3 TensionForce();
+
+
+
 
 	/// <summary> Add Impulse force that effects the objects movement (Vector3) </summary>
 	void ApplyImpulse(Vector3 impulse) { m_Velocity += impulse; }
