@@ -2,14 +2,14 @@
 #define MESH_H
 
 #include <vector>
-#include "Vector3.hpp"
+#include "Vector3.h"
 #include "Plane.h"
 #include "Pool.h"
 #include <array>
 #include <cassert>
 #include <limits>
 #include <memory>
-#include "VertexDataSource.hpp"
+#include "VertexDataSource.h"
 #include <unordered_map>
 #include <cinttypes>
 
