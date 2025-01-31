@@ -11,18 +11,8 @@
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
 
-// QUICK HULL INCLUDE(s) // NOTE: These headers are a quick hull algorithm used to implement a convex hull
-#include "QuickHull.h"
-#include "MathUtils.h"
-
-using namespace quickhull;
-
 class QuickHullScreen : public Screen
 {
-private:
-
-
-
 public:
 
 	// CLASS FUNCTION(s)

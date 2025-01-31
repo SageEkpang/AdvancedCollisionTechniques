@@ -6,20 +6,22 @@
 #include "Structures.h"
 #include "PhysicsObject.h"
 
+constexpr int TREE_DEPTH = 20;
+constexpr int OBJECT_SPLIT = 10;
+
 typedef struct Octant
 {
 	Vector3 centre;
 	float halfWidth;
-	Octant* child;
-	std::list<Vector3> objList;
+	Octant* child[8];
+	std::list<PhysicsObject*> objList;
 
 	Octant() = default;
 	Octant(Octant& value)
 	{
 		this->centre = value.centre;
 		this->halfWidth = value.halfWidth;
-		this->child = value.child;
-		this->objList.insert(this->objList.end(), value.objList.begin(), value.objList.end());
+		// this->objList.insert(this->objList.end(), value.objList.begin(), value.objList.end());
 	}
 
 }Octant;
@@ -35,7 +37,6 @@ private: // PRIVATE VARIABLE(s)
 private: // PRIVATE FUNCTION(s)
 
 	// BASE FUNCTION(s)
-	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
 
 
 public: // PUBLIC FUNCTION(s)
@@ -44,9 +45,14 @@ public: // PUBLIC FUNCTION(s)
 	Octree(Vector3 centre, float halfWidth, int stopDepth);
 	~Octree();
 
-	
-	void InsertEntity(PhysicsObject* physicsEntity);
+
+	// BASE FUNCTION(s)
+	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
+
+	void InsertEntity(Octant* tree, PhysicsObject* physicsEntity);
 	void InsertEntities(std::vector<PhysicsObject*> physicsEntities);
+
+	void UpdateTree(Octant* tree, const float deltaTime);
 
 	void QueryTree();
 	void QueryTree(Octant* octantTree);

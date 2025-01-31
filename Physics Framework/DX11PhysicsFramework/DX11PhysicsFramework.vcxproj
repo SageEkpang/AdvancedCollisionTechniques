@@ -426,33 +426,25 @@
     <ClInclude Include="CollisionContact.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ConvexHull.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="EPACollider.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GJKCollider.h" />
     <ClInclude Include="GJKScreen.h" />
-    <ClInclude Include="HalfEdgeMesh.h" />
     <ClInclude Include="JarvisMarchHull.h" />
     <ClInclude Include="MassAggregate.h" />
     <ClInclude Include="MassPointSpring.h" />
     <ClInclude Include="MaterialCoefficient.h" />
-    <ClInclude Include="MathUtils.h" />
     <ClInclude Include="MemoryPool.h" />
-    <ClInclude Include="Mesh.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Octree.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="PhysicUtility.h" />
-    <ClInclude Include="Plane.h" />
     <ClInclude Include="PlaneCollider.h" />
-    <ClInclude Include="Pool.h" />
     <ClInclude Include="Quaternion.h" />
-    <ClInclude Include="QuickHull.h" />
     <ClInclude Include="QuickHullScreen.h" />
-    <ClInclude Include="Ray.h" />
     <ClInclude Include="Render.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="RigidbodyObject.h" />
@@ -466,8 +458,6 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="VertexDataSource.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\floor.dds" />

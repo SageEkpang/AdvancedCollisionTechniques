@@ -209,16 +209,6 @@
     <ClInclude Include="MaterialCoefficient.h">
       <Filter>Physics\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="Pool.h" />
-    <ClInclude Include="Ray.h" />
-    <ClInclude Include="VertexDataSource.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="ConvexHull.h" />
-    <ClInclude Include="HalfEdgeMesh.h" />
-    <ClInclude Include="MathUtils.h" />
-    <ClInclude Include="QuickHull.h" />
     <ClInclude Include="MassAggregate.h">
       <Filter>MassPhysics\Header</Filter>
     </ClInclude>

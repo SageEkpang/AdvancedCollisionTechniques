@@ -14,13 +14,14 @@
 
 
 // PHYSICS BODY
-
 class PhysicsObject
 {
 protected:
 
 	// Base Variables
 	Transform* m_Transform = nullptr;
+	float m_Radius;
+
 
 	// Physics Variables
 	Vector3 m_Velocity = VECTOR3_ZERO;
@@ -120,6 +121,8 @@ public:
 	inline bool IsCollideable() const { return m_Collider != nullptr; }
 
 	inline Transform* GetTransform() { return m_Transform; }
+
+	inline float GetRadius() { return m_Radius; }
 
 
 	// SETTER FUNCTION(s)

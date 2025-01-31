@@ -27,13 +27,10 @@ public:
 	~BasicScreen();
 
 
-
 	// HELPER FUNCTION(s)
 
 	// TODO: Put this in collision class
 	void ResolveCollision();
-
-
 
 
 	// BASE FUNCTION(s)
