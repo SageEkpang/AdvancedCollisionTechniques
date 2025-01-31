@@ -1,7 +1,7 @@
 #ifndef VertexDataSource_h
 #define VertexDataSource_h
 
-#include "Vector3.hpp"
+#include "Vector3.h"
 
 namespace quickhull {
 

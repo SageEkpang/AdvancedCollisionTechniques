@@ -1,7 +1,7 @@
 #ifndef QuickHull_Ray_h
 #define QuickHull_Ray_h
 
-#include "Vector3.hpp"
+#include "Vector3.h"
 
 namespace quickhull {
 

@@ -1,7 +1,7 @@
 #ifndef QHPLANE_H
 #define QHPLANE_H
 
-#include "Vector3.hpp"
+#include "Vector3.h"
 
 namespace quickhull {
 
