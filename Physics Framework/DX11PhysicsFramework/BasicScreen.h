@@ -30,7 +30,7 @@ public:
 	// HELPER FUNCTION(s)
 
 	// TODO: Put this in collision class
-	void ResolveCollision();
+	void ResolveCollision(const float deltaTime);
 
 
 	// BASE FUNCTION(s)

@@ -36,7 +36,7 @@
 using namespace DirectX;
 using namespace std;
 
-// CUSTOM DATA(s)
+// PHYSICS DATA(s)
 
 enum PhysicsScreenState
 {
@@ -73,7 +73,6 @@ enum DragShapeTypes
 	DRAG_STREAMLINED_HALF_BODY
 };
 
-
 enum PhysicTag
 {
 	NONE,
@@ -81,6 +80,16 @@ enum PhysicTag
 	PHYSICS_DYNAMIC,
 	PHYSICS_KINEMATIC
 };
+
+enum ColliderType
+{
+	COLLIDER_BOX,
+	COLLIDER_PLANE,
+	COLLIDER_SPHERE,
+	COLLIDER_OBB,
+	COLLIDER_MESH
+};
+
 
 typedef struct Tag
 {

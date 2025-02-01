@@ -22,22 +22,40 @@ class Collider
 {
 protected:
 
+	typedef std::pair<ColliderType, ColliderType> Col2;
+	typedef CollisionManifold (*ColFunc)(Collider*, Collider*, CollisionManifold&);
+
 	// BASE VARIABLE(s)
 	Transform* m_Transform;
 	Material m_Material;
 	Geometry m_Geometry;
 	XMFLOAT4X4* m_World;
+	ColliderType m_ColliderType;
 
 	bool m_IsCollidable = true;
 	bool m_RenderCollision = true;
+	float m_Radius = 0;
 
 	// VERTEX VARIABLE(s)
 	std::vector<Vector3> m_Vertices;
+
+	// COLLIDER VARIABLE(s)
+	// std::unordered_map<Col2, ColFunc> m_MapColliderFunctions;
 
 public:
 
 	// CLASS FUNCTION(s)
 	Collider(Transform* transform);
+
+	/// <summary> Box / PlaneCollider </summary>
+	Collider(Transform* transform, float width, float length, float height, bool isPlane);
+
+	/// <summary> Sphere Collider </summary>
+	Collider(Transform* transform, float radius);
+
+	/// <summary> OBB (Oriented Bounding Box) Collider </summary>
+	Collider(Transform* transform, float width, float length, float height, Vector3 rotation);
+
 
 
 	// BASE FUNCTION(s)
@@ -52,6 +70,17 @@ public:
 
 	virtual bool CollidesWith(SATCollider& other, CollisionManifold& out) { return false; }
 
+
+
+	// NEW FUNCTION(s)
+
+	// SPHERE
+	// CollisionManifold SphereToSphereCol(Collider* objectA, Collider* objectB, CollisionManifold& out);
+
+	// bool ObjectCollision(Collider* objectA, Collider* objectB, CollisionManifold& out);
+
+
+
 	// GETTER FUNCTION(s)
 	inline Transform* GetTransform() { return m_Transform; }
 
@@ -62,6 +91,10 @@ public:
 	inline bool GetRenderCollision() const { return m_RenderCollision; }
 	inline bool GetIsColliedable() const { return m_IsCollidable; }
 
+	inline ColliderType GetColliderType() const { return m_ColliderType; }
+	inline float GetRadius() const { return m_Radius; }
+
+
 	// SETTER FUNCTION(s)
 	void SetIsCollidable(bool isCollidable) { m_IsCollidable = isCollidable; }
 	void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
@@ -69,7 +102,7 @@ public:
 
 	// HELPER
 	Vector3 FindFurthestPoint(Vector3 direction); // GJK Algo Function
-
+	Vector3 SphereNearestPoint(Vector3 point);
 };
 
 #endif

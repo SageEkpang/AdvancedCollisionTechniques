@@ -16,6 +16,19 @@ Collider::Collider(Transform* transform)
 
 	// Store Transform in Matrix
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
+
+
+
+	//Col2 t_ColliderTypes;
+	//t_ColliderTypes.first = ColliderType::COLLIDER_BOX;
+	//t_ColliderTypes.second = ColliderType::COLLIDER_SPHERE;
+
+
+	//m_MapColliderFunctions[t_ColliderTypes];
+
+	//CollisionManifold thing;
+	//bool Colliding = m_MapColliderFunctions[t_ColliderTypes](this, this, thing);
+
 }
 
 void Collider::Update(float deltaTime)
@@ -67,6 +80,39 @@ void Collider::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, 
 	pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
 }
 
+//CollisionManifold Collider::SphereToSphereCol(Collider* objectA, Collider* objectB, CollisionManifold& out)
+//{
+//	Vector3 DistanceBetweenPoints = objectB->GetPosition() - objectA->GetPosition(); // may need to flip this
+//	float CombinedRadius = objectA->GetRadius() + objectB->GetRadius();
+//
+//	if (Vector::Magnitude(DistanceBetweenPoints) < (CombinedRadius * CombinedRadius))
+//	{
+//		out.collisionNormal = Vector::Normalise(DistanceBetweenPoints); // Normal
+//		out.contactPointCount = 1;
+//		out.points[0].position = GetPosition() + (out.collisionNormal * GetRadius());
+//		out.points[0].penetrationDepth = fabs(Vector::Magnitude(DistanceBetweenPoints) - CombinedRadius);
+//		out.hasCollision = true;
+//		return out;
+//	}
+//
+//	return CollisionManifold();
+//}
+
+//bool Collider::ObjectCollision(Collider* objectA, Collider* objectB, CollisionManifold& out)
+//{
+//	// NOTE: Find and Store the Collision Pair Type
+//	Col2 t_TempCol;
+//	t_TempCol.first = objectA->GetColliderType(); // Sphere
+//	t_TempCol.second = objectB->GetColliderType(); // Plane
+//
+//	// NOTE: Return the Function data if there was any intersections
+//	// FIXME: Check if this actually means collision or it has a collision for stuff
+//	if (m_MapColliderFunctions[t_TempCol](objectA, objectB, out).hasCollision) { return true; } 
+//	
+//	// NOTE: No Collision
+//	return false;
+//}
+
 void Collider::SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device)
 {
 	Geometry t_Geometry;
@@ -101,4 +147,11 @@ Vector3 Collider::FindFurthestPoint(Vector3 direction)
 	}
 
 	return t_MaxPoint;
+}
+
+Vector3 Collider::SphereNearestPoint(Vector3 point)
+{
+	Vector3 t_SphereToPoint = Vector::Normalise(point - GetPosition());
+	t_SphereToPoint *= m_Radius;
+	return t_SphereToPoint + GetPosition();
 }

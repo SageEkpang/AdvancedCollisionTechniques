@@ -25,8 +25,11 @@ bool BoxCollider::CollidesWith(BoxCollider& other, CollisionManifold& out)
 		m_Min.z <= OtherMax.z &&
 		m_Max.z >= OtherMin.z)
 	{
-		out.collisionNormal = Vector::Normalise(other.GetPosition() - GetPosition());
-		out.contactPointCount = 8;
+		out.collisionNormal = Vector::Normalise(GetPosition() - other.GetPosition());
+		out.contactPointCount = 1;
+		out.hasCollision = true;
+		out.penetrationDepth = fabs(Vector::Magnitude(GetPosition() - other.GetPosition()));
+
 		return true;
 	}
 
@@ -62,6 +65,11 @@ bool BoxCollider::CollidesWith(SphereCollider& other, CollisionManifold& out)
 	{
 		out.collisionNormal = Vector::Normalise(other.GetPosition() - GetPosition());
 		out.collisionNormal = Vector::Normalise(out.collisionNormal);
+		out.hasCollision = true;
+		out.points[0].position = GetPosition() + (out.collisionNormal * GetRadius());
+
+		int t_AverageScale = abs(GetScale().x + GetScale().y + GetScale().z / 3);
+		out.penetrationDepth = fabs(Vector::Magnitude(other.GetPosition() - GetPosition()) - t_AverageScale);
 		return true;
 	}
 

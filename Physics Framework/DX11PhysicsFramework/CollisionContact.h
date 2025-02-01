@@ -19,15 +19,10 @@ private:
 	CollisionManifold m_CollisionManifold;
 
 	Vector3 m_ContactPoint;
-	Vector3 m_ContactNormal;
-	float m_Penetration;
-
-	// NOTE: Duration Equals DeltaTime
-	void ResolveVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
 
 protected:
 
-	Vector3 CalculateSeparatingVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB) const;
+	Vector3 CalculateSeparatingVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, Vector3 contactNormal) const;
 
 public:
 
@@ -41,16 +36,12 @@ public:
 	/// <summary> Resolve Collision Code for the Collision of the Game Objects
 	void ResolveCollision(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
 
-	void ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
-	void ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB);
+	void ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration, Vector3 collisionNormal);
+	void ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB, float penetration, Vector3 contactNormal);
 
 	// SETTER FUNCTION(s)
-	void SetContactNormal(Vector3 normal) { m_ContactNormal = normal; }
-	void SetPenetration(float penetration) { m_Penetration = penetration; }
 
 	// GETTER FUNCTION(s)
-	inline Vector3 GetContactNormal() { return m_ContactNormal; }
-	inline float GetPenetration() { return m_Penetration; }
 
 };
 

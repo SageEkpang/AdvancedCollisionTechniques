@@ -21,7 +21,6 @@ public:
 	EPACollider();
 	~EPACollider();
 
-
 	// BASE FUNCTION(s)
 	CollisionManifold EPACollision(Simplex& simplex, Collider* colliderA, Collider* colliderB);
 

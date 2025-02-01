@@ -8,12 +8,12 @@ bool SphereCollider::CollidesWith(SphereCollider& other, CollisionManifold& out)
     Vector3 DistanceBetweenPoints = other.GetPosition() - GetPosition(); // may need to flip this
     float CombinedRadius = m_Radius + other.m_Radius;
 
-    if (Vector::Magnitude(DistanceBetweenPoints) < (CombinedRadius * CombinedRadius))
+    if (Vector::Magnitude(DistanceBetweenPoints) < (CombinedRadius))
     {
-        out.collisionNormal = Vector::Normalise(DistanceBetweenPoints); // Normal
+        out.collisionNormal = Vector::Normalise(other.GetPosition() - GetPosition()); // Normal
         out.contactPointCount = 1;
         out.points[0].position = GetPosition() + (out.collisionNormal * GetRadius());
-        out.points[0].penetrationDepth = fabs(Vector::Magnitude(DistanceBetweenPoints) - CombinedRadius);
+        out.penetrationDepth = fabs(Vector::Magnitude(DistanceBetweenPoints) - CombinedRadius); // Pen Depth
         return true;
     }
 
@@ -53,9 +53,12 @@ bool SphereCollider::CollidesWith(BoxCollider& other, CollisionManifold& out)
     {
         out.collisionNormal = Vector::Normalise(GetPosition() - other.GetPosition());
         out.contactPointCount = 1;
+        out.hasCollision = true;
         out.points[0].position = GetPosition() + (out.collisionNormal * GetRadius());
-        out.points[0].penetrationDepth = GetRadius() - DistanceMin;
 
+
+        int t_AverageScale = abs(other.GetScale().x + other.GetScale().y + other.GetScale().z / 3);
+        out.penetrationDepth = fabs(Vector::Magnitude(other.GetPosition() - GetPosition()) - t_AverageScale);
         return true;
     }
 
