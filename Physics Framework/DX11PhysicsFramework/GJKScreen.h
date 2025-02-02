@@ -8,9 +8,14 @@
 
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
+#include "GJKCollider.h"
 
 class GJKScreen : public Screen
 {
+private:
+
+	GJKCollider* m_GJKCollider;
+
 public:
 
 	// CLASS FUNCTION(s)
@@ -20,6 +25,10 @@ public:
 
 	/// <summary> Default Destructor for Class </summary>
 	~GJKScreen();
+
+
+	// HELPER FUNCTION(s)
+	void ResolveCollision(const float deltaTime);
 
 
 	// BASE FUNCTION(s)

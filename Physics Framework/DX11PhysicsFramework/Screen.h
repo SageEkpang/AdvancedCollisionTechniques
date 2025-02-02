@@ -12,6 +12,18 @@
 
 using namespace DirectX;
 
+// NOTE: PHYSICS SCREEN ENUM
+enum PhysicsScreenState
+{
+	STATE_NONE = 0,
+	STATE_BASIC_SCREEN,
+	STATE_EPA_SCREEN,
+	STATE_SAT_SCREEN,
+	STATE_GJK_SCREEN,
+	STATE_MASS_ARG_SCREEN
+};
+
+// NOTE: SCREEN STRUCT
 typedef struct ScreenInformation
 {
 	PhysicsScreenState physicsScreenState;

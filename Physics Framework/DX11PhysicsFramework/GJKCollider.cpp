@@ -2,20 +2,11 @@
 
 GJKCollider::GJKCollider()
 {
-
-
-
-
-
-
+	printf("GJK Collider Set Up");
 }
 
 GJKCollider::~GJKCollider()
 {
-
-
-
-
 
 }
 
@@ -43,14 +34,11 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 		t_Points.push_front(t_Support);
 
-		//if (NextSimplex(t_Points, t_Direction))
-		//{
-		//	return true;
-		//}
-
+		if (NextSimplex(t_Points, t_Direction))
+		{
+			return true;
+		}
 	}
-
-
 
 	return false;
 }
@@ -59,16 +47,18 @@ bool GJKCollider::NextSimplex(Simplex& points, Vector3& direction)
 {
 	switch (points.GetSize())
 	{
-		case 2: Line(points, direction);
-		case 3: Triangle(points, direction);
-		case 4: Tetrahedron(points, direction);
+		case 2: return Line(points, direction);
+		case 3: return Triangle(points, direction);
+		case 4: return Tetrahedron(points, direction);
 	}
 
+	// NOTE: Should not Get Here
 	return false;
 }
 
 bool GJKCollider::Line(Simplex points, Vector3 direction)
 {
+	// NOTE: Check if the Point Ever Intersects the Line at All
 	Vector3 t_A = points[0];
 	Vector3 t_B = points[1];
 
@@ -90,6 +80,7 @@ bool GJKCollider::Line(Simplex points, Vector3 direction)
 
 bool GJKCollider::Triangle(Simplex points, Vector3 direction)
 {
+	// NOTE: Checks if the point intersects the Triangle at all
 	Vector3 t_A = points[0];
 	Vector3 t_B = points[1];
 	Vector3 t_C = points[2];
@@ -137,6 +128,7 @@ bool GJKCollider::Triangle(Simplex points, Vector3 direction)
 
 bool GJKCollider::Tetrahedron(Simplex points, Vector3 direction)
 {
+	// NOTE: Check if the point is inside the Tetrahedron and if there even is a point inside
 	Vector3 t_A = points[0];
 	Vector3 t_B = points[1];
 	Vector3 t_C = points[2];
@@ -171,14 +163,20 @@ bool GJKCollider::Tetrahedron(Simplex points, Vector3 direction)
 
 bool GJKCollider::SameDirection(Vector3 direction, Vector3 Ao)
 {
+	// NOTE: Calculate the direction of the vectors pointing in the direction of the AO
 	return Vector::CalculateDotProduct(direction, Ao) > 0;
 }
 
 Vector3 GJKCollider::Support(Collider* colliderA, Collider* colliderB, Vector3 direction)
 {
-	// REWORK: Rework the collider class so it knows what vertices it has, this is used for this function
 	Vector3 t_TempA = colliderA->FindFurthestPoint(direction);
-	Vector3 t_TempB = colliderB->FindFurthestPoint(-direction); // TODO: Need to actually check if it is working
+	Vector3 t_TempB = colliderB->FindFurthestPoint(-direction);
 
 	return t_TempA - t_TempB;
+}
+
+void GJKCollider::LoadInVertices(char* path)
+{
+	
+
 }

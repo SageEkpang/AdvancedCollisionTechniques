@@ -11,8 +11,6 @@ EPACollider::~EPACollider()
 {
 
 
-
-
 }
 
 CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider* colliderA, Collider* colliderB)
@@ -20,6 +18,7 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider* collider
 	std::vector<Vector3> t_Polytope;
 	t_Polytope.insert(t_Polytope.end(), simplex.begin(), simplex.end());
 
+	// NOTE: Potential Face / Triangle list, in terms of Winding order
 	std::vector<size_t> t_Faces = {
 
 		0, 1, 2,
@@ -28,8 +27,9 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider* collider
 		1, 3, 2
 	};
 
-	// List: Vector4(normal, distance, index : min Distance
-	auto [t_Normals, t_MinFace] = GetFaceNormals(t_Polytope, t_Faces);
+	// NOTE: n-Polytope of the face, Minimum face normal
+	// NOTE: Calculates the new normals of the Face
+	auto [t_Normals, t_MinFace] = GetFaceNormals(t_Polytope, t_Faces); // TODO: May need to move this into the loop
 
 	Vector3 t_MinNormal;
 	float t_MinDistance = FLT_MAX;
@@ -104,6 +104,7 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider* collider
 	t_Points.collisionNormal = t_MinNormal;
 	t_Points.penetrationDepth = t_MinDistance + 0.0001f;
 	t_Points.hasCollision = true;
+	t_Points.contactPointCount = 1.0;
 
 	return t_Points;
 }
@@ -124,6 +125,7 @@ Vector3 EPACollider::Support(Collider* colliderA, Collider* colliderB, Vector3 d
 
 void EPACollider::AddIfUniqueEdge(std::vector<std::pair<size_t, size_t>>& edges, std::vector<size_t> faces, size_t a, size_t b)
 {
+	// NOTE: Checks if the reverse of the edge already exists in the list, if so, remove said list
 	auto t_Reverse = std::find(edges.begin(), edges.end(), std::make_pair(faces[b], faces[a]));
 
 	if (t_Reverse != edges.end())
@@ -138,6 +140,7 @@ void EPACollider::AddIfUniqueEdge(std::vector<std::pair<size_t, size_t>>& edges,
 
 std::pair<std::vector<Vector4>, size_t> EPACollider::GetFaceNormals(std::vector<Vector3> polytope, std::vector<size_t> faces)
 {
+	// NOTE: Get the Array of Normal Faces
 	std::vector<Vector4> t_NormalArray;
 	size_t t_MinTriangle = 0;
 	float t_MinDistance = FLT_MAX;

@@ -109,7 +109,7 @@ bool BoxCollider::CollidesWith(SATCollider& other, CollisionManifold& out)
 
 	for (int i = 0; i < 3; ++i)
 	{
-		if (other.OverlapAxis(this, t_Axis))
+		if (!other.OverlapAxis(this, t_Axis))
 		{
 			return false;
 		}

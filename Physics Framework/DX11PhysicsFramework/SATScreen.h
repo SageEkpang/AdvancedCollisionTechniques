@@ -8,9 +8,16 @@
 
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
+#include "CollisionContact.h"
+#include "OBBCollider.h"
+#include "SATCollider.h"
 
 class SATScreen : public Screen
 {
+private:
+
+	CollisionContact* m_CollisionContact;
+
 public:
 
 	// CLASS FUNCTION(s)
@@ -20,6 +27,13 @@ public:
 
 	/// <summary> Default Destructor for Class </summary>
 	~SATScreen();
+
+
+	// HELPER FUNCTION(s)
+
+	// TODO: Put this in collision class
+	void ResolveCollision(const float deltaTime);
+
 
 
 	// BASE FUNCTION(s)

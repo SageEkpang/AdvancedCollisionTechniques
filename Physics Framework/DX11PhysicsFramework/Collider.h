@@ -48,13 +48,13 @@ public:
 	Collider(Transform* transform);
 
 	/// <summary> Box / PlaneCollider </summary>
-	Collider(Transform* transform, float width, float length, float height, bool isPlane);
+	Collider(Transform* transform, float width, float length, float height, bool isPlane) { }
 
 	/// <summary> Sphere Collider </summary>
-	Collider(Transform* transform, float radius);
+	Collider(Transform* transform, float radius) { }
 
 	/// <summary> OBB (Oriented Bounding Box) Collider </summary>
-	Collider(Transform* transform, float width, float length, float height, Vector3 rotation);
+	Collider(Transform* transform, float width, float length, float height, Vector3 rotation) { }
 
 
 
@@ -66,8 +66,8 @@ public:
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) { return false; }
 	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) { return false; }
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) { return false; }
-	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) { return false; }
 
+	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) { return false; }
 	virtual bool CollidesWith(SATCollider& other, CollisionManifold& out) { return false; }
 
 
@@ -99,6 +99,8 @@ public:
 	void SetIsCollidable(bool isCollidable) { m_IsCollidable = isCollidable; }
 	void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
 	inline void SetDrawCollider(bool render) { m_RenderCollision = render; }
+
+	
 
 	// HELPER
 	Vector3 FindFurthestPoint(Vector3 direction); // GJK Algo Function

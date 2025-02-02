@@ -187,6 +187,5 @@ void BasicScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
 
-	// Resolve the Collisions Found
 	ResolveCollision(deltaTime);
 }

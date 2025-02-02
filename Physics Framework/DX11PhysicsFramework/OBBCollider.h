@@ -18,16 +18,27 @@ private:
 	Vector3 m_Orientation;
 
 	Vector3 m_CenterPoint; // Position
-	Vector3 m_U[3]; // Tensor
+	Vector3 m_U[3]; // Tensor // NOTE: Local X, Y, Z AXES
 	float m_Extents[3]; // Extents
 
-	float m_Size[3]; // TODO: Fill this with values
-	float m_OrientationArray[9]; // Make a function for this instead
+	float m_Size[3] = { 0 }; // TODO: Fill this with values // TODORE: Depricated, remove these when possible
+	float m_OrientationArray[9] = { 0 }; // Make a function for this instead // TODORE: Depricated, remove these when possible
 
 public:
 
 	// CLASS FUNCTION(s)
-	OBBCollider(Transform* transform) : Collider(transform) { }
+	OBBCollider(Transform* transform, Vector3 rotation) : Collider(transform) 
+	{ 
+		// NOTE: Extents of the Bound Box to be tested
+		m_Extents[0] = transform->GetScale().x;
+		m_Extents[1] = transform->GetScale().y;
+		m_Extents[2] = transform->GetScale().z;
+
+		// NOTE: Rotation Matrix
+		m_U[0] = Vector3(rotation.x, 0, 0);
+		m_U[1] = Vector3(0, rotation.y, 0);
+		m_U[2] = Vector3(0, 0, rotation.z);
+	}
 
 	// BASE FUNCTION(s)
 	virtual bool CollidesWith(Collider& other, CollisionManifold& out) override { return other.CollidesWith(*this, out); }
@@ -36,9 +47,15 @@ public:
 	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) override;
 	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) override;
 
+	virtual bool CollidesWith(SATCollider& other, CollisionManifold& out) override; // TODO: Add to other classes
+
+
 	// GETTER FUNCTION(s)
 	Vector3 GetOrientation() { return m_Orientation; }
 	const float* GetOrientationArray() { return m_OrientationArray; }
+
+	Vector3* GetUArray() { return m_U; }
+
 
 	// HELPER FUNCTION(s)
 	Vector3 NearestPoint(Vector3 point);

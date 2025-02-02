@@ -1,24 +1,50 @@
 #include "OBBCollider.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "PlaneCollider.h"
+#include "SATCollider.h"
 
 bool OBBCollider::CollidesWith(OBBCollider& other, CollisionManifold& out)
 {
 	float t_RA, t_RB;
 	XMFLOAT3X3 t_R, t_AbsR;
 
+	m_Extents[0] = GetScale().x / 2;
+	m_Extents[1] = GetScale().y / 2;
+	m_Extents[2] = GetScale().z / 2;
+
+	other.m_Extents[0] = other.GetTransform()->GetScale().x;
+	other.m_Extents[1] = other.GetTransform()->GetScale().y;
+	other.m_Extents[2] = other.GetTransform()->GetScale().z;
+
+	Vector3 t_Test1[3] = {
+
+		Vector3(GetRotation().x, 0, 0),
+		Vector3(0, GetRotation().y, 0),
+		Vector3(0, 0, GetRotation().z)
+	};
+
+	Vector3 t_Test2[3] = {
+		Vector3(other.GetRotation().x, 0, 0),
+		Vector3(0, other.GetRotation().y, 0),
+		Vector3(0, 0, other.GetRotation().z)
+	};
+
 	// Compute rotation matrix expressing b in a's coordinate frame
 	for (int i = 0; i < 3; ++i)
 	{
 		for (int j = 0; j < 3; ++j)
 		{
-			t_R.m[i][j] = Vector::CalculateDotProduct(m_U[i], other.m_U[j]);
+			t_R.m[i][j] = Vector::CalculateDotProduct(t_Test1[i], t_Test2[j]);
 		}
 	}
-
+	
 	// Compute Translation Vector3 t
 	Vector3 t_Translation = other.GetPosition() - GetPosition();
 	float t_TranslationArray[3];
+
 	// Bring Translation into a's coordinate frame
-	t_Translation = Vector3(Vector::CalculateDotProduct(t_Translation, m_U[0]), Vector::CalculateDotProduct(t_Translation, m_U[1]), Vector::CalculateDotProduct(t_Translation, m_U[2]));
+	t_Translation = Vector3(Vector::CalculateDotProduct(t_Translation, t_Test1[0]), Vector::CalculateDotProduct(t_Translation, t_Test1[1]), Vector::CalculateDotProduct(t_Translation, t_Test1[2]));
 
 	// Compute common sub-expressions. Add in an epsion term to conteract arithemtic errors when two edges are parallel and their cross product is (near) null (see text for details)
 	for (int i = 0; i < 3; ++i)
@@ -100,6 +126,11 @@ bool OBBCollider::CollidesWith(OBBCollider& other, CollisionManifold& out)
 	if (std::abs(t_TranslationArray[1] * t_R.m[0][2] - t_TranslationArray[0] * t_R.m[1][2]) > t_RA + t_RB) { return false; }
 
 	// Not Seperating Axis, There is a Collision
+
+	out.collisionNormal = other.GetPosition() - GetPosition();
+	out.contactPointCount = 1;
+	out.penetrationDepth = 0.0001f;
+
 	return true;
 }
 
@@ -124,6 +155,11 @@ bool OBBCollider::CollidesWith(PlaneCollider& other, CollisionManifold& out)
 
 
 
+	return false;
+}
+
+bool OBBCollider::CollidesWith(SATCollider& other, CollisionManifold& out)
+{
 	return false;
 }
 

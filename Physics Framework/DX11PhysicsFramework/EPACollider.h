@@ -12,9 +12,6 @@
 
 class EPACollider
 {
-private:
-
-
 public:
 
 	// CLASS FUNCTION(s)

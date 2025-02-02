@@ -78,7 +78,6 @@ Vector3 Vector::CalculateCrossProductV(Vector3 Value1, Vector3 Value2)
 
 float Vector::CalculateCrossProduct(Vector3 Value1, Vector3 Value2)
 {
-	// Torque ? No
 	float CrossProduct =
 		(Value1.y * Value2.z - Value1.z * Value2.y) +
 		(Value1.z * Value2.x - Value1.x * Value2.z) +

@@ -2,7 +2,6 @@
 
 // FORWARD DEC(s)
 #include "BasicScreen.h"
-#include "QuickHullScreen.h"
 #include "GJKScreen.h"
 #include "SATScreen.h"
 
@@ -85,7 +84,8 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	m_CurrentScreen = new BasicScreen("BasicScreen", _device);
+	// m_CurrentScreen = new BasicScreen("BasicScreen", _device);
+	m_CurrentScreen = new GJKScreen("GilbertJohnsonKeerthiScreen", _device);
 
 	return S_OK;
 }
@@ -179,9 +179,10 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 
 		// TRANSITION SCREEN(s)
 		case VK_0: TransitionScreen(STATE_BASIC_SCREEN); break;
-		case VK_1: TransitionScreen(STATE_QUICK_HULL_SCREEN); break;
-		case VK_2: TransitionScreen(STATE_SAT_SCREEN); break;
-		case VK_3: TransitionScreen(STATE_GJK_SCREEN); break;
+		case VK_1: TransitionScreen(STATE_SAT_SCREEN); break;
+		case VK_2: TransitionScreen(STATE_GJK_SCREEN); break;
+		case VK_3: TransitionScreen(STATE_EPA_SCREEN); break;
+		case VK_4: TransitionScreen(STATE_MASS_ARG_SCREEN); break;
 	}
 
 	return false;
@@ -195,9 +196,12 @@ void ScreenManager::TransitionScreen(PhysicsScreenState state)
 	switch (state)
 	{
 		case PhysicsScreenState::STATE_BASIC_SCREEN: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
-		case PhysicsScreenState::STATE_QUICK_HULL_SCREEN: m_CurrentScreen = new QuickHullScreen("QuickHullScreen", _device); break;
 		case PhysicsScreenState::STATE_SAT_SCREEN: m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device); break;
-		case PhysicsScreenState::STATE_GJK_SCREEN: m_CurrentScreen = new GJKScreen("GJKScreen", _device); break;
+		case PhysicsScreenState::STATE_GJK_SCREEN: m_CurrentScreen = new GJKScreen("GilbertJohnsonKeerthiScreen", _device); break;
+
+		// case PhysicsScreenState::STATE_EPA_SCREEN: m_CurrentScreen = new;
+		// case PhysicsScreenState::STATE_MASS_ARG_SCREEN: m_CurrentScreen = new;
+		default: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
 	}
 }
 

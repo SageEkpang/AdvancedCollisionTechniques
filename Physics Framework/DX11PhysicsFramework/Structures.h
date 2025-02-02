@@ -38,16 +38,6 @@ using namespace std;
 
 // PHYSICS DATA(s)
 
-enum PhysicsScreenState
-{
-	STATE_NONE = 0,
-	STATE_BASIC_SCREEN,
-	STATE_CONVEX_HULL_SCREEN, // Do not need this, convex hull is made using the quick hull program, TODO: remove later
-	STATE_QUICK_HULL_SCREEN,
-	STATE_SAT_SCREEN,
-	STATE_GJK_SCREEN
-};
-
 enum MaterialTypes
 {
 	MATERIAL_SILICON,
@@ -103,7 +93,7 @@ typedef struct Tag
 		this->type = type;
 		this->id = id;
 	}
-};
+}Tag;
 
 typedef struct Vector3
 {
@@ -197,6 +187,13 @@ typedef struct Vector3
 		return Vector3(x / value, y / value, z / value);
 	}
 
+
+	//float operator[] (int value)
+	//{
+	//	if (value == 0) { return this->x; }
+	//	if (value == 1) { return this->y; }
+	//	if (value == 2) { return this->z; }
+	//}
 
 
 	Vector3 operator+=(Vector3 value)
@@ -295,9 +292,20 @@ typedef struct Vector3
 		return x * x + y * y + z * z;
 	}
 
+	Vector3 Inverse()
+	{
+		this->x = -x;
+		this->y = -y;
+		this->z = -z;
+	}
+
+	Vector3 DistanceTo(Vector3 value)
+	{
+		return Vector3(value - Vector3(x, y, z));
+	}
 
 
-	// ABSOLUTE
+	// MATH FUNCTION(s)
 	Vector3 Abs()
 	{
 		this->x = std::abs(x);
@@ -307,10 +315,65 @@ typedef struct Vector3
 		return *this;
 	}
 
+	Vector3 fAbs()
+	{
+		this->x = std::fabs(x);
+		this->y = std::fabs(y);
+		this->z = std::fabs(z);
+		return *this;
+	}
+
+	Vector3 Pow(int power) const
+	{
+		return Vector3(std::pow(this->x, power), std::pow(this->y, power), std::pow(this->z, power));
+	}
+
+	float Magnitude() const
+	{
+		return (x * x) + (y * y) + (z * z);
+	}
+
+	Vector3 Normalise()
+	{
+		float t_Length = this->Magnitude();
+		float t_NormX = this->x / t_Length;
+		float t_NormY = this->y / t_Length;
+		float t_NormZ = this->z / t_Length;
+
+		return Vector3(t_NormX, t_NormY, t_NormZ);
+	}
+
+	float Dot(Vector3 value)
+	{
+		Vector3 t_NormVec1 = this->Normalise();
+		Vector3 t_NormVec2 = value.Normalise();
+		return (t_NormVec1.x * t_NormVec2.x) + (t_NormVec1.y * t_NormVec2.y) + (t_NormVec1.z * t_NormVec2.z);
+	}
+
+	float DotNotNorm(Vector3 value) const
+	{
+		return (this->x * value.x) + (this->y * value.y) + (this->z * value.z);
+	}
+
+	Vector3 Cross(Vector3 value) const
+	{
+		float t_TempX = (this->y * value.z - this->z * value.y);
+		float t_TempY = (this->z * value.x - this->x * value.z);
+		float t_TempZ = (this->x * value.y - this->y * value.x);
+
+		return Vector3(t_TempX, t_TempY, t_TempZ);
+	}
+
+
 }Vector3, Vector3D;
 
 #define VECTOR3_ZERO Vector3{0, 0, 0}
 #define VECTOR3_ONE Vector3{1, 1, 1}
+
+#define VECTOR3_UP Vector3{0, 1, 0}
+
+#define VECTOR3_DOWN Vector3{0, -1, 0}
+#define VECTOR3_FORWARD Vector3{0, 0, 1}
 
 typedef struct Ray
 {

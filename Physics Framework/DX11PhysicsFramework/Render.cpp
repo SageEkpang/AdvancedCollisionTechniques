@@ -101,6 +101,7 @@ void Render::SetGeometryAndMaterial(char* fileName, Material material, ID3D11Dev
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
 	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+
 	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
 	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
 

@@ -27,14 +27,13 @@ class GJKCollider
 {
 private:
 
-	std::vector<Vector3> m_Vertices;
+	Vector3 m_Vertices;
 
 public:
 
 	// CLASS FUNCTION(s)
 	GJKCollider();
 	~GJKCollider();
-
 
 	// BASE FUNCTION(s)
 	bool GJKCollision(Collider* colliderA, Collider* colliderB);
@@ -49,7 +48,7 @@ public:
 	bool SameDirection(Vector3 direction, Vector3 Ao);
 	Vector3 Support(Collider* colliderA, Collider* colliderB, Vector3 direction);
 
-
+	void LoadInVertices(char* path);
 };
 
 #endif

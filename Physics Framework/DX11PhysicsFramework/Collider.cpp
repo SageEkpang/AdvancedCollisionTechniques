@@ -18,17 +18,15 @@ Collider::Collider(Transform* transform)
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 
 
-
+	// NOTE: Could / should make these functions static so that for every collision call, you just reference the function
 	//Col2 t_ColliderTypes;
 	//t_ColliderTypes.first = ColliderType::COLLIDER_BOX;
 	//t_ColliderTypes.second = ColliderType::COLLIDER_SPHERE;
-
 
 	//m_MapColliderFunctions[t_ColliderTypes];
 
 	//CollisionManifold thing;
 	//bool Colliding = m_MapColliderFunctions[t_ColliderTypes](this, this, thing);
-
 }
 
 void Collider::Update(float deltaTime)
@@ -121,7 +119,9 @@ void Collider::SetCollisionGeometry(char* fileName, Material material, ID3D11Dev
 	t_Mesh = OBJLoader::Load(fileName, device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
+
 	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+	
 	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
 	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
 
@@ -129,6 +129,7 @@ void Collider::SetCollisionGeometry(char* fileName, Material material, ID3D11Dev
 	m_Material = material;
 }
 
+// Minkowaski Difference Function
 Vector3 Collider::FindFurthestPoint(Vector3 direction)
 {
 	// STEP 1: Find the Max Point

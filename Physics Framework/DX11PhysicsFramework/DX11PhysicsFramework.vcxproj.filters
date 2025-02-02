@@ -60,15 +60,6 @@
     <Filter Include="Optimisation\Source">
       <UniqueIdentifier>{d2b20f0a-0f71-4c31-a7a4-fec8b8cc4c6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GeometryGen">
-      <UniqueIdentifier>{250ff11a-8df9-4f37-8a4b-f2de507ed753}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GeometryGen\Header">
-      <UniqueIdentifier>{01a09138-a2ac-4840-b6f7-40588feb427c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GeometryGen\Source">
-      <UniqueIdentifier>{444f6b5b-2298-42da-aa0c-4cb20925b527}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MassPhysics">
       <UniqueIdentifier>{d7824f22-d2c7-488d-889b-fde8dc73dae9}</UniqueIdentifier>
     </Filter>
@@ -105,6 +96,15 @@
     <Filter Include="CollisionResolution\Source">
       <UniqueIdentifier>{10249e68-76a1-4399-931f-bb08f56d8f22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{e10538e1-ac6a-4932-821d-87d1db393ff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\Header">
+      <UniqueIdentifier>{637df7a4-fddc-45e8-ac72-cfbcb2285ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\Source">
+      <UniqueIdentifier>{eea4af4a-376b-4da5-93fe-daecf7ff9bf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicScreen.h">
@@ -137,9 +137,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Helpers\Header</Filter>
-    </ClInclude>
     <ClInclude Include="DDSTextureLoader.h">
       <Filter>Helpers\Header</Filter>
     </ClInclude>
@@ -147,9 +144,6 @@
       <Filter>Helpers\Header</Filter>
     </ClInclude>
     <ClInclude Include="Quaternion.h">
-      <Filter>Helpers\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Structures.h">
       <Filter>Helpers\Header</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
@@ -160,12 +154,6 @@
     </ClInclude>
     <ClInclude Include="PhysicUtility.h">
       <Filter>Helpers\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>PhysicScreens\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="QuickHullScreen.h">
-      <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
     <ClInclude Include="GJKScreen.h">
       <Filter>PhysicScreens\Header</Filter>
@@ -182,20 +170,11 @@
     <ClInclude Include="MemoryPool.h">
       <Filter>Optimisation\Header</Filter>
     </ClInclude>
-    <ClInclude Include="OBBCollider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
     <ClInclude Include="GJKCollider.h">
       <Filter>CollisionTesting\Header</Filter>
     </ClInclude>
     <ClInclude Include="SATCollider.h">
       <Filter>CollisionTesting\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="EPACollider.h">
-      <Filter>GeometryGen\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="JarvisMarchHull.h">
-      <Filter>GeometryGen\Header</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Physics\Header</Filter>
@@ -217,6 +196,21 @@
     </ClInclude>
     <ClInclude Include="CollisionContact.h">
       <Filter>CollisionResolution\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EPACollider.h">
+      <Filter>CollisionTesting\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="OBBCollider.h">
+      <Filter>CollisionTesting\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -271,12 +265,6 @@
     <ClCompile Include="PhysicUtility.cpp">
       <Filter>Helpers\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>PhysicScreens\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="QuickHullScreen.cpp">
-      <Filter>PhysicScreens\Source</Filter>
-    </ClCompile>
     <ClCompile Include="GJKScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
@@ -292,20 +280,11 @@
     <ClCompile Include="MemoryPool.cpp">
       <Filter>Optimisation\Source</Filter>
     </ClCompile>
-    <ClCompile Include="OBBCollider.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
     <ClCompile Include="GJKCollider.cpp">
       <Filter>CollisionTesting\Source</Filter>
     </ClCompile>
     <ClCompile Include="SATCollider.cpp">
       <Filter>CollisionTesting\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="EPACollider.cpp">
-      <Filter>GeometryGen\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="JarvisMarchHull.cpp">
-      <Filter>GeometryGen\Source</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Physics\Source</Filter>
@@ -327,6 +306,15 @@
     </ClCompile>
     <ClCompile Include="CollisionContact.cpp">
       <Filter>CollisionResolution\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EPACollider.cpp">
+      <Filter>CollisionTesting\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="OBBCollider.cpp">
+      <Filter>CollisionTesting\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
