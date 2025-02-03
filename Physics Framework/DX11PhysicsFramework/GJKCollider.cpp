@@ -12,9 +12,7 @@ GJKCollider::~GJKCollider()
 
 bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 {
-	// TODO: Find what unit_x is
-	Vector3 t_UnitX = Vector3(1, 0, 0);
-	Vector3 t_Support = Support(colliderA, colliderB, t_UnitX);
+	Vector3 t_Support = Support(colliderA, colliderB, Vector3(1, 0, 0));
 
 	// Simplex is an array of points, max count is 4
 	Simplex t_Points;
@@ -22,25 +20,15 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 	Vector3 t_Direction = t_Support * -1;
 
-	// New Direction
-	while (true)
-	{
-		t_Support = Support(colliderA, colliderB, t_Direction);
+	t_Support = Support(colliderA, colliderB, t_Direction);
 		
-		if (Vector::CalculateDotProduct(t_Support, t_Direction) <= 0)
-		{
-			return false; // No Collision
-		}
+	if (Vector::CalculateDotProduct(t_Support, t_Direction) <= 0) { return false; }
 
-		t_Points.push_front(t_Support);
+	t_Points.push_front(t_Support);
 
-		if (NextSimplex(t_Points, t_Direction))
-		{
-			return true;
-		}
-	}
+	if (NextSimplex(t_Points, t_Direction)) { return true; }
 
-	return false;
+	return true;
 }
 
 bool GJKCollider::NextSimplex(Simplex& points, Vector3& direction)
@@ -56,7 +44,7 @@ bool GJKCollider::NextSimplex(Simplex& points, Vector3& direction)
 	return false;
 }
 
-bool GJKCollider::Line(Simplex points, Vector3 direction)
+bool GJKCollider::Line(Simplex& points, Vector3& direction)
 {
 	// NOTE: Check if the Point Ever Intersects the Line at All
 	Vector3 t_A = points[0];
@@ -78,7 +66,7 @@ bool GJKCollider::Line(Simplex points, Vector3 direction)
 	return false;
 }
 
-bool GJKCollider::Triangle(Simplex points, Vector3 direction)
+bool GJKCollider::Triangle(Simplex& points, Vector3& direction)
 {
 	// NOTE: Checks if the point intersects the Triangle at all
 	Vector3 t_A = points[0];
@@ -100,7 +88,7 @@ bool GJKCollider::Triangle(Simplex points, Vector3 direction)
 		}
 		else
 		{
-			return Line(points = { t_A, t_B}, direction);
+			return Line(points = { t_A, t_B }, direction);
 		}
 	}
 	else
@@ -126,7 +114,7 @@ bool GJKCollider::Triangle(Simplex points, Vector3 direction)
 	return false;
 }
 
-bool GJKCollider::Tetrahedron(Simplex points, Vector3 direction)
+bool GJKCollider::Tetrahedron(Simplex& points, Vector3& direction)
 {
 	// NOTE: Check if the point is inside the Tetrahedron and if there even is a point inside
 	Vector3 t_A = points[0];
@@ -158,7 +146,7 @@ bool GJKCollider::Tetrahedron(Simplex points, Vector3 direction)
 		return Triangle(points = {t_A, t_D, t_B}, direction);
 	}
 
-	return false;
+	return true;
 }
 
 bool GJKCollider::SameDirection(Vector3 direction, Vector3 Ao)

@@ -40,9 +40,9 @@ public:
 	bool NextSimplex(Simplex& points, Vector3& direction);
 	
 	// EXTRA FUNCTION(s)
-	bool Line(Simplex points, Vector3 direction);
-	bool Triangle(Simplex points, Vector3 direction);
-	bool Tetrahedron(Simplex points, Vector3 direction);
+	bool Line(Simplex& points, Vector3& direction);
+	bool Triangle(Simplex& points, Vector3& direction);
+	bool Tetrahedron(Simplex& points, Vector3& direction);
 
 	// HELPER FUNCTION(s)
 	bool SameDirection(Vector3 direction, Vector3 Ao);

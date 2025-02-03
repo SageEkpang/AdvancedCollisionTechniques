@@ -10,7 +10,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 	#pragma region Cube1
 	{
 		// Cube Object
-		GameObject* t_CubeObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_KINEMATIC));
+		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
 		Transform* t_CubeTransform = new Transform();
 		Render* t_CubeRender = new Render(t_CubeTransform);
 		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
@@ -20,9 +20,9 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 
 		// Transform
 		t_CubeObject->SetTransform(t_CubeTransform);
-		t_CubeTransform->SetScale(1.0f, 5.0f, 1.0f);
+		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(0.0f, 0.0f, 0.0f);
+		t_CubeTransform->SetPosition(3.0f, 3.0f, 10.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -40,9 +40,6 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
 
-		std::vector<Vector3> Test = MeshLoader::LoadObj("Resources\\OBJ\\cube.obj");
-
-
 		InsertObjectIntoList(t_CubeObject);
 	}
 	#pragma endregion
@@ -50,7 +47,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 	#pragma region Cube2
 	{
 		// Cube Object
-		GameObject* t_CubeObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_KINEMATIC));
+		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
 		Transform* t_CubeTransform = new Transform();
 		Render* t_CubeRender = new Render(t_CubeTransform);
 		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
@@ -62,7 +59,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(3.0f, 5.0f, 10.0f);
+		t_CubeTransform->SetPosition(2.0f, 100.0f, 10.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -71,7 +68,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 
 		// Collision
 		t_CubeObject->SetCollider(t_CubeCollider);
-		// t_CubeCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionCube.obj", MATERIAL_WIREFRAME, device);
+		t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
 
 		// Rendering
 		t_CubeObject->SetRender(t_CubeRender);
@@ -95,7 +92,7 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 	CollisionManifold t_ColManifold;
 
 	// m_GameObjects[1]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
-	m_GameObjects[2]->GetRigidbody()->AddForce(Vector3(-1.0, 0, 0));
+	// m_GameObjects[1]->GetRigidbody()->AddForce(Vector3(-1.0, 0, 0));
 
 	// static int rot;
 	// rot += 100 * deltaTime;
@@ -117,8 +114,6 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
 			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
 
-			Transform* t_ObjectATransform = m_GameObjects[i]->GetTransform();
-			Transform* t_ObjectBTransform = m_GameObjects[j]->GetTransform();
 
 			// See if there is a Collider on the rigidbody
 			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
@@ -127,6 +122,7 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()))
 				{
 					int i = 0;
+
 				}
 
 				//// Material Coef Calculate
@@ -149,18 +145,15 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 void GJKScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
-
-
-
-
-
+	ResolveCollision(deltaTime);
 }
 
-void GJKScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
-{
-	Screen::Draw(constantBufferData, constBuff, pImmediateContext, device);
-
-	// pImmediateContext->Draw();
-
-
-}
+//void GJKScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
+//{
+//	// Screen::Draw(constantBufferData, constBuff, pImmediateContext, device);
+//
+//	// TODO: Draw the points
+//	// pImmediateContext->Draw();
+//
+//
+//}

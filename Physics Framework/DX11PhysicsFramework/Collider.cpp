@@ -165,7 +165,7 @@ void Collider::FillVerticesArray(char* path, Transform* objectTransform)
 
 	for (int i = 0; i < t_TempVec.size(); ++i)
 	{
-		Vector3 t_VecPos = (t_TempVec[i] * objectTransform->GetScale()) + objectTransform->GetPosition();
+		Vector3 t_VecPos = (t_TempVec[i] * (objectTransform->GetScale() / 2)) + objectTransform->GetPosition();
 		t_WorldVertex.push_back(t_VecPos);
 	}
 
