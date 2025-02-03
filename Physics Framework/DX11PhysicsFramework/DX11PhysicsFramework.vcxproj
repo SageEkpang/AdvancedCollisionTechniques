@@ -391,6 +391,7 @@
     <ClCompile Include="MassPointSpring.cpp" />
     <ClCompile Include="MaterialCoefficient.cpp" />
     <ClCompile Include="MemoryPool.cpp" />
+    <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Octree.cpp" />
@@ -433,6 +434,7 @@
     <ClInclude Include="MassPointSpring.h" />
     <ClInclude Include="MaterialCoefficient.h" />
     <ClInclude Include="MemoryPool.h" />
+    <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Octree.h" />

@@ -20,9 +20,9 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 
 		// Transform
 		t_CubeObject->SetTransform(t_CubeTransform);
-		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
+		t_CubeTransform->SetScale(1.0f, 5.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(0.0f, 5.0f, 10.0f);
+		t_CubeTransform->SetPosition(0.0f, 0.0f, 0.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -31,12 +31,17 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 
 		// Collision
 		t_CubeObject->SetCollider(t_CubeCollider);
+		t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
 		// t_CubeCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionCube.obj", MATERIAL_WIREFRAME, device);
 
 		// Rendering
 		t_CubeObject->SetRender(t_CubeRender);
 		t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
 		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
+
+
+		std::vector<Vector3> Test = MeshLoader::LoadObj("Resources\\OBJ\\cube.obj");
+
 
 		InsertObjectIntoList(t_CubeObject);
 	}
@@ -139,9 +144,6 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 			t_ColManifold = CollisionManifold();
 		}
 	}
-
-
-
 }
 
 void GJKScreen::Update(float deltaTime)
@@ -152,14 +154,13 @@ void GJKScreen::Update(float deltaTime)
 
 
 
+}
 
+void GJKScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
+{
+	Screen::Draw(constantBufferData, constBuff, pImmediateContext, device);
 
-
-
-
-
-
-
+	// pImmediateContext->Draw();
 
 
 }

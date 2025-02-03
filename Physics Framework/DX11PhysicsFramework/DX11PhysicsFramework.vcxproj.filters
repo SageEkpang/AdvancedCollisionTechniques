@@ -212,6 +212,7 @@
     <ClInclude Include="Constants.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="MeshLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -316,6 +317,7 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Camera\Source</Filter>
     </ClCompile>
+    <ClCompile Include="MeshLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

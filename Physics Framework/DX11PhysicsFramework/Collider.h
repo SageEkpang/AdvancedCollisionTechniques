@@ -8,6 +8,7 @@
 #include "Vector.h"
 
 #include "OBJLoader.h"
+#include "MeshLoader.h"
 
 // FORWARD DEC(s)
 class BoxCollider;
@@ -105,6 +106,10 @@ public:
 	// HELPER
 	Vector3 FindFurthestPoint(Vector3 direction); // GJK Algo Function
 	Vector3 SphereNearestPoint(Vector3 point);
+
+	// TODO: Make a function that updates the verticese within this field
+	/// <summary> NOTE: This needs to take a file path for computing the points to draw </summary>
+	void FillVerticesArray(char* path, Transform* objectTransform);
 };
 
 #endif

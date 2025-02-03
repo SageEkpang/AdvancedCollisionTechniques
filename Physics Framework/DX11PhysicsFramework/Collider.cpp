@@ -156,3 +156,18 @@ Vector3 Collider::SphereNearestPoint(Vector3 point)
 	t_SphereToPoint *= m_Radius;
 	return t_SphereToPoint + GetPosition();
 }
+
+void Collider::FillVerticesArray(char* path, Transform* objectTransform)
+{
+	// NOTE: Fill array with the different mesh load values
+	std::vector<Vector3> t_TempVec = MeshLoader::LoadObj(path);
+	std::vector<Vector3> t_WorldVertex;
+
+	for (int i = 0; i < t_TempVec.size(); ++i)
+	{
+		Vector3 t_VecPos = (t_TempVec[i] * objectTransform->GetScale()) + objectTransform->GetPosition();
+		t_WorldVertex.push_back(t_VecPos);
+	}
+
+	m_Vertices.insert(m_Vertices.end(), t_WorldVertex.begin(), t_WorldVertex.end());
+}

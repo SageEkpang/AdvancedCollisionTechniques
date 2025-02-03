@@ -66,7 +66,6 @@ VS_OUTPUT VS_main(VS_INPUT input)
 
 	float4 posW = mul(input.PosL, World);
 	output.PosW = posW.xyz;
-
 	output.PosH = mul(posW, View);
 	output.PosH = mul(output.PosH, Projection);
 	output.Tex = input.Tex;
