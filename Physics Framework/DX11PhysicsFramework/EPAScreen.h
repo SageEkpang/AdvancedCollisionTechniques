@@ -1,6 +1,5 @@
-#pragma once
-#ifndef GJK_SCREEN_H
-#define GJK_SCREEN_H
+#ifndef EPA_SCREEN_H
+#define EPA_SCREEN_H
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
@@ -8,23 +7,23 @@
 
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
-#include "GJKCollider.h"
+#include "EPACollider.h"
 
-class GJKScreen : public Screen
+class EPAScreen : public Screen
 {
 private:
 
-	GJKCollider* m_GJKCollider;
+	EPACollider* m_EPACollider;
 
 public:
 
 	// CLASS FUNCTION(s)
 
 	/// <summary> Default Constructor for Class </summary>
-	GJKScreen(std::string screenName, ID3D11Device* device);
+	EPAScreen(std::string screenName, ID3D11Device* device);
 
 	/// <summary> Default Destructor for Class </summary>
-	~GJKScreen();
+	~EPAScreen();
 
 
 	// HELPER FUNCTION(s)

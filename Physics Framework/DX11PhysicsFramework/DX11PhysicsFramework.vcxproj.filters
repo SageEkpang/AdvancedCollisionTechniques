@@ -213,6 +213,7 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="MeshLoader.h" />
+    <ClInclude Include="EPAScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -318,6 +319,7 @@
       <Filter>Camera\Source</Filter>
     </ClCompile>
     <ClCompile Include="MeshLoader.cpp" />
+    <ClCompile Include="EPAScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
