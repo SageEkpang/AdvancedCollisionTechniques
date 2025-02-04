@@ -26,8 +26,12 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 	t_Points.push_front(t_Support);
 
-	if (NextSimplex(t_Points, t_Direction)) { return true; }
+	if (NextSimplex(t_Points, t_Direction)) 
+	{ 
+		return true; 
+	}
 
+	// TODO: Return the simplex
 	return true;
 }
 
@@ -163,8 +167,3 @@ Vector3 GJKCollider::Support(Collider* colliderA, Collider* colliderB, Vector3 d
 	return t_TempA - t_TempB;
 }
 
-void GJKCollider::LoadInVertices(char* path)
-{
-	
-
-}

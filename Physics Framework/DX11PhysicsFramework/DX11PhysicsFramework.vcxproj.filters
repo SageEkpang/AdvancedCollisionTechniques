@@ -213,7 +213,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="MeshLoader.h" />
-    <ClInclude Include="EPAScreen.h" />
+    <ClInclude Include="EPAScreen.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -319,7 +321,9 @@
       <Filter>Camera\Source</Filter>
     </ClCompile>
     <ClCompile Include="MeshLoader.cpp" />
-    <ClCompile Include="EPAScreen.cpp" />
+    <ClCompile Include="EPAScreen.cpp">
+      <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

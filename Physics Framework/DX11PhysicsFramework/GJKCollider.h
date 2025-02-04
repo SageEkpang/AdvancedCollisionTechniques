@@ -47,8 +47,6 @@ public:
 	// HELPER FUNCTION(s)
 	bool SameDirection(Vector3 direction, Vector3 Ao);
 	Vector3 Support(Collider* colliderA, Collider* colliderB, Vector3 direction);
-
-	void LoadInVertices(char* path);
 };
 
 #endif

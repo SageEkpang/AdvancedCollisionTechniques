@@ -59,7 +59,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(2.0f, 100.0f, 10.0f);
+		t_CubeTransform->SetPosition(2.0f, 4.0f, 10.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -78,7 +78,6 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		InsertObjectIntoList(t_CubeObject);
 	}
 	#pragma endregion
-
 }
 
 GJKScreen::~GJKScreen()
