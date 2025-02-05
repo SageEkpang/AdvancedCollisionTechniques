@@ -27,42 +27,35 @@
 	that are generating by the convex hull generating algorithm.
 */
 
-typedef struct MassPoint
-{
-	Vector3 position;
-	int mass;
-};
-
 // NOTE: THIS IS THE MASS OBJECT TO SIMULATE
 class MassAggregate
 {
 private: // PRIVATE VARIABLE(s)
 
-	Transform* m_Transform;
 	std::vector<Particle*> m_MassPoints;
-	std::vector<Vector3> m_PositionPoints;
-
-private: // PRIVATE FUNCTION(s)
-
-	void FillVeritcesArray();
+	float m_Mass;
+	int m_Size;
 
 public: // PUBLIC VARIABLE(s)
 
 	// CLASS FUNCTION(s)
-	MassAggregate(const char* filePath);
+	MassAggregate(char* filePath, Vector3 position, float mass, int size, ID3D11Device* device);
 	~MassAggregate();
 
 
 	// BASE FUNCTION(s)
-	void SimulatePhysicsPoints(float deltaTime); // Update Function
+	void Update(float deltaTime); // Update Function
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
 
 	// GETTER FUNCTION(s)
 	inline std::vector<Particle*> GetParticle() { m_MassPoints; }
 
-
 	// SETTER FUNCTION(s)
-	inline void AddParticle(Particle* particle) { m_MassPoints.push_back(particle) };
+
+
+	// HELPER FUNCTION(s)
+	inline void AddParticle(Particle* particle) { m_MassPoints.push_back(particle); };
 	void ClearParticle();
 
 };

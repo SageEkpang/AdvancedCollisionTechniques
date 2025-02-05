@@ -216,7 +216,9 @@
     <ClInclude Include="Particle.h">
       <Filter>MassPhysics\Header</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleRod.h" />
+    <ClInclude Include="MassAggScreen.h">
+      <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -325,7 +327,9 @@
     <ClCompile Include="Particle.cpp">
       <Filter>MassPhysics\Source</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleRod.cpp" />
+    <ClCompile Include="MassAggScreen.cpp">
+      <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

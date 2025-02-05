@@ -11,13 +11,11 @@
 #include "Timer.h"
 
 //  CUSTOM INCLUDE(s) / FORWARD DEC(s)
-class StartUp;
 class BasicScreen;
 class GJKScreen;
 class SATScreen;
-
-class EPAScreen; // TODO: Make this
-class MassAregate; // TODO: Make this
+class MassAggScreen;
+class EPAScreen;
 
 class ScreenManager
 {
@@ -89,7 +87,6 @@ private:
 	HRESULT CreateWindowHandle(HINSTANCE hInstance, int nShowCmd);
 	HRESULT CreateSwapChainAndFrameBuffer();
 	HRESULT InitShadersAndInputLayout();
-	HRESULT InitVertexIndexBuffers();
 	HRESULT InitPipelineStates();
 	HRESULT InitRunTimeData();
 	HRESULT CreateD3DDevice();

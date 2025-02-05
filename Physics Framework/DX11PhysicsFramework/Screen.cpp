@@ -20,9 +20,6 @@ void Screen::Update(float deltaTime)
 			// Collision Code here
 		}
 	}
-
-
-
 }
 
 void Screen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)

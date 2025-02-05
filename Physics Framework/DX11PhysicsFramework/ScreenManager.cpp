@@ -4,6 +4,8 @@
 #include "BasicScreen.h"
 #include "GJKScreen.h"
 #include "SATScreen.h"
+#include "EPAScreen.h"
+#include "MassAggScreen.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -85,7 +87,7 @@ HRESULT ScreenManager::CreateScreens()
 
 	// Assign Basic Screen to Screen Variable
 	// m_CurrentScreen = new BasicScreen("BasicScreen", _device);
-	m_CurrentScreen = new GJKScreen("GilbertJohnsonKeerthiScreen", _device);
+	m_CurrentScreen = new MassAggScreen("MassAggregate", _device);
 
 	return S_OK;
 }
@@ -154,9 +156,6 @@ HRESULT ScreenManager::Initialise(HINSTANCE hInstance, int nShowCmd)
 	hr = InitShadersAndInputLayout();
 	if (FAILED(hr)) return E_FAIL;
 
-	hr = InitVertexIndexBuffers();
-	if (FAILED(hr)) return E_FAIL;
-
 	hr = InitPipelineStates();
 	if (FAILED(hr)) return E_FAIL;
 
@@ -198,9 +197,9 @@ void ScreenManager::TransitionScreen(PhysicsScreenState state)
 		case PhysicsScreenState::STATE_BASIC_SCREEN: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
 		case PhysicsScreenState::STATE_SAT_SCREEN: m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device); break;
 		case PhysicsScreenState::STATE_GJK_SCREEN: m_CurrentScreen = new GJKScreen("GilbertJohnsonKeerthiScreen", _device); break;
+		case PhysicsScreenState::STATE_EPA_SCREEN: m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithm", _device); break;
+		case PhysicsScreenState::STATE_MASS_ARG_SCREEN: m_CurrentScreen = new MassAggScreen("MassAggregate", _device); break;
 
-		// case PhysicsScreenState::STATE_EPA_SCREEN: m_CurrentScreen = new;
-		// case PhysicsScreenState::STATE_MASS_ARG_SCREEN: m_CurrentScreen = new;
 		default: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
 	}
 }
@@ -382,142 +381,6 @@ HRESULT ScreenManager::InitShadersAndInputLayout()
 	errorBlob->Release();
 
 	return hr;
-}
-
-HRESULT ScreenManager::InitVertexIndexBuffers()
-{
-	HRESULT hr;
-
-	// Create vertex buffer
-	//SimpleVertex vertices[] =
-	//{
-	//	{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(1.0f, 0.0f) },
-	//	{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(0.0f, 0.0f) },
-	//	{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(0.0f, 1.0f) },
-	//	{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0, 1.0f, 0), XMFLOAT2(1.0f, 1.0f) },
-
-	//	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(0.0f, 0.0f) },
-	//	{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(1.0f, 0.0f) },
-	//	{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(1.0f, 1.0f) },
-	//	{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0, -1.0f, 0), XMFLOAT2(0.0f, 1.0f) },
-
-	//	{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(0.0f, 1.0f) },
-	//	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(1.0f, 1.0f) },
-	//	{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(1.0f, 0.0f) },
-	//	{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(-1.0f, 0, 0), XMFLOAT2(0.0f, 0.0f) },
-
-	//	{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(1.0f, 1.0f) },
-	//	{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(0.0f, 1.0f) },
-	//	{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(0.0f, 0.0f) },
-	//	{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0, 0), XMFLOAT2(1.0f, 0.0f) },
-
-	//	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(0.0f, 1.0f) },
-	//	{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-	//	{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-	//	{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0, 0, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-
-	//	{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-	//	{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-	//	{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(0.0f, 0.0f) },
-	//	{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0, 0, 1.0f), XMFLOAT2(1.0f, 0.0f) },
-	//};
-
-	/*D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(SimpleVertex) * 24;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = vertices;
-
-	hr = _device->CreateBuffer(&bd, &InitData, &_cubeVertexBuffer);*/
-
-	//if (FAILED(hr))
-	//	return hr;
-
-	//// Create index buffer
-	//WORD indices[] =
-	//{
-	//	3, 1, 0,
-	//	2, 1, 3,
-
-	//	6, 4, 5,
-	//	7, 4, 6,
-
-	//	11, 9, 8,
-	//	10, 9, 11,
-
-	//	14, 12, 13,
-	//	15, 12, 14,
-
-	//	19, 17, 16,
-	//	18, 17, 19,
-
-	//	22, 20, 21,
-	//	23, 20, 22
-	//};
-
-	//ZeroMemory(&bd, sizeof(bd));
-
-	//bd.Usage = D3D11_USAGE_DEFAULT;
-	//bd.ByteWidth = sizeof(WORD) * 36;
-	//bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	//bd.CPUAccessFlags = 0;
-
-	//ZeroMemory(&InitData, sizeof(InitData));
-	//InitData.pSysMem = indices;
-	//hr = _device->CreateBuffer(&bd, &InitData, &_cubeIndexBuffer);
-
-	//if (FAILED(hr))
-	//	return hr;
-
-	//// Create vertex buffer
-	//SimpleVertex planeVertices[] =
-	//{
-	//	{ XMFLOAT3(-1.0f, -1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 5.0f) },
-	//	{ XMFLOAT3(1.0f, -1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(5.0f, 5.0f) },
-	//	{ XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(5.0f, 0.0f) },
-	//	{ XMFLOAT3(-1.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-	//};
-
-	//ZeroMemory(&bd, sizeof(bd));
-	//bd.Usage = D3D11_USAGE_DEFAULT;
-	//bd.ByteWidth = sizeof(SimpleVertex) * 4;
-	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	//bd.CPUAccessFlags = 0;
-
-	//ZeroMemory(&InitData, sizeof(InitData));
-	//InitData.pSysMem = planeVertices;
-
-	//hr = _device->CreateBuffer(&bd, &InitData, &_planeVertexBuffer);
-
-	//if (FAILED(hr))
-	//	return hr;
-
-	//// Create plane index buffer
-	//WORD planeIndices[] =
-	//{
-	//	0, 3, 1,
-	//	3, 2, 1,
-	//};
-
-	//ZeroMemory(&bd, sizeof(bd));
-	//bd.Usage = D3D11_USAGE_DEFAULT;
-	//bd.ByteWidth = sizeof(WORD) * 6;
-	//bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	//bd.CPUAccessFlags = 0;
-
-	//ZeroMemory(&InitData, sizeof(InitData));
-	//InitData.pSysMem = planeIndices;
-	//hr = _device->CreateBuffer(&bd, &InitData, &_planeIndexBuffer);
-
-	//if (FAILED(hr))
-	//	return hr;
-
-	return S_OK;
 }
 
 HRESULT ScreenManager::InitPipelineStates()
