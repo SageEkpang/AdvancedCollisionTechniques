@@ -5,17 +5,12 @@
 #include "Constants.h"
 #include "Structures.h"
 
-#include "RigidbodyObject.h"
+#include "PhysicsObject.h"
 
-class Particle : public RigidbodyObject
+// NOTE: Derives from Physics Object
+class Particle : public PhysicsObject
 {
 private:
-
-	// Position
-	// Velocity
-	// Acceleration
-	// Damping
-	// InverseMass
 
 
 public:
@@ -31,8 +26,6 @@ public:
 
 
 	// GETTER FUNCTION(s)
-
-
 
 	// SETTER FUNCTION(s)
 

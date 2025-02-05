@@ -22,7 +22,10 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 	t_Support = Support(colliderA, colliderB, t_Direction);
 		
-	if (Vector::CalculateDotProduct(t_Support, t_Direction) <= 0) { return false; }
+	if (Vector::CalculateDotProduct(t_Support, t_Direction) <= 0) 
+	{ 
+		return false; 
+	} // No Collision
 
 	t_Points.push_front(t_Support);
 
@@ -32,7 +35,7 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 	}
 
 	// TODO: Return the simplex
-	return true;
+	// return true;
 }
 
 bool GJKCollider::NextSimplex(Simplex& points, Vector3& direction)

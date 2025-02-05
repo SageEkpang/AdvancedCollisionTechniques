@@ -4,8 +4,7 @@
 
 // ABSTRACT CLASS(s)
 #include "Collider.h"
-
-#include "RigidbodyObject.h"
+#include "Particle.h"
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
@@ -34,34 +33,38 @@ typedef struct MassPoint
 	int mass;
 };
 
+// NOTE: THIS IS THE MASS OBJECT TO SIMULATE
 class MassAggregate
 {
-private:
+private: // PRIVATE VARIABLE(s)
 
-	Tag m_Tag;
-	std::vector<RigidbodyObject> m_MassPoints; // Points to Simulate Forces on
+	Transform* m_Transform;
+	std::vector<Particle*> m_MassPoints;
+	std::vector<Vector3> m_PositionPoints;
 
-public:
+private: // PRIVATE FUNCTION(s)
+
+	void FillVeritcesArray();
+
+public: // PUBLIC VARIABLE(s)
 
 	// CLASS FUNCTION(s)
-	MassAggregate(std::vector<Vector3> points);
+	MassAggregate(const char* filePath);
 	~MassAggregate();
 
 
 	// BASE FUNCTION(s)
-	void BuildMassAggregateSystem();
 	void SimulatePhysicsPoints(float deltaTime); // Update Function
 
 
 	// GETTER FUNCTION(s)
-
+	inline std::vector<Particle*> GetParticle() { m_MassPoints; }
 
 
 	// SETTER FUNCTION(s)
-
-
+	inline void AddParticle(Particle* particle) { m_MassPoints.push_back(particle) };
+	void ClearParticle();
 
 };
 
 #endif
-

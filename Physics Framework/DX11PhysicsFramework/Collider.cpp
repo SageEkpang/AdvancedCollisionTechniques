@@ -170,7 +170,7 @@ void Collider::FillVerticesArray(char* path, Transform* objectTransform)
 		//float t_NewZ = t_TempVec[i].z + std::sinf(objectTransform->GetRotation().y * 3.1415 / 180) * std::cosf(objectTransform->GetRotation().x * 3.1415 / 180);
 
 		// Vector3 t_VecPos = Vector3(t_NewX, t_NewY, t_NewZ);
-		Vector3 t_VecPos = (t_TempVec[i] * (objectTransform->GetScale() / 2)) + objectTransform->GetPosition();
+		Vector3 t_VecPos = (t_TempVec[i] * (objectTransform->GetScale())) + objectTransform->GetPosition();
 		t_WorldVertex.push_back(t_VecPos);
 	}
 

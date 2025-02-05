@@ -112,7 +112,7 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
 				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()))
 				{
-					// int i = 0;
+					int i = 0;
 				}
 
 				//// Material Coef Calculate

@@ -176,9 +176,6 @@
     <ClInclude Include="SATCollider.h">
       <Filter>CollisionTesting\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Physics\Header</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsObject.h">
       <Filter>Physics\Header</Filter>
     </ClInclude>
@@ -187,9 +184,6 @@
     </ClInclude>
     <ClInclude Include="MaterialCoefficient.h">
       <Filter>Physics\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="MassAggregate.h">
-      <Filter>MassPhysics\Header</Filter>
     </ClInclude>
     <ClInclude Include="MassPointSpring.h">
       <Filter>MassPhysics\Header</Filter>
@@ -216,6 +210,13 @@
     <ClInclude Include="EPAScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
+    <ClInclude Include="MassAggregate.h">
+      <Filter>MassPhysics\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>MassPhysics\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRod.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -290,9 +291,6 @@
     <ClCompile Include="SATCollider.cpp">
       <Filter>CollisionTesting\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>Physics\Source</Filter>
-    </ClCompile>
     <ClCompile Include="PhysicsObject.cpp">
       <Filter>Physics\Source</Filter>
     </ClCompile>
@@ -301,9 +299,6 @@
     </ClCompile>
     <ClCompile Include="MaterialCoefficient.cpp">
       <Filter>Physics\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="MassAggregate.cpp">
-      <Filter>MassPhysics\Source</Filter>
     </ClCompile>
     <ClCompile Include="MassPointSpring.cpp">
       <Filter>MassPhysics\Source</Filter>
@@ -324,6 +319,13 @@
     <ClCompile Include="EPAScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
+    <ClCompile Include="MassAggregate.cpp">
+      <Filter>MassPhysics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>MassPhysics\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleRod.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

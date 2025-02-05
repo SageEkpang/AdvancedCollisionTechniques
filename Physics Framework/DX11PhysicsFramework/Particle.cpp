@@ -1,12 +1,8 @@
 #include "Particle.h"
 
 Particle::Particle(Transform* transform, float mass)
-	: RigidbodyObject(transform, mass)
+	: PhysicsObject(transform, mass)
 {
-
-
-
-
 
 }
 
@@ -19,11 +15,13 @@ Particle::~Particle()
 
 void Particle::Update(float deltaTime)
 {
-	RigidbodyObject::Update(deltaTime);
+	PhysicsObject::CalculateAcceleration(deltaTime);
+	m_NetForce = VECTOR3_ZERO;
+	m_Acceleration = VECTOR3_ZERO;
 }
 
 void Particle::Draw()
 {
-
+	// TODO: DRAW THE PARTICLE POINTS WITH LINE CONNECTIONS
 
 }

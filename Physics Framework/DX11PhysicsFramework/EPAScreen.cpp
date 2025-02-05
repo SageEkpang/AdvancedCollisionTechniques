@@ -123,11 +123,8 @@ void EPAScreen::ResolveCollision(const float deltaTime)
 				{
 					if (m_EPACollider->EPACollision(Simplex(), t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()).hasCollision == true)
 					{
-
+						int i = 0;
 					}
-
-					int i = 0;
-					// int i = 0;
 				}
 
 				//// Material Coef Calculate

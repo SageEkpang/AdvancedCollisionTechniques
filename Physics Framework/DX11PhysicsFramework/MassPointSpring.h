@@ -25,10 +25,6 @@ public:
 
 	virtual void UpdateForce(Particle* particle, float deltaTime);
 
-
-
-
-
 };
 
 #endif
