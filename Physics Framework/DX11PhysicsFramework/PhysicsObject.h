@@ -28,6 +28,7 @@ protected:
 	Vector3 m_Acceleration = VECTOR3_ZERO;
 	Vector3 m_NetForce = VECTOR3_ZERO;
 
+
 	// Mass Variables
 	mutable float m_Gravity = GRAVITY_EARTH;
 	float m_Mass = 1.0f;

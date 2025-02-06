@@ -75,9 +75,6 @@
     <Filter Include="CollisionTesting\Source">
       <UniqueIdentifier>{82fc81e6-c1cb-40ef-96aa-94060c7c8cc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CollisionResolution">
-      <UniqueIdentifier>{3fb0418f-e976-43bf-ad21-fc21ae713992}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physics\Header">
       <UniqueIdentifier>{c79b3c7e-ebed-4828-8d3f-fd8837627451}</UniqueIdentifier>
     </Filter>
@@ -90,12 +87,6 @@
     <Filter Include="MassPhysics\Source">
       <UniqueIdentifier>{92ea8b8a-f5b2-49d3-96d6-0c6d6d029662}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CollisionResolution\Header">
-      <UniqueIdentifier>{645d6b8e-8499-4f2b-94a4-812069fcdbef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CollisionResolution\Source">
-      <UniqueIdentifier>{10249e68-76a1-4399-931f-bb08f56d8f22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Camera">
       <UniqueIdentifier>{e10538e1-ac6a-4932-821d-87d1db393ff9}</UniqueIdentifier>
     </Filter>
@@ -104,6 +95,15 @@
     </Filter>
     <Filter Include="Camera\Source">
       <UniqueIdentifier>{eea4af4a-376b-4da5-93fe-daecf7ff9bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionTesting\CollisionResolution">
+      <UniqueIdentifier>{3fb0418f-e976-43bf-ad21-fc21ae713992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionTesting\CollisionResolution\Header">
+      <UniqueIdentifier>{645d6b8e-8499-4f2b-94a4-812069fcdbef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionTesting\CollisionResolution\Source">
+      <UniqueIdentifier>{10249e68-76a1-4399-931f-bb08f56d8f22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +189,7 @@
       <Filter>MassPhysics\Header</Filter>
     </ClInclude>
     <ClInclude Include="CollisionContact.h">
-      <Filter>CollisionResolution\Header</Filter>
+      <Filter>CollisionTesting\CollisionResolution\Header</Filter>
     </ClInclude>
     <ClInclude Include="EPACollider.h">
       <Filter>CollisionTesting\Header</Filter>
@@ -206,7 +206,6 @@
     <ClInclude Include="Constants.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="EPAScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
@@ -218,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="MassAggScreen.h">
       <Filter>PhysicScreens\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLoader.h">
+      <Filter>MassPhysics\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -306,7 +308,7 @@
       <Filter>MassPhysics\Source</Filter>
     </ClCompile>
     <ClCompile Include="CollisionContact.cpp">
-      <Filter>CollisionResolution\Source</Filter>
+      <Filter>CollisionTesting\CollisionResolution\Source</Filter>
     </ClCompile>
     <ClCompile Include="EPACollider.cpp">
       <Filter>CollisionTesting\Source</Filter>
@@ -317,7 +319,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Camera\Source</Filter>
     </ClCompile>
-    <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="EPAScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
@@ -329,6 +330,9 @@
     </ClCompile>
     <ClCompile Include="MassAggScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLoader.cpp">
+      <Filter>MassPhysics\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

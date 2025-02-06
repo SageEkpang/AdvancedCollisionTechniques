@@ -55,9 +55,7 @@ void Particle::Update(float deltaTime)
 	// NOTE: Do not need the rotation matrix due to the nature of the Mass Aggregate System
 	XMStoreFloat4x4(m_World, Scale * Position);
 
-	// NOTE: Reset Net Force
-	m_NetForce = VECTOR3_ZERO;
-	m_Acceleration = VECTOR3_ZERO;
+
 }
 
 void Particle::CalculateAcceleration(float deltaTime)
@@ -74,8 +72,15 @@ void Particle::CalculateAcceleration(float deltaTime)
 	m_Transform->SetPosition(t_Position);
 }
 
+void Particle::ClearAccumulator()
+{
+	// NOTE: Reset Net Force
+	m_NetForce = VECTOR3_ZERO;
+	m_Acceleration = VECTOR3_ZERO;
+}
 
-void Particle::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
+
+void Particle::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device, Vector3 colour)
 {
 	D3D11_RASTERIZER_DESC cmdesc;
 	ID3D11RasterizerState* m_NormalCull;
@@ -89,7 +94,7 @@ void Particle::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, 
 
 	// Draw Render Object
 	constantBufferData.surface.AmbientMtrl = XMFLOAT4(0, 0, 0, 1);
-	constantBufferData.surface.DiffuseMtrl = XMFLOAT4(1, 0, 1, 1);
+	constantBufferData.surface.DiffuseMtrl = XMFLOAT4(colour.x, colour.y, colour.z, 1);
 	constantBufferData.surface.SpecularMtrl = XMFLOAT4(0, 0, 0, 0);
 
 	XMMATRIX temp = XMLoadFloat4x4(m_World);

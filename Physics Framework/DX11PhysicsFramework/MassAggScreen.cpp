@@ -41,11 +41,13 @@ MassAggScreen::MassAggScreen(std::string screenName, ID3D11Device* device)
 	#pragma endregion
 
 	// NOTE: Box Mass Aggregate System
-	Vector3 t_Position = Vector3(0, 5, 0);
-	MassAggregate* t_BoxARG = new MassAggregate("Resources\\OBJ\\cube.obj", t_Position, 1.0f, 1, device);
+	MassAggregate* t_BoxARG = new MassAggregate("Resources\\OBJ\\cube.obj", Vector3(0, 5, 3), 1.0f, 1, device);
+	MassAggregate* t_PlaneARG = new MassAggregate("Resources\\OBJ\\CollisionPlane.obj", Vector3(0, 5, 10), 1.0f, 4, device);
+	MassAggregate* t_PyramidARG = new MassAggregate("Resources\\OBJ\\Pyramid.obj", Vector3(10, 5, 10), 1.0f, 1, device);
 
 	m_MassObjects.push_back(t_BoxARG);
-
+	m_MassObjects.push_back(t_PlaneARG);
+	m_MassObjects.push_back(t_PyramidARG);
 }
 
 MassAggScreen::~MassAggScreen()

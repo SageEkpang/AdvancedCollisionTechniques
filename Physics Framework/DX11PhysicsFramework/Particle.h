@@ -34,7 +34,7 @@ public:
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime);
-	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device, Vector3 colour);
 	void CalculateAcceleration(float deltaTime);
 
 
@@ -61,7 +61,10 @@ public:
 
 
 	// SETTER FUNCTION(s)
+	virtual inline void SetVelocity(Vector3 velocity) { m_Velocity = velocity; }
+	inline void SetVelocity(float x, float y, float z) { m_Velocity = Vector3(x, y, z); }
 
+	void ClearAccumulator();
 
 };
 
