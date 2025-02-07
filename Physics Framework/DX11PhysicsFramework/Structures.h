@@ -443,33 +443,26 @@ public:
 
 	Simplex()
 	{
-		points[0] = Vector3();
-		points[1] = Vector3();
-		points[2] = Vector3();
-		points[3] = Vector3();
-
 		size = 0;
 	}
 
 	Simplex& operator=(std::initializer_list<Vector3> list)
 	{
-		for (auto v = list.begin(); v != list.end(); ++v)
+		size = 0;
+
+		for (Vector3 point : list)
 		{
-			points[std::distance(list.begin(), v)] = *v;
+			points[size++] = point;
 		}
-		size = list.size();
 
 		return *this;
 	}
 
 	void push_front(Vector3 point)
 	{
-		points[0] = point;
-		points[1] = points[0];
-		points[2] = points[1];
-		points[3] = points[2];
+		points = { point, points[0], points[1], points[2] };
 
-		size = min(size + 1, 4u);
+		size = min(size + 1, 4);
 	}
 
 	Vector3& operator[](unsigned i) { return points[i]; }

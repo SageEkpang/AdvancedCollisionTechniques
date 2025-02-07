@@ -17,7 +17,6 @@ Collider::Collider(Transform* transform)
 	// Store Transform in Matrix
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 
-
 	// NOTE: Could / should make these functions static so that for every collision call, you just reference the function
 	//Col2 t_ColliderTypes;
 	//t_ColliderTypes.first = ColliderType::COLLIDER_BOX;
@@ -78,39 +77,6 @@ void Collider::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, 
 	pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
 }
 
-//CollisionManifold Collider::SphereToSphereCol(Collider* objectA, Collider* objectB, CollisionManifold& out)
-//{
-//	Vector3 DistanceBetweenPoints = objectB->GetPosition() - objectA->GetPosition(); // may need to flip this
-//	float CombinedRadius = objectA->GetRadius() + objectB->GetRadius();
-//
-//	if (Vector::Magnitude(DistanceBetweenPoints) < (CombinedRadius * CombinedRadius))
-//	{
-//		out.collisionNormal = Vector::Normalise(DistanceBetweenPoints); // Normal
-//		out.contactPointCount = 1;
-//		out.points[0].position = GetPosition() + (out.collisionNormal * GetRadius());
-//		out.points[0].penetrationDepth = fabs(Vector::Magnitude(DistanceBetweenPoints) - CombinedRadius);
-//		out.hasCollision = true;
-//		return out;
-//	}
-//
-//	return CollisionManifold();
-//}
-
-//bool Collider::ObjectCollision(Collider* objectA, Collider* objectB, CollisionManifold& out)
-//{
-//	// NOTE: Find and Store the Collision Pair Type
-//	Col2 t_TempCol;
-//	t_TempCol.first = objectA->GetColliderType(); // Sphere
-//	t_TempCol.second = objectB->GetColliderType(); // Plane
-//
-//	// NOTE: Return the Function data if there was any intersections
-//	// FIXME: Check if this actually means collision or it has a collision for stuff
-//	if (m_MapColliderFunctions[t_TempCol](objectA, objectB, out).hasCollision) { return true; } 
-//	
-//	// NOTE: No Collision
-//	return false;
-//}
-
 void Collider::SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device)
 {
 	Geometry t_Geometry;
@@ -136,7 +102,7 @@ Vector3 Collider::FindFurthestPoint(Vector3 direction)
 	Vector3 t_MaxPoint;
 	float t_MaxDistance = -FLT_MAX;
 
-	for (auto& v : m_Vertices)
+	for (Vector3& v : m_Vertices)
 	{
 		float t_Distance = Vector::CalculateDotProduct(v, direction);
 
@@ -161,18 +127,10 @@ void Collider::FillVerticesArray(char* path, Transform* objectTransform)
 {
 	// NOTE: Fill array with the different mesh load values
 	std::vector<Vector3> t_TempVec = MeshLoader::LoadObj(path);
-	std::vector<Vector3> t_WorldVertex;
 
 	for (int i = 0; i < t_TempVec.size(); ++i)
 	{
-		//float t_NewX = t_TempVec[i].x + std::cosf(objectTransform->GetRotation().y * 3.1415 / 180) * std::cosf(objectTransform->GetRotation().x * 3.1415 / 180);
-		//float t_NewY = t_TempVec[i].y + std::sinf(objectTransform->GetRotation().x * 3.1414 / 180);
-		//float t_NewZ = t_TempVec[i].z + std::sinf(objectTransform->GetRotation().y * 3.1415 / 180) * std::cosf(objectTransform->GetRotation().x * 3.1415 / 180);
-
-		// Vector3 t_VecPos = Vector3(t_NewX, t_NewY, t_NewZ);
-		Vector3 t_VecPos = (t_TempVec[i] * (objectTransform->GetScale())) + objectTransform->GetPosition();
-		t_WorldVertex.push_back(t_VecPos);
+		Vector3 t_VecPos = (t_TempVec[i] * objectTransform->GetScale()) + objectTransform->GetPosition();
+		m_Vertices.push_back(t_VecPos);
 	}
-
-	m_Vertices.insert(m_Vertices.end(), t_WorldVertex.begin(), t_WorldVertex.end());
 }

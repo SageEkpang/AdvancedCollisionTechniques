@@ -20,22 +20,24 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 	Vector3 t_Direction = t_Support * -1;
 
-	t_Support = Support(colliderA, colliderB, t_Direction);
-		
-	if (Vector::CalculateDotProduct(t_Support, t_Direction) <= 0) 
-	{ 
-		return false; 
-	} // No Collision
+	for (int i = 0; i < 100; ++i)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(colliderA, colliderB, t_Direction);
+	
+		float t_Dis = Vector::CalculateDotProduct(t_Support, t_Direction);
 
-	t_Points.push_front(t_Support);
+		// NOTE: No Collision
+		if ( t_Dis <= 0) { return false; }
 
-	if (NextSimplex(t_Points, t_Direction)) 
-	{ 
-		return true; 
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction)) 
+		{ 
+			return true; 
+		}
 	}
-
-	// TODO: Return the simplex
-	// return true;
 }
 
 bool GJKCollider::NextSimplex(Simplex& points, Vector3& direction)
