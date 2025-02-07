@@ -28,24 +28,11 @@ bool SATCollider::ObjectCollision(OBBCollider* objectA, OBBCollider* objectB, Co
 	m_ExtentsB[1] = objectB->GetTransform()->GetScale().y / 4;
 	m_ExtentsB[2] = objectB->GetTransform()->GetScale().z / 4;
 
-	//Vector3 t_Test1[3] = {
-
-	//	Vector3(objectA->GetTransform()->GetRotation().x, 0, 0),
-	//	Vector3(0, objectA->GetTransform()->GetRotation().y, 0),
-	//	Vector3(0, 0, objectA->GetTransform()->GetRotation().z)
-	//};
-
-	//Vector3 t_Test2[3] = {
-	//	Vector3(objectB->GetTransform()->GetRotation().x, 0, 0),
-	//	Vector3(0, objectB->GetTransform()->GetRotation().y, 0),
-	//	Vector3(0, 0, objectB->GetTransform()->GetRotation().z)
-	//};
-
 	Vector3 t_Test1[3] = {
 
-	Vector3(1, 0, 0),
-	Vector3(0, 1, 0),
-	Vector3(0, 0, 1)
+		Vector3(1, 0, 0),
+		Vector3(0, 1, 0),
+		Vector3(0, 0, 1)
 	};
 
 	Vector3 t_Test2[3] = {
