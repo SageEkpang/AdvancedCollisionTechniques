@@ -10,7 +10,6 @@ EPACollider::EPACollider()
 EPACollider::~EPACollider()
 {
 
-
 }
 
 CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& colliderA, Collider& colliderB)
@@ -34,6 +33,9 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 	Vector3 t_MinNormal;
 	float t_MinDistance = FLT_MAX;
 
+
+
+
 	t_MinNormal = t_Normals[t_MinFace].xyz();
 	t_MinDistance = t_Normals[t_MinFace].w;
 
@@ -47,7 +49,7 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 
 		for (size_t i = 0; i < t_Normals.size(); i++)
 		{
-			if (SameDirection(t_Normals[t_MinFace].xyz(), t_Support))
+			if (SameDirection(t_Normals[i].xyz(), t_Support))
 			{
 				size_t t_F = i * 3;
 
@@ -57,9 +59,9 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 
 				t_Faces[t_F + 2] = t_Faces.back(); t_Faces.pop_back();
 				t_Faces[t_F + 1] = t_Faces.back(); t_Faces.pop_back();
-				t_Faces[t_F] = t_Faces.back(); t_Faces.pop_back();
+				t_Faces[t_F    ] = t_Faces.back(); t_Faces.pop_back();
 
-				t_Normals[i] = t_Normals.back(); // CHECK THIS: May be Vector3
+				t_Normals[i] = t_Normals.back();
 				t_Normals.pop_back();
 
 				i--;
@@ -79,7 +81,7 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 		auto [t_NewNormals, t_NewMinFace] = GetFaceNormals(t_Polytope, t_NewFaces);
 
 		float t_OldMinDistance = FLT_MAX;
-		for (size_t i = 0; i < t_Normals.size(); ++i)
+		for (size_t i = 0; i < t_Normals.size(); i++)
 		{
 			if (t_Normals[i].w < t_OldMinDistance)
 			{
