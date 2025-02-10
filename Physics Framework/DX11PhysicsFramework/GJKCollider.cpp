@@ -20,7 +20,7 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 	Vector3 t_Direction = t_Support * -1;
 
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 40; ++i)
 	{
 		// NOTE: Check the Collider A and ColliderB Context
 		t_Support = Support(colliderA, colliderB, t_Direction);
@@ -35,6 +35,7 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 		if (NextSimplex(t_Points, t_Direction)) 
 		{ 
+			m_OutSimplex = t_Points;
 			return true; 
 		}
 	}

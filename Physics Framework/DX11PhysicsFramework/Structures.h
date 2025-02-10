@@ -512,8 +512,7 @@ typedef struct Vector4
 
 	Vector3 xyz()
 	{
-		Vector3 t_Temp = Vector3(this->x, this->y, this->z);
-		return t_Temp;
+		return Vector3(this->x, this->y, this->z);
 	}
 
 	Vector4 operator+(Vector4 value)

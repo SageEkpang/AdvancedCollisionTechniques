@@ -8,6 +8,42 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	m_GJKCollider = new GJKCollider();
 	m_EPACollider = new EPACollider();
 
+#pragma region PlaneObject
+
+	// Plane Object
+	{
+		GameObject* t_PlaneObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_STATIC));
+		Transform* t_PlaneTransform = new Transform();
+		Render* t_PlaneRender = new Render(t_PlaneTransform);
+		RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 0.0f);
+		// Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform); // FIXME: Planar Collisions Tweaking Out
+		Collider* t_PlaneCollider = new SphereCollider(t_PlaneTransform, 1.0);
+
+		// Transform
+		t_PlaneObject->SetTransform(t_PlaneTransform);
+		t_PlaneTransform->SetScale(100.0f, 1.0f, 100.0f);
+		t_PlaneTransform->SetRotation(0.0f, 0.0f, 0.0f);
+		t_PlaneTransform->SetPosition(0.0f, 0.0f, 10.0f);
+
+		// Rigidbody 
+		t_PlaneObject->SetRigidbody(t_PlaneRigidbody);
+		t_PlaneRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
+		t_PlaneRigidbody->SetCollider(t_PlaneCollider);
+
+		// Collision
+		t_PlaneObject->SetCollider(t_PlaneCollider);
+		t_PlaneCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionPlane.obj", MATERIAL_WIREFRAME, device);
+
+		// Rendering
+		t_PlaneObject->SetRender(t_PlaneRender);
+		t_PlaneRender->SetGeometryAndMaterial("Resources\\OBJ\\plane.obj", MATERIAL_SHINY, device);
+		t_PlaneRender->SetTexture(L"Resources\\Textures\\floor.dds", device);
+
+		InsertObjectIntoList(t_PlaneObject);
+	}
+
+	#pragma endregion
+
 #pragma region Cube1
 	{
 		// Cube Object
@@ -23,7 +59,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(3.0f, 3.0f, 10.0f);
+		t_CubeTransform->SetPosition(6.0f, 5.0f, 10.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -33,7 +69,6 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		// Collision
 		t_CubeObject->SetCollider(t_CubeCollider);
 		t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
-		// t_CubeCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionCube.obj", MATERIAL_WIREFRAME, device);
 
 		// Rendering
 		t_CubeObject->SetRender(t_CubeRender);
@@ -60,7 +95,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(2.0f, 100.0f, 10.0f);
+		t_CubeTransform->SetPosition(7.f, 5.f, 10.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -95,9 +130,10 @@ void EPAScreen::Update(float deltaTime)
 
 void EPAScreen::ResolveCollision(const float deltaTime)
 {
-
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
+
+	// m_GameObjects[1]->GetRigidbody()->AddForce(Vector3(-1, 0, 0));
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -121,7 +157,7 @@ void EPAScreen::ResolveCollision(const float deltaTime)
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
 				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider())) // TODO: Need this simplex
 				{
-					if (m_EPACollider->EPACollision(Simplex(), t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()).hasCollision == true)
+					if (m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider()).hasCollision == true)
 					{
 						int i = 0;
 					}

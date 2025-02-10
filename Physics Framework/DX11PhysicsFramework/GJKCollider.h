@@ -28,6 +28,7 @@ class GJKCollider
 private:
 
 	Vector3 m_Vertices;
+	Simplex m_OutSimplex;
 
 public:
 
@@ -39,6 +40,11 @@ public:
 	bool GJKCollision(Collider* colliderA, Collider* colliderB);
 	bool NextSimplex(Simplex& points, Vector3& direction);
 	
+
+	// GETTER FUNCTION(s)
+	Simplex GetSimplex() { return m_OutSimplex; }
+
+
 	// EXTRA FUNCTION(s)
 	bool Line(Simplex& points, Vector3& direction);
 	bool Triangle(Simplex& points, Vector3& direction);
