@@ -98,26 +98,6 @@ bool BoxCollider::CollidesWith(OBBCollider& other, CollisionManifold& out)
 	return false;
 }
 
-bool BoxCollider::CollidesWith(SATCollider& other, CollisionManifold& out)
-{
-	// Axis Identity Matrix
-	Vector3 t_Axis[3] = {
-		Vector3(1, 0, 0),
-		Vector3(0, 1, 0),
-		Vector3(0, 0, 1)
-	};
-
-	for (int i = 0; i < 3; ++i)
-	{
-		if (!other.OverlapAxis(this, t_Axis))
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
 Vector3 BoxCollider::NearestPoint(Vector3 point)
 {
 	// Min and Max Extents of Box Collider

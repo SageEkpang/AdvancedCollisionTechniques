@@ -16,7 +16,9 @@ class SATScreen : public Screen
 {
 private:
 
+	SATCollider* m_SATCollider;
 	CollisionContact* m_CollisionContact;
+	std::vector<GameObject*> m_ColliderObjects;
 
 public:
 
@@ -40,6 +42,7 @@ public:
 
 	/// <summary> Default Update function for Class </summary>
 	void Update(float deltaTime) override;
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 };
 
 #endif

@@ -167,12 +167,12 @@ Interval Vector::GetInterval(BoxCollider* box, Vector3* axis)
 	return t_Result;
 }
 
-Interval Vector::GetInterval(OBBCollider* OBBBox, Vector3* axis)
+Interval Vector::GetInterval(OBBCollider& OBBBox, Vector3& axis)
 {
 	Vector3 t_Vertex[8];
-	Vector3 t_Position = OBBBox->GetPosition();
-	Vector3 t_Size = OBBBox->GetScale();
-	const float* t_Orientation = OBBBox->GetOrientationArray();
+	Vector3 t_Position = OBBBox.GetPosition();
+	Vector3 t_Size = OBBBox.GetScale();
+	const float* t_Orientation = OBBBox.GetOrientationArray();
 
 	Vector3 t_Axis[] = {
 		Vector3(t_Orientation[0], t_Orientation[1], t_Orientation[2]),
@@ -190,11 +190,11 @@ Interval Vector::GetInterval(OBBCollider* OBBBox, Vector3* axis)
 	t_Vertex[7] = t_Position - t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
 
 	Interval t_Result;
-	t_Result.min = t_Result.max = Vector::CalculateDotProduct(*axis, t_Vertex[0]);
+	t_Result.min = t_Result.max = Vector::CalculateDotProduct(axis, t_Vertex[0]);
 
 	for (int i = 1; i < 8; ++i)
 	{
-		float t_Projection = Vector::CalculateDotProduct(*axis, t_Vertex[i]);
+		float t_Projection = Vector::CalculateDotProduct(axis, t_Vertex[i]);
 		t_Result.min = (t_Projection < t_Result.min) ? t_Projection : t_Result.min;
 		t_Result.max = (t_Projection > t_Result.max) ? t_Projection : t_Result.max;
 	}
@@ -205,8 +205,9 @@ Interval Vector::GetInterval(OBBCollider* OBBBox, Vector3* axis)
 bool Vector::OverlapOnAxis(BoxCollider* box, OBBCollider* OBBBox, Vector3* axis)
 {
 	Interval t_Box = GetInterval(box, axis);
-	Interval t_OBBBox = GetInterval(OBBBox, axis);
-	return ((t_OBBBox.min <= t_Box.max) && (t_Box.min <= t_OBBBox.max));
+	// Interval t_OBBBox = GetInterval(OBBBox, axis);
+	/// return ((t_OBBBox.min <= t_Box.max) && (t_Box.min <= t_OBBBox.max));
+	return false;
 }
 
 double Vector::PolygonArea(double x[], double y[], int number)

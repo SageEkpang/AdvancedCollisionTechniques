@@ -50,7 +50,7 @@ public:
 
 	// SAT Testing
 	static Interval GetInterval(BoxCollider* box, Vector3* axis);
-	static Interval GetInterval(OBBCollider* OBBBox, Vector3* axis);
+	static Interval GetInterval(OBBCollider& OBBBox, Vector3& axis);
 
 	static bool OverlapOnAxis(BoxCollider* box, OBBCollider* OBBBox, Vector3* axis);
 

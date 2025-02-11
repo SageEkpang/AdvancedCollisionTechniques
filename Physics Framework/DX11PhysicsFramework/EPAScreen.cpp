@@ -59,7 +59,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(6.0f, 5.0f, 10.0f);
+		t_CubeTransform->SetPosition(7.0f, 5.0f, 10.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -95,7 +95,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(7.f, 5.f, 10.0f);
+		t_CubeTransform->SetPosition(6.f, 4.f, 9.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -155,11 +155,11 @@ void EPAScreen::ResolveCollision(const float deltaTime)
 			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
 			{
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider())) // TODO: Need this simplex
+				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()))
 				{
+						int i = 0;
 					if (m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider()).hasCollision == true)
 					{
-						int i = 0;
 					}
 				}
 

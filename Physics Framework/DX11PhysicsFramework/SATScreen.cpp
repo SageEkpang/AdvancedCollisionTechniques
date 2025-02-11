@@ -6,6 +6,13 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_SAT_SCREEN;
 
 	m_CollisionContact = new CollisionContact();
+	m_SATCollider = new SATCollider();
+
+	
+
+
+
+
 
 	#pragma region PlaneObject
 
@@ -44,14 +51,12 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	#pragma endregion
 
 	#pragma region Cube1
-
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_KINEMATIC));
 		Transform* t_CubeTransform = new Transform();
 		Render* t_CubeRender = new Render(t_CubeTransform);
 		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
-		// Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform); // FIXME: Planar Collisions Tweaking Out
 	
 		Vector3 t_Rotation = Vector3(0, 0, 0);
 		Collider* t_CubeCollider = new OBBCollider(t_CubeTransform, t_Rotation);
@@ -76,7 +81,7 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 		t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
 		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-		InsertObjectIntoList(t_CubeObject);
+		m_ColliderObjects.push_back(t_CubeObject);
 	}
 
 	#pragma endregion
@@ -112,10 +117,9 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 		t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
 		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-		InsertObjectIntoList(t_CubeObject);
+		m_ColliderObjects.push_back(t_CubeObject);
 	}
 	#pragma endregion
-
 
 }
 
@@ -137,6 +141,24 @@ void SATScreen::ResolveCollision(const float deltaTime)
 	// m_GameObjects[1]->GetTransform()->SetRotation(0, rot / 2, 0);
 	// m_GameObjects[2]->GetTransform()->SetRotation(0, rot, 0);
 
+	for (int i = 0; i < m_ColliderObjects.size(); ++i)
+	{
+		for (int j = 0; j < m_ColliderObjects.size(); ++j)
+		{
+			// NOTE: Get the Rotaiton Objects from the Objects
+			OBBCollider* t_ObjectACollider = (OBBCollider*)m_ColliderObjects[i]->GetCollider();
+			OBBCollider* t_ObjectBCollider = (OBBCollider*)m_ColliderObjects[j]->GetCollider();
+
+			// NOTE: Check for Collisions Against Each Other
+			if (m_SATCollider->ObjectCollisionAlt(*t_ObjectACollider, *t_ObjectBCollider, t_ColManifold))
+			{
+				int thing = 0;
+			}
+
+			t_ColManifold = CollisionManifold();
+		}
+	}
+
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
 	{
@@ -155,27 +177,29 @@ void SATScreen::ResolveCollision(const float deltaTime)
 			Transform* t_ObjectATransform = m_GameObjects[i]->GetTransform();
 			Transform* t_ObjectBTransform = m_GameObjects[j]->GetTransform();
 
+
 			// See if there is a Collider on the rigidbody
 			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
 			{
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-				if (t_ObjectARig->GetCollider()->CollidesWith(*t_ObjectBRig->GetCollider(), t_ColManifold))
-				{
-					//// Material Coef Calculate
-					// MaterialCoefficient t_MaterialCoef;
-					//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-					//float t_TempRest = 0.00001f; // TODO: Change this back to normal restit when the materials are implemented 
 
-					//// Collision Contact, Resolution, Response and Velocity / Position Resolution
-					//// CollisionContact t_CollisionContact;
-					//m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_TempRest, deltaTime, t_ColManifold.collisionNormal);
-					//m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
-				}
+				// m_SATCollider->ObjectCollisionAlt();
 
-				if (SATCollider::ObjectCollision((OBBCollider*)t_ObjectAGame->GetCollider(), (OBBCollider*)t_ObjectBGame->GetCollider(), t_ColManifold))
-				{
-					int i = 0;
-				}
+				//// Material Coef Calculate
+				// MaterialCoefficient t_MaterialCoef;
+				//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+				//float t_TempRest = 0.00001f; // TODO: Change this back to normal restit when the materials are implemented 
+
+				//// Collision Contact, Resolution, Response and Velocity / Position Resolution
+				//// CollisionContact t_CollisionContact;
+				//m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_TempRest, deltaTime, t_ColManifold.collisionNormal);
+				//m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
+				
+
+				//if (SATCollider::ObjectCollision((OBBCollider*)t_ObjectAGame->GetCollider(), (OBBCollider*)t_ObjectBGame->GetCollider(), t_ColManifold))
+				//{
+				//	int i = 0;
+				//}
 
 			}
 
@@ -189,4 +213,10 @@ void SATScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
 	ResolveCollision(deltaTime);
+}
+
+void SATScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
+{
+	Screen::Draw(constantBufferData, constBuff, pImmediateContext, device);
+	for (auto& v : m_ColliderObjects) { v->Draw(constantBufferData, constBuff, pImmediateContext, device); }
 }

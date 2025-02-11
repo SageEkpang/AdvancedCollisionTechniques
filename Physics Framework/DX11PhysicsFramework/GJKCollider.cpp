@@ -93,7 +93,7 @@ bool GJKCollider::Triangle(Simplex& points, Vector3& direction)
 	{
 		if (SameDirection(t_AC, t_AO))
 		{
-			points = { t_A, t_C };
+			points = { t_A, t_C }; // Fix this
 			direction = Vector::CalculateCrossProductV(Vector::CalculateCrossProductV(t_AC, t_AO), t_AC);
 		}
 		else

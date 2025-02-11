@@ -87,7 +87,7 @@ HRESULT ScreenManager::CreateScreens()
 
 	// Assign Basic Screen to Screen Variable
 	// m_CurrentScreen = new BasicScreen("BasicScreen", _device);
-	m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithm", _device);
+	m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device);
 
 	return S_OK;
 }

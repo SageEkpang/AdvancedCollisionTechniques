@@ -13,33 +13,17 @@
 class SATCollider
 {
 private:
-
-	Interval m_SATInterval;
-
-	Vector3 m_centrePoint; // Position
-	Vector3 m_U[3]; // Local x-, y-, and z- Axis
-	Vector3 t_Extents; // Halfwidth Extents of OBB along Each Axis
-
 public:
 
 	// CLASS FUNCTION(s)
-	SATCollider(Transform* transform, Interval interval);
+	SATCollider();
 	~SATCollider();
 
-	static bool ObjectCollision(OBBCollider* objectA, OBBCollider* objectB, CollisionManifold& out);
-
+	// bool ObjectCollision(OBBCollider* objectA, OBBCollider* objectB, CollisionManifold& out);
+	bool ObjectCollisionAlt(OBBCollider& objectA, OBBCollider& objectB, CollisionManifold& out);
 
 	// HELPER FUNCTION(s)
-	bool OverlapAxis(BoxCollider* box, Vector3* axis);
-
-	// GETTER FUNCTION(s)
-	Interval GetInterval() const { return m_SATInterval; }
-
-
-
-	// SETTER FUNCTION(s)
-	void SetInterval(Interval interval) { m_SATInterval = interval; }
-
+	bool OverlapOnAxis(OBBCollider& obbA, OBBCollider& obbB, Vector3& axis);
 };
 
 #endif
