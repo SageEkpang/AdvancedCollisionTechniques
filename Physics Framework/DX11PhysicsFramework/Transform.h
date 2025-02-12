@@ -64,7 +64,7 @@ public:
 	inline Vector3 GetScale() { return m_Scale; }
 
 	/// <summary> Getter function for Transform Rotation (Derived from Quaternion) </summary>
-	Vector3 GetRotation() const { return Quaternion::MakeEulerAnglesFromQ(m_Orientation); }
+	Vector3 GetRotation() { return Quaternion::MakeEulerAnglesFromQ(m_Orientation); }
 
 	/// <summary> Getter function for Transform Orientation </summary>
 	Quaternion4 GetOrientation() const { return m_Orientation; }

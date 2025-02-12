@@ -1,4 +1,3 @@
-#pragma once
 #ifndef SAT_COLLIDER_H
 #define SAT_COLLIDER_H
 
@@ -14,41 +13,48 @@ class SATCollider
 {
 private:
 
+	XMFLOAT4X4* m_World;
+	Transform* m_Transform;
+	Vector3 m_Rotation; // NOTE: Euler Rotation for SAT
+	Geometry m_Geometry;
+
 	Vector3 m_Max;
 	Vector3 m_Min;
-	Vector3 m_Orientation;
 
-	Vector3 m_CentrePoint; // NOTE: Position;
-	Vector3 m_U[3]; // NOTE: Tensor
-	float m_Extents[3]; // NOTE: Extents 
-
-	float m_Size[3] = { 0 };
-	float m_OrientationArray[3] = { 0 };
-
+	// NOTE: Physics Variable(s)
+	float m_Mass;
+	Vector3 m_Velocity = VECTOR3_ZERO;
+	Vector3 m_Acceleration = VECTOR3_ZERO;
+	Vector3 m_NetForce = VECTOR3_ZERO;
+	mutable float m_Gravity = GRAVITY_EARTH;
 
 public:
 
-
 	// CLASS FUNCTION(s)
-	SATCollider(Vector3 position, Vector3 scale, Vector3 rotation, float mass = 1.f);
+	SATCollider(char* fileName, Transform* transform, Vector3 rotation, float mass, ID3D11Device* device);
 	~SATCollider();
 
-	// bool ObjectCollision(OBBCollider* objectA, OBBCollider* objectB, CollisionManifold& out);
-	bool ObjectCollisionAlt(OBBCollider& objectA, OBBCollider& objectB, CollisionManifold& out);
+
+	// BASE FUNCTION(s)
+	void Update(float deltaTime);
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+	void CalculateAcceleration(float deltaTime);
+	void ClearAccumulator();
+
+	void ResolveVelocity(SATCollider* satA, SATCollider* satB, float duration, Vector3 collisionNormal);
+	void ResolveInterpenetration(SATCollider* satA, SATCollider* satB, float penetration, float duration, Vector3 collisionNormal);
+
+	static bool ObjectCollisionAlt(SATCollider& objectA, SATCollider& objectB, CollisionManifold& out);
+
 
 	// GETTER FUNCTION(s)
-	Vector3 GetPosition() { return m_CentrePoint; }
-	Vector3 GetScale() { return Vector3(m_Extents[0], m_Extents[1], m_Extents[2]); }
-
-
-
-
-	// SETTER FUNCTION(s)
-
+	Vector3 GetPosition() { return m_Transform->GetPosition(); }
+	Vector3 GetScale() { return m_Transform->GetScale(); }
+	Vector3 GetRotation() { return m_Rotation; }
 
 	// HELPER FUNCTION(s)
-	bool OverlapOnAxis(OBBCollider& obbA, OBBCollider& obbB, Vector3& axis);
-
+	static bool OverlapOnAxis(SATCollider& satA, SATCollider& satB, Vector3& axis);
+	static Interval GetIntervalOr(SATCollider& sat, Vector3& axis);
 };
 
 #endif

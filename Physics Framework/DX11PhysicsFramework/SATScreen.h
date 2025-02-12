@@ -16,9 +16,8 @@ class SATScreen : public Screen
 {
 private:
 
-	SATCollider* m_SATCollider;
 	CollisionContact* m_CollisionContact;
-	std::vector<GameObject*> m_ColliderObjects;
+	std::vector<SATCollider*> m_SatColliderObjects;
 
 public:
 
@@ -32,8 +31,6 @@ public:
 
 
 	// HELPER FUNCTION(s)
-
-	// TODO: Put this in collision class
 	void ResolveCollision(const float deltaTime);
 
 

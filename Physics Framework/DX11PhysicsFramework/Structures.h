@@ -195,7 +195,6 @@ typedef struct Vector3
 	//	if (value == 2) { return this->z; }
 	//}
 
-
 	Vector3 operator+=(Vector3 value)
 	{
 		this->x += value.x;

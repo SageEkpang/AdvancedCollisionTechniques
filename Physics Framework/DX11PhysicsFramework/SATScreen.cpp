@@ -6,7 +6,6 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_SAT_SCREEN;
 
 	m_CollisionContact = new CollisionContact();
-	m_SATCollider = new SATCollider();
 
 	#pragma region PlaneObject
 
@@ -44,77 +43,23 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 
 	#pragma endregion
 
-	#pragma region Cube1
-	{
-		// Cube Object
-		GameObject* t_CubeObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_KINEMATIC));
-		Transform* t_CubeTransform = new Transform();
-		Render* t_CubeRender = new Render(t_CubeTransform);
-		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
-	
-		Vector3 t_Rotation = Vector3(0, 2, 0);
-		Collider* t_CubeCollider = new OBBCollider(t_CubeTransform, t_Rotation);
+	// NOTE: Object A
+	Transform* t_TransformA = new Transform();
 
-		// Transform
-		t_CubeObject->SetTransform(t_CubeTransform);
-		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
-		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(0.0f, 5.0f, 10.0f);
+	t_TransformA->SetPosition(1.0f, 1.0f, 10.0f);
+	t_TransformA->SetScale(1.0f, 1.0f, 1.0f);
 
-		// Rigidbody 
-		t_CubeObject->SetRigidbody(t_CubeRigidbody);
-		t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
-		t_CubeRigidbody->SetCollider(t_CubeCollider);
+	SATCollider* t_SatCol = new SATCollider("Resources\\OBJ\\cube.obj", t_TransformA, Vector3(1.0f, 1.0f, 1.0f), 1.0f, device);
+	m_SatColliderObjects.push_back(t_SatCol);
 
-		// Collision
-		t_CubeObject->SetCollider(t_CubeCollider);
-		// t_CubeCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionCube.obj", MATERIAL_WIREFRAME, device);
+	// NOTE: Object B
+	Transform* t_TransformB = new Transform();
 
-		// Rendering
-		t_CubeObject->SetRender(t_CubeRender);
-		t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
-		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
+	t_TransformB->SetPosition(10.0f, 5.0f, 2.0f);
+	t_TransformB->SetScale(1.0f, 1.0f, 1.0f);
 
-		m_ColliderObjects.push_back(t_CubeObject);
-	}
-
-	#pragma endregion
-
-	#pragma region Cube2
-	{
-		// Cube Object
-		GameObject* t_CubeObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_KINEMATIC));
-		Transform* t_CubeTransform = new Transform();
-		Render* t_CubeRender = new Render(t_CubeTransform);
-		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
-
-		Vector3 t_Rotation = Vector3(0, 1, 0);
-		Collider* t_CubeCollider = new OBBCollider(t_CubeTransform, t_Rotation);
-
-		// Transform
-		t_CubeObject->SetTransform(t_CubeTransform);
-		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
-		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(3.0f, 5.0f, 10.0f);
-
-		// Rigidbody 
-		t_CubeObject->SetRigidbody(t_CubeRigidbody);
-		t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
-		t_CubeRigidbody->SetCollider(t_CubeCollider);
-
-		// Collision
-		t_CubeObject->SetCollider(t_CubeCollider);
-		// t_CubeCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionCube.obj", MATERIAL_WIREFRAME, device);
-
-		// Rendering
-		t_CubeObject->SetRender(t_CubeRender);
-		t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
-		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
-
-		m_ColliderObjects.push_back(t_CubeObject);
-	}
-	#pragma endregion
-
+	SATCollider* t_SatCol2 = new SATCollider("Resources\\OBJ\\cube.obj", t_TransformB, Vector3(1.0f, 1.0f, 1.0f), 1.0f, device);
+	m_SatColliderObjects.push_back(t_SatCol2);
 }
 
 SATScreen::~SATScreen()
@@ -127,18 +72,14 @@ void SATScreen::ResolveCollision(const float deltaTime)
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
-	for (int i = 0; i < m_ColliderObjects.size(); ++i)
+	for (int i = 0; i < m_SatColliderObjects.size(); ++i)
 	{
-		for (int j = 0; j < m_ColliderObjects.size(); ++j)
+		for (int j = 0; j < m_SatColliderObjects.size(); ++j)
 		{
-			// NOTE: Get the Rotaiton Objects from the Objects
-			OBBCollider* t_ObjectACollider = (OBBCollider*)m_ColliderObjects[i]->GetCollider();
-			OBBCollider* t_ObjectBCollider = (OBBCollider*)m_ColliderObjects[j]->GetCollider();
-
-			// NOTE: Check for Collisions Against Each Other
-			if (m_SATCollider->ObjectCollisionAlt(*t_ObjectACollider, *t_ObjectBCollider, t_ColManifold))
+			// NOTE: SAT Collision Test
+			if (SATCollider::ObjectCollisionAlt(*m_SatColliderObjects[i], *m_SatColliderObjects[j], t_ColManifold))
 			{
-				int thing = 0;
+				int i = 0;
 			}
 
 			t_ColManifold = CollisionManifold();
@@ -199,11 +140,11 @@ void SATScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
 	ResolveCollision(deltaTime);
-	for (auto& v : m_ColliderObjects) { v->Update(deltaTime); }
+	for (auto& v : m_SatColliderObjects) { v->Update(deltaTime); }
 }
 
 void SATScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
 	Screen::Draw(constantBufferData, constBuff, pImmediateContext, device);
-	for (auto& v : m_ColliderObjects) { v->Draw(constantBufferData, constBuff, pImmediateContext, device); }
+	for (auto& v : m_SatColliderObjects) { v->Draw(constantBufferData, constBuff, pImmediateContext, device); }
 }

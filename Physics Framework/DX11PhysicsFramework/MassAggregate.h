@@ -65,13 +65,6 @@ public: // PUBLIC VARIABLE(s)
 	Vector3 CalculateSeparatingVelocity(Particle* particleA, Particle* particleB, Vector3 contactNormal);
 	void MovePoints(Particle* particle, int index);
 	void ClearParticle();
-
-
-
-
-
-
-
 };
 
 #endif

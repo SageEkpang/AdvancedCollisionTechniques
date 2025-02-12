@@ -54,8 +54,6 @@ void Particle::Update(float deltaTime)
 	// Store Transform in Matrix
 	// NOTE: Do not need the rotation matrix due to the nature of the Mass Aggregate System
 	XMStoreFloat4x4(m_World, Scale * Position);
-
-
 }
 
 void Particle::CalculateAcceleration(float deltaTime)
