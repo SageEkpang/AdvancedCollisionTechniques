@@ -172,6 +172,7 @@ Interval Vector::GetInterval(OBBCollider& OBBBox, Vector3& axis)
 	Vector3 t_Vertex[8];
 	Vector3 t_Position = OBBBox.GetPosition();
 	Vector3 t_Size = OBBBox.GetScale();
+
 	const float* t_Orientation = OBBBox.GetOrientationArray();
 
 	Vector3 t_Axis[] = {

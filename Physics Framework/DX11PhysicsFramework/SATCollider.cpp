@@ -2,9 +2,31 @@
 #include "BoxCollider.h"
 
 
-SATCollider::SATCollider()
+SATCollider::SATCollider(Vector3 position, Vector3 scale, Vector3 rotation, float mass = 1.f)
 {
 	printf("SAT Collider Set Up");
+
+	// NOTE: Position  Init
+	m_CentrePoint = position;
+
+	// NOTE: Extents Init
+	m_Extents[0] = scale.x;
+	m_Extents[1] = scale.y;
+	m_Extents[2] = scale.z;
+
+	// NOTE: Rotation Matrix Init
+	m_OrientationArray[0] = rotation.x;
+	m_OrientationArray[1] = 0;
+	m_OrientationArray[2] = 0;
+
+	m_OrientationArray[3] = 0;
+	m_OrientationArray[4] = rotation.y;
+	m_OrientationArray[5] = 0;
+
+	m_OrientationArray[6] = 0;
+	m_OrientationArray[7] = 0;
+	m_OrientationArray[8] = rotation.z;
+
 }
 
 SATCollider::~SATCollider()

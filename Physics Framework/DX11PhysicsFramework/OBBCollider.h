@@ -38,6 +38,19 @@ public:
 		m_U[0] = Vector3(rotation.x, 0, 0);
 		m_U[1] = Vector3(0, rotation.y, 0);
 		m_U[2] = Vector3(0, 0, rotation.z);
+
+		m_OrientationArray[0] = rotation.x;
+		m_OrientationArray[1] = 0;
+		m_OrientationArray[2] = 0;
+
+		m_OrientationArray[3] = 0;
+		m_OrientationArray[4] = rotation.y;
+		m_OrientationArray[5] = 0;
+
+		m_OrientationArray[6] = 0;
+		m_OrientationArray[7] = 0;
+		m_OrientationArray[8] = rotation.z;
+
 	}
 
 	// BASE FUNCTION(s)

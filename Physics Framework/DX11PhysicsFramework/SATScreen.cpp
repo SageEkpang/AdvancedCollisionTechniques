@@ -8,12 +8,6 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	m_CollisionContact = new CollisionContact();
 	m_SATCollider = new SATCollider();
 
-	
-
-
-
-
-
 	#pragma region PlaneObject
 
 	// Plane Object
@@ -58,7 +52,7 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 		Render* t_CubeRender = new Render(t_CubeTransform);
 		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
 	
-		Vector3 t_Rotation = Vector3(0, 0, 0);
+		Vector3 t_Rotation = Vector3(0, 2, 0);
 		Collider* t_CubeCollider = new OBBCollider(t_CubeTransform, t_Rotation);
 
 		// Transform
@@ -94,7 +88,7 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 		Render* t_CubeRender = new Render(t_CubeTransform);
 		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
 
-		Vector3 t_Rotation = Vector3(0, 0, 0);
+		Vector3 t_Rotation = Vector3(0, 1, 0);
 		Collider* t_CubeCollider = new OBBCollider(t_CubeTransform, t_Rotation);
 
 		// Transform
@@ -133,14 +127,6 @@ void SATScreen::ResolveCollision(const float deltaTime)
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
-	// m_GameObjects[1]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
-	m_GameObjects[2]->GetRigidbody()->AddForce(Vector3(-1.0, 0, 0));
-
-	// static int rot;
-	// rot += 100 * deltaTime;
-	// m_GameObjects[1]->GetTransform()->SetRotation(0, rot / 2, 0);
-	// m_GameObjects[2]->GetTransform()->SetRotation(0, rot, 0);
-
 	for (int i = 0; i < m_ColliderObjects.size(); ++i)
 	{
 		for (int j = 0; j < m_ColliderObjects.size(); ++j)
@@ -160,59 +146,60 @@ void SATScreen::ResolveCollision(const float deltaTime)
 	}
 
 	// Collision Checks
-	for (int i = 0; i < m_GameObjects.size(); ++i)
-	{
-		for (int j = 0; j < m_GameObjects.size(); ++j)
-		{
-			// Do not do the Same Game Object
-			if (i == j) { continue; }
+	//for (int i = 0; i < m_GameObjects.size(); ++i)
+	//{
+	//	for (int j = 0; j < m_GameObjects.size(); ++j)
+	//	{
+	//		// Do not do the Same Game Object
+	//		if (i == j) { continue; }
 
-			// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
-			GameObject* t_ObjectAGame = m_GameObjects[i];
-			GameObject* t_ObjectBGame = m_GameObjects[j];
+	//		// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
+	//		GameObject* t_ObjectAGame = m_GameObjects[i];
+	//		GameObject* t_ObjectBGame = m_GameObjects[j];
 
-			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
-			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
+	//		RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
+	//		RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
 
-			Transform* t_ObjectATransform = m_GameObjects[i]->GetTransform();
-			Transform* t_ObjectBTransform = m_GameObjects[j]->GetTransform();
+	//		Transform* t_ObjectATransform = m_GameObjects[i]->GetTransform();
+	//		Transform* t_ObjectBTransform = m_GameObjects[j]->GetTransform();
 
 
-			// See if there is a Collider on the rigidbody
-			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
-			{
-				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
+	//		// See if there is a Collider on the rigidbody
+	//		if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
+	//		{
+	//			// Check the Collision with Code, NOTE: There should be a collision more or less with each other
 
-				// m_SATCollider->ObjectCollisionAlt();
+	//			// m_SATCollider->ObjectCollisionAlt();
 
-				//// Material Coef Calculate
-				// MaterialCoefficient t_MaterialCoef;
-				//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-				//float t_TempRest = 0.00001f; // TODO: Change this back to normal restit when the materials are implemented 
+	//			//// Material Coef Calculate
+	//			// MaterialCoefficient t_MaterialCoef;
+	//			//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+	//			//float t_TempRest = 0.00001f; // TODO: Change this back to normal restit when the materials are implemented 
 
-				//// Collision Contact, Resolution, Response and Velocity / Position Resolution
-				//// CollisionContact t_CollisionContact;
-				//m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_TempRest, deltaTime, t_ColManifold.collisionNormal);
-				//m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
-				
+	//			//// Collision Contact, Resolution, Response and Velocity / Position Resolution
+	//			//// CollisionContact t_CollisionContact;
+	//			//m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_TempRest, deltaTime, t_ColManifold.collisionNormal);
+	//			//m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
+	//			
 
-				//if (SATCollider::ObjectCollision((OBBCollider*)t_ObjectAGame->GetCollider(), (OBBCollider*)t_ObjectBGame->GetCollider(), t_ColManifold))
-				//{
-				//	int i = 0;
-				//}
+	//			//if (SATCollider::ObjectCollision((OBBCollider*)t_ObjectAGame->GetCollider(), (OBBCollider*)t_ObjectBGame->GetCollider(), t_ColManifold))
+	//			//{
+	//			//	int i = 0;
+	//			//}
 
-			}
+	//		}
 
-			// Clear Collision Manifold
-			t_ColManifold = CollisionManifold();
-		}
-	}
+	//		// Clear Collision Manifold
+	//		t_ColManifold = CollisionManifold();
+	//	}
+	//}
 }
 
 void SATScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
 	ResolveCollision(deltaTime);
+	for (auto& v : m_ColliderObjects) { v->Update(deltaTime); }
 }
 
 void SATScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
