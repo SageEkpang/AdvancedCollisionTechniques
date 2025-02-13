@@ -113,6 +113,10 @@ float Vector::Magnitude(float ValueX, float ValueY, float ValueZ)
 Vector3 Vector::Normalise(Vector3 Value)
 {
 	float Length = Magnitude(Value);
+	if (Length == 0)
+	{
+		return Vector3(0.0f, 0.0f, 0.0f);
+	}
 
 	float NormX = Value.x / Length;
 	float NormY = Value.y / Length;

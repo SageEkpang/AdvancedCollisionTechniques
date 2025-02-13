@@ -13,7 +13,6 @@ class SATCollider
 {
 private:
 
-	XMFLOAT4X4* m_World;
 	Transform* m_Transform;
 	Vector3 m_Rotation; // NOTE: Euler Rotation for SAT
 	Geometry m_Geometry;
@@ -44,7 +43,7 @@ public:
 	void ResolveVelocity(SATCollider* satA, SATCollider* satB, float duration, Vector3 collisionNormal);
 	void ResolveInterpenetration(SATCollider* satA, SATCollider* satB, float penetration, float duration, Vector3 collisionNormal);
 
-	static bool ObjectCollisionAlt(SATCollider& objectA, SATCollider& objectB, CollisionManifold& out);
+	static bool ObjectCollisionAlt(SATCollider objectA, SATCollider objectB, CollisionManifold& out);
 
 
 	// GETTER FUNCTION(s)

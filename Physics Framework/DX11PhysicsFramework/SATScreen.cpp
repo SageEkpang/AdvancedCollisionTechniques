@@ -44,22 +44,26 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	#pragma endregion
 
 	// NOTE: Object A
-	Transform* t_TransformA = new Transform();
+	{
+		Transform* t_TransformA = new Transform();
 
-	t_TransformA->SetPosition(1.0f, 1.0f, 10.0f);
-	t_TransformA->SetScale(1.0f, 1.0f, 1.0f);
+		t_TransformA->SetPosition(1.0f, 1.0f, 10.0f);
+		t_TransformA->SetScale(1.0f, 1.0f, 1.0f);
 
-	SATCollider* t_SatCol = new SATCollider("Resources\\OBJ\\cube.obj", t_TransformA, Vector3(1.0f, 1.0f, 1.0f), 1.0f, device);
-	m_SatColliderObjects.push_back(t_SatCol);
+		SATCollider* t_SatCol = new SATCollider("Resources\\OBJ\\cube.obj", t_TransformA, Vector3(1.0f, 1.0f, 1.0f), 1.0f, device);
+		m_SatColliderObjects.push_back(t_SatCol);
+	}
 
 	// NOTE: Object B
-	Transform* t_TransformB = new Transform();
+	{
+		Transform* t_TransformB = new Transform();
 
-	t_TransformB->SetPosition(10.0f, 5.0f, 2.0f);
-	t_TransformB->SetScale(1.0f, 1.0f, 1.0f);
+		t_TransformB->SetPosition(3.5f, 1.0f, 10.0f);
+		t_TransformB->SetScale(1.0f, 1.0f, 1.0f);
 
-	SATCollider* t_SatCol2 = new SATCollider("Resources\\OBJ\\cube.obj", t_TransformB, Vector3(1.0f, 1.0f, 1.0f), 1.0f, device);
-	m_SatColliderObjects.push_back(t_SatCol2);
+		SATCollider* t_SatCol2 = new SATCollider("Resources\\OBJ\\cube.obj", t_TransformB, Vector3(1.0f, 1.0f, 1.0f), 1.0f, device);
+		m_SatColliderObjects.push_back(t_SatCol2);
+	}
 }
 
 SATScreen::~SATScreen()
@@ -76,10 +80,11 @@ void SATScreen::ResolveCollision(const float deltaTime)
 	{
 		for (int j = 0; j < m_SatColliderObjects.size(); ++j)
 		{
+			if (i == j) { continue; }
 			// NOTE: SAT Collision Test
 			if (SATCollider::ObjectCollisionAlt(*m_SatColliderObjects[i], *m_SatColliderObjects[j], t_ColManifold))
 			{
-				int i = 0;
+				int thing = 0;
 			}
 
 			t_ColManifold = CollisionManifold();

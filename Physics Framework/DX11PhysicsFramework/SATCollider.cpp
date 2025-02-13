@@ -225,7 +225,7 @@ void SATCollider::ClearAccumulator()
 //	return true;
 //}
 
-bool SATCollider::ObjectCollisionAlt(SATCollider& objectA, SATCollider& objectB, CollisionManifold& out)
+bool SATCollider::ObjectCollisionAlt(SATCollider objectA, SATCollider objectB, CollisionManifold& out)
 {
 	// NOTE: Fill Orientation Array (A)
 	float t_OrA[9];
@@ -264,6 +264,7 @@ bool SATCollider::ObjectCollisionAlt(SATCollider& objectA, SATCollider& objectB,
 		Vector3(t_OrA[0], t_OrA[1], t_OrA[2]),
 		Vector3(t_OrA[3], t_OrA[4], t_OrA[5]),
 		Vector3(t_OrA[6], t_OrA[7], t_OrA[8]),
+
 		Vector3(t_OrB[0], t_OrB[1], t_OrB[2]),
 		Vector3(t_OrB[3], t_OrB[4], t_OrB[5]),
 		Vector3(t_OrB[6], t_OrB[7], t_OrB[8])
@@ -280,11 +281,14 @@ bool SATCollider::ObjectCollisionAlt(SATCollider& objectA, SATCollider& objectB,
 	// NOTE: Do the Seperating Axis Tests
 	for (int i = 0; i < 15; ++i)
 	{
-		if (!OverlapOnAxis(objectA, objectB, t_Test[i]))
+		bool t_Overlapping = OverlapOnAxis(objectA, objectB, t_Test[i]);
+		if (!t_Overlapping)
 		{
 			return false; // Seperating Axis was found (There is not a collision)
 		}
 	}
+
+	out.hasCollision = true;
 
 	return true; // Seperating Axis not Found (There was Collision)
 }
@@ -292,8 +296,10 @@ bool SATCollider::ObjectCollisionAlt(SATCollider& objectA, SATCollider& objectB,
 bool SATCollider::OverlapOnAxis(SATCollider& satA, SATCollider& satB, Vector3& axis)
 {
 	Interval t_A = GetIntervalOr(satA, axis);
-	Interval t_B = GetIntervalOr(satB, axis); // TODO: Might have to be for the obbA
-	return (t_B.min <= t_A.max) && (t_A.min <= t_B.max);
+	Interval t_B = GetIntervalOr(satB, axis);
+	bool t_ExtentCheck = (t_B.min <= t_A.max) && (t_A.min <= t_B.max);
+
+	return t_ExtentCheck;
 }
 
 Interval SATCollider::GetIntervalOr(SATCollider& sat, Vector3& axis)
@@ -314,8 +320,8 @@ Interval SATCollider::GetIntervalOr(SATCollider& sat, Vector3& axis)
 		t_Orientation[5] = 0;
 
 		t_Orientation[6] = 0;
-		t_Orientation[7] = 0;
-		t_Orientation[8] = sat.GetRotation().z;
+		t_Orientation[7] = sat.GetRotation().z;
+		t_Orientation[8] = 1;
 	}
 
 	Vector3 t_Axis[] = {
@@ -324,17 +330,18 @@ Interval SATCollider::GetIntervalOr(SATCollider& sat, Vector3& axis)
 		Vector3(t_Orientation[6], t_Orientation[7], t_Orientation[8])
 	};
 
-	t_Vertex[0] = t_Position + t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
-	t_Vertex[1] = t_Position - t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
-	t_Vertex[2] = t_Position + t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
-	t_Vertex[3] = t_Position + t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z;
-	t_Vertex[4] = t_Position - t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z;
-	t_Vertex[5] = t_Position + t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z;
-	t_Vertex[6] = t_Position - t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z;
-	t_Vertex[7] = t_Position - t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z;
+	t_Vertex[0] = (t_Position + t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z);
+	t_Vertex[1] = (t_Position - t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z);
+	t_Vertex[2] = (t_Position + t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z);
+	t_Vertex[3] = (t_Position + t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z);
+	t_Vertex[4] = (t_Position - t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z);
+	t_Vertex[5] = (t_Position + t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z);
+	t_Vertex[6] = (t_Position - t_Axis[0] * t_Size.x + t_Axis[1] * t_Size.y - t_Axis[2] * t_Size.z);
+	t_Vertex[7] = (t_Position - t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z);
 
 	Interval t_Result;
-	t_Result.min = t_Result.max = Vector::CalculateDotProduct(axis, t_Vertex[0]);
+	t_Result.max = Vector::CalculateDotProduct(axis, t_Vertex[0]);
+	t_Result.min = Vector::CalculateDotProduct(axis, t_Vertex[0]);
 
 	for (int i = 1; i < 8; ++i)
 	{

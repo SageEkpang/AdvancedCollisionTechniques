@@ -476,8 +476,8 @@ public:
 // Struct for SAT Collisions
 typedef struct Interval
 {
-	float min;
 	float max;
+	float min;
 
 }Interval;
 
