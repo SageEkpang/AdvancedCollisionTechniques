@@ -344,9 +344,7 @@ typedef struct Vector3
 
 	float Dot(Vector3 value)
 	{
-		Vector3 t_NormVec1 = this->Normalise();
-		Vector3 t_NormVec2 = value.Normalise();
-		return (t_NormVec1.x * t_NormVec2.x) + (t_NormVec1.y * t_NormVec2.y) + (t_NormVec1.z * t_NormVec2.z);
+		return (this->x * value.x) + (this->y * value.y) + (this->z * value.z);
 	}
 
 	float DotNotNorm(Vector3 value) const

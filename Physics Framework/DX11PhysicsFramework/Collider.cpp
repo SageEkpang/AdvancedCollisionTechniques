@@ -104,7 +104,7 @@ Vector3 Collider::FindFurthestPoint(Vector3 direction)
 
 	for (Vector3& v : m_Vertices)
 	{
-		float t_Distance = Vector::CalculateDotProduct(v, direction);
+		float t_Distance = Vector::CalculateDotProductNotNorm(v, direction); // NOTE: May have to change dot product back to normalise one
 
 		if (t_Distance > t_MaxDistance)
 		{

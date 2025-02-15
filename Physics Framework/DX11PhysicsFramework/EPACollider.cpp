@@ -33,14 +33,11 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 	Vector3 t_MinNormal;
 	float t_MinDistance = FLT_MAX;
 
-
-
-
 	t_MinNormal = t_Normals[t_MinFace].xyz();
 	t_MinDistance = t_Normals[t_MinFace].w;
 
 	Vector3 t_Support = Support(colliderA, colliderB, t_MinNormal);
-	float t_Distance = Vector::CalculateDotProduct(t_MinNormal, t_Support);
+	float t_Distance = Vector::CalculateDotProductNotNorm(t_MinNormal, t_Support);
 
 	if (std::abs(t_Distance - t_MinDistance) > 0.001f)
 	{
@@ -111,7 +108,7 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 
 bool EPACollider::SameDirection(Vector3 direction, Vector3 Ao)
 {
-	return Vector::CalculateDotProduct(direction, Ao) > 0;
+	return Vector::CalculateDotProductNotNorm(direction, Ao) > 0;
 }
 
 Vector3 EPACollider::Support(Collider& colliderA, Collider& colliderB, Vector3 direction)
@@ -152,7 +149,7 @@ std::pair<std::vector<Vector4>, size_t> EPACollider::GetFaceNormals(std::vector<
 		Vector3 t_C = polytope[faces[i + 2]];
 
 		Vector3 t_Normal = Vector::Normalise(Vector::CalculateCrossProductV(t_B - t_A, t_C - t_A));
-		float t_Distance = Vector::CalculateDotProduct(t_Normal, t_A);
+		float t_Distance = Vector::CalculateDotProductNotNorm(t_Normal, t_A);
 
 		if (t_Distance < 0)
 		{

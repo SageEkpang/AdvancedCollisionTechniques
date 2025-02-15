@@ -59,7 +59,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(2.0f, 4.0f, 10.0f);
+		t_CubeTransform->SetPosition(2.0f, 5.0f, 9.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -112,7 +112,7 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
 				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()))
 				{
-					int i = 0;
+					int thing = 0;
 				}
 
 				//// Material Coef Calculate

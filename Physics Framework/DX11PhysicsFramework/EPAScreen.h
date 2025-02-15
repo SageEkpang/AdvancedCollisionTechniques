@@ -15,7 +15,7 @@ class EPAScreen : public Screen
 private:
 
 	GJKCollider* m_GJKCollider;
-	EPACollider* m_EPACollider;
+	EPACollider* m_EPACollider;	
 
 public:
 

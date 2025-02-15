@@ -59,7 +59,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(7.0f, 5.0f, 10.0f);
+		t_CubeTransform->SetPosition(10.0f, 4.0f, 10.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -74,8 +74,6 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetRender(t_CubeRender);
 		t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
 		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
-
-
 		InsertObjectIntoList(t_CubeObject);
 	}
 #pragma endregion
@@ -95,7 +93,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(6.f, 4.f, 9.0f);
+		t_CubeTransform->SetPosition(9.f, 5.f, 9.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -113,6 +111,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 
 		InsertObjectIntoList(t_CubeObject);
 	}
+
 #pragma endregion
 
 }
@@ -133,8 +132,6 @@ void EPAScreen::ResolveCollision(const float deltaTime)
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
-	// m_GameObjects[1]->GetRigidbody()->AddForce(Vector3(-1, 0, 0));
-
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
 	{
@@ -150,16 +147,18 @@ void EPAScreen::ResolveCollision(const float deltaTime)
 			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
 			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
 
-
 			// See if there is a Collider on the rigidbody
 			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
 			{
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
 				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()))
 				{
-						int i = 0;
-					if (m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider()).hasCollision == true)
+					// NOTE: Send Simplex Data to the EPA Collision Code
+					t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
+
+					if (t_ColManifold.hasCollision == true)
 					{
+						int i = 0;
 					}
 				}
 
