@@ -46,14 +46,17 @@ void Particle::Update(float deltaTime)
 	CalculateAcceleration(deltaTime);
 
 	// Scale Matrix
-	XMMATRIX Scale = XMMatrixScaling(m_Transform->GetScale().x, m_Transform->GetScale().y, m_Transform->GetScale().z);
+	XMMATRIX t_Scale = XMMatrixScaling(m_Transform->GetScale().x, m_Transform->GetScale().y, m_Transform->GetScale().z);
+
+	// Rotation Matrix
+	XMMATRIX t_Rotation = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
 
 	// Position Matrix
-	XMMATRIX Position = XMMatrixTranslation(m_Transform->GetPosition().x, m_Transform->GetPosition().y, m_Transform->GetPosition().z);
+	XMMATRIX t_Position = XMMatrixTranslation(m_Transform->GetPosition().x, m_Transform->GetPosition().y, m_Transform->GetPosition().z);
 
 	// Store Transform in Matrix
-	// NOTE: Do not need the rotation matrix due to the nature of the Mass Aggregate System
-	XMStoreFloat4x4(m_World, Scale * Position);
+	XMStoreFloat4x4(m_World, t_Scale * t_Rotation * t_Position);
+	ClearAccumulator();
 }
 
 void Particle::CalculateAcceleration(float deltaTime)

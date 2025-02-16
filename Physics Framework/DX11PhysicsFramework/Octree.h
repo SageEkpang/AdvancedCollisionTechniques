@@ -21,7 +21,6 @@ typedef struct Octant
 	{
 		this->centre = value.centre;
 		this->halfWidth = value.halfWidth;
-		// this->objList.insert(this->objList.end(), value.objList.begin(), value.objList.end());
 	}
 
 }Octant;
@@ -42,6 +41,7 @@ private: // PRIVATE FUNCTION(s)
 public: // PUBLIC FUNCTION(s)
 
 	// CLASS FUNCTION(s)
+	Octree(int regionAmount);
 	Octree(Vector3 centre, float halfWidth, int stopDepth);
 	~Octree();
 
@@ -50,7 +50,7 @@ public: // PUBLIC FUNCTION(s)
 	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
 
 	void InsertEntity(Octant* tree, PhysicsObject* physicsEntity);
-	void InsertEntities(std::vector<PhysicsObject*> physicsEntities);
+	void InsertEntities(Octant* tree, std::vector<PhysicsObject*> physicsEntities);
 
 	void UpdateTree(Octant* tree, const float deltaTime);
 
@@ -58,15 +58,13 @@ public: // PUBLIC FUNCTION(s)
 	void QueryTree(Octant* octantTree);
 
 	void ClearOctant(int index);
-	void ClearOctant();
+	void ClearOctant(Octant* tree, int index);
+
+	// Collision Check // NOTE: Event Dispatch 
 
 
 	// GETTER FUNCTION(s)
 	inline Octant* GetOctant() const { return m_Octant; }
-
-
-	// SETTER FUNCTION(s)
-
 
 };
 

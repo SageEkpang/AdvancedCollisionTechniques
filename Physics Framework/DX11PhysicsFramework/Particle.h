@@ -61,6 +61,8 @@ public:
 
 
 	// SETTER FUNCTION(s)
+	void SetPosition(float x, float y, float z) { m_Transform->SetPosition(x, y, z); }
+	void SetPosition(Vector3 value) { m_Transform->SetPosition(value); }
 	virtual inline void SetVelocity(Vector3 velocity) { m_Velocity = velocity; }
 	inline void SetVelocity(float x, float y, float z) { m_Velocity = Vector3(x, y, z); }
 

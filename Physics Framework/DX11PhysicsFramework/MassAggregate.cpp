@@ -29,7 +29,6 @@ MassAggregate::MassAggregate(char* filePath, Vector3 position, float mass, int s
 		// NOTE: Set and Push data into the Array and Buffer
 		Particle* t_TempPart = new Particle(t_TempTrans, mass, device);
 		m_MassPoints.push_back(t_TempPart);
-		m_StaticPoints.push_back(t_TempPart);
 	}
 }
 
@@ -47,22 +46,17 @@ void MassAggregate::Update(float deltaTime)
 		if (v->GetMass() <= 0) { return; }
 
 		// NOTE: Ground Check
-		//if (v->GetTransform()->GetPosition().y > 0)
-		//{
-		//	v->AddForce(v->GetGravity() * v->GetMass());
-		//}
-		//else
-		//{
-		//	v->ApplyImpulse(Vector3(0, 1, 0));
-		//}
+		if (v->GetTransform()->GetPosition().y > 0)
+		{
+			v->AddForce(v->GetGravity() * v->GetMass());
+		}
+		else
+		{
+			v->ApplyImpulse(Vector3(0.0f, 1.f, 0.0f));
+		}
 
 		v->Update(deltaTime);
 	}
-
-	//for (auto& v : m_StaticPoints)
-	//{
-	//	v->Update(deltaTime);
-	//}
 
 	// NOTE: Rod Code
 	for (int i = 0; i < m_MassPoints.size(); ++i)
@@ -72,45 +66,53 @@ void MassAggregate::Update(float deltaTime)
 			if (i == j) { continue; }
 			
 			// NOTE: "Current Length" is just the distance between the two vectors magnitude
-			// NOTE: Could also be the two vectors take away from each other
 			float t_CurrentLength = Vector::Magnitude(m_MassPoints[i]->GetPosition() - m_MassPoints[j]->GetPosition()) / 2;
 			
 			// NOTE: Skip Current Iteration
 			if (t_CurrentLength == m_Size) { continue; }
 
-			CollisionManifold t_ColManifold;
+			CollisionManifold t_ColManifold = CollisionManifold();
 
+			// NOTE: Work "Collision Normal"
 			Vector3 t_Normal = m_MassPoints[j]->GetPosition() - m_MassPoints[i]->GetPosition();
-			t_Normal = t_Normal.Normalise();
 			
 
-			if (t_CurrentLength > m_Size)
-			{
-				t_ColManifold.collisionNormal = t_Normal;
-				t_ColManifold.penetrationDepth = t_CurrentLength - m_Size;
 
-				ResolveInterpenetration(m_MassPoints[i], m_MassPoints[j], t_ColManifold.penetrationDepth, deltaTime, t_ColManifold.collisionNormal);
-			}
-			else
-			{
-				t_ColManifold.collisionNormal = t_Normal * -1;
-				t_ColManifold.penetrationDepth = m_Size - t_CurrentLength;
+			float t_Target = m_Size; // NOTE: This is the "distance" that the rods need to be at
+			Vector3 t_Disperse = m_MassPoints[i]->GetPosition() - m_MassPoints[j]->GetPosition();
+			float t_Distance = t_CurrentLength;
 
-				ResolveInterpenetration(m_MassPoints[i], m_MassPoints[j], t_ColManifold.penetrationDepth, deltaTime, t_ColManifold.collisionNormal);
-			}
+			Vector3 t_NewNormal = t_Disperse / t_Distance;
+			float t_Delta = t_Target - t_Distance; // 0.71
+
+			Vector3 t_TargetPosA = m_MassPoints[i]->GetPosition() + (0.5 * t_Delta * t_NewNormal);
+			Vector3 t_TargetPosB = m_MassPoints[j]->GetPosition() - (0.5 * t_Delta * t_NewNormal);
+
+			m_MassPoints[i]->SetPosition(t_TargetPosA + m_MassPoints[i]->GetVelocity() * 0.002);
+			m_MassPoints[j]->SetPosition(t_TargetPosB + m_MassPoints[j]->GetVelocity() * 0.002);
+
+
+			//if (t_CurrentLength >= m_Size)
+			//{
+			//	t_ColManifold.collisionNormal = t_Normal.Normalise();
+			//	t_ColManifold.penetrationDepth = t_CurrentLength - m_Size;
+
+			//	ResolveInterpenetrationAlt(m_MassPoints[i], m_MassPoints[j], t_ColManifold.penetrationDepth, deltaTime, t_ColManifold.collisionNormal);
+			//}
+			//else
+			//{
+			//	t_ColManifold.collisionNormal = -t_Normal.Normalise();
+			//	t_ColManifold.penetrationDepth = m_Size - t_CurrentLength;
+
+			//	ResolveInterpenetrationAlt(m_MassPoints[i], m_MassPoints[j], t_ColManifold.penetrationDepth, deltaTime, t_ColManifold.collisionNormal);
+			//}
 		}
-	}
-
-	// MOVE POINTS BACK TO LOCATION
-	for (int i = 0; i < m_MassPoints.size(); ++i)
-	{
-		MovePoints(m_MassPoints[i], i);
-		m_MassPoints[i]->ClearAccumulator();
 	}
 }
 
 void MassAggregate::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
+	// pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	for (auto& v : m_MassPoints)
 	{
 		v->Draw(constantBufferData, constBuff, pImmediateContext, device, Vector3(1, 0, 0));
@@ -182,24 +184,34 @@ void MassAggregate::ResolveInterpenetration(Particle* particleA, Particle* parti
 	if (particleB) { particleB->GetTransform()->SetPosition((particleB->GetTransform()->GetPosition() + t_ParticleMovementB)); }
 }
 
+void MassAggregate::ResolveInterpenetrationAlt(Particle* particleA, Particle* particleB, float penetration, float duration, Vector3 collisionNormal)
+{
+	if (penetration <= 0) return;
+
+	// Move Objects based on Inverse Mass
+	float t_TotalInverseMass = particleA->GetInverseMass();
+	t_TotalInverseMass += particleB->GetInverseMass();
+
+	// If infinite mass, return (Good for stationary / static objects)
+	if (t_TotalInverseMass <= 0) return;
+
+	// Find the amount of penetration resolution per unit of inverse mass
+	Vector3 t_MovePerMass = collisionNormal * (penetration / t_TotalInverseMass);
+
+	// Calculate Movement Amount
+	Vector3 t_ParticleMovementA = t_MovePerMass * particleA->GetInverseMass();
+	Vector3 t_ParticleMovementB = t_MovePerMass * -particleB->GetInverseMass();
+
+	// Apply Penetration Resolution
+	particleA->GetTransform()->SetPosition(particleA->GetTransform()->GetPosition() + t_ParticleMovementA);
+	particleB->GetTransform()->SetPosition(particleB->GetTransform()->GetPosition() + t_ParticleMovementB);
+}
+
 Vector3 MassAggregate::CalculateSeparatingVelocity(Particle* particleA, Particle* particleB, Vector3 contactNormal)
 {
 	Vector3 t_RelativeVelocity = particleA->GetVelocity();
 	if (particleB) { t_RelativeVelocity -= particleB->GetVelocity(); }
 	return t_RelativeVelocity * contactNormal;
-}
-
-void MassAggregate::MovePoints(Particle* particle, int index)
-{
-	float t_CurrentLength = Vector::Magnitude(m_StaticPoints[index]->GetPosition() - m_MassPoints[index]->GetPosition());
-
-	if (t_CurrentLength == m_Size) { return; }
-
-	Vector3 t_Direction = m_StaticPoints[index]->GetPosition() - m_MassPoints[index]->GetPosition();
-	t_Direction = t_Direction.Normalise();
-	
-	m_MassPoints[index]->AddForce(t_Direction * 10);
-
 }
 
 void MassAggregate::ClearParticle()

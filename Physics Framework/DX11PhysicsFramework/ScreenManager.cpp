@@ -87,7 +87,7 @@ HRESULT ScreenManager::CreateScreens()
 
 	// Assign Basic Screen to Screen Variable
 	// m_CurrentScreen = new BasicScreen("BasicScreen", _device);
-	m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithm", _device);
+	m_CurrentScreen = new MassAggScreen("MassAggregateScreen", _device);
 
 	return S_OK;
 }
@@ -197,8 +197,8 @@ void ScreenManager::TransitionScreen(PhysicsScreenState state)
 		case PhysicsScreenState::STATE_BASIC_SCREEN: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
 		case PhysicsScreenState::STATE_SAT_SCREEN: m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device); break;
 		case PhysicsScreenState::STATE_GJK_SCREEN: m_CurrentScreen = new GJKScreen("GilbertJohnsonKeerthiScreen", _device); break;
-		case PhysicsScreenState::STATE_EPA_SCREEN: m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithm", _device); break;
-		case PhysicsScreenState::STATE_MASS_ARG_SCREEN: m_CurrentScreen = new MassAggScreen("MassAggregate", _device); break;
+		case PhysicsScreenState::STATE_EPA_SCREEN: m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithmScreen", _device); break;
+		case PhysicsScreenState::STATE_MASS_ARG_SCREEN: m_CurrentScreen = new MassAggScreen("MassAggregateScreen", _device); break;
 
 		default: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
 	}

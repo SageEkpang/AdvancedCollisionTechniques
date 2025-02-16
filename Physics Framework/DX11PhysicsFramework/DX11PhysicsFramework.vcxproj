@@ -390,7 +390,6 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MassAggregate.cpp" />
     <ClCompile Include="MassAggScreen.cpp" />
-    <ClCompile Include="MassPointSpring.cpp" />
     <ClCompile Include="MaterialCoefficient.cpp" />
     <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
@@ -435,7 +434,6 @@
     <ClInclude Include="GJKScreen.h" />
     <ClInclude Include="MassAggregate.h" />
     <ClInclude Include="MassAggScreen.h" />
-    <ClInclude Include="MassPointSpring.h" />
     <ClInclude Include="MaterialCoefficient.h" />
     <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="MeshLoader.h" />

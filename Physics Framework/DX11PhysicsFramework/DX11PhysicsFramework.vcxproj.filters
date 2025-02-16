@@ -185,9 +185,6 @@
     <ClInclude Include="MaterialCoefficient.h">
       <Filter>Physics\Header</Filter>
     </ClInclude>
-    <ClInclude Include="MassPointSpring.h">
-      <Filter>MassPhysics\Header</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionContact.h">
       <Filter>CollisionTesting\CollisionResolution\Header</Filter>
     </ClInclude>
@@ -219,7 +216,7 @@
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
     <ClInclude Include="MeshLoader.h">
-      <Filter>MassPhysics\Header</Filter>
+      <Filter>Helpers\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -304,9 +301,6 @@
     <ClCompile Include="MaterialCoefficient.cpp">
       <Filter>Physics\Source</Filter>
     </ClCompile>
-    <ClCompile Include="MassPointSpring.cpp">
-      <Filter>MassPhysics\Source</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionContact.cpp">
       <Filter>CollisionTesting\CollisionResolution\Source</Filter>
     </ClCompile>
@@ -332,7 +326,7 @@
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
     <ClCompile Include="MeshLoader.cpp">
-      <Filter>MassPhysics\Source</Filter>
+      <Filter>Helpers\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
