@@ -34,7 +34,7 @@ void Camera::Update(const float deltaTime)
 	// Getting the Inverse View Matrix
 	XMMATRIX t_TempWorld = XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_ViewMatrix));
 
-	// MOVEMENT
+	// MOVEMENT // TODO: Could add a smoothing function to the camera to move better
 	if (GetAsyncKeyState(VK_W)) { t_TempWorld.r[3] += t_TempWorld.r[2] * m_CameraSpeed * deltaTime; } // Move Forward
 	if (GetAsyncKeyState(VK_A)) { t_TempWorld.r[3] -= t_TempWorld.r[0] * m_CameraSpeed * deltaTime; } // Move Left
 	if (GetAsyncKeyState(VK_S)) { t_TempWorld.r[3] -= t_TempWorld.r[2] * m_CameraSpeed * deltaTime; } // Move Back

@@ -41,6 +41,7 @@ public:
 	void Update(const float deltaTime);
 
 	// GETTER FUNCTION(s)
+	inline XMFLOAT4X4* GetWorld() const { return m_World; }
 	inline XMFLOAT4X4 GetView() const { return m_ViewMatrix; }
 	inline XMFLOAT4X4 GetProjection() const { return m_ProjectionMatrix; }
 

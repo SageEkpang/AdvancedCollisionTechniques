@@ -32,9 +32,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 ScreenManager::ScreenManager()
 {
-	// Set default values for everything
-	m_CurrentPhysicsScreen = PhysicsScreenState::STATE_NONE;
-	m_IsTransitioning = false;
+
 }
 
 void ScreenManager::Destroy()
@@ -67,9 +65,6 @@ void ScreenManager::Destroy()
 	if (_RSCullNone) _RSCullNone->Release();
 
 	if (_samplerLinear)_samplerLinear->Release();
-	if (_StoneTextureRV)_StoneTextureRV->Release();
-	if (_GroundTextureRV)_GroundTextureRV->Release();
-	if (_HerculesTextureRV)_HerculesTextureRV->Release();
 
 	if (_dxgiDevice)_dxgiDevice->Release();
 	if (_dxgiFactory)_dxgiFactory->Release();
@@ -94,15 +89,10 @@ HRESULT ScreenManager::CreateScreens()
 
 void ScreenManager::Process()
 {
-	static ULONGLONG t_FrameStart = GetTickCount64();
-	ULONGLONG t_FrameNow = GetTickCount64();
+	// NOTE: FPS Time Step Code
 
-	float t_DeltaTime = m_Timer->GetDeltaTime();
-	t_FrameStart = t_FrameNow;
-
-	static float t_SimpleCount = 0.0f;
-	t_SimpleCount += t_DeltaTime;
-	m_Accumulator += t_DeltaTime;
+	m_SimpleCount += m_Timer->GetDeltaTime();
+	m_Accumulator += m_Timer->GetDeltaTime();
 
 	while (m_Accumulator >= FPS60)
 	{
@@ -124,6 +114,7 @@ void ScreenManager::Showcase()
 	BeginRendering();
 
 	// Transpose Matrices and Load Information from Calculated Update function
+	// _cbData.World = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetW));
 	_cbData.View = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetView()));
 	_cbData.Projection = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetProjection()));
 
@@ -170,6 +161,8 @@ HRESULT ScreenManager::Initialise(HINSTANCE hInstance, int nShowCmd)
 
 bool ScreenManager::HandleKeyboard(MSG msg)
 {
+	// TODO: Move to a GUI Context
+
 	switch (msg.wParam)
 	{
 		// RASTERIZER STATE(s)
