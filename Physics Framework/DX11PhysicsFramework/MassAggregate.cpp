@@ -45,20 +45,23 @@ void MassAggregate::Update(float deltaTime)
 		// NOTE: The particle does not have mass, so do not do anything with it
 		if (v->GetMass() <= 0) { return; }
 
-		// NOTE: Ground Check
-		if (v->GetTransform()->GetPosition().y > 0)
+		// NOTE: Apply Gravity to Objects
+		v->ApplyImpulse(v->GetGravity() * deltaTime);
+		
+		// NOTE: Resolve Position for the Floor // NOTE: "0" = floor
+		if (v->GetPosition().y < 0)
 		{
-			v->AddForce(v->GetGravity() * v->GetMass());
-		}
-		else
-		{
-			v->ApplyImpulse(Vector3(0.0f, 1.f, 0.0f));
+			v->SetPosition(Vector3(v->GetPosition().x, 0, v->GetPosition().z));
+			float t_Dampening = 0.01f;
+			v->SetVelocity(Vector3(v->GetVelocity().x, -v->GetVelocity().y * t_Dampening, v->GetVelocity().z));
 		}
 
 		v->Update(deltaTime);
 	}
 
 	// NOTE: Rod Code
+	#pragma region MyRegion
+
 	for (int i = 0; i < m_MassPoints.size(); ++i)
 	{
 		for (int j = 0; j < m_MassPoints.size(); ++j)
@@ -73,23 +76,21 @@ void MassAggregate::Update(float deltaTime)
 
 			CollisionManifold t_ColManifold = CollisionManifold();
 
-			// NOTE: Work "Collision Normal"
+			// NOTE: Normal Calculation
 			Vector3 t_Normal = m_MassPoints[j]->GetPosition() - m_MassPoints[i]->GetPosition();
 			
-
-
 			float t_Target = m_Size; // NOTE: This is the "distance" that the rods need to be at
 			Vector3 t_Disperse = m_MassPoints[i]->GetPosition() - m_MassPoints[j]->GetPosition();
 			float t_Distance = t_CurrentLength;
 
 			Vector3 t_NewNormal = t_Disperse / t_Distance;
-			float t_Delta = t_Target - t_Distance; // 0.71
+			float t_Delta = t_Target - t_Distance;
 
-			Vector3 t_TargetPosA = m_MassPoints[i]->GetPosition() + (0.5 * t_Delta * t_NewNormal);
-			Vector3 t_TargetPosB = m_MassPoints[j]->GetPosition() - (0.5 * t_Delta * t_NewNormal);
+			Vector3 t_TargetPosA = m_MassPoints[i]->GetPosition() + t_Delta * t_NewNormal.Normalise();
+			Vector3 t_TargetPosB = m_MassPoints[j]->GetPosition() - t_Delta * t_NewNormal.Normalise();
 
-			m_MassPoints[i]->SetPosition(t_TargetPosA + m_MassPoints[i]->GetVelocity() * 0.002);
-			m_MassPoints[j]->SetPosition(t_TargetPosB + m_MassPoints[j]->GetVelocity() * 0.002);
+			m_MassPoints[i]->SetPosition(t_TargetPosA);
+			m_MassPoints[j]->SetPosition(t_TargetPosB);
 
 
 			//if (t_CurrentLength >= m_Size)
@@ -97,6 +98,7 @@ void MassAggregate::Update(float deltaTime)
 			//	t_ColManifold.collisionNormal = t_Normal.Normalise();
 			//	t_ColManifold.penetrationDepth = t_CurrentLength - m_Size;
 
+			//	ResolveVelocity(m_MassPoints[i], m_MassPoints[j], deltaTime, t_ColManifold.collisionNormal);
 			//	ResolveInterpenetrationAlt(m_MassPoints[i], m_MassPoints[j], t_ColManifold.penetrationDepth, deltaTime, t_ColManifold.collisionNormal);
 			//}
 			//else
@@ -104,10 +106,13 @@ void MassAggregate::Update(float deltaTime)
 			//	t_ColManifold.collisionNormal = -t_Normal.Normalise();
 			//	t_ColManifold.penetrationDepth = m_Size - t_CurrentLength;
 
+			//	ResolveVelocity(m_MassPoints[i], m_MassPoints[j], deltaTime, t_ColManifold.collisionNormal);
 			//	ResolveInterpenetrationAlt(m_MassPoints[i], m_MassPoints[j], t_ColManifold.penetrationDepth, deltaTime, t_ColManifold.collisionNormal);
 			//}
 		}
 	}
+
+	#pragma endregion
 }
 
 void MassAggregate::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
@@ -135,8 +140,8 @@ void MassAggregate::ResolveVelocity(Particle* particleA, Particle* particleB, fl
 	Vector3 t_DeltaVelocity = t_NewSepVelocity - t_SeperatingVelocity;
 
 	// Those with a higher mass get a less effect to there mass and inverse mass
-	float t_TotalInverseMass = particleA->GetInverseMass();
-	if (particleB) { t_TotalInverseMass += particleB->GetInverseMass(); }
+	float t_TotalInverseMass = particleA->GetInverseMass() * GRAVITY_EARTH;
+	if (particleB) { t_TotalInverseMass += particleB->GetInverseMass() * GRAVITY_EARTH; }
 
 	// If all particles have infinite mass, then impulses have no effect
 	if (t_TotalInverseMass <= 0) return;
@@ -145,7 +150,7 @@ void MassAggregate::ResolveVelocity(Particle* particleA, Particle* particleB, fl
 	Vector3 t_Impulse = t_DeltaVelocity / t_TotalInverseMass;
 
 	// Apply impulses: they are applied in the direction of the contact, and are proportional to the inverse mass
-	Vector3 t_ImpulsePerMass = collisionNormal * t_Impulse;
+	Vector3 t_ImpulsePerMass = collisionNormal * t_Impulse * 2;
 
 	particleA->SetVelocity(particleA->GetVelocity() + t_ImpulsePerMass * -particleA->GetInverseMass());
 

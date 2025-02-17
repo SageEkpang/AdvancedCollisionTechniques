@@ -30,7 +30,7 @@ MassAggScreen::MassAggScreen(std::string screenName, ID3D11Device* device)
 		t_PlaneObject->SetCollider(t_PlaneCollider);
 		t_PlaneCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionPlane.obj", MATERIAL_WIREFRAME, device);
 
-		// Rendering
+		// Rendering   
 		t_PlaneObject->SetRender(t_PlaneRender);
 		t_PlaneRender->SetGeometryAndMaterial("Resources\\OBJ\\plane.obj", MATERIAL_SHINY, device);
 		t_PlaneRender->SetTexture(L"Resources\\Textures\\floor.dds", device);
@@ -41,13 +41,28 @@ MassAggScreen::MassAggScreen(std::string screenName, ID3D11Device* device)
 	#pragma endregion
 
 	// NOTE: Box Mass Aggregate System
-	MassAggregate* t_BoxARG = new MassAggregate("Resources\\OBJ\\cube.obj", Vector3(0, 5, 3), 1.0f, 1, device);
-	MassAggregate* t_PlaneARG = new MassAggregate("Resources\\OBJ\\CollisionPlane.obj", Vector3(0, 5, 10), 1.0f, 4, device);
-	MassAggregate* t_PyramidARG = new MassAggregate("Resources\\OBJ\\Pyramid.obj", Vector3(10, 5, 10), 1.0f, 1, device);
+	//MassAggregate* t_BoxARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(0, 5, 3), 1.0f, 1, device);
+	//MassAggregate* t_PlaneARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(0, 5, 10), 1.0f, 4, device);
+	//MassAggregate* t_PyramidARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(10, 5, 10), 1.0f, 1, device);
+	//MassAggregate* t_TetrahARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(-10, 5, 10), 1.0f, 1, device);
 
-	m_MassObjects.push_back(t_BoxARG);
-	m_MassObjects.push_back(t_PlaneARG);
-	m_MassObjects.push_back(t_PyramidARG);
+	//m_MassObjects.push_back(t_BoxARG);
+	//m_MassObjects.push_back(t_PlaneARG);
+	//m_MassObjects.push_back(t_PyramidARG);
+	//m_MassObjects.push_back(t_TetrahARG);
+
+	Vector3 t_Position[5] = {
+		Vector3(0, 5, 3),
+		Vector3(0, 5, 10),
+		Vector3(10, 5, 10),
+		Vector3(-10, 5, 10)
+	};
+
+	for (int i = 0; i < 4; ++i)
+	{
+		MassAggregate* t_TempARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", t_Position[i], 1.0f, 1, device);
+		m_MassObjects.push_back(t_TempARG);
+	}
 }
 
 MassAggScreen::~MassAggScreen()
@@ -64,19 +79,13 @@ MassAggScreen::~MassAggScreen()
 void MassAggScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
-	MassSims(deltaTime);
+	for (auto& v : m_MassObjects) { v->Update(deltaTime); }
 }
 
 void MassAggScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
 	Screen::Draw(constantBufferData, constBuff, pImmediateContext, device);
 	for (auto& v : m_MassObjects) { v->Draw(constantBufferData, constBuff, pImmediateContext, device); }
-}
-
-// NOTE: Update for the Mass Objects
-void MassAggScreen::MassSims(const float deltaTime)
-{
-	for (auto& v : m_MassObjects) { v->Update(deltaTime); }
 }
 
 

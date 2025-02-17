@@ -11,7 +11,7 @@ Particle::Particle(Transform* transform, float mass, ID3D11Device* device)
 	MeshData t_Mesh;
 	Geometry t_Geometry;
 
-	t_Mesh = OBJLoader::Load("Resources\\OBJ\\CollisionSphere.obj", device);
+	t_Mesh = OBJLoader::Load("Resources\\OBJ\\sphere.obj", device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
 	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
@@ -43,7 +43,6 @@ Particle::~Particle()
 void Particle::Update(float deltaTime)
 {
 	// NOTE: Call the Physics Update Functions needed for this
-	CalculateAcceleration(deltaTime);
 
 	// Scale Matrix
 	XMMATRIX t_Scale = XMMatrixScaling(m_Transform->GetScale().x, m_Transform->GetScale().y, m_Transform->GetScale().z);
@@ -55,7 +54,8 @@ void Particle::Update(float deltaTime)
 	XMMATRIX t_Position = XMMatrixTranslation(m_Transform->GetPosition().x, m_Transform->GetPosition().y, m_Transform->GetPosition().z);
 
 	// Store Transform in Matrix
-	XMStoreFloat4x4(m_World, t_Scale * t_Rotation * t_Position);
+	XMStoreFloat4x4(m_World, t_Scale * t_Rotation * t_Position); 
+	CalculateAcceleration(deltaTime);
 	ClearAccumulator();
 }
 
@@ -80,9 +80,9 @@ void Particle::ClearAccumulator()
 	m_Acceleration = VECTOR3_ZERO;
 }
 
-
 void Particle::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device, Vector3 colour)
 {
+	// pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	D3D11_RASTERIZER_DESC cmdesc;
 	ID3D11RasterizerState* m_NormalCull;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));

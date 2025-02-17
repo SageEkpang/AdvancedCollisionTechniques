@@ -49,15 +49,16 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	Render* t_DonutRender = new Render(t_DonutTransform);
 
 	RigidbodyObject* t_DonutRigidBody = new RigidbodyObject(t_DonutTransform, 1.0f);
-	Collider* t_DonutCollider = new SphereCollider(t_DonutTransform, 1.0);
+	Collider* t_DonutCollider = new BoxCollider(t_DonutTransform);
 
 	t_DonutObject->SetTransform(t_DonutTransform);
-	t_DonutTransform->SetScale(1.0f, 1.0f, 1.0f);
+	t_DonutTransform->SetScale(3.0f, 3.0f, 3.0f);
 	t_DonutTransform->SetRotation(0.0f, 0.0f, 0.0f);
 	t_DonutTransform->SetPosition(0.0f, 5.0f, 10.0f);
 
 	t_DonutObject->SetRigidbody(t_DonutRigidBody);
 	t_DonutRigidBody->SetCollider(t_DonutCollider);
+	t_DonutRigidBody->SetMass(1.0f);
 	t_DonutCollider->SetCollisionGeometry("Resources\\CollisionOBJ\\CollisionSphere.obj", MATERIAL_WIREFRAME, device);
 
 	t_DonutObject->SetRender(t_DonutRender);
@@ -123,7 +124,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	t_SpikeRender->SetGeometryAndMaterial("Resources\\OBJ\\SpikeBall.obj", MATERIAL_MAX, device);
 	t_SpikeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-	InsertObjectIntoList(t_SpikeObject);
+	// InsertObjectIntoList(t_SpikeObject);
 
 	#pragma endregion
 }
@@ -138,9 +139,6 @@ void BasicScreen::ResolveCollision(const float deltaTime)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
-
-	m_GameObjects[1]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
-	// m_GameObjects[2]->GetRigidbody()->AddForce(Vector3(-2.0, 0, 0));
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -161,21 +159,21 @@ void BasicScreen::ResolveCollision(const float deltaTime)
 			Transform* t_ObjectBTransform = m_GameObjects[j]->GetTransform();
 
 			// See if there is a Collider on the rigidbody
-			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
-			{
-				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-				if (t_ObjectARig->GetCollider()->CollidesWith(*t_ObjectBRig->GetCollider(), t_ColManifold))
-				{
-					// Material Coef Calculate
-					MaterialCoefficient t_MaterialCoef;
-					double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-					float t_TempRest = 0.2f; // TODO: Change this back to normal restit when the materials are implemented 
+			//if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
+			//{
+			//	// Check the Collision with Code, NOTE: There should be a collision more or less with each other
+			//	if (t_ObjectARig->GetCollider()->CollidesWith(*t_ObjectBRig->GetCollider(), t_ColManifold))
+			//	{
+			//		// Material Coef Calculate
+			//		MaterialCoefficient t_MaterialCoef;
+			//		double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+			//		float t_TempRest = 0.2f; // TODO: Change this back to normal restit when the materials are implemented 
 
-					// Collision Contact, Resolution, Response and Velocity / Position Resolution
-					m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_TempRest, deltaTime, t_ColManifold.collisionNormal);
-					m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
-				}
-			}
+			//		// Collision Contact, Resolution, Response and Velocity / Position Resolution
+			//		m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_TempRest, deltaTime, t_ColManifold.collisionNormal);
+			//		m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
+			//	}
+			//}
 
 			// Clear Collision Manifold
 			t_ColManifold = CollisionManifold();

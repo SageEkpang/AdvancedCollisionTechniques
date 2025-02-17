@@ -32,7 +32,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 ScreenManager::ScreenManager()
 {
-
+	
 }
 
 void ScreenManager::Destroy()
@@ -81,8 +81,7 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	// m_CurrentScreen = new BasicScreen("BasicScreen", _device);
-	m_CurrentScreen = new MassAggScreen("MassAggregateScreen", _device);
+	m_CurrentScreen = new BasicScreen("BasicScreen", _device);
 
 	return S_OK;
 }
@@ -91,8 +90,9 @@ void ScreenManager::Process()
 {
 	// NOTE: FPS Time Step Code
 
+	float t_DeltaTime = m_Timer->GetDeltaTime();
 	m_SimpleCount += m_Timer->GetDeltaTime();
-	m_Accumulator += m_Timer->GetDeltaTime();
+	m_Accumulator += t_DeltaTime;
 
 	while (m_Accumulator >= FPS60)
 	{

@@ -22,10 +22,6 @@ public:
 	MassAggScreen(std::string screenName, ID3D11Device* device);
 	~MassAggScreen();
 
-
-	// HELPER FUNCTION(s)
-	void MassSims(const float deltaTime);
-
 	// BASE FUNCTION(s)
 	void Update(float deltaTime) override;
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
