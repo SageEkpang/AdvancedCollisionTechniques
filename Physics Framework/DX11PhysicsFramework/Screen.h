@@ -47,12 +47,13 @@ protected:
 
 	// OBJECT VARIABLE(s)
 	std::vector<GameObject*> m_GameObjects;
+	GameObject* m_GroundPlane;
 
 public:
 
 	// CLASS FUNCTION(s)
 	/// <summary> Default Constructor for Base Class </summary>
-	Screen(std::string screenName, ID3D11Device* device) { m_ScreenName = screenName; }
+	Screen(std::string screenName, ID3D11Device* device);
 
 	/// <summary> Default Destructor for Base Class </summary>
 	virtual ~Screen();

@@ -31,7 +31,7 @@ protected:
 	Material m_Material;
 	Geometry m_Geometry;
 	XMFLOAT4X4* m_World;
-	ColliderType m_ColliderType;
+	ColliderType m_ColliderType = ColliderType::COLLIDER_NONE;
 
 	bool m_IsCollidable = true;
 	bool m_RenderCollision = true;

@@ -10,6 +10,8 @@ RigidbodyObject::RigidbodyObject(Transform* transform, float mass)
 
 	float Value = 0.083;
 
+	m_Mass = mass;
+
 	// Box
 	m_InertiaTensor._11 = Value * mass * (std::pow(HalfExtents.y, 2.0f) + std::pow(HalfExtents.z, 2.0f));
 	m_InertiaTensor._22 = Value * mass * (std::pow(HalfExtents.x, 2.0f) + std::pow(HalfExtents.z, 2.0f));
@@ -21,6 +23,8 @@ RigidbodyObject::RigidbodyObject(Transform* transform, float radius, float mass)
 {
 	// Store the IdentityMatrix in the InertiaTensor
 	XMStoreFloat3x3(&m_InertiaTensor, XMMatrixIdentity());
+
+	m_Mass = mass;
 
 	// Sphere
 	m_InertiaTensor._11 = (2 / 5) * mass * std::pow(radius, 2.0f);

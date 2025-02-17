@@ -5,41 +5,6 @@ MassAggScreen::MassAggScreen(std::string screenName, ID3D11Device* device)
 {
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_MASS_ARG_SCREEN;
 
-	#pragma region PlaneObject
-
-	// Plane Object
-	{
-		GameObject* t_PlaneObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_STATIC));
-		Transform* t_PlaneTransform = new Transform();
-		Render* t_PlaneRender = new Render(t_PlaneTransform);
-		RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 0.0f);
-		Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform); // FIXME: Planar Collisions Tweaking Out
-
-		// Transform
-		t_PlaneObject->SetTransform(t_PlaneTransform);
-		t_PlaneTransform->SetScale(100.0f, 1.0f, 100.0f);
-		t_PlaneTransform->SetRotation(0.0f, 0.0f, 0.0f);
-		t_PlaneTransform->SetPosition(0.0f, 0.0f, 10.0f);
-
-		// Rigidbody 
-		t_PlaneObject->SetRigidbody(t_PlaneRigidbody);
-		t_PlaneRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
-		t_PlaneRigidbody->SetCollider(t_PlaneCollider);
-
-		// Collision
-		t_PlaneObject->SetCollider(t_PlaneCollider);
-		t_PlaneCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionPlane.obj", MATERIAL_WIREFRAME, device);
-
-		// Rendering   
-		t_PlaneObject->SetRender(t_PlaneRender);
-		t_PlaneRender->SetGeometryAndMaterial("Resources\\OBJ\\plane.obj", MATERIAL_SHINY, device);
-		t_PlaneRender->SetTexture(L"Resources\\Textures\\floor.dds", device);
-
-		InsertObjectIntoList(t_PlaneObject);
-	}
-
-	#pragma endregion
-
 	// NOTE: Box Mass Aggregate System
 	//MassAggregate* t_BoxARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(0, 5, 3), 1.0f, 1, device);
 	//MassAggregate* t_PlaneARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(0, 5, 10), 1.0f, 4, device);

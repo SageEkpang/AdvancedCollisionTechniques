@@ -81,7 +81,7 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	m_CurrentScreen = new BasicScreen("BasicScreen", _device);
+	m_CurrentScreen = new GJKScreen("ExpandingPolytopeAlgorithmScreen", _device);
 
 	return S_OK;
 }
@@ -475,7 +475,7 @@ HRESULT ScreenManager::InitRunTimeData()
 void ScreenManager::BeginRendering()
 {
 	// Clear Buffers
-	float ClearColor[4] = { 0.25f, 0.25f, 0.75f, 1.0f }; // red,green,blue,alpha
+	float ClearColor[4] = { 0.01f, 0.01f, 0.01f, 1.0f }; // red,green,blue,alpha
 	_immediateContext->OMSetRenderTargets(1, &_frameBufferView, _depthBufferView);
 	_immediateContext->ClearRenderTargetView(_frameBufferView, ClearColor);
 	_immediateContext->ClearDepthStencilView(_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);

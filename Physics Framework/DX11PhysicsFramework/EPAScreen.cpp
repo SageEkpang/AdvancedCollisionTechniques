@@ -2,47 +2,10 @@
 
 EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	: Screen(screenName, device)
-
 {
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_EPA_SCREEN;
 	m_GJKCollider = new GJKCollider();
 	m_EPACollider = new EPACollider();
-
-#pragma region PlaneObject
-
-	// Plane Object
-	{
-		GameObject* t_PlaneObject = new GameObject(Tag("Plane", PhysicTag::PHYSICS_STATIC));
-		Transform* t_PlaneTransform = new Transform();
-		Render* t_PlaneRender = new Render(t_PlaneTransform);
-		RigidbodyObject* t_PlaneRigidbody = new RigidbodyObject(t_PlaneTransform, 0.0f);
-		// Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform); // FIXME: Planar Collisions Tweaking Out
-		Collider* t_PlaneCollider = new SphereCollider(t_PlaneTransform, 1.0);
-
-		// Transform
-		t_PlaneObject->SetTransform(t_PlaneTransform);
-		t_PlaneTransform->SetScale(100.0f, 1.0f, 100.0f);
-		t_PlaneTransform->SetRotation(0.0f, 0.0f, 0.0f);
-		t_PlaneTransform->SetPosition(0.0f, 0.0f, 10.0f);
-
-		// Rigidbody 
-		t_PlaneObject->SetRigidbody(t_PlaneRigidbody);
-		t_PlaneRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
-		t_PlaneRigidbody->SetCollider(t_PlaneCollider);
-
-		// Collision
-		t_PlaneObject->SetCollider(t_PlaneCollider);
-		t_PlaneCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionPlane.obj", MATERIAL_WIREFRAME, device);
-
-		// Rendering
-		t_PlaneObject->SetRender(t_PlaneRender);
-		t_PlaneRender->SetGeometryAndMaterial("Resources\\OBJ\\plane.obj", MATERIAL_SHINY, device);
-		t_PlaneRender->SetTexture(L"Resources\\Textures\\floor.dds", device);
-
-		InsertObjectIntoList(t_PlaneObject);
-	}
-
-	#pragma endregion
 
 #pragma region Cube1
 	{
@@ -124,10 +87,10 @@ EPAScreen::~EPAScreen()
 void EPAScreen::Update(float deltaTime)
 {
 	Screen::Update(deltaTime);
-	ResolveCollision(deltaTime);
+	ProcessEPA(deltaTime);
 }
 
-void EPAScreen::ResolveCollision(const float deltaTime)
+void EPAScreen::ProcessEPA(const float deltaTime)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
@@ -158,14 +121,15 @@ void EPAScreen::ResolveCollision(const float deltaTime)
 
 					if (t_ColManifold.hasCollision == true)
 					{
-						int i = 0;
+						// Material Coef Calculate
+						MaterialCoefficient t_MaterialCoef;
+						double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+
+						// NOTE: Resolve Collision
+						// ResolveCollision(t_ObjectARig, t_ObjectBRig, t_TempRest, t_ColManifold.collisionNormal);
 					}
 				}
 
-				//// Material Coef Calculate
-				// MaterialCoefficient t_MaterialCoef;
-				//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-				//float t_TempRest = 0.00001f; // TODO: Change this back to normal restit when the materials are implemented 
 
 				//// Collision Contact, Resolution, Response and Velocity / Position Resolution
 				//// CollisionContact t_CollisionContact;
@@ -177,21 +141,24 @@ void EPAScreen::ResolveCollision(const float deltaTime)
 			t_ColManifold = CollisionManifold();
 		}
 	}
+}
 
+void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal)
+{
+	// NOTE: Calculate Impulse to push object out of other object
+	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
+	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
 
+	// NOTE: Check if there needs to be a seperation between both of the objects
+	if (t_Impulse > 0) { return; }
 
+	float t_E = CoefRest; // Coefficient of Restituion
+	float t_Dampening = 0.9f; // Dampening Factor
 
-
-
-
-
-
-
-
-
-
-
-
+	// NOTE: Output "Impulse" for result
+	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
+	objectA->ApplyImpulse(normal * t_J);
+	objectA->ApplyImpulse(normal * t_J * -1);
 
 
 }

@@ -73,6 +73,7 @@ enum PhysicTag
 
 enum ColliderType
 {
+	COLLIDER_NONE,
 	COLLIDER_BOX,
 	COLLIDER_PLANE,
 	COLLIDER_SPHERE,
