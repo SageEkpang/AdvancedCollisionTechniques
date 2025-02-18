@@ -22,7 +22,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(3.0f, 4.0f, 10.0f);
+		t_CubeTransform->SetPosition(10.0f, 5.0f, 0.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -32,7 +32,6 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		// Collision
 		t_CubeObject->SetCollider(t_CubeCollider);
 		t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
-		// t_CubeCollider->SetCollisionGeometry("Resources\\OBJ\\CollisionCube.obj", MATERIAL_WIREFRAME, device);
 
 		// Rendering
 		t_CubeObject->SetRender(t_CubeRender);
@@ -59,7 +58,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(2.0f, 5.0f, 9.0f);
+		t_CubeTransform->SetPosition(0.0f, 5.0f, 0.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -85,10 +84,36 @@ GJKScreen::~GJKScreen()
 	Screen::~Screen();
 }
 
-void GJKScreen::ResolveCollision(const float deltaTime)
+void GJKScreen::Update(float deltaTime)
+{
+	Screen::Update(deltaTime);
+	ProcessGJK(deltaTime);
+}
+
+void GJKScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal)
+{
+	// NOTE: Calculate Impulse to push object out of other object
+	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
+	float t_Impulse = Vector::CalculateDotProduct(t_RelativeVelocity, normal);
+
+	// NOTE: Check if there needs to be a seperation between both of the objects
+	if (t_Impulse > 0) { return; }
+
+	float t_E = CoefRest; // Coefficient of Restituion
+	float t_Dampening = 1.f; // Dampening Factor
+
+	// NOTE: Output "Impulse" for result
+	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
+	objectA->ApplyImpulse(normal * t_J);
+	objectB->ApplyImpulse(normal * t_J * -1);
+}
+
+void GJKScreen::ProcessGJK(const float deltaTime)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
+
+	m_GameObjects[1]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -105,25 +130,22 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
 			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
 
-
 			// See if there is a Collider on the rigidbody
 			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
 			{
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()))
+				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()) == true)
 				{
-					int thing = 0;
+					// NOTE: Material Coef Calculation
+					MaterialCoefficient t_MaterialCoef;
+					double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+					double t_Rep = 0.01;
+
+					// NOTE: Resolve Collision
+					t_ColManifold.penetrationDepth = 1.0;
+					t_ColManifold.collisionNormal = t_ObjectAGame->GetTransform()->GetPosition() - t_ObjectBGame->GetTransform()->GetPosition();
+					ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
 				}
-
-				//// Material Coef Calculate
-				// MaterialCoefficient t_MaterialCoef;
-				//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-				//float t_TempRest = 0.00001f; // TODO: Change this back to normal restit when the materials are implemented 
-
-				//// Collision Contact, Resolution, Response and Velocity / Position Resolution
-				//// CollisionContact t_CollisionContact;
-				//m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_TempRest, deltaTime, t_ColManifold.collisionNormal);
-				//m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
 			}
 
 			// Clear Collision Manifold
@@ -132,8 +154,3 @@ void GJKScreen::ResolveCollision(const float deltaTime)
 	}
 }
 
-void GJKScreen::Update(float deltaTime)
-{
-	Screen::Update(deltaTime);
-	ResolveCollision(deltaTime);
-}

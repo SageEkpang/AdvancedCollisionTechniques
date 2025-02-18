@@ -114,7 +114,7 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device);
+	m_CurrentScreen = new GJKScreen("GilbertJohnsonKeerthiScreen", _device);
 
 	return S_OK;
 }
@@ -165,12 +165,20 @@ void ScreenManager::Showcase()
 bool ScreenManager::HandleKeyboard(MSG msg)
 {
 	// TODO: Move to a GUI Context
+	if (GetAsyncKeyState(VK_V))
+	{
+		_immediateContext->RSSetState(_CWcullMode);
+	}
+	if (GetAsyncKeyState(VK_C))
+	{
+		_immediateContext->RSSetState(m_WireFrameMode);
+	}
 
 	switch (msg.wParam)
 	{
 		// RASTERIZER STATE(s)
-		case VK_V: _immediateContext->RSSetState(_CWcullMode); break;
-		case VK_C: _immediateContext->RSSetState(m_WireFrameMode); break;
+		// case VK_V: _immediateContext->RSSetState(_CWcullMode); break;
+		// case VK_C: _immediateContext->RSSetState(m_WireFrameMode); break;
 
 		// TRANSITION SCREEN(s)
 		case VK_0: TransitionScreen(STATE_BASIC_SCREEN); break;
@@ -185,8 +193,9 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 
 void ScreenManager::TransitionScreen(PhysicsScreenState state)
 {
-	delete m_CurrentScreen;
+	// FIXME: Move to GUI and this will work because of order of Update
 	m_CurrentScreen = nullptr;
+	delete m_CurrentScreen;
 
 	switch (state)
 	{

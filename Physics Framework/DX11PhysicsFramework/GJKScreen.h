@@ -28,8 +28,8 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	void ResolveCollision(const float deltaTime);
-
+	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
+	void ProcessGJK(const float deltaTime);
 
 	// BASE FUNCTION(s)
 

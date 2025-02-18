@@ -121,7 +121,7 @@ void EPAScreen::ProcessEPA(const float deltaTime)
 
 					if (t_ColManifold.hasCollision == true)
 					{
-						// Material Coef Calculate
+						// NOTE: Material Coef Calculate
 						MaterialCoefficient t_MaterialCoef;
 						double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
 						double t_Rep = 0.01;
@@ -142,7 +142,7 @@ void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* obje
 {
 	// NOTE: Calculate Impulse to push object out of other object
 	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
-	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
+	float t_Impulse = Vector::CalculateDotProduct(t_RelativeVelocity, normal);
 
 	// NOTE: Check if there needs to be a seperation between both of the objects
 	if (t_Impulse > 0) { return; }
