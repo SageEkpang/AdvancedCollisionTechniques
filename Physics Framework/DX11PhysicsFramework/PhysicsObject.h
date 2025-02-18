@@ -12,7 +12,6 @@
 #include "BoxCollider.h"
 #include "PlaneCollider.h"	
 
-
 // PHYSICS BODY
 class PhysicsObject
 {
@@ -92,8 +91,6 @@ public:
 
 	/// <summary> Add Impulse force that effects the objects movement (Vector3) </summary>
 	void ApplyImpulse(Vector3 impulse) { m_Velocity += impulse; }
-
-	/// <summary> Add Impulse force that effects the objects movement (Floats) </summary>
 	void ApplyImpulse(float x, float y, float z) { m_Velocity += Vector3(x, y, z); }
 
 	/// <summary> Add Relative force that effects the objects movement </summary>

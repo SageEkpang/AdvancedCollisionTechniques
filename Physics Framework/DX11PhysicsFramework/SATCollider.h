@@ -50,6 +50,22 @@ public:
 	Vector3 GetPosition() { return m_Transform->GetPosition(); }
 	Vector3 GetScale() { return m_Transform->GetScale(); }
 	Vector3 GetRotation() { return m_Rotation; }
+	Vector3 GetVelocity() { return m_Velocity; }
+	Vector3 GetAcceleration() { return m_Acceleration; }
+	float GetMass() { return m_Mass; }
+	Vector3 GetGravity() { return Vector3(0, m_Gravity, 0); }
+
+	// SETTER FUNCTION(s)
+	void ApplyImpulse(Vector3 impulse) { m_Velocity += impulse; }
+	void ApplyImpulse(float x, float y, float z) { m_Velocity += Vector3(x, y, z); }
+	
+	void SetPosition(Vector3 position) { m_Transform->SetPosition(position); }
+	void SetPosition(float x, float y, float z) { m_Transform->SetPosition(x, y, z); }
+
+	void AddForce(Vector3 force) { m_NetForce += force; }
+
+	void SetVelocity(Vector3 velocity) { m_Velocity = velocity; }
+	void SetVelocity(float x, float y, float z) { m_Velocity = Vector3(x, y, z); }
 
 	// HELPER FUNCTION(s)
 	static bool OverlapOnAxis(SATCollider& satA, SATCollider& satB, Vector3& axis);

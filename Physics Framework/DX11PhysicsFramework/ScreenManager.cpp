@@ -114,19 +114,18 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithmScreen", _device);
+	m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device);
 
 	return S_OK;
 }
 
 void ScreenManager::Process()
 {
-	// NOTE: FPS Time Step Code
-
-	float t_DeltaTime = m_Timer->GetDeltaTime();
+	// NOTE: Accumulator and FrameCounter Variables
 	m_SimpleCount += m_Timer->GetDeltaTime();
-	m_Accumulator += t_DeltaTime;
+	m_Accumulator += m_Timer->GetDeltaTime();
 
+	// NOTE: Process Execution
 	while (m_Accumulator >= FPS60)
 	{
 		// Update camera
@@ -153,11 +152,7 @@ void ScreenManager::Showcase()
 	// _cbData.World = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetW));
 	_cbData.View = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetView()));
 	_cbData.Projection = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetProjection()));
-
-	// Camera Position
 	_cbData.EyePosW = _camera->GetPosition();
-
-	// Light Data
 	_cbData.light = basicLight;
 
 	// Draw the Current Physics Screen

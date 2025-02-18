@@ -32,7 +32,7 @@ public:
 
 	// HELPER FUNCTION(s)
 	void ProcessSAT(const float deltaTime);
-	void ResolveCollision(SATCollider* objectA, SATCollider* objectB, float CoefResat, Vector3 normal);
+	void ResolveCollision(SATCollider* objectA, SATCollider* objectB, float CoefRest, Vector3 normal);
 
 
 
