@@ -7,12 +7,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	ScreenManager m_Application = ScreenManager();
-
-	if (FAILED(m_Application.Initialise(hInstance, nCmdShow)))
-	{
-		return -1;
-	}
+	ScreenManager m_Application = ScreenManager(hInstance, nCmdShow);
 
 	// Main message loop
 	MSG msg = { 0 };

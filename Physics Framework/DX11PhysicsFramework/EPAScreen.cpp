@@ -22,7 +22,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(10.0f, 4.0f, 10.0f);
+		t_CubeTransform->SetPosition(10.0f, 10.0f, 10.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -124,9 +124,10 @@ void EPAScreen::ProcessEPA(const float deltaTime)
 						// Material Coef Calculate
 						MaterialCoefficient t_MaterialCoef;
 						double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+						double t_Rep = 1;
 
 						// NOTE: Resolve Collision
-						// ResolveCollision(t_ObjectARig, t_ObjectBRig, t_TempRest, t_ColManifold.collisionNormal);
+						ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
 					}
 				}
 
@@ -153,12 +154,10 @@ void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* obje
 	if (t_Impulse > 0) { return; }
 
 	float t_E = CoefRest; // Coefficient of Restituion
-	float t_Dampening = 0.9f; // Dampening Factor
+	float t_Dampening = 1.f; // Dampening Factor
 
 	// NOTE: Output "Impulse" for result
 	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
 	objectA->ApplyImpulse(normal * t_J);
-	objectA->ApplyImpulse(normal * t_J * -1);
-
-
+	objectA->ApplyImpulse(normal * t_J);
 }

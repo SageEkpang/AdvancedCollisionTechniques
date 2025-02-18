@@ -12,6 +12,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	HDC hdc;
 
+	extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+		return true;
+
 	switch (message)
 	{
 	case WM_PAINT:
@@ -30,13 +34,49 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-ScreenManager::ScreenManager()
+ScreenManager::ScreenManager(HINSTANCE hInstance, int nShowCmd)
 {
-	
+	// NOTE: Initialise Application
+	HRESULT t_HR = S_OK;
+
+	try
+	{
+		t_HR = CreateWindowHandle(hInstance, nShowCmd);
+		if (FAILED(t_HR)) throw E_FAIL;
+
+		t_HR = CreateD3DDevice();
+		if (FAILED(t_HR)) throw E_FAIL;
+
+		t_HR = CreateSwapChainAndFrameBuffer();
+		if (FAILED(t_HR)) throw E_FAIL;
+
+		t_HR = InitGUI();
+		if (FAILED(t_HR)) throw E_FAIL;
+
+		t_HR = InitShadersAndInputLayout();
+		if (FAILED(t_HR)) throw E_FAIL;
+
+		t_HR = InitPipelineStates();
+		if (FAILED(t_HR)) throw E_FAIL;
+
+		t_HR = InitRunTimeData();
+		if (FAILED(t_HR)) throw E_FAIL;
+
+		t_HR = CreateScreens();
+		if (FAILED(t_HR)) throw E_FAIL;
+	}
+	catch (...)
+	{
+		std::runtime_error("One of the Application Creation Functions have failed, E_FAIL");
+	}
 }
 
 void ScreenManager::Destroy()
 {
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+
 	m_CurrentScreen = nullptr;
 	delete m_CurrentScreen;
 
@@ -53,13 +93,6 @@ void ScreenManager::Destroy()
 	if (_inputLayout)_inputLayout->Release();
 	if (_pixelShader)_pixelShader->Release();
 	if (_constantBuffer)_constantBuffer->Release();
-
-	// if (_cubeVertexBuffer)_cubeVertexBuffer->Release();
-	// if (_cubeIndexBuffer)_cubeIndexBuffer->Release();
-	// if (_planeVertexBuffer)_planeVertexBuffer->Release();
-	// if (_planeIndexBuffer)_planeIndexBuffer->Release();
-	// if (_objMeshData.IndexBuffer) _objMeshData.IndexBuffer->Release();
-	// if (_objMeshData.VertexBuffer)_objMeshData.VertexBuffer->Release();
 
 	if (_DSLessEqual) _DSLessEqual->Release();
 	if (_RSCullNone) _RSCullNone->Release();
@@ -81,7 +114,7 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	m_CurrentScreen = new GJKScreen("ExpandingPolytopeAlgorithmScreen", _device);
+	m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithmScreen", _device);
 
 	return S_OK;
 }
@@ -112,6 +145,9 @@ void ScreenManager::Showcase()
 {
 	// Begin "Drawing" the content
 	BeginRendering();
+	//BeginGUI();
+	//ProcessGUI();
+	//EndGUI();
 
 	// Transpose Matrices and Load Information from Calculated Update function
 	// _cbData.World = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetW));
@@ -129,34 +165,6 @@ void ScreenManager::Showcase()
 
 	// End "Drawing" the content
 	EndRendering();
-}
-
-HRESULT ScreenManager::Initialise(HINSTANCE hInstance, int nShowCmd)
-{
-	HRESULT hr = S_OK;
-
-	hr = CreateWindowHandle(hInstance, nShowCmd);
-	if (FAILED(hr)) return E_FAIL;
-
-	hr = CreateD3DDevice();
-	if (FAILED(hr)) return E_FAIL;
-
-	hr = CreateSwapChainAndFrameBuffer();
-	if (FAILED(hr)) return E_FAIL;
-
-	hr = InitShadersAndInputLayout();
-	if (FAILED(hr)) return E_FAIL;
-
-	hr = InitPipelineStates();
-	if (FAILED(hr)) return E_FAIL;
-
-	hr = InitRunTimeData();
-	if (FAILED(hr)) return E_FAIL;
-
-	hr = CreateScreens();
-	if (FAILED(hr)) return E_FAIL;
-
-	return hr;
 }
 
 bool ScreenManager::HandleKeyboard(MSG msg)
@@ -214,8 +222,8 @@ HRESULT ScreenManager::CreateWindowHandle(HINSTANCE hInstance, int nShowCmd)
 	wndClass.lpszClassName = windowName;
 
 	RegisterClassW(&wndClass);
-
 	_windowHandle = CreateWindowExW(0, windowName, windowName, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, _WindowWidth, _WindowHeight, nullptr, nullptr, hInstance, nullptr);
+
 
 	return S_OK;
 }
@@ -306,6 +314,25 @@ HRESULT ScreenManager::CreateSwapChainAndFrameBuffer()
 	_device->CreateDepthStencilView(_depthStencilBuffer, nullptr, &_depthBufferView);
 
 	return hr;
+}
+
+HRESULT ScreenManager::InitGUI()
+{
+	HRESULT t_HR = S_OK;
+
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplWin32_Init(_windowHandle);
+	ImGui_ImplDX11_Init(_device, _immediateContext);
+
+	return S_OK;
 }
 
 HRESULT ScreenManager::InitShadersAndInputLayout()
@@ -493,4 +520,35 @@ void ScreenManager::EndRendering()
 {
 	// Present Back Buffer to front
 	_swapChain->Present(0, 0);
+}
+
+void ScreenManager::BeginGUI()
+{
+	// ImGui::ShowDebugLogWindow();
+	// Start the Dear ImGui frame
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::Begin("Attribute Window");
+	// ImGui::BeginTabBar("General");
+}
+
+void ScreenManager::ProcessGUI()
+{
+	// ImGui::ShowDebugLogWindow();
+	ImGui::ShowDebugLogWindow();
+	//if (ImGui::BeginTabItem("Post-Process Effects"))
+	//{
+	//	// NOTE: Depth of Field
+	//	ImGui::Text("Activate Depth of Field");
+
+	//	ImGui::EndTabItem();
+	//}
+}
+
+void ScreenManager::EndGUI()
+{
+	ImGui::End();
+	ImGui::EndFrame();
 }

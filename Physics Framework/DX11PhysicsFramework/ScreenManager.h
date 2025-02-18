@@ -76,27 +76,31 @@ private: // PRIVATE FUNCTION(s)
 
 	HRESULT CreateWindowHandle(HINSTANCE hInstance, int nShowCmd);
 	HRESULT CreateSwapChainAndFrameBuffer();
+	HRESULT InitGUI();
 	HRESULT InitShadersAndInputLayout();
 	HRESULT InitPipelineStates();
 	HRESULT InitRunTimeData();
 	HRESULT CreateD3DDevice();
 	HRESULT CreateScreens();
 
+	// NOTE: Object Rendering Functions
 	void BeginRendering();
 	void EndRendering();
+
+	// NOTE: GUI Rendering Function
+	void BeginGUI();
+	void ProcessGUI();
+	void EndGUI();
 
 public: // PUBLIC FUNCTION(s)
 
 	// CLASS FUNCTION(s)
-	ScreenManager();
+	ScreenManager(HINSTANCE hInstance, int nShowCmd);
 	~ScreenManager();
-	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
-
 
 	// BASE FUNCTION(s)
 	void Process();
 	void Showcase();
-
 	bool HandleKeyboard(MSG msg);
 
 

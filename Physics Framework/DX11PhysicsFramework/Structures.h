@@ -2,6 +2,7 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
+// NOTE: LIBRARY INCLUDE(s)
 #include <windows.h>
 #include <cstring>
 #include <d3d11.h>
@@ -12,6 +13,12 @@
 #include "DDSTextureLoader.h"
 #include "resource.h"
 
+// NOTE: GUI INCLUDE(s)
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_dx11.h"
+
+// NOTE: LANGUAGE INCLUDE(s) (C++)
 #include <algorithm>
 #include <array>
 #include <condition_variable>
