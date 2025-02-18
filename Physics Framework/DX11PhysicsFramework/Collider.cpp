@@ -102,6 +102,17 @@ Vector3 Collider::FindFurthestPoint(Vector3 direction)
 	Vector3 t_MaxPoint;
 	float t_MaxDistance = -FLT_MAX;
 
+	// NOTE: Clear the Vertices to insert new position points
+	m_Vertices.clear();
+
+	// NOTE: Update Vertices Positions
+	for (int i = 0; i < m_PositionStore.size(); ++i)
+	{
+		Vector3 t_VecPos = (m_PositionStore[i] * m_Transform->GetScale()) + m_Transform->GetPosition();
+		m_Vertices.push_back(t_VecPos);
+	}
+
+	// NOTE: Find furthest vertex
 	for (Vector3& v : m_Vertices)
 	{
 		float t_Distance = Vector::CalculateDotProductNotNorm(v, direction); // NOTE: May have to change dot product back to normalise one
@@ -126,11 +137,5 @@ Vector3 Collider::SphereNearestPoint(Vector3 point)
 void Collider::FillVerticesArray(char* path, Transform* objectTransform)
 {
 	// NOTE: Fill array with the different mesh load values
-	std::vector<Vector3> t_TempVec = MeshLoader::LoadObj(path);
-
-	for (int i = 0; i < t_TempVec.size(); ++i)
-	{
-		Vector3 t_VecPos = (t_TempVec[i] * objectTransform->GetScale()) + objectTransform->GetPosition();
-		m_Vertices.push_back(t_VecPos);
-	}
+	m_PositionStore = MeshLoader::LoadObj(path);
 }

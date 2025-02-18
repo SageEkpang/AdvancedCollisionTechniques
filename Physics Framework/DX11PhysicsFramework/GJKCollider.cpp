@@ -20,12 +20,12 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 	Vector3 t_Direction = t_Support * -1;
 
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		// NOTE: Check the Collider A and ColliderB Context
 		t_Support = Support(colliderA, colliderB, t_Direction);
 	
-		float t_Dis = Vector::CalculateDotProduct(t_Support, t_Direction);
+		float t_Dis = Vector::CalculateDotProductNotNorm(t_Support, t_Direction); // FIXME: Might need to use the NotNorm version of this
 
 		// NOTE: No Collision
 		if ( t_Dis <= 0) { return false; }

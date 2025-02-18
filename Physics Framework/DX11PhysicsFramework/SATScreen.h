@@ -31,7 +31,8 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	void ResolveCollision(const float deltaTime);
+	void ProcessSAT(const float deltaTime);
+	void ResolveCollision(SATCollider* objectA, SATCollider* objectB, float CoefResat, Vector3 normal);
 
 
 

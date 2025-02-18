@@ -22,7 +22,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(10.0f, 10.0f, 10.0f);
+		t_CubeTransform->SetPosition(0.0f, 0.0f, 0.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -56,7 +56,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(9.f, 5.f, 9.0f);
+		t_CubeTransform->SetPosition(9.f, 5.f, 0.0f);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -114,7 +114,7 @@ void EPAScreen::ProcessEPA(const float deltaTime)
 			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
 			{
 				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()))
+				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()) == true)
 				{
 					// NOTE: Send Simplex Data to the EPA Collision Code
 					t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
@@ -124,18 +124,12 @@ void EPAScreen::ProcessEPA(const float deltaTime)
 						// Material Coef Calculate
 						MaterialCoefficient t_MaterialCoef;
 						double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-						double t_Rep = 1;
+						double t_Rep = 0.01;
 
 						// NOTE: Resolve Collision
 						ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
 					}
 				}
-
-
-				//// Collision Contact, Resolution, Response and Velocity / Position Resolution
-				//// CollisionContact t_CollisionContact;
-				//m_CollisionContact->ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_TempRest, deltaTime, t_ColManifold.collisionNormal);
-				//m_CollisionContact->ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
 			}
 
 			// Clear Collision Manifold
@@ -159,5 +153,5 @@ void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* obje
 	// NOTE: Output "Impulse" for result
 	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
 	objectA->ApplyImpulse(normal * t_J);
-	objectA->ApplyImpulse(normal * t_J);
+	objectB->ApplyImpulse(normal * t_J * -1);
 }

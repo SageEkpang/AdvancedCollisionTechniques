@@ -1,4 +1,3 @@
-#pragma once
 #ifndef GJK_COLLIDER_H
 #define GJK_COLLIDER_H
 

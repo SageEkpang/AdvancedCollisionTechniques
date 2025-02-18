@@ -39,6 +39,7 @@ protected:
 
 	// VERTEX VARIABLE(s)
 	std::vector<Vector3> m_Vertices;
+	std::vector<Vector3> m_PositionStore;
 
 	// COLLIDER VARIABLE(s)
 	// std::unordered_map<Col2, ColFunc> m_MapColliderFunctions;

@@ -145,9 +145,9 @@ void ScreenManager::Showcase()
 {
 	// Begin "Drawing" the content
 	BeginRendering();
-	//BeginGUI();
-	//ProcessGUI();
-	//EndGUI();
+	BeginGUI();
+	ProcessGUI();
+	EndGUI();
 
 	// Transpose Matrices and Load Information from Calculated Update function
 	// _cbData.World = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetW));
@@ -481,7 +481,7 @@ HRESULT ScreenManager::InitRunTimeData()
 	if (FAILED(hr)) { return hr; }
 
 	// Setup Camera
-	XMFLOAT3 eye = XMFLOAT3(0.0f, 2.0f, -1.0f);
+	XMFLOAT3 eye = XMFLOAT3(0.0f, 5.0f, -6.0f);
 	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
