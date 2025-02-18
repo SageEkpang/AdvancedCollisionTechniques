@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Do not ignore obj files
+!**/DX11PhysicsFramework/Resources/OBJ/*.obj
