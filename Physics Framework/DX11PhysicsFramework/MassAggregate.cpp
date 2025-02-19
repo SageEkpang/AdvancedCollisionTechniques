@@ -18,7 +18,7 @@ MassAggregate::MassAggregate(char* filePath, Vector3 position, float mass, int s
 	{
 		// NOTE: Set Default for Scale and Rotation
 		Transform* t_TempTrans = new Transform();
-		t_TempTrans->SetScale(0.2f, 0.2f, 0.2f);
+		t_TempTrans->SetScale(0.1f, 0.1f, 0.1f);
 		t_TempTrans->SetRotation(0.f, 0.f, 0.f);
 
 		// NOTE: Calculate World Position Based on the Vertex Data

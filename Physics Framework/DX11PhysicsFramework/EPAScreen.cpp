@@ -41,7 +41,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	}
 #pragma endregion
 
-#pragma region Cube2
+	#pragma region Cube2
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
@@ -74,8 +74,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 
 		InsertObjectIntoList(t_CubeObject);
 	}
-
-#pragma endregion
+	#pragma endregion
 
 }
 
@@ -94,6 +93,13 @@ void EPAScreen::ProcessEPA(const float deltaTime)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
+
+	if (GetAsyncKeyState(VK_RETURN))
+	{
+		
+	}
+
+
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -124,7 +130,7 @@ void EPAScreen::ProcessEPA(const float deltaTime)
 						// NOTE: Material Coef Calculate
 						MaterialCoefficient t_MaterialCoef;
 						double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-						double t_Rep = 0.01;
+						double t_Rep = 0.5;
 
 						// NOTE: Resolve Collision
 						ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
@@ -142,7 +148,7 @@ void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* obje
 {
 	// NOTE: Calculate Impulse to push object out of other object
 	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
-	float t_Impulse = Vector::CalculateDotProduct(t_RelativeVelocity, normal);
+	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
 
 	// NOTE: Check if there needs to be a seperation between both of the objects
 	if (t_Impulse > 0) { return; }
@@ -154,4 +160,37 @@ void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* obje
 	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
 	objectA->ApplyImpulse(normal * t_J);
 	objectB->ApplyImpulse(normal * t_J * -1);
+}
+
+void EPAScreen::CreatePhysicsObject()
+{
+	// Cube Object
+	//GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
+	//Transform* t_CubeTransform = new Transform();
+	//Render* t_CubeRender = new Render(t_CubeTransform);
+	//RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
+
+	//Vector3 t_Rotation = Vector3(0, 0, 0);
+	//Collider* t_CubeCollider = new BoxCollider(t_CubeTransform);
+
+	//// Transform
+	//t_CubeObject->SetTransform(t_CubeTransform);
+	//t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
+	//t_CubeTransform->SetRotation(t_Rotation);
+	//t_CubeTransform->SetPosition(9.f, 5.f, 0.0f);
+
+	//// Rigidbody 
+	//t_CubeObject->SetRigidbody(t_CubeRigidbody);
+	//t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
+	//t_CubeRigidbody->SetCollider(t_CubeCollider);
+
+	//// Collision
+	//t_CubeObject->SetCollider(t_CubeCollider);
+	//t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
+
+	//// Rendering
+	//t_CubeObject->SetRender(t_CubeRender);
+	//t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
+
+	//InsertObjectIntoList(t_CubeObject);
 }

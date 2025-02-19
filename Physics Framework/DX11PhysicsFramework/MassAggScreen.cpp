@@ -3,19 +3,10 @@
 MassAggScreen::MassAggScreen(std::string screenName, ID3D11Device* device)
 	: Screen(screenName, device)
 {
+	// NOTE: Screen Name
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_MASS_ARG_SCREEN;
 
 	// NOTE: Box Mass Aggregate System
-	//MassAggregate* t_BoxARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(0, 5, 3), 1.0f, 1, device);
-	//MassAggregate* t_PlaneARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(0, 5, 10), 1.0f, 4, device);
-	//MassAggregate* t_PyramidARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(10, 5, 10), 1.0f, 1, device);
-	//MassAggregate* t_TetrahARG = new MassAggregate("Resources\\OBJ\\tetrahedron.obj", Vector3(-10, 5, 10), 1.0f, 1, device);
-
-	//m_MassObjects.push_back(t_BoxARG);
-	//m_MassObjects.push_back(t_PlaneARG);
-	//m_MassObjects.push_back(t_PyramidARG);
-	//m_MassObjects.push_back(t_TetrahARG);
-
 	Vector3 t_Position[5] = {
 		Vector3(0, 5, 3),
 		Vector3(0, 5, 10),
