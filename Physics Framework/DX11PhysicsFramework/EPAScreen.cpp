@@ -41,7 +41,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	}
 #pragma endregion
 
-	#pragma region Cube2
+#pragma region Cube2
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
@@ -74,7 +74,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 
 		InsertObjectIntoList(t_CubeObject);
 	}
-	#pragma endregion
+#pragma endregion
 
 }
 
@@ -83,23 +83,21 @@ EPAScreen::~EPAScreen()
 	Screen::~Screen();
 }
 
-void EPAScreen::Update(float deltaTime)
+void EPAScreen::Update(float deltaTime, ID3D11Device* device)
 {
-	Screen::Update(deltaTime);
-	ProcessEPA(deltaTime);
+	Screen::Update(deltaTime, device);
+	ProcessEPA(deltaTime, device);
 }
 
-void EPAScreen::ProcessEPA(const float deltaTime)
+void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
-	if (GetAsyncKeyState(VK_RETURN))
+	if (GetAsyncKeyState(VK_RETURN) & 0x000001)
 	{
-		
+		CreatePhysicsObject(device);
 	}
-
-
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -162,35 +160,42 @@ void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* obje
 	objectB->ApplyImpulse(normal * t_J * -1);
 }
 
-void EPAScreen::CreatePhysicsObject()
+void EPAScreen::CreatePhysicsObject(ID3D11Device* device)
 {
 	// Cube Object
-	//GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
-	//Transform* t_CubeTransform = new Transform();
-	//Render* t_CubeRender = new Render(t_CubeTransform);
-	//RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
+	GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
+	Transform* t_CubeTransform = new Transform();
+	Render* t_CubeRender = new Render(t_CubeTransform);
+	RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
 
-	//Vector3 t_Rotation = Vector3(0, 0, 0);
-	//Collider* t_CubeCollider = new BoxCollider(t_CubeTransform);
+	Vector3 t_Rotation = Vector3(0, 0, 0);
+	Collider* t_CubeCollider = new BoxCollider(t_CubeTransform);
 
-	//// Transform
-	//t_CubeObject->SetTransform(t_CubeTransform);
-	//t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
-	//t_CubeTransform->SetRotation(t_Rotation);
-	//t_CubeTransform->SetPosition(9.f, 5.f, 0.0f);
+	// Transform
+	t_CubeObject->SetTransform(t_CubeTransform);
+	t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
+	t_CubeTransform->SetRotation(t_Rotation);
 
-	//// Rigidbody 
-	//t_CubeObject->SetRigidbody(t_CubeRigidbody);
-	//t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
-	//t_CubeRigidbody->SetCollider(t_CubeCollider);
+	srand(time(NULL));
 
-	//// Collision
-	//t_CubeObject->SetCollider(t_CubeCollider);
-	//t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
+	float t_RandX = rand() % 10;
+	float t_RandZ = rand() % 10;
 
-	//// Rendering
-	//t_CubeObject->SetRender(t_CubeRender);
-	//t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
+	t_CubeTransform->SetPosition(t_RandX, 5.f, t_RandZ);
 
-	//InsertObjectIntoList(t_CubeObject);
+	// Rigidbody 
+	t_CubeObject->SetRigidbody(t_CubeRigidbody);
+	t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
+	t_CubeRigidbody->SetCollider(t_CubeCollider);
+
+	// Collision
+	t_CubeObject->SetCollider(t_CubeCollider);
+	t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
+
+	// Rendering
+	t_CubeObject->SetRender(t_CubeRender);
+	t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
+	t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
+
+	InsertObjectIntoList(t_CubeObject);
 }

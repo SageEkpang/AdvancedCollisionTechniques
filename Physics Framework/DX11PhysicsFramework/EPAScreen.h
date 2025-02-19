@@ -29,14 +29,14 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	void ProcessEPA(const float deltaTime);
+	void ProcessEPA(const float deltaTime, ID3D11Device* device);
 	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
-	void CreatePhysicsObject();
+	void CreatePhysicsObject(ID3D11Device* device);
 
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
-	void Update(float deltaTime) override;
+	void Update(float deltaTime, ID3D11Device* device) override;
 };
 
 #endif

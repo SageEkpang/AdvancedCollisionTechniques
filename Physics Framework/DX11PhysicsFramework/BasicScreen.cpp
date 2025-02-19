@@ -147,9 +147,8 @@ void BasicScreen::ResolveCollision(const float deltaTime)
 	}
 }
 
-void BasicScreen::Update(float deltaTime)
+void BasicScreen::Update(float deltaTime, ID3D11Device* device)
 {
-	Screen::Update(deltaTime);
-
+	Screen::Update(deltaTime, device);
 	ResolveCollision(deltaTime);
 }

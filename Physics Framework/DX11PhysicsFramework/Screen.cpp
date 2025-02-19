@@ -39,14 +39,14 @@ Screen::~Screen()
 	}
 }
 
-void Screen::Update(float deltaTime)
+void Screen::Update(float deltaTime, ID3D11Device* device)
 {
 	// NOTE: Ground Plane
 	m_GroundPlane->Update(deltaTime);
 
 	if (!m_GameObjects.empty())
 	{
-		// Updating the Physics Objects Within the Respect
+		// Updating the Physics Objects
 		for (auto& v : m_GameObjects) 
 		{ 
 			// NOTE: Update Object Regardless of Collision
@@ -64,6 +64,16 @@ void Screen::Update(float deltaTime)
 				v->GetTransform()->SetPosition(Vector3(v->GetTransform()->GetPosition().x, 0 + v->GetTransform()->GetScale().y, v->GetTransform()->GetPosition().z));
 				float t_Dampening = 0.01f;
 				v->GetRigidbody()->SetVelocity(Vector3(v->GetRigidbody()->GetVelocity().x, -v->GetRigidbody()->GetVelocity().y * t_Dampening, v->GetRigidbody()->GetVelocity().z));
+			}
+
+			// NOTE: Check Collisions with the Walls, (Left, Right, Back, Front)
+			if (v->GetTransform()->GetPosition().x - v->GetTransform()->GetScale().x < MIN_X || v->GetTransform()->GetPosition().x > MAX_X)
+			{
+				v->GetRigidbody()->ApplyImpulse(Vector3(-v->GetRigidbody()->GetVelocity().x, 0, 0));
+			}
+			if (v->GetTransform()->GetPosition().z - v->GetTransform()->GetScale().z < MIN_Z || v->GetTransform()->GetPosition().z > MAX_Z)
+			{
+				v->GetRigidbody()->ApplyImpulse(Vector3(0, 0, -v->GetRigidbody()->GetVelocity().z));
 			}
 		}
 	}

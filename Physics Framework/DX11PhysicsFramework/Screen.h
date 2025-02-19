@@ -7,8 +7,7 @@
 #include "Camera.h"
 #include "OBJLoader.h"
 #include "GameObject.h"
-
-#include "PhysicUtility.h"
+#include "Timer.h"
 
 using namespace DirectX;
 
@@ -63,7 +62,7 @@ public:
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
-	virtual void Update(float deltaTime);
+	virtual void Update(float deltaTime, ID3D11Device* device);
 
 	/// <summary> Default Draw function for Class </summary>
 	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);

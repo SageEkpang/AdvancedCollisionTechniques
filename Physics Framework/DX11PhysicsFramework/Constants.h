@@ -4,6 +4,12 @@
 
 #include "Structures.h"
 
+constexpr int MAX_X = 20;
+constexpr int MIN_X = -20;
+
+constexpr int MAX_Z = 20;
+constexpr int MIN_Z = -20;
+
 // WINDOW DEFINE(s)
 #define FPS60 1.0f/60.0f
 #define MINTOL 0.0001

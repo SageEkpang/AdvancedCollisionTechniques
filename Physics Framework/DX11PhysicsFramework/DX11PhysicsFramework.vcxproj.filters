@@ -161,9 +161,6 @@
     <ClInclude Include="Vector.h">
       <Filter>Helpers\Header</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicUtility.h">
-      <Filter>Helpers\Header</Filter>
-    </ClInclude>
     <ClInclude Include="GJKScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
@@ -299,9 +296,6 @@
       <Filter>Helpers\Source</Filter>
     </ClCompile>
     <ClCompile Include="Vector.cpp">
-      <Filter>Helpers\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicUtility.cpp">
       <Filter>Helpers\Source</Filter>
     </ClCompile>
     <ClCompile Include="GJKScreen.cpp">

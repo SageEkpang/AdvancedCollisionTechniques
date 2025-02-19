@@ -7,7 +7,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	ScreenManager m_Application = ScreenManager(hInstance, nCmdShow);
+	std::unique_ptr<ScreenManager> m_Application = std::make_unique<ScreenManager>(hInstance, nCmdShow);
 
 	// Main message loop
 	MSG msg = { 0 };
@@ -20,7 +20,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 			if (msg.message >= WM_KEYFIRST && msg.message <= WM_KEYLAST)
 			{
-				handled = m_Application.HandleKeyboard(msg);
+				handled = m_Application->HandleKeyboard(msg);
 				
 			}
 			else if (WM_QUIT == msg.message)
@@ -34,8 +34,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		}
 		else
 		{
-			m_Application.Process();
-			m_Application.Showcase();
+			m_Application->Process();
+			m_Application->Showcase();
 		}
 	}
 

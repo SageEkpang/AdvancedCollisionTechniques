@@ -35,12 +35,21 @@ SATScreen::~SATScreen()
 	Screen::~Screen();
 }
 
-void SATScreen::ProcessSAT(const float deltaTime)
+void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
-	m_SatColliderObjects[0]->AddForce(Vector3(1, 0, 0));
+	// m_SatColliderObjects[0]->AddForce(Vector3(1, 0, 0));
+
+	static int test;
+	if (GetAsyncKeyState(VK_RETURN) & 0x000001)
+	{
+		++test;
+		std::string t_TempOutput = " " + std::to_string(test);
+		OutputDebugStringA(t_TempOutput.c_str());
+		CreatePhysicsObject(device);
+	}
 
 	// NOTE: Update the Objects and GroundCollision
 	for (auto& v : m_SatColliderObjects) 
@@ -60,6 +69,17 @@ void SATScreen::ProcessSAT(const float deltaTime)
 			float t_Dampening = 0.01f;
 			v->SetVelocity(Vector3(v->GetVelocity().x, -v->GetVelocity().y * t_Dampening, v->GetVelocity().z));
 		}
+
+		// NOTE: Check Collisions with the Walls, (Left, Right, Back, Front)
+		if (v->GetPosition().x - v->GetScale().x < MIN_X || v->GetPosition().x > MAX_X)
+		{
+			v->ApplyImpulse(Vector3(-v->GetVelocity().x, 0, 0));
+		}
+		if (v->GetPosition().z - v->GetScale().z < MIN_Z || v->GetPosition().z > MAX_Z)
+		{
+			v->ApplyImpulse(Vector3(0, 0, -v->GetVelocity().z));
+		}
+
 	}
 
 	// NOTE: Collision Checks
@@ -72,6 +92,11 @@ void SATScreen::ProcessSAT(const float deltaTime)
 			// NOTE: Clear Collision Manifold
 			t_ColManifold = CollisionManifold();
 
+
+			{
+				
+
+			}
 			// NOTE: SAT Collision Test
 			if (SATCollider::ObjectCollisionAlt(*m_SatColliderObjects[i], *m_SatColliderObjects[j], t_ColManifold) == true)
 			{
@@ -90,13 +115,13 @@ void SATScreen::ResolveCollision(SATCollider* objectA, SATCollider* objectB, flo
 {
 	// NOTE: Calculate Impulse to push object out of other object
 	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
-	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
+	float t_Impulse = Vector::CalculateDotProduct(t_RelativeVelocity, normal);
 
 	// NOTE: Check if there needs to be a seperation between both of the objects
 	if (t_Impulse > 0) { return; }
 
 	float t_E = CoefRest; // Coefficient of Restituion
-	float t_Dampening = 0.01f; // Dampening Factor
+	float t_Dampening = 0.1f; // Dampening Factor
 
 	// NOTE: Output "Impulse" for result
 	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
@@ -104,10 +129,26 @@ void SATScreen::ResolveCollision(SATCollider* objectA, SATCollider* objectB, flo
 	objectB->ApplyImpulse(normal * t_J * -1);
 }
 
-void SATScreen::Update(float deltaTime)
+void SATScreen::CreatePhysicsObject(ID3D11Device* device)
 {
-	Screen::Update(deltaTime);
-	ProcessSAT(deltaTime);
+	Transform* t_TransformA = new Transform();
+
+	srand(time(NULL));
+
+	float t_RandX = rand() % 10;
+	float t_RandZ = rand() % 10;
+
+	t_TransformA->SetPosition(t_RandX, 10.f, t_RandZ);
+	t_TransformA->SetScale(1.0f, 1.0f, 1.0f);
+
+	SATCollider* t_SatCol = new SATCollider("Resources\\OBJ\\cube.obj", t_TransformA, Vector3(1.0f, 1.0f, 1.0f), 1.0f, device);
+	m_SatColliderObjects.push_back(t_SatCol);
+}
+
+void SATScreen::Update(float deltaTime, ID3D11Device* device)
+{
+	Screen::Update(deltaTime, device);
+	ProcessSAT(deltaTime, device);
 }
 
 void SATScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)

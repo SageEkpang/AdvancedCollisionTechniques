@@ -31,15 +31,15 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	void ProcessSAT(const float deltaTime);
+	void ProcessSAT(const float deltaTime, ID3D11Device* device);
 	void ResolveCollision(SATCollider* objectA, SATCollider* objectB, float CoefRest, Vector3 normal);
-
+	void CreatePhysicsObject(ID3D11Device* device);
 
 
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
-	void Update(float deltaTime) override;
+	void Update(float deltaTime, ID3D11Device* device) override;
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 };
 

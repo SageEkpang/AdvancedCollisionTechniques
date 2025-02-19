@@ -84,9 +84,9 @@ GJKScreen::~GJKScreen()
 	Screen::~Screen();
 }
 
-void GJKScreen::Update(float deltaTime)
+void GJKScreen::Update(float deltaTime, ID3D11Device* device)
 {
-	Screen::Update(deltaTime);
+	Screen::Update(deltaTime, device);
 	ProcessGJK(deltaTime);
 }
 

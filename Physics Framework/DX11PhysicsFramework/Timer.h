@@ -13,6 +13,7 @@ class Timer
 {
 private:
 
+	time_point<high_resolution_clock> m_StartClock;
 	steady_clock::time_point m_StartTime;
 	steady_clock::time_point m_LastFrame;
 
@@ -26,6 +27,7 @@ public:
 	// BASE FUNCTION(s)
 	float GetDeltaTime();
 	void Tick();
+	void Stop();
 
 };
 
