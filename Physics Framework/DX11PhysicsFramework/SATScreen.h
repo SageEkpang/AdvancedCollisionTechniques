@@ -33,7 +33,6 @@ public:
 	// HELPER FUNCTION(s)
 	void ProcessSAT(const float deltaTime, ID3D11Device* device);
 	void ResolveCollision(SATCollider* objectA, SATCollider* objectB, float CoefRest, Vector3 normal);
-	void CreatePhysicsObject(ID3D11Device* device);
 
 
 	// BASE FUNCTION(s)

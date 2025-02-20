@@ -94,10 +94,12 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
-	if (GetAsyncKeyState(VK_RETURN) & 0x000001)
-	{
-		CreatePhysicsObject(device);
-	}
+	//if (GetAsyncKeyState(VK_RETURN) & 0x000001)
+	//{
+	//	CreatePhysicsObject(device);
+	//}
+
+	// m_GameObjects[0]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)

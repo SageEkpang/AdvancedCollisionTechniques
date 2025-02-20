@@ -45,7 +45,7 @@ void Collider::Update(float deltaTime)
 
 void Collider::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
-	if (m_RenderCollision == false || m_Geometry.numberOfIndices < 0) return;
+	if (m_RenderCollision == false || m_Geometry.numberOfIndices <= 0) return;
 
 	D3D11_RASTERIZER_DESC cmdesc;
 	ID3D11RasterizerState* m_WireCull;

@@ -37,6 +37,7 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 		{ 
 			m_OutSimplex = t_Points;
 			t_Points = Simplex();
+			i = 0;
 			return true; 
 		}
 	}
@@ -163,7 +164,7 @@ bool GJKCollider::Tetrahedron(Simplex& points, Vector3& direction)
 bool GJKCollider::SameDirection(Vector3 direction, Vector3 Ao)
 {
 	// NOTE: Calculate the direction of the vectors pointing in the direction of the AO
-	return Vector::CalculateDotProduct(direction, Ao) > 0;
+	return Vector::CalculateDotProductNotNorm(direction, Ao) > 0; // FIXME: May not need to be not norm dot product
 }
 
 Vector3 GJKCollider::Support(Collider* colliderA, Collider* colliderB, Vector3 direction)

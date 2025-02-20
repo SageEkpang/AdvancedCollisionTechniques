@@ -8,12 +8,17 @@ Screen::Screen(std::string screenName, ID3D11Device* device)
 		m_GroundPlane = new GameObject(Tag("Plane", PhysicTag::PHYSICS_STATIC));
 		Transform* t_PlaneTransform = new Transform();
 		Render* t_PlaneRender = new Render(t_PlaneTransform);
+		Collider* t_PlaneCollider = new PlaneCollider(t_PlaneTransform);
 
 		float t_BorderLimit = 10000.f;
+
 
 		// Transform
 		m_GroundPlane->SetTransform(t_PlaneTransform);
 		t_PlaneTransform->SetScale(t_BorderLimit, 1.0f, t_BorderLimit);
+
+		// Collider
+		m_GroundPlane->SetCollider(t_PlaneCollider);
 
 		// Rendering
 		m_GroundPlane->SetRender(t_PlaneRender);

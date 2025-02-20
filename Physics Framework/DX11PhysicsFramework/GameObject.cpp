@@ -37,8 +37,15 @@ void GameObject::Update(float deltaTime)
 
 void GameObject::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
-	m_RenderComponent->Draw(constantBufferData, constBuff, pImmediateContext, device);
-	m_ColliderComponent->Draw(constantBufferData, constBuff, pImmediateContext, device);
+	if (m_RenderComponent != nullptr)
+	{
+		m_RenderComponent->Draw(constantBufferData, constBuff, pImmediateContext, device);
+	}
+
+	if (m_ColliderComponent != nullptr)
+	{
+		m_ColliderComponent->Draw(constantBufferData, constBuff, pImmediateContext, device);
+	}
 }
 
 GameObject* GameObject::QuickObject(Vector3 position, Vector3 scale, Vector3 rotation, Collider* collider, char* geoFileName, Material material, const wchar_t* texFileName, ID3D11Device* device)
