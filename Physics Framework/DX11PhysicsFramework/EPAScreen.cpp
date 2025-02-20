@@ -7,7 +7,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	m_GJKCollider = new GJKCollider();
 	m_EPACollider = new EPACollider();
 
-#pragma region Cube1
+	for (int i = 0; i < 50; ++i)
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
@@ -20,43 +20,14 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 
 		// Transform
 		t_CubeObject->SetTransform(t_CubeTransform);
-		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(0.0f, 0.0f, 0.0f);
-
-		// Rigidbody 
-		t_CubeObject->SetRigidbody(t_CubeRigidbody);
-		t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
-		t_CubeRigidbody->SetCollider(t_CubeCollider);
-
-		// Collision
-		t_CubeObject->SetCollider(t_CubeCollider);
-		t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
-
-		// Rendering
-		t_CubeObject->SetRender(t_CubeRender);
-		t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
-		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
-		InsertObjectIntoList(t_CubeObject);
-	}
-#pragma endregion
-
-#pragma region Cube2
-	{
-		// Cube Object
-		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
-		Transform* t_CubeTransform = new Transform();
-		Render* t_CubeRender = new Render(t_CubeTransform);
-		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
-
-		Vector3 t_Rotation = Vector3(0, 0, 0);
-		Collider* t_CubeCollider = new BoxCollider(t_CubeTransform);
-
-		// Transform
-		t_CubeObject->SetTransform(t_CubeTransform);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
-		t_CubeTransform->SetRotation(t_Rotation);
-		t_CubeTransform->SetPosition(9.f, 5.f, 0.0f);
+
+		float t_RandX = rand() % MAX_X - 1;
+		float t_RandY = rand() % MAX_X;
+		float t_RandZ = rand() % MAX_Z - 1;
+
+		t_CubeTransform->SetPosition(t_RandX, 1.0f, t_RandZ);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -74,8 +45,6 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 
 		InsertObjectIntoList(t_CubeObject);
 	}
-#pragma endregion
-
 }
 
 EPAScreen::~EPAScreen()
@@ -93,13 +62,6 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
-
-	//if (GetAsyncKeyState(VK_RETURN) & 0x000001)
-	//{
-	//	CreatePhysicsObject(device);
-	//}
-
-	// m_GameObjects[0]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -119,23 +81,28 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 			// See if there is a Collider on the rigidbody
 			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
 			{
-				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()) == true)
 				{
-					// NOTE: Send Simplex Data to the EPA Collision Code
-					t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
+					Timer time;
 
-					if (t_ColManifold.hasCollision == true)
+					// Check the Collision with Code, NOTE: There should be a collision more or less with each other
+					if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()) == true)
 					{
-						// NOTE: Material Coef Calculate
-						MaterialCoefficient t_MaterialCoef;
-						double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-						double t_Rep = 0.5;
+						// NOTE: Send Simplex Data to the EPA Collision Code
+						t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
 
-						// NOTE: Resolve Collision
-						ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+						if (t_ColManifold.hasCollision == true)
+						{
+							// NOTE: Material Coef Calculate
+							MaterialCoefficient t_MaterialCoef;
+							double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+							double t_Rep = 0.5;
+
+							// NOTE: Resolve Collision
+							ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+						}
 					}
 				}
+
 			}
 
 			// Clear Collision Manifold

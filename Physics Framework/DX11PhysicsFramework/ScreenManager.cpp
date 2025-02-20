@@ -114,7 +114,7 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	m_CurrentScreen = new GJKScreen("GilbertJohnsonKeerthiScreen", _device);
+	m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithmScreen", _device);
 
 	return S_OK;
 }

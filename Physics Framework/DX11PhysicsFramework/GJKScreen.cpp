@@ -104,22 +104,18 @@ void GJKScreen::ProcessGJK(const float deltaTime)
 			// See if there is a Collider on the rigidbody
 			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
 			{
+				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
+				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()) == true)
 				{
-					Timer time;
+					// NOTE: Material Coef Calculation
+					MaterialCoefficient t_MaterialCoef;
+					double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+					double t_Rep = 0.01;
 
-					// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-					if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()) == true)
-					{
-						// NOTE: Material Coef Calculation
-						MaterialCoefficient t_MaterialCoef;
-						double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-						double t_Rep = 0.01;
-
-						// NOTE: Resolve Collision
-						t_ColManifold.penetrationDepth = 1.0;
-						t_ColManifold.collisionNormal = t_ObjectAGame->GetTransform()->GetPosition() - t_ObjectBGame->GetTransform()->GetPosition();
-						ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
-					}
+					// NOTE: Resolve Collision
+					t_ColManifold.penetrationDepth = 1.0;
+					t_ColManifold.collisionNormal = t_ObjectAGame->GetTransform()->GetPosition() - t_ObjectBGame->GetTransform()->GetPosition();
+					ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
 				}
 			}
 
