@@ -47,7 +47,7 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 	{
 		++test;
 		std::string t_TempOutput = " " + std::to_string(test);
-		OutputDebugStringA(t_TempOutput.c_str());
+		// OutputDebugStringA(t_TempOutput.c_str());
 		CreatePhysicsObject(device);
 	}
 
@@ -92,21 +92,20 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 			// NOTE: Clear Collision Manifold
 			t_ColManifold = CollisionManifold();
 
-
 			{
-				
+				Timer time;
+				// NOTE: SAT Collision Test
+				if (SATCollider::ObjectCollisionAlt(*m_SatColliderObjects[i], *m_SatColliderObjects[j], t_ColManifold) == true)
+				{
+					// Material Coef Calculate
+					MaterialCoefficient t_MaterialCoef;
+					//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+					double t_Rep = 0.01;
 
+					ResolveCollision(m_SatColliderObjects[i], m_SatColliderObjects[j], t_Rep, t_ColManifold.collisionNormal);
+				}
 			}
-			// NOTE: SAT Collision Test
-			if (SATCollider::ObjectCollisionAlt(*m_SatColliderObjects[i], *m_SatColliderObjects[j], t_ColManifold) == true)
-			{
-				// Material Coef Calculate
-				MaterialCoefficient t_MaterialCoef;
-				//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-				double t_Rep = 0.01;
 
-				ResolveCollision(m_SatColliderObjects[i], m_SatColliderObjects[j], t_Rep, t_ColManifold.collisionNormal);
-			}
 		}
 	}
 }

@@ -21,8 +21,7 @@ public:
 
 	// CLASS FUNCTION(s)
 	Timer();
-
-	~Timer() { };
+	~Timer();
 
 	// BASE FUNCTION(s)
 	float GetDeltaTime();

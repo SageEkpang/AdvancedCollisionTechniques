@@ -113,8 +113,6 @@ void GJKScreen::ProcessGJK(const float deltaTime)
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
-	m_GameObjects[1]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
-
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
 	{
@@ -147,7 +145,7 @@ void GJKScreen::ProcessGJK(const float deltaTime)
 					ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
 				}
 			}
-
+			
 			// Clear Collision Manifold
 			t_ColManifold = CollisionManifold();
 		}

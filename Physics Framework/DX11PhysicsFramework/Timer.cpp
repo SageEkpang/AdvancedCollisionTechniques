@@ -6,6 +6,11 @@ Timer::Timer()
 	m_LastFrame = steady_clock::now();
 }
 
+Timer::~Timer()
+{
+	Stop();
+}
+
 float Timer::GetDeltaTime() // Delta Time
 {
 	return duration<float>(steady_clock::now() - m_LastFrame).count();
@@ -34,4 +39,6 @@ void Timer::Stop()
 
 	// Output the Microseconds and Milliseconds of the Process
 	std::cout << "Microseconds: " << Duration << " us (" << ms << "ms)\n";
+	std::string t_Output = "Microseconds: " + std::to_string(Duration) + " us (" + std::to_string(ms) + "ms)\n";
+	OutputDebugStringA(t_Output.c_str());
 }

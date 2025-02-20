@@ -165,20 +165,12 @@ void ScreenManager::Showcase()
 bool ScreenManager::HandleKeyboard(MSG msg)
 {
 	// TODO: Move to a GUI Context
-	if (GetAsyncKeyState(VK_V))
-	{
-		_immediateContext->RSSetState(_CWcullMode);
-	}
-	if (GetAsyncKeyState(VK_C))
-	{
-		_immediateContext->RSSetState(m_WireFrameMode);
-	}
 
 	switch (msg.wParam)
 	{
 		// RASTERIZER STATE(s)
-		// case VK_V: _immediateContext->RSSetState(_CWcullMode); break;
-		// case VK_C: _immediateContext->RSSetState(m_WireFrameMode); break;
+		case VK_V: _immediateContext->RSSetState(_CWcullMode); break;
+		case VK_C: _immediateContext->RSSetState(m_WireFrameMode); break;
 
 		// TRANSITION SCREEN(s)
 		case VK_0: TransitionScreen(STATE_BASIC_SCREEN); break;

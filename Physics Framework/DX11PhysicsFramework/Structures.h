@@ -369,7 +369,6 @@ typedef struct Vector3
 		return Vector3(t_TempX, t_TempY, t_TempZ);
 	}
 
-
 }Vector3, Vector3D;
 
 #define VECTOR3_ZERO Vector3{0, 0, 0}
@@ -681,6 +680,8 @@ typedef struct Quaternion4
 		this->w = std::abs(w);
 		return *this;
 	}
+
+
 
 }Quaternion4;
 
