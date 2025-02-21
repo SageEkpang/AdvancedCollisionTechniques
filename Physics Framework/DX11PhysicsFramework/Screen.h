@@ -67,7 +67,8 @@ public:
 	/// <summary> Default Draw function for Class </summary>
 	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
-
+	// NOTE: This is the general collision response for objects
+	virtual void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
 
 	// HELPER FUNCTION(s)
 	void InsertObjectIntoList(GameObject* gameObject);

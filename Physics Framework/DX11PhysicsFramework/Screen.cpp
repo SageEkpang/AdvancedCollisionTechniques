@@ -93,6 +93,24 @@ void Screen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID
 	m_GroundPlane->Draw(constantBufferData, constBuff, pImmediateContext, device);
 }
 
+void Screen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal)
+{
+	// NOTE: Calculate Impulse to push object out of other object
+	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
+	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
+
+	// NOTE: Check if there needs to be a seperation between both of the objects
+	if (t_Impulse > 0) { return; }
+
+	float t_E = CoefRest; // Coefficient of Restituion
+	float t_Dampening = 1.f; // Dampening Factor
+
+	// NOTE: Output "Impulse" for result
+	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
+	objectA->ApplyImpulse(normal * t_J);
+	objectB->ApplyImpulse(normal * t_J * -1);
+}
+
 void Screen::InsertObjectIntoList(GameObject* gameObject)
 {
 	m_GameObjects.push_back(gameObject);

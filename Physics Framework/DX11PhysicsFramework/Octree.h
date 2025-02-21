@@ -5,16 +5,17 @@
 #include "Constants.h"
 #include "Structures.h"
 #include "PhysicsObject.h"
+#include "GameObject.h"
 
 constexpr int TREE_DEPTH = 20;
 constexpr int OBJECT_SPLIT = 10;
 
-typedef struct Octant
+struct Octant
 {
 	Vector3 centre;
 	float halfWidth;
 	Octant* child[8];
-	std::list<PhysicsObject*> objList;
+	std::list<GameObject*> objList;
 
 	Octant() = default;
 	Octant(Octant& value)
@@ -23,7 +24,7 @@ typedef struct Octant
 		this->halfWidth = value.halfWidth;
 	}
 
-}Octant;
+};
 
 class Octree
 {
@@ -50,8 +51,8 @@ public: // PUBLIC FUNCTION(s)
 	// BASE FUNCTION(s)
 	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
 
-	void InsertEntity(Octant* tree, PhysicsObject* physicsEntity);
-	void InsertEntities(Octant* tree, std::vector<PhysicsObject*> physicsEntities);
+	void InsertEntity(Octant* tree, GameObject* physicsEntity);
+	void InsertEntities(Octant* tree, std::vector<GameObject*> physicsEntities);
 
 	void UpdateTree(Octant* tree, const float deltaTime);
 
@@ -60,8 +61,6 @@ public: // PUBLIC FUNCTION(s)
 
 	void ClearOctant(int index);
 	void ClearOctant(Octant* tree, int index);
-
-	// Collision Check // NOTE: Event Dispatch 
 
 
 	// GETTER FUNCTION(s)

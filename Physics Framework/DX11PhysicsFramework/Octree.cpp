@@ -55,7 +55,7 @@ Octree::~Octree()
 	delete m_Octant;
 }
 
-void Octree::InsertEntity(Octant* tree, PhysicsObject* physicsEntity)
+void Octree::InsertEntity(Octant* tree, GameObject* physicsEntity)
 {
 	int t_Index = 0;
 	bool t_Straddle = false;
@@ -69,7 +69,7 @@ void Octree::InsertEntity(Octant* tree, PhysicsObject* physicsEntity)
 		if (i == 1) { t_Delta = physicsEntity->GetTransform()->GetPosition().y - tree->centre.y; }
 		if (i == 2) { t_Delta = physicsEntity->GetTransform()->GetPosition().z - tree->centre.z; }
 
-		if (std::abs(t_Delta) <= physicsEntity->GetRadius()) // CHOICE: Can raise to the power of 2 to make it more accurate
+		if (std::abs(t_Delta) <= 1) // CHOICE: Can raise to the power of 2 to make it more accurate
 		{
 			t_Straddle = true;
 			break;
@@ -92,9 +92,9 @@ void Octree::InsertEntity(Octant* tree, PhysicsObject* physicsEntity)
 
 }
 
-void Octree::InsertEntities(Octant* tree, std::vector<PhysicsObject*> physicsEntities)
+void Octree::InsertEntities(Octant* tree, std::vector<GameObject*> physicsEntities)
 {
-	std::list<PhysicsObject*> t_EntityList;
+	std::list<GameObject*> t_EntityList;
 	t_EntityList.clear();
 
 	if (physicsEntities.empty()) { std::cout << "List is Empty" << std::endl; }
@@ -114,7 +114,7 @@ void Octree::InsertEntities(Octant* tree, std::vector<PhysicsObject*> physicsEnt
 			if (i == 1) { t_Delta = entity->GetTransform()->GetPosition().y - tree->centre.y; }
 			if (i == 2) { t_Delta = entity->GetTransform()->GetPosition().z - tree->centre.z; }
 
-			if (std::abs(t_Delta) <= entity->GetRadius()) // CHOICE: Can raise to the power of 2 to make it more accurate
+			if (std::abs(t_Delta) <= 1) // CHOICE: Can raise to the power of 2 to make it more accurate
 			{
 				t_Straddle = 1;
 				break;
@@ -142,14 +142,14 @@ void Octree::UpdateTree(Octant* tree, const float deltaTime)
 {
 	for (auto& v : tree->objList)
 	{
-		// v->UpdateQuery(deltaTime);
+		v->Update(deltaTime);
 	}
 
 	for (int i = 0; i < 8; ++i)
 	{
 		if (tree->child[i])
 		{
-			// for (auto& v : tree->child[i]->objList) { v->updateQuery(deltaTime); }
+			for (auto& v : tree->child[i]->objList) { v->Update(deltaTime); }
 		}
 	}
 
@@ -162,12 +162,11 @@ void Octree::UpdateTree(Octant* tree, const float deltaTime)
 void Octree::QueryTree()
 {
 	// Keep track of all ancester objects lists in a stack
-	std::list<PhysicsObject*> t_AncesterStackList;
+	std::list<GameObject*> t_AncesterStackList;
 	t_AncesterStackList.clear();
 	t_AncesterStackList = m_Octant->objList;
 
-	std::list<PhysicsObject*>::iterator t_ObjectA;
-	std::list<PhysicsObject*>::iterator t_ObjectB;
+	std::list<GameObject*>::iterator t_ObjectA, t_ObjectB;
 
 	// Collision Response Calculations
 	for (t_ObjectA = t_AncesterStackList.begin(); t_ObjectA != t_AncesterStackList.end(); ++t_ObjectA)
@@ -195,11 +194,11 @@ void Octree::QueryTree()
 void Octree::QueryTree(Octant* tree)
 {
 	// Keep track of all ancester objects lists in a stack
-	std::list<PhysicsObject*> t_AncesterStackList;
+	std::list<GameObject*> t_AncesterStackList;
 	t_AncesterStackList.clear();
 	t_AncesterStackList = tree->objList;
 
-	std::list<PhysicsObject*>::iterator t_ObjectA, t_ObjectB;
+	std::list<GameObject*>::iterator t_ObjectA, t_ObjectB;
 
 	// Collision Response Calculations
 	for (t_ObjectA = t_AncesterStackList.begin(); t_ObjectA != t_AncesterStackList.end(); ++t_ObjectA)
@@ -222,8 +221,6 @@ void Octree::QueryTree(Octant* tree)
 			QueryTree(tree->child[i]);
 		}
 	}
-
-
 }
 
 void Octree::ClearOctant(int index)

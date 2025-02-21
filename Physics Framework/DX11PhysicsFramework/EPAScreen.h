@@ -9,6 +9,7 @@
 #include "Screen.h"
 #include "EPACollider.h"
 #include "GJKCollider.h"
+#include "Octree.h"
 
 class EPAScreen : public Screen
 {
@@ -16,6 +17,9 @@ private:
 
 	GJKCollider* m_GJKCollider;
 	EPACollider* m_EPACollider;	
+
+	Octree* m_Octree;
+	Octant* m_Tree;
 
 public:
 
@@ -27,15 +31,11 @@ public:
 	/// <summary> Default Destructor for Class </summary>
 	~EPAScreen();
 
-
 	// HELPER FUNCTION(s)
 	void ProcessEPA(const float deltaTime, ID3D11Device* device);
-	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
 	void CreatePhysicsObject(ID3D11Device* device);
 
 	// BASE FUNCTION(s)
-
-	/// <summary> Default Update function for Class </summary>
 	void Update(float deltaTime, ID3D11Device* device) override;
 };
 

@@ -2,27 +2,9 @@
 #include "BoxCollider.h"
 
 
-SATCollider::SATCollider(char* fileName, Transform* transform, Vector3 rotation, float mass, ID3D11Device* device)
+SATCollider::SATCollider()
 {
-	printf("SAT Collider Set Up");
-
-	// NOTE: Init variables
-	m_Transform = new Transform();
-	m_Transform = transform;
-	m_Rotation = rotation;
-
-	m_Mass = mass;
-
-	// NOTE: Init the Geometry
-	MeshData t_Mesh;
-	Geometry t_Geometry;
-	t_Mesh = OBJLoader::Load(fileName, device);
-	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
-	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
-	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
-	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
-	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
-	m_Geometry = t_Geometry;
+	printf("SAT Collider Set Up"); // NOTE: Due to debug stream, this will not work
 }
 
 SATCollider::~SATCollider()
@@ -30,100 +12,41 @@ SATCollider::~SATCollider()
 	
 }
 
-void SATCollider::Update(float deltaTime)
+
+CollisionManifold SATCollider::SATCollision(GameObject& objectA, GameObject& objectB)
 {
-	// NOTE: Acceleration Calculation
-	CalculateAcceleration(deltaTime);
-	m_Transform->Update(deltaTime);
+	CollisionManifold t_CollisionManifold;
 
-	ClearAccumulator();
-}
-
-void SATCollider::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
-{
-	D3D11_RASTERIZER_DESC cmdesc;
-	ID3D11RasterizerState* m_NormalCull;
-	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
-	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_NONE;
-	cmdesc.FrontCounterClockwise = false;
-	device->CreateRasterizerState(&cmdesc, &m_NormalCull);
-
-	pImmediateContext->RSSetState(m_NormalCull);
-
-	// Draw Render Object
-	constantBufferData.surface.AmbientMtrl = XMFLOAT4(0, 0, 0, 1);
-	constantBufferData.surface.DiffuseMtrl = XMFLOAT4(1.0, 0.0, 1.0, 1);
-	constantBufferData.surface.SpecularMtrl = XMFLOAT4(0, 0, 0, 0);
-
-	XMMATRIX temp = m_Transform->GetWorldMatrix();
-	constantBufferData.World = XMMatrixTranspose(temp);
-	constantBufferData.HasTexture = 0.0f;
-
-	D3D11_MAPPED_SUBRESOURCE t_ObjectMappedSubresource;
-	pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &t_ObjectMappedSubresource);
-	memcpy(t_ObjectMappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
-	pImmediateContext->Unmap(constBuff, 0);
-
-	pImmediateContext->IASetVertexBuffers(0, 1, &m_Geometry.vertexBuffer, &m_Geometry.vertexBufferStride, &m_Geometry.vertexBufferOffset);
-	pImmediateContext->IASetIndexBuffer(m_Geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);
-
-	pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
-}
-
-void SATCollider::CalculateAcceleration(float deltaTime)
-{
-	// Add NetForce to Acceleration
-	m_Acceleration += m_NetForce; // / m_Mass
-
-	// Get position and add it to the velocity of the object
-	Vector3 t_Position = m_Transform->GetPosition();
-	m_Velocity += m_Acceleration * deltaTime;
-
-	// Change position based on velocity and set new position based on velocity
-	t_Position += m_Velocity * deltaTime;
-	m_Transform->SetPosition(t_Position);
-}
-
-void SATCollider::ClearAccumulator()
-{
-	// NOTE: Reset Net Force
-	m_NetForce = VECTOR3_ZERO;
-	m_Acceleration = VECTOR3_ZERO;
-}
-
-bool SATCollider::ObjectCollisionAlt(SATCollider objectA, SATCollider objectB, CollisionManifold& out)
-{
 	// NOTE: Fill Orientation Array (A)
 	float t_OrA[9];
 	{
-		t_OrA[0] = objectA.GetRotation().x;
+		t_OrA[0] = objectA.GetTransform()->GetRotation().x;
 		t_OrA[1] = 0;
 		t_OrA[2] = 0;
 
 		t_OrA[3] = 0;
-		t_OrA[4] = objectA.GetRotation().y;
+		t_OrA[4] = objectA.GetTransform()->GetRotation().y;
 		t_OrA[5] = 0;
 
 		t_OrA[6] = 0;
 		t_OrA[7] = 0;
-		t_OrA[8] = objectA.GetRotation().z;
+		t_OrA[8] = objectA.GetTransform()->GetRotation().z;
 	}
 
 	// NOTE: Fill Orientation Array (B)
 	float t_OrB[9];
 	{
-		t_OrB[0] = objectB.GetRotation().x;
+		t_OrB[0] = objectB.GetTransform()->GetRotation().x;
 		t_OrB[1] = 0;
 		t_OrB[2] = 0;
 
 		t_OrB[3] = 0;
-		t_OrB[4] = objectB.GetRotation().y;
+		t_OrB[4] = objectB.GetTransform()->GetRotation().y;
 		t_OrB[5] = 0;
 
 		t_OrB[6] = 0;
 		t_OrB[7] = 0;
-		t_OrB[8] = objectB.GetRotation().z;
+		t_OrB[8] = objectB.GetTransform()->GetRotation().z;
 	}
 
 	// NOTE: Set up tests
@@ -155,14 +78,16 @@ bool SATCollider::ObjectCollisionAlt(SATCollider objectA, SATCollider objectB, C
 		}
 	}
 
-	out.hasCollision = true;
-	out.collisionNormal = objectA.GetPosition() - objectB.GetPosition();
-	out.penetrationDepth;
+	t_CollisionManifold.hasCollision = true;
+	t_CollisionManifold.collisionNormal = objectA.GetTransform()->GetPosition() - objectB.GetTransform()->GetPosition();
+	t_CollisionManifold;
+
+	return t_CollisionManifold;
 
 	return true; // Seperating Axis not Found (There was Collision)
 }
 
-bool SATCollider::OverlapOnAxis(SATCollider& satA, SATCollider& satB, Vector3& axis)
+bool SATCollider::OverlapOnAxis(GameObject& satA, GameObject& satB, Vector3& axis)
 {
 	Interval t_A = GetIntervalOr(satA, axis);
 	Interval t_B = GetIntervalOr(satB, axis);
@@ -171,26 +96,26 @@ bool SATCollider::OverlapOnAxis(SATCollider& satA, SATCollider& satB, Vector3& a
 	return t_ExtentCheck;
 }
 
-Interval SATCollider::GetIntervalOr(SATCollider& sat, Vector3& axis)
+Interval SATCollider::GetIntervalOr(GameObject& object, Vector3& axis)
 {
 	Vector3 t_Vertex[8];
-	Vector3 t_Position = sat.GetPosition();
-	Vector3 t_Size = sat.GetScale();
+	Vector3 t_Position = object.GetTransform()->GetPosition();
+	Vector3 t_Size = object.GetTransform()->GetScale();
 
 	// NOTE: Init Rotation Function
 	float t_Orientation[9];
 	{
-		t_Orientation[0] = sat.GetRotation().x;
+		t_Orientation[0] = object.GetTransform()->GetRotation().x;
 		t_Orientation[1] = 0;
 		t_Orientation[2] = 0;
 
 		t_Orientation[3] = 0;
-		t_Orientation[4] = sat.GetRotation().y;
+		t_Orientation[4] = object.GetTransform()->GetRotation().y;
 		t_Orientation[5] = 0;
 
 		t_Orientation[6] = 0;
-		t_Orientation[7] = sat.GetRotation().z;
-		t_Orientation[8] = 1;
+		t_Orientation[7] = 0;
+		t_Orientation[8] = object.GetTransform()->GetRotation().z;
 	}
 
 	Vector3 t_Axis[] = {

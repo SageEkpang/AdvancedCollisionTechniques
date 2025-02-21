@@ -7,6 +7,10 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	m_GJKCollider = new GJKCollider();
 	m_EPACollider = new EPACollider();
 
+	m_Octree = new Octree();
+	m_Tree = new Octant();
+
+
 	for (int i = 0; i < 50; ++i)
 	{
 		// Cube Object
@@ -63,6 +67,18 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
+	// NOTE: Clear the Octant of Variables
+	for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
+
+	// NOTE: 
+	for (auto& object : m_GameObjects) { m_Octree->InsertEntity(m_Tree, object); }
+
+	// NOTE: Update Tree
+	m_Octree->UpdateTree(m_Tree, deltaTime);
+
+	// Query the Tree
+	m_Octree->QueryTree(m_Tree);
+
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
 	{
@@ -96,9 +112,9 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 							MaterialCoefficient t_MaterialCoef;
 							double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
 							double t_Rep = 0.5;
-
+							
 							// NOTE: Resolve Collision
-							ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+							Screen::ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
 						}
 					}
 				}
@@ -109,24 +125,6 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 			t_ColManifold = CollisionManifold();
 		}
 	}
-}
-
-void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal)
-{
-	// NOTE: Calculate Impulse to push object out of other object
-	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
-	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
-
-	// NOTE: Check if there needs to be a seperation between both of the objects
-	if (t_Impulse > 0) { return; }
-
-	float t_E = CoefRest; // Coefficient of Restituion
-	float t_Dampening = 1.f; // Dampening Factor
-
-	// NOTE: Output "Impulse" for result
-	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
-	objectA->ApplyImpulse(normal * t_J);
-	objectB->ApplyImpulse(normal * t_J * -1);
 }
 
 void EPAScreen::CreatePhysicsObject(ID3D11Device* device)

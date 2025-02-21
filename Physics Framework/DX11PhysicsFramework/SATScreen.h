@@ -17,8 +17,7 @@ class SATScreen : public Screen
 {
 private:
 
-	CollisionContact* m_CollisionContact;
-	std::vector<SATCollider*> m_SatColliderObjects;
+	SATCollider* m_SatCollider;
 	Octree* m_Octree;
 	Octant* m_Tree;
 
@@ -32,17 +31,12 @@ public:
 	/// <summary> Default Destructor for Class </summary>
 	~SATScreen();
 
-
 	// HELPER FUNCTION(s)
 	void ProcessSAT(const float deltaTime, ID3D11Device* device);
 	void ResolveCollision(SATCollider* objectA, SATCollider* objectB, float CoefRest, Vector3 normal);
 
-
 	// BASE FUNCTION(s)
-
-	/// <summary> Default Update function for Class </summary>
 	void Update(float deltaTime, ID3D11Device* device) override;
-	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 };
 
 #endif

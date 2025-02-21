@@ -332,7 +332,7 @@ typedef struct Vector3
 
 	Vector3 Pow(int power) const
 	{
-		return Vector3(std::pow(this->x, power), std::pow(this->y, power), std::pow(this->z, power));
+		return Vector3(std::powf(this->x, power), std::powf(this->y, power), std::powf(this->z, power));
 	}
 
 	float Magnitude() const
