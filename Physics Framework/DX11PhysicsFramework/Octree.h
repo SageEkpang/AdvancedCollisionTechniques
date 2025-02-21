@@ -57,11 +57,12 @@ public: // PUBLIC FUNCTION(s)
 	void UpdateTree(Octant* tree, const float deltaTime);
 
 	void QueryTree();
-	void QueryTree(Octant* octantTree);
+	void QueryTree(Octant* octantTree, CollisionManifold (*func)(GameObject*, GameObject*));
 
 	void ClearOctant(int index);
 	void ClearOctant(Octant* tree, int index);
 
+	void ResolveCollision(GameObject* objectA, GameObject* objectB, float CoefRest, Vector3 normal);
 
 	// GETTER FUNCTION(s)
 	inline Octant* GetOctant() const { return m_Octant; }

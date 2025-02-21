@@ -114,7 +114,7 @@ void Octree::InsertEntities(Octant* tree, std::vector<GameObject*> physicsEntiti
 			if (i == 1) { t_Delta = entity->GetTransform()->GetPosition().y - tree->centre.y; }
 			if (i == 2) { t_Delta = entity->GetTransform()->GetPosition().z - tree->centre.z; }
 
-			if (std::abs(t_Delta) <= 1) // CHOICE: Can raise to the power of 2 to make it more accurate
+			if (std::abs(t_Delta) <= 1) // NOTE: 1 is the "Radius" of each object's optimisation
 			{
 				t_Straddle = 1;
 				break;
@@ -186,12 +186,12 @@ void Octree::QueryTree()
 	{
 		if (m_Octant->child[i])
 		{
-			QueryTree(m_Octant->child[i]);
+			// QueryTree(m_Octant->child[i]);
 		}
 	}
 }
 
-void Octree::QueryTree(Octant* tree)
+void Octree::QueryTree(Octant* tree, CollisionManifold(*func)(GameObject*, GameObject*))
 {
 	// Keep track of all ancester objects lists in a stack
 	std::list<GameObject*> t_AncesterStackList;
@@ -208,8 +208,15 @@ void Octree::QueryTree(Octant* tree)
 			// If they are the same, skip iteration
 			if (*t_ObjectA == *t_ObjectB) break;
 
-			// Collision Test
-			// if (CheckCollision(*t_ObjectA, *t_ObjectB)) { ResolveCollision(*t_ObjectA, *t_ObjectB); }
+			CollisionManifold (*Execute)(GameObject*, GameObject*);
+			Execute = func;
+
+			CollisionManifold t_CollisionManifold = CollisionManifold();
+
+			if (true) // TODO: Replace with Collision Code
+			{
+				ResolveCollision(*t_ObjectA, *t_ObjectB, 1.0f, t_CollisionManifold.collisionNormal);
+			}
 		}
 	}
 
@@ -218,7 +225,7 @@ void Octree::QueryTree(Octant* tree)
 	{
 		if (tree->child[i])
 		{
-			QueryTree(tree->child[i]);
+			QueryTree(tree->child[i], func);
 		}
 	}
 }
@@ -257,4 +264,23 @@ void Octree::ClearOctant(Octant* tree, int index)
 		tree->objList.clear();
 		tree->child[index]->objList.clear();
 	}
+}
+
+void Octree::ResolveCollision(GameObject* objectA, GameObject* objectB, float CoefRest, Vector3 normal)
+{
+	// NOTE: Calculate Impulse to push object out of other object
+	Vector3 t_RelativeVelocity = objectA->GetRigidbody()->GetVelocity() - objectB->GetRigidbody()->GetVelocity();
+	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
+
+	// NOTE: Check if there needs to be a seperation between both of the objects
+	if (t_Impulse > 0) { return; }
+
+	// NOTE: Coef of Rest
+	float t_E = CoefRest; // Coefficient of Restituion
+	float t_Dampening = 1.f; // Dampening Factor
+
+	// NOTE: Output "Impulse" for result
+	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
+	objectA->GetRigidbody()->ApplyImpulse(normal * t_J);
+	objectB->GetRigidbody()->ApplyImpulse(normal * t_J * -1);
 }
