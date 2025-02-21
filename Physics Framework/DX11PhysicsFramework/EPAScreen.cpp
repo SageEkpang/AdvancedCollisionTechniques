@@ -31,7 +31,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		float t_RandY = rand() % MAX_X;
 		float t_RandZ = rand() % MAX_Z - 1;
 
-		t_CubeTransform->SetPosition(t_RandX, 1.0f, t_RandZ);
+		t_CubeTransform->SetPosition(t_RandX, 5.0f + t_RandY, t_RandZ);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -77,7 +77,7 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 	m_Octree->UpdateTree(m_Tree, deltaTime);
 
 	// Query the Tree
-	m_Octree->QueryTree(m_Tree);
+	m_Octree->QueryTree(m_Tree, 2); // NOTE: 2 = EPA Collider
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -114,7 +114,7 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 							double t_Rep = 0.5;
 							
 							// NOTE: Resolve Collision
-							Screen::ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+							Screen::ResolveCollision(*t_ObjectARig, *t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
 						}
 					}
 				}

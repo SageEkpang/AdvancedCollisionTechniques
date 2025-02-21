@@ -14,7 +14,7 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	// NOTE: Init 100 Objects for Testing Collosions
 	srand(time(NULL));
 
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
@@ -34,7 +34,7 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 		float t_RandY = rand() % MAX_X;
 		float t_RandZ = rand() % MAX_Z - 1;
 
-		t_CubeTransform->SetPosition(t_RandX, 1.0f, t_RandZ);
+		t_CubeTransform->SetPosition(t_RandX, 5.0f, t_RandZ);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -65,23 +65,17 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
-	// NOTE: Clear Octree of Values
-	for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
+	//// NOTE: Clear Octree of Values
+	//for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
 
-	// TODO: Implement this code properly
-	for (auto& v : m_GameObjects)
-	{
-		// m_Octree->InsertEntity(m_Tree, );
-	}
+	//// NOTE: Insert Entities
+	//for (auto& v : m_GameObjects) { m_Octree->InsertEntity(m_Tree, v); }
 
-	// NOTE: Update the Tree
-	m_Octree->UpdateTree(m_Tree, deltaTime);
+	//// NOTE: Update the Tree
+	//m_Octree->UpdateTree(m_Tree, deltaTime);
 
-	// NOTE: Query the Different parts of the Tree
-	for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree); }
-
-
-
+	//// NOTE: Query the Different parts of the Tree
+	//for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree); }
 
 	// NOTE: Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -109,7 +103,7 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 				//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
 				double t_Rep = 0.01;
 
-				Screen::ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+				Screen::ResolveCollision(*t_ObjectARig, *t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
 			}
 		}
 	}

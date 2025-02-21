@@ -7,6 +7,10 @@
 #include "PhysicsObject.h"
 #include "GameObject.h"
 
+#include "SATCollider.h"
+#include "EPACollider.h"
+#include "GJKCollider.h"
+
 constexpr int TREE_DEPTH = 20;
 constexpr int OBJECT_SPLIT = 10;
 
@@ -34,6 +38,10 @@ private: // PRIVATE VARIABLE(s)
 	Octant* m_Octant;
 	int m_RegionAmount;
 
+	SATCollider* m_SATCollider;
+	GJKCollider* m_GJKCollider;
+	EPACollider* m_EPACollider;
+
 private: // PRIVATE FUNCTION(s)
 
 	// BASE FUNCTION(s)
@@ -57,7 +65,7 @@ public: // PUBLIC FUNCTION(s)
 	void UpdateTree(Octant* tree, const float deltaTime);
 
 	void QueryTree();
-	void QueryTree(Octant* octantTree, CollisionManifold (*func)(GameObject*, GameObject*));
+	void QueryTree(Octant* octantTree, int i);
 
 	void ClearOctant(int index);
 	void ClearOctant(Octant* tree, int index);

@@ -34,6 +34,11 @@ Octree::Octree()
 {
 	m_Octant = new Octant();
 	m_RegionAmount = 10;
+
+	m_SATCollider = new SATCollider();
+	m_GJKCollider = new GJKCollider();
+	m_EPACollider = new EPACollider();
+
 }
 
 Octree::Octree(int regionAmount)
@@ -191,7 +196,7 @@ void Octree::QueryTree()
 	}
 }
 
-void Octree::QueryTree(Octant* tree, CollisionManifold(*func)(GameObject*, GameObject*))
+void Octree::QueryTree(Octant* tree, int i)
 {
 	// Keep track of all ancester objects lists in a stack
 	std::list<GameObject*> t_AncesterStackList;
@@ -208,12 +213,24 @@ void Octree::QueryTree(Octant* tree, CollisionManifold(*func)(GameObject*, GameO
 			// If they are the same, skip iteration
 			if (*t_ObjectA == *t_ObjectB) break;
 
-			CollisionManifold (*Execute)(GameObject*, GameObject*);
-			Execute = func;
-
 			CollisionManifold t_CollisionManifold = CollisionManifold();
 
-			if (true) // TODO: Replace with Collision Code
+			//if (i == 0)
+			//{
+			//	m_SATCollider->SATCollision(t_ObjectA, t_ObjectB);
+			//}
+			//else if (i == 1)
+			//{
+			//	m_GJKCollider->GJKCollision(t_ObjectA, t_ObjectB);
+			//}
+			//else if (i == 2)
+			//{
+			//	m_GJKCollider->GJKCollision(t_ObjectA, t_ObjectB);
+			//	m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), t_ObjectA, t_ObjectB);
+			//}
+
+
+			if (true)
 			{
 				ResolveCollision(*t_ObjectA, *t_ObjectB, 1.0f, t_CollisionManifold.collisionNormal);
 			}
@@ -225,7 +242,7 @@ void Octree::QueryTree(Octant* tree, CollisionManifold(*func)(GameObject*, GameO
 	{
 		if (tree->child[i])
 		{
-			QueryTree(tree->child[i], func);
+			QueryTree(tree->child[i], i);
 		}
 	}
 }
