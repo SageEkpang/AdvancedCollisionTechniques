@@ -8,6 +8,7 @@
 
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
+#include "Octree.h"
 #include "CollisionContact.h"
 #include "OBBCollider.h"
 #include "SATCollider.h"
@@ -18,6 +19,8 @@ private:
 
 	CollisionContact* m_CollisionContact;
 	std::vector<SATCollider*> m_SatColliderObjects;
+	Octree* m_Octree;
+	Octant* m_Tree;
 
 public:
 

@@ -6,6 +6,11 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_SAT_SCREEN;
 
 	m_CollisionContact = new CollisionContact();
+	m_Tree = new Octant();
+	m_Octree = new Octree();
+
+
+	m_Tree = m_Octree->BuildOctree(Vector3(10, 40, 10), 20, 3);
 
 	// NOTE: Init 100 Objects for Testing Collosions
 	srand(time(NULL));
@@ -35,6 +40,21 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
+
+	// NOTE: Clear Octree of Values
+	for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
+
+	// TODO: Implement this code properly
+	for (auto& v : m_SatColliderObjects)
+	{
+		// m_Octree->InsertEntity(m_Tree, );
+	}
+
+	// NOTE: Update the Tree
+	m_Octree->UpdateTree(m_Tree, deltaTime);
+
+	// NOTE: Query the Different parts of the Tree
+	for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree); }
 
 	// NOTE: Update the Objects and GroundCollision
 	for (auto& v : m_SatColliderObjects) 

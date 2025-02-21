@@ -41,6 +41,7 @@ private: // PRIVATE FUNCTION(s)
 public: // PUBLIC FUNCTION(s)
 
 	// CLASS FUNCTION(s)
+	Octree();
 	Octree(int regionAmount);
 	Octree(Vector3 centre, float halfWidth, int stopDepth);
 	~Octree();

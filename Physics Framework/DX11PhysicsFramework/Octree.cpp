@@ -30,6 +30,18 @@ Octant* Octree::BuildOctree(Vector3 centre, float halfWidth, int stopDepth)
 	}
 }
 
+Octree::Octree()
+{
+	m_Octant = new Octant();
+	m_RegionAmount = 10;
+}
+
+Octree::Octree(int regionAmount)
+{
+	m_Octant = new Octant();
+	m_RegionAmount = regionAmount;
+}
+
 Octree::Octree(Vector3 centre, float halfWidth, int stopDepth)
 {
 	m_Octant = new Octant();
