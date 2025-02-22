@@ -20,7 +20,7 @@ struct Octant
 {
 	Vector3 centre;
 	float halfWidth;
-	Octant* child[8];
+	Octant* child[8]{};
 	std::list<GameObject*> objList;
 
 	Octant() = default;

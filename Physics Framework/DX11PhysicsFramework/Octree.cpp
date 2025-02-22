@@ -183,10 +183,10 @@ void Octree::QueryTree(Octant* tree, int i)
 
 			CollisionManifold t_CollisionManifold = CollisionManifold();
 
-			if (i == 0)
-			{
-				t_CollisionManifold = m_SATCollider->SATCollision(*(*t_ObjectA), *(*t_ObjectB));
-			}
+			//if (i == 0)
+			//{
+			//	t_CollisionManifold = m_SATCollider->SATCollision(*(*t_ObjectA), *(*t_ObjectB));
+			//}
 
 			//if (i == 1)
 			//{
@@ -195,18 +195,18 @@ void Octree::QueryTree(Octant* tree, int i)
 			//	t_CollisionManifold = m_GJKCollider->GJKCollision(t_ColA, t_ColB);
 			//}
 
-			//if (i == 2)
-			//{
-			//	Timer time;
-			//	Collider* t_ColA = (*t_ObjectA)->GetCollider();
-			//	Collider* t_ColB = (*t_ObjectB)->GetCollider();
-			//	CollisionManifold thing = m_GJKCollider->GJKCollision(t_ColA, t_ColB);
+			if (i == 2)
+			{
+				Timer time;
+				Collider* t_ColA = (*t_ObjectA)->GetCollider();
+				Collider* t_ColB = (*t_ObjectB)->GetCollider();
+				CollisionManifold thing = m_GJKCollider->GJKCollision(t_ColA, t_ColB);
 
-			//	if (thing.hasCollision == true)
-			//	{
-			//		t_CollisionManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ColA, *t_ColB);
-			//	}
-			//}
+				if (thing.hasCollision == true)
+				{
+					t_CollisionManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ColA, *t_ColB);
+				}
+			}
 
 			if (t_CollisionManifold.hasCollision == true)
 			{

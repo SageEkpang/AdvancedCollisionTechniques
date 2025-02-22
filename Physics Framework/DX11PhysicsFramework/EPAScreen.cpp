@@ -68,62 +68,62 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 	CollisionManifold t_ColManifold;
 
 	// NOTE: Clear the Octant of Variables
-	for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
+	//for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
 
-	// NOTE: 
-	for (auto& object : m_GameObjects) { m_Octree->InsertEntity(m_Tree, object); }
+	//// NOTE: 
+	//for (auto& object : m_GameObjects) { m_Octree->InsertEntity(m_Tree, object); }
 
-	// NOTE: Update Tree
-	m_Octree->UpdateTree(m_Tree, deltaTime);
+	//// NOTE: Update Tree
+	//m_Octree->UpdateTree(m_Tree, deltaTime);
 
-	// Query the Tree
-	m_Octree->QueryTree(m_Tree, 2);
+	//// Query the Tree
+	//m_Octree->QueryTree(m_Tree, 2);
 
 	// if (GetAsyncKeyState(VK_RETURN) & 0x000001) { CreatePhysicsObject(device); }
 
-	//// Collision Checks
-	//for (int i = 0; i < m_GameObjects.size(); ++i)
-	//{
-	//	for (int j = 0; j < m_GameObjects.size(); ++j)
-	//	{
-	//		// Do not do the Same Game Object
-	//		if (i == j) { continue; }
+	// Collision Checks
+	for (int i = 0; i < m_GameObjects.size(); ++i)
+	{
+		for (int j = 0; j < m_GameObjects.size(); ++j)
+		{
+			// Do not do the Same Game Object
+			if (i == j) { continue; }
 
-	//		// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
-	//		GameObject* t_ObjectAGame = m_GameObjects[i];
-	//		GameObject* t_ObjectBGame = m_GameObjects[j];
+			// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
+			GameObject* t_ObjectAGame = m_GameObjects[i];
+			GameObject* t_ObjectBGame = m_GameObjects[j];
 
-	//		RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
-	//		RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
+			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
+			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
 
-	//		// See if there is a Collider on the rigidbody
-	//		if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
-	//		{
-	//			CollisionManifold t_GJKManifold = m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider());
+			// See if there is a Collider on the rigidbody
+			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
+			{
+				CollisionManifold t_GJKManifold = m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider());
 
-	//			// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-	//			if (t_GJKManifold.hasCollision == true)
-	//			{
-	//				// NOTE: Send Simplex Data to the EPA Collision Code
-	//				t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
+				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
+				if (t_GJKManifold.hasCollision == true)
+				{
+					// NOTE: Send Simplex Data to the EPA Collision Code
+					t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
 
-	//				if (t_ColManifold.hasCollision == true)
-	//				{
-	//					// NOTE: Material Coef Calculate
-	//					MaterialCoefficient t_MaterialCoef;
-	//					// double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-	//					double t_Rep = 0.5;
-	//					
-	//					// NOTE: Resolve Collision
-	//					ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
-	//				}
-	//			}
-	//		}
+					if (t_ColManifold.hasCollision == true)
+					{
+						// NOTE: Material Coef Calculate
+						MaterialCoefficient t_MaterialCoef;
+						// double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+						double t_Rep = 0.5;
+						
+						// NOTE: Resolve Collision
+						ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+					}
+				}
+			}
 
-	//		// Clear Collision Manifold
-	//		t_ColManifold = CollisionManifold();
-	//	}
-	//}
+			// Clear Collision Manifold
+			t_ColManifold = CollisionManifold();
+		}
+	}
 }
 
 void EPAScreen::CreatePhysicsObject(ID3D11Device* device)
