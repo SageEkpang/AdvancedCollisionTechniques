@@ -164,38 +164,6 @@ void Octree::UpdateTree(Octant* tree, const float deltaTime)
 	}
 }
 
-void Octree::QueryTree()
-{
-	// Keep track of all ancester objects lists in a stack
-	std::list<GameObject*> t_AncesterStackList;
-	t_AncesterStackList.clear();
-	t_AncesterStackList = m_Octant->objList;
-
-	std::list<GameObject*>::iterator t_ObjectA, t_ObjectB;
-
-	// Collision Response Calculations
-	for (t_ObjectA = t_AncesterStackList.begin(); t_ObjectA != t_AncesterStackList.end(); ++t_ObjectA)
-	{
-		for (t_ObjectB = m_Octant->objList.begin(); t_ObjectB != m_Octant->objList.end(); ++t_ObjectB)
-		{
-			// If they are the same, skip iteration
-			if (*t_ObjectA == *t_ObjectB) break;
-
-			// Collision Test
-			// if (CheckCollision(*t_ObjectA, *t_ObjectB)) { ResolveCollision(*t_ObjectA, *t_ObjectB); }
-		}
-	}
-
-	// Recursively visit Children
-	for (int i = 0; i < 8; ++i)
-	{
-		if (m_Octant->child[i])
-		{
-			// QueryTree(m_Octant->child[i]);
-		}
-	}
-}
-
 void Octree::QueryTree(Octant* tree, int i)
 {
 	// Keep track of all ancester objects lists in a stack
@@ -215,25 +183,42 @@ void Octree::QueryTree(Octant* tree, int i)
 
 			CollisionManifold t_CollisionManifold = CollisionManifold();
 
-			//if (i == 0)
-			//{
-			//	m_SATCollider->SATCollision(t_ObjectA, t_ObjectB);
-			//}
-			//else if (i == 1)
-			//{
-			//	m_GJKCollider->GJKCollision(t_ObjectA, t_ObjectB);
-			//}
-			//else if (i == 2)
-			//{
-			//	m_GJKCollider->GJKCollision(t_ObjectA, t_ObjectB);
-			//	m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), t_ObjectA, t_ObjectB);
-			//}
-
-
-			if (true)
+			if (i == 0)
 			{
-				ResolveCollision(*t_ObjectA, *t_ObjectB, 1.0f, t_CollisionManifold.collisionNormal);
+				t_CollisionManifold = m_SATCollider->SATCollision(*(*t_ObjectA), *(*t_ObjectB));
 			}
+
+			//if (i == 1)
+			//{
+			//	Collider* t_ColA = (*t_ObjectA)->GetCollider();
+			//	Collider* t_ColB = (*t_ObjectB)->GetCollider();
+			//	t_CollisionManifold = m_GJKCollider->GJKCollision(t_ColA, t_ColB);
+			//}
+
+			//if (i == 2)
+			//{
+			//	Timer time;
+			//	Collider* t_ColA = (*t_ObjectA)->GetCollider();
+			//	Collider* t_ColB = (*t_ObjectB)->GetCollider();
+			//	CollisionManifold thing = m_GJKCollider->GJKCollision(t_ColA, t_ColB);
+
+			//	if (thing.hasCollision == true)
+			//	{
+			//		t_CollisionManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ColA, *t_ColB);
+			//	}
+			//}
+
+			if (t_CollisionManifold.hasCollision == true)
+			{
+				RigidbodyObject* t_RigA = (*t_ObjectA)->GetRigidbody();
+				RigidbodyObject* t_RigB = (*t_ObjectB)->GetRigidbody();
+				ResolveCollision(t_RigA, t_RigB, 0.001f, t_CollisionManifold.collisionNormal);
+			}
+			else
+			{
+				t_CollisionManifold.hasCollision = false;
+			}
+			
 		}
 	}
 
@@ -283,10 +268,10 @@ void Octree::ClearOctant(Octant* tree, int index)
 	}
 }
 
-void Octree::ResolveCollision(GameObject* objectA, GameObject* objectB, float CoefRest, Vector3 normal)
+void Octree::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal)
 {
 	// NOTE: Calculate Impulse to push object out of other object
-	Vector3 t_RelativeVelocity = objectA->GetRigidbody()->GetVelocity() - objectB->GetRigidbody()->GetVelocity();
+	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
 	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
 
 	// NOTE: Check if there needs to be a seperation between both of the objects
@@ -294,10 +279,10 @@ void Octree::ResolveCollision(GameObject* objectA, GameObject* objectB, float Co
 
 	// NOTE: Coef of Rest
 	float t_E = CoefRest; // Coefficient of Restituion
-	float t_Dampening = 1.f; // Dampening Factor
+	float t_Dampening = 0.01f; // Dampening Factor
 
 	// NOTE: Output "Impulse" for result
 	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
-	objectA->GetRigidbody()->ApplyImpulse(normal * t_J);
-	objectB->GetRigidbody()->ApplyImpulse(normal * t_J * -1);
+	objectA->ApplyImpulse(normal * t_J);
+	objectB->ApplyImpulse(normal * t_J * -1);
 }

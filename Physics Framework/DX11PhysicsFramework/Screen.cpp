@@ -67,18 +67,18 @@ void Screen::Update(float deltaTime, ID3D11Device* device)
 			if (v->GetTransform()->GetPosition().y - v->GetTransform()->GetScale().y < 0)
 			{
 				v->GetTransform()->SetPosition(Vector3(v->GetTransform()->GetPosition().x, 0 + v->GetTransform()->GetScale().y, v->GetTransform()->GetPosition().z));
-				float t_Dampening = 0.01f;
+				float t_Dampening = 0.0001f;
 				v->GetRigidbody()->SetVelocity(Vector3(v->GetRigidbody()->GetVelocity().x, -v->GetRigidbody()->GetVelocity().y * t_Dampening, v->GetRigidbody()->GetVelocity().z));
 			}
 
 			// NOTE: Check Collisions with the Walls, (Left, Right, Back, Front)
 			if (v->GetTransform()->GetPosition().x - v->GetTransform()->GetScale().x < MIN_X || v->GetTransform()->GetPosition().x > MAX_X)
 			{
-				v->GetRigidbody()->ApplyImpulse(Vector3(-v->GetRigidbody()->GetVelocity().x, 0, 0));
+				v->GetRigidbody()->ApplyImpulse(Vector3(-v->GetRigidbody()->GetVelocity().x + 1, 0, 0));
 			}
 			if (v->GetTransform()->GetPosition().z - v->GetTransform()->GetScale().z < MIN_Z || v->GetTransform()->GetPosition().z > MAX_Z)
 			{
-				v->GetRigidbody()->ApplyImpulse(Vector3(0, 0, -v->GetRigidbody()->GetVelocity().z));
+				v->GetRigidbody()->ApplyImpulse(Vector3(0, 0, -v->GetRigidbody()->GetVelocity().z + 1));
 			}
 		}
 	}

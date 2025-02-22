@@ -112,15 +112,18 @@ Vector3 Collider::FindFurthestPoint(Vector3 direction)
 		m_Vertices.push_back(t_VecPos);
 	}
 
-	// NOTE: Find furthest vertex
-	for (Vector3& v : m_Vertices)
+	if (!m_Vertices.empty())
 	{
-		float t_Distance = Vector::CalculateDotProductNotNorm(v, direction); // NOTE: May have to change dot product back to normalise one
-
-		if (t_Distance > t_MaxDistance)
+		// NOTE: Find furthest vertex
+		for (Vector3& v : m_Vertices)
 		{
-			t_MaxDistance = t_Distance;
-			t_MaxPoint = v;
+			float t_Distance = Vector::CalculateDotProductNotNorm(v, direction); // NOTE: May have to change dot product back to normalise one
+
+			if (t_Distance > t_MaxDistance)
+			{
+				t_MaxDistance = t_Distance;
+				t_MaxPoint = v;
+			}
 		}
 	}
 

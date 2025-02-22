@@ -10,7 +10,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	m_Octree = new Octree();
 	m_Tree = new Octant();
 
-
+	srand(time(NULL));
 	for (int i = 0; i < 50; ++i)
 	{
 		// Cube Object
@@ -27,11 +27,11 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeTransform->SetRotation(t_Rotation);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 
-		float t_RandX = rand() % MAX_X - 1;
+		float t_RandX = (rand() % MAX_X) * 2 - (MAX_X / 2);
 		float t_RandY = rand() % MAX_X;
-		float t_RandZ = rand() % MAX_Z - 1;
+		float t_RandZ = (rand() % MAX_Z) * 2 - (MAX_Z / 2);
 
-		t_CubeTransform->SetPosition(t_RandX, 5.0f + t_RandY, t_RandZ);
+		t_CubeTransform->SetPosition(t_RandX, 10.0f + t_RandY, t_RandZ);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -77,54 +77,53 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 	m_Octree->UpdateTree(m_Tree, deltaTime);
 
 	// Query the Tree
-	m_Octree->QueryTree(m_Tree, 2); // NOTE: 2 = EPA Collider
+	m_Octree->QueryTree(m_Tree, 2);
 
-	// Collision Checks
-	for (int i = 0; i < m_GameObjects.size(); ++i)
-	{
-		for (int j = 0; j < m_GameObjects.size(); ++j)
-		{
-			// Do not do the Same Game Object
-			if (i == j) { continue; }
+	// if (GetAsyncKeyState(VK_RETURN) & 0x000001) { CreatePhysicsObject(device); }
 
-			// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
-			GameObject* t_ObjectAGame = m_GameObjects[i];
-			GameObject* t_ObjectBGame = m_GameObjects[j];
+	//// Collision Checks
+	//for (int i = 0; i < m_GameObjects.size(); ++i)
+	//{
+	//	for (int j = 0; j < m_GameObjects.size(); ++j)
+	//	{
+	//		// Do not do the Same Game Object
+	//		if (i == j) { continue; }
 
-			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
-			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
+	//		// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
+	//		GameObject* t_ObjectAGame = m_GameObjects[i];
+	//		GameObject* t_ObjectBGame = m_GameObjects[j];
 
-			// See if there is a Collider on the rigidbody
-			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
-			{
-				{
-					Timer time;
+	//		RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
+	//		RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
 
-					// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-					if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()) == true)
-					{
-						// NOTE: Send Simplex Data to the EPA Collision Code
-						t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
+	//		// See if there is a Collider on the rigidbody
+	//		if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
+	//		{
+	//			CollisionManifold t_GJKManifold = m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider());
 
-						if (t_ColManifold.hasCollision == true)
-						{
-							// NOTE: Material Coef Calculate
-							MaterialCoefficient t_MaterialCoef;
-							double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-							double t_Rep = 0.5;
-							
-							// NOTE: Resolve Collision
-							Screen::ResolveCollision(*t_ObjectARig, *t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
-						}
-					}
-				}
+	//			// Check the Collision with Code, NOTE: There should be a collision more or less with each other
+	//			if (t_GJKManifold.hasCollision == true)
+	//			{
+	//				// NOTE: Send Simplex Data to the EPA Collision Code
+	//				t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
 
-			}
+	//				if (t_ColManifold.hasCollision == true)
+	//				{
+	//					// NOTE: Material Coef Calculate
+	//					MaterialCoefficient t_MaterialCoef;
+	//					// double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+	//					double t_Rep = 0.5;
+	//					
+	//					// NOTE: Resolve Collision
+	//					ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+	//				}
+	//			}
+	//		}
 
-			// Clear Collision Manifold
-			t_ColManifold = CollisionManifold();
-		}
-	}
+	//		// Clear Collision Manifold
+	//		t_ColManifold = CollisionManifold();
+	//	}
+	//}
 }
 
 void EPAScreen::CreatePhysicsObject(ID3D11Device* device)
@@ -143,10 +142,9 @@ void EPAScreen::CreatePhysicsObject(ID3D11Device* device)
 	t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 	t_CubeTransform->SetRotation(t_Rotation);
 
-	srand(time(NULL));
-
-	float t_RandX = rand() % 10;
-	float t_RandZ = rand() % 10;
+	float t_RandX = (rand() % MAX_X) * 2 - (MAX_X / 2);
+	float t_RandY = rand() % MAX_X;
+	float t_RandZ = (rand() % MAX_Z) * 2 - (MAX_Z / 2);
 
 	t_CubeTransform->SetPosition(t_RandX, 5.f, t_RandZ);
 
@@ -165,4 +163,22 @@ void EPAScreen::CreatePhysicsObject(ID3D11Device* device)
 	t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
 	InsertObjectIntoList(t_CubeObject);
+}
+
+void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal)
+{
+	// NOTE: Calculate Impulse to push object out of other object
+	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
+	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
+
+	// NOTE: Check if there needs to be a seperation between both of the objects
+	if (t_Impulse > 0) { return; }
+
+	float t_E = CoefRest; // Coefficient of Restituion
+	float t_Dampening = 1.f; // Dampening Factor
+
+	// NOTE: Output "Impulse" for result
+	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
+	objectA->ApplyImpulse(normal * t_J);
+	objectB->ApplyImpulse(normal * t_J * -1);
 }

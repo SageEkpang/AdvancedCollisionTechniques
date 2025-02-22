@@ -12,13 +12,16 @@ Transform::Transform()
 
 Transform::~Transform()
 {
-	delete m_World;
-	m_World = nullptr;
+	if (m_World != nullptr)
+	{
+		delete m_World;
+		// m_World = nullptr;
+	}
 
 	if (m_Parent != nullptr)
 	{
 		delete m_Parent;
-		m_Parent = nullptr;
+		// m_Parent = nullptr;
 	}
 }
 

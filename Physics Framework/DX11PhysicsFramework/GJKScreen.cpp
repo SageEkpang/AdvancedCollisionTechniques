@@ -7,6 +7,13 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 
 	m_GJKCollider = new GJKCollider();
 
+
+	// NOTE: Octree Init
+	m_Octree = new Octree();
+	m_Tree = new Octant();
+
+	m_Tree = m_Octree->BuildOctree(Vector3(10, 10, 10), 60, 3);
+
 	srand(time(NULL));
 
 	for (int i = 0; i < 50; ++i)
@@ -25,9 +32,9 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 		t_CubeTransform->SetRotation(t_Rotation);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 
-		float t_RandX = rand() % MAX_X - 1;
+		float t_RandX = (rand() % MAX_X) * 2 - (MAX_X / 2);
 		float t_RandY = rand() % MAX_X;
-		float t_RandZ = rand() % MAX_Z - 1;
+		float t_RandZ = (rand() % MAX_Z) * 2 - (MAX_Z / 2);
 
 		t_CubeTransform->SetPosition(t_RandX, 10.0f + t_RandY, t_RandZ);
 
@@ -47,9 +54,6 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 
 		InsertObjectIntoList(t_CubeObject);
 	}
-
-
-
 }
 
 GJKScreen::~GJKScreen()
@@ -61,6 +65,70 @@ void GJKScreen::Update(float deltaTime, ID3D11Device* device)
 {
 	Screen::Update(deltaTime, device);
 	ProcessGJK(deltaTime);
+}
+
+
+
+void GJKScreen::ProcessGJK(const float deltaTime)
+{
+
+	// NOTE: Clear Octree of Values
+	for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
+
+	// NOTE: Insert Entities
+	for (auto& v : m_GameObjects) { m_Octree->InsertEntity(m_Tree, v); }
+
+	// NOTE: Update the Tree
+	m_Octree->UpdateTree(m_Tree, deltaTime);
+
+	// NOTE: Query the Different parts of the Tree
+	for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree, 1); }
+
+
+	//// Collision Manifold
+	//CollisionManifold t_ColManifold;
+
+	//// Collision Checks
+	//for (int i = 0; i < m_GameObjects.size(); ++i)
+	//{
+	//	for (int j = 0; j < m_GameObjects.size(); ++j)
+	//	{
+	//		// Do not do the Same Game Object
+	//		if (i == j) { continue; }
+
+	//		// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
+	//		GameObject* t_ObjectAGame = m_GameObjects[i];
+	//		GameObject* t_ObjectBGame = m_GameObjects[j];
+
+	//		RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
+	//		RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
+
+	//		// See if there is a Collider on the rigidbody
+	//		if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
+	//		{
+	//			// NOTE: Calculation of GJK Collider
+	//			t_ColManifold = m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider());
+
+	//			// Check the Collision with Code, NOTE: There should be a collision more or less with each other
+	//			if (t_ColManifold.hasCollision == true)
+	//			{
+	//				// NOTE: Material Coef Calculation
+	//				MaterialCoefficient t_MaterialCoef;
+	//				double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+	//				double t_Rep = 0.01;
+
+	//				// NOTE: Resolve Collision
+	//				t_ColManifold.penetrationDepth = 1.0;
+	//				t_ColManifold.collisionNormal = t_ObjectAGame->GetTransform()->GetPosition() - t_ObjectBGame->GetTransform()->GetPosition();
+
+	//				ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+	//			}
+	//		}
+
+	//		// Clear Collision Manifold
+	//		t_ColManifold = CollisionManifold();
+	//	}
+	//}
 }
 
 void GJKScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal)
@@ -80,48 +148,3 @@ void GJKScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* obje
 	objectA->ApplyImpulse(normal * t_J);
 	objectB->ApplyImpulse(normal * t_J * -1);
 }
-
-void GJKScreen::ProcessGJK(const float deltaTime)
-{
-	// Collision Manifold
-	CollisionManifold t_ColManifold;
-
-	// Collision Checks
-	for (int i = 0; i < m_GameObjects.size(); ++i)
-	{
-		for (int j = 0; j < m_GameObjects.size(); ++j)
-		{
-			// Do not do the Same Game Object
-			if (i == j) { continue; }
-
-			// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
-			GameObject* t_ObjectAGame = m_GameObjects[i];
-			GameObject* t_ObjectBGame = m_GameObjects[j];
-
-			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
-			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
-
-			// See if there is a Collider on the rigidbody
-			if (t_ObjectARig->IsCollideable() && t_ObjectBRig->IsCollideable())
-			{
-				// Check the Collision with Code, NOTE: There should be a collision more or less with each other
-				if (m_GJKCollider->GJKCollision(t_ObjectAGame->GetCollider(), t_ObjectBGame->GetCollider()) == true)
-				{
-					// NOTE: Material Coef Calculation
-					MaterialCoefficient t_MaterialCoef;
-					double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-					double t_Rep = 0.01;
-
-					// NOTE: Resolve Collision
-					t_ColManifold.penetrationDepth = 1.0;
-					t_ColManifold.collisionNormal = t_ObjectAGame->GetTransform()->GetPosition() - t_ObjectBGame->GetTransform()->GetPosition();
-					ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
-				}
-			}
-
-			// Clear Collision Manifold
-			t_ColManifold = CollisionManifold();
-		}
-	}
-}
-

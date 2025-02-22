@@ -9,12 +9,15 @@
 // CUSTOM INCLUDE(s)
 #include "Screen.h"
 #include "GJKCollider.h"
+#include "Octree.h"
 
 class GJKScreen : public Screen
 {
 private:
 
 	GJKCollider* m_GJKCollider;
+	Octree* m_Octree;
+	Octant* m_Tree;
 
 public:
 

@@ -36,7 +36,7 @@ public:
 	~GJKCollider();
 
 	// BASE FUNCTION(s)
-	bool GJKCollision(Collider* colliderA, Collider* colliderB);
+	CollisionManifold GJKCollision(Collider* colliderA, Collider* colliderB);
 	bool NextSimplex(Simplex& points, Vector3& direction);
 	
 

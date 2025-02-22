@@ -80,11 +80,9 @@ CollisionManifold SATCollider::SATCollision(GameObject& objectA, GameObject& obj
 
 	t_CollisionManifold.hasCollision = true;
 	t_CollisionManifold.collisionNormal = objectA.GetTransform()->GetPosition() - objectB.GetTransform()->GetPosition();
-	t_CollisionManifold;
+	t_CollisionManifold.penetrationDepth = 1.0;
 
-	return t_CollisionManifold;
-
-	return true; // Seperating Axis not Found (There was Collision)
+	return t_CollisionManifold;  // Seperating Axis not Found (There was Collision)
 }
 
 bool SATCollider::OverlapOnAxis(GameObject& satA, GameObject& satB, Vector3& axis)

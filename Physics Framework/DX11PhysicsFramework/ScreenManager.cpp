@@ -114,7 +114,7 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device);
+	m_CurrentScreen = new SATScreen("ExpandingPolytopeAlgorithmScreen", _device);
 
 	return S_OK;
 }

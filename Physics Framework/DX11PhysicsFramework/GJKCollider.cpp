@@ -10,7 +10,7 @@ GJKCollider::~GJKCollider()
 
 }
 
-bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
+CollisionManifold GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 {
 	Vector3 t_Support = Support(colliderA, colliderB, Vector3(1, 0, 0));
 
@@ -20,7 +20,7 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 	Vector3 t_Direction = t_Support * -1;
 
-	for (int i = 0; i < 1000; ++i)
+	for (int i = 0; i < 4; ++i)
 	{
 		// NOTE: Check the Collider A and ColliderB Context
 		t_Support = Support(colliderA, colliderB, t_Direction);
@@ -35,10 +35,16 @@ bool GJKCollider::GJKCollision(Collider* colliderA, Collider* colliderB)
 
 		if (NextSimplex(t_Points, t_Direction)) 
 		{ 
+			CollisionManifold t_CollisionManifold = CollisionManifold();
+
 			m_OutSimplex = t_Points;
 			t_Points = Simplex();
-			i = 0;
-			return true; 
+
+			t_CollisionManifold.collisionNormal;
+			t_CollisionManifold.penetrationDepth = 1.0f;
+			t_CollisionManifold.hasCollision = true;
+
+			return t_CollisionManifold; 
 		}
 	}
 }

@@ -11,6 +11,8 @@
 #include "EPACollider.h"
 #include "GJKCollider.h"
 
+#include "Timer.h"
+
 constexpr int TREE_DEPTH = 20;
 constexpr int OBJECT_SPLIT = 10;
 
@@ -70,7 +72,7 @@ public: // PUBLIC FUNCTION(s)
 	void ClearOctant(int index);
 	void ClearOctant(Octant* tree, int index);
 
-	void ResolveCollision(GameObject* objectA, GameObject* objectB, float CoefRest, Vector3 normal);
+	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
 
 	// GETTER FUNCTION(s)
 	inline Octant* GetOctant() const { return m_Octant; }
