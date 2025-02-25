@@ -20,7 +20,7 @@ CollisionManifold GJKCollider::GJKCollision(Collider* colliderA, Collider* colli
 
 	Vector3 t_Direction = t_Support * -1;
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		// NOTE: Check the Collider A and ColliderB Context
 		t_Support = Support(colliderA, colliderB, t_Direction);
@@ -40,7 +40,7 @@ CollisionManifold GJKCollider::GJKCollision(Collider* colliderA, Collider* colli
 			m_OutSimplex = t_Points;
 			t_Points = Simplex();
 
-			t_CollisionManifold.collisionNormal;
+			t_CollisionManifold.collisionNormal = colliderA->GetPosition() - colliderB->GetPosition();
 			t_CollisionManifold.penetrationDepth = 1.0f;
 			t_CollisionManifold.hasCollision = true;
 
@@ -170,7 +170,7 @@ bool GJKCollider::Tetrahedron(Simplex& points, Vector3& direction)
 bool GJKCollider::SameDirection(Vector3 direction, Vector3 Ao)
 {
 	// NOTE: Calculate the direction of the vectors pointing in the direction of the AO
-	return Vector::CalculateDotProduct(direction, Ao) > 0; // FIXME: May not need to be not norm dot product
+	return Vector::CalculateDotProduct(direction, Ao) > 0;
 }
 
 Vector3 GJKCollider::Support(Collider* colliderA, Collider* colliderB, Vector3 direction)

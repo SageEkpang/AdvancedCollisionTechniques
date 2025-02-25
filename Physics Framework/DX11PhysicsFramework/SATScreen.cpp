@@ -17,7 +17,7 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	// NOTE: Init 50 Objects for Testing Collosions
 	srand(time(NULL));
 
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 50; ++i)
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
@@ -55,83 +55,6 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 
 		InsertObjectIntoList(t_CubeObject);
 	}
-
-	//{
-	//	// Cube Object
-	//	GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
-	//	Transform* t_CubeTransform = new Transform();
-	//	Render* t_CubeRender = new Render(t_CubeTransform);
-	//	RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
-
-	//	Vector3 t_Rotation = Vector3(1, 1, 1);
-	//	Collider* t_CubeCollider = new BoxCollider(t_CubeTransform);
-
-	//	// Transform
-	//	t_CubeObject->SetTransform(t_CubeTransform);
-	//	t_CubeTransform->SetRotation(t_Rotation);
-	//	t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
-
-	//	t_CubeTransform->SetPosition(-10, 5, 0);
-
-	//	// Rigidbody 
-	//	t_CubeObject->SetRigidbody(t_CubeRigidbody);
-	//	t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
-	//	t_CubeRigidbody->SetCollider(t_CubeCollider);
-
-	//	// Collision
-	//	t_CubeObject->SetCollider(t_CubeCollider);
-	//	t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
-
-	//	// Rendering
-	//	t_CubeObject->SetRender(t_CubeRender);
-	//	t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
-	//	t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
-
-	//	InsertObjectIntoList(t_CubeObject);
-	//}
-
-	//{
-	//	// Cube Object
-	//	GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
-	//	Transform* t_CubeTransform = new Transform();
-	//	Render* t_CubeRender = new Render(t_CubeTransform);
-	//	RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
-
-	//	Vector3 t_Rotation = Vector3(1, 1, 1);
-	//	Collider* t_CubeCollider = new BoxCollider(t_CubeTransform);
-
-	//	// Transform
-	//	t_CubeObject->SetTransform(t_CubeTransform);
-	//	t_CubeTransform->SetRotation(t_Rotation);
-	//	t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
-
-	//	t_CubeTransform->SetPosition(5, 5, 0);
-
-	//	// Rigidbody 
-	//	t_CubeObject->SetRigidbody(t_CubeRigidbody);
-	//	t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
-	//	t_CubeRigidbody->SetCollider(t_CubeCollider);
-
-	//	// Collision
-	//	t_CubeObject->SetCollider(t_CubeCollider);
-	//	t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
-
-	//	// Rendering
-	//	t_CubeObject->SetRender(t_CubeRender);
-	//	t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
-	//	t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
-
-	//	InsertObjectIntoList(t_CubeObject);
-	//}
-
-
-
-
-
-
-
-
-
 }
 
 SATScreen::~SATScreen()
@@ -157,8 +80,6 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 	{
 		RandomImpulseDirection(deltaTime);
 	}
-
-	m_GameObjects[0]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
 
 	// NOTE: Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -186,11 +107,8 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 				double t_Rep = 0.1;
 
 				CollisionContact t_ColContact;
-				// t_ColContact.ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, t_Rep, deltaTime, t_ColManifold.collisionNormal);
-				// t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, 0.0001, t_ColManifold.collisionNormal);
-				t_ColContact.ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, 1.0, deltaTime, t_ColManifold.collisionNormal);
-				t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, 1.0, t_ColManifold.collisionNormal);
-				// ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+				t_ColContact.ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, 0.1, deltaTime, t_ColManifold.collisionNormal);
+				t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, 0.1, t_ColManifold.collisionNormal);
 			}
 		}
 	}

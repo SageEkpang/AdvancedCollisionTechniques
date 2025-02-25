@@ -10,7 +10,46 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	m_Octree = new Octree(Vector3(10, 10, 10), 60, 3);
 
 	srand(time(NULL));
-	for (int i = 0; i < 50; ++i)
+	//for (int i = 0; i < 50; ++i)
+	//{
+	//	// Cube Object
+	//	GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
+	//	Transform* t_CubeTransform = new Transform();
+	//	Render* t_CubeRender = new Render(t_CubeTransform);
+	//	RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
+
+	//	Vector3 t_Rotation = Vector3(0, 0, 0);
+	//	Collider* t_CubeCollider = new BoxCollider(t_CubeTransform);
+
+	//	// Transform
+	//	t_CubeObject->SetTransform(t_CubeTransform);
+	//	t_CubeTransform->SetRotation(t_Rotation);
+	//	t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
+
+	//	float t_RandX = (rand() % MAX_X) * 2 - (MAX_X / 2);
+	//	float t_RandY = rand() % MAX_X;
+	//	float t_RandZ = (rand() % MAX_Z) * 2 - (MAX_Z / 2);
+
+	//	t_CubeTransform->SetPosition(t_RandX, 10.0f + t_RandY, t_RandZ);
+
+	//	// Rigidbody 
+	//	t_CubeObject->SetRigidbody(t_CubeRigidbody);
+	//	t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
+	//	t_CubeRigidbody->SetCollider(t_CubeCollider);
+
+	//	// Collision
+	//	t_CubeObject->SetCollider(t_CubeCollider);
+	//	t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
+
+	//	// Rendering
+	//	t_CubeObject->SetRender(t_CubeRender);
+	//	t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
+	//	t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
+
+	//	InsertObjectIntoList(t_CubeObject);
+	//}
+
+	
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
@@ -26,11 +65,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 		t_CubeTransform->SetRotation(t_Rotation);
 		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
 
-		float t_RandX = (rand() % MAX_X) * 2 - (MAX_X / 2);
-		float t_RandY = rand() % MAX_X;
-		float t_RandZ = (rand() % MAX_Z) * 2 - (MAX_Z / 2);
-
-		t_CubeTransform->SetPosition(t_RandX, 10.0f + t_RandY, t_RandZ);
+		t_CubeTransform->SetPosition(0, 5.f, 0);
 
 		// Rigidbody 
 		t_CubeObject->SetRigidbody(t_CubeRigidbody);
@@ -48,6 +83,42 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 
 		InsertObjectIntoList(t_CubeObject);
 	}
+
+	{
+		// Cube Object
+		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
+		Transform* t_CubeTransform = new Transform();
+		Render* t_CubeRender = new Render(t_CubeTransform);
+		RigidbodyObject* t_CubeRigidbody = new RigidbodyObject(t_CubeTransform, 1.0f);
+
+		Vector3 t_Rotation = Vector3(0, 0, 0);
+		Collider* t_CubeCollider = new BoxCollider(t_CubeTransform);
+
+		// Transform
+		t_CubeObject->SetTransform(t_CubeTransform);
+		t_CubeTransform->SetRotation(t_Rotation);
+		t_CubeTransform->SetScale(1.0f, 1.0f, 1.0f);
+
+		t_CubeTransform->SetPosition(5, 5.f, 0);
+
+		// Rigidbody 
+		t_CubeObject->SetRigidbody(t_CubeRigidbody);
+		t_CubeRigidbody->SetMaterial(MaterialTypes::MATERIAL_SILICON);
+		t_CubeRigidbody->SetCollider(t_CubeCollider);
+
+		// Collision
+		t_CubeObject->SetCollider(t_CubeCollider);
+		t_CubeCollider->FillVerticesArray("Resources\\OBJ\\cube.obj", t_CubeTransform);
+
+		// Rendering
+		t_CubeObject->SetRender(t_CubeRender);
+		t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
+		t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
+
+		InsertObjectIntoList(t_CubeObject);
+	}
+
+
 }
 
 EPAScreen::~EPAScreen()
@@ -80,6 +151,9 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 	//m_Octree->QueryTree(GJKAlgo, print);
 
 	// if (GetAsyncKeyState(VK_RETURN) & 0x000001) { CreatePhysicsObject(device); }
+
+
+	m_GameObjects[0]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -115,7 +189,9 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 						double t_Rep = 0.001;
 						
 						// NOTE: Resolve Collision
-						ResolveCollision(t_ObjectAGame, t_ObjectBGame, t_Rep, t_ColManifold.collisionNormal);
+						CollisionContact t_ColContact;
+						t_ColContact.ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, 8.0, deltaTime, t_ColManifold.collisionNormal);
+						t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, (float)t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
 					}
 				}
 			}

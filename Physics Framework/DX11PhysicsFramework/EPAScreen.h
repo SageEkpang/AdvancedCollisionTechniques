@@ -11,6 +11,8 @@
 #include "GJKCollider.h"
 #include "Octree.h"
 
+#include "CollisionContact.h"
+
 class EPAScreen : public Screen
 {
 private:

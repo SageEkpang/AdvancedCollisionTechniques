@@ -53,6 +53,8 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device)
 
 		InsertObjectIntoList(t_CubeObject);
 	}
+
+
 }
 
 GJKScreen::~GJKScreen()
@@ -65,8 +67,6 @@ void GJKScreen::Update(float deltaTime, ID3D11Device* device)
 	Screen::Update(deltaTime, device);
 	ProcessGJK(deltaTime);
 }
-
-
 
 void GJKScreen::ProcessGJK(const float deltaTime)
 {
@@ -82,6 +82,8 @@ void GJKScreen::ProcessGJK(const float deltaTime)
 
 	//// NOTE: Query the Different parts of the Tree
 	//for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree, 1); }
+
+	m_GameObjects[0]->GetRigidbody()->AddForce(Vector3(1, 0, 0));
 
 	// Collision Checks
 	for (int i = 0; i < m_GameObjects.size(); ++i)
@@ -109,14 +111,13 @@ void GJKScreen::ProcessGJK(const float deltaTime)
 				{
 					// NOTE: Material Coef Calculation
 					MaterialCoefficient t_MaterialCoef;
-					double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+					// double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
 					double t_Rep = 0.0001;
 
 					// NOTE: Resolve Collision
-					t_ColManifold.penetrationDepth = 1.0;
-					t_ColManifold.collisionNormal = t_ObjectAGame->GetTransform()->GetPosition() - t_ObjectBGame->GetTransform()->GetPosition();
-
-					ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+					CollisionContact t_ColContact;
+					t_ColContact.ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, 0.001, deltaTime, t_ColManifold.collisionNormal);
+					t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, 1, t_ColManifold.collisionNormal);
 				}
 			}
 		}

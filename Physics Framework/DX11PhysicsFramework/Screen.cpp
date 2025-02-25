@@ -12,7 +12,6 @@ Screen::Screen(std::string screenName, ID3D11Device* device)
 
 		float t_BorderLimit = 10000.f;
 
-
 		// Transform
 		m_GroundPlane->SetTransform(t_PlaneTransform);
 		t_PlaneTransform->SetScale(t_BorderLimit, 1.0f, t_BorderLimit);
