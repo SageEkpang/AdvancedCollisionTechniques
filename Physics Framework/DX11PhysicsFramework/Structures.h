@@ -379,20 +379,6 @@ typedef struct Vector3
 #define VECTOR3_DOWN Vector3{0, -1, 0}
 #define VECTOR3_FORWARD Vector3{0, 0, 1}
 
-typedef struct Ray
-{
-	const Vector3 S;
-	const Vector3 V;
-	const float vInvLengthSquared;
-
-	Ray(const Vector3& S, const Vector3& V)
-		: S(S), V(V), vInvLengthSquared( 1 / this->V.LengthSquared())
-	{
-
-	}
-
-}Ray;
-
 typedef struct VertexDataSource
 {
 	const Vector3* ptr;

@@ -12,7 +12,6 @@ SATCollider::~SATCollider()
 	
 }
 
-
 CollisionManifold SATCollider::SATCollision(GameObject& objectA, GameObject& objectB)
 {
 	CollisionManifold t_CollisionManifold;
@@ -132,12 +131,12 @@ Interval SATCollider::GetIntervalOr(GameObject& object, Vector3& axis)
 	t_Vertex[7] = (t_Position - t_Axis[0] * t_Size.x - t_Axis[1] * t_Size.y + t_Axis[2] * t_Size.z);
 
 	Interval t_Result;
-	t_Result.max = Vector::CalculateDotProduct(axis, t_Vertex[0]);
-	t_Result.min = Vector::CalculateDotProduct(axis, t_Vertex[0]);
+	t_Result.max = Vector::CalculateDotProductNotNorm(axis, t_Vertex[0]);
+	t_Result.min = Vector::CalculateDotProductNotNorm(axis, t_Vertex[0]);
 
 	for (int i = 1; i < 8; ++i)
 	{
-		float t_Projection = Vector::CalculateDotProduct(axis, t_Vertex[i]);
+		float t_Projection = Vector::CalculateDotProductNotNorm(axis, t_Vertex[i]);
 		t_Result.min = (t_Projection < t_Result.min) ? t_Projection : t_Result.min;
 		t_Result.max = (t_Projection > t_Result.max) ? t_Projection : t_Result.max;
 	}

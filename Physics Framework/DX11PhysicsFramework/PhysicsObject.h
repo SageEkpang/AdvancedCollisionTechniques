@@ -48,11 +48,11 @@ protected:
 
 
 	// Simulation Variables
-	bool m_SimulateGravity = true;
+	bool m_SimulateGravity = false;
 	bool m_UseAcceleration = false;
 	bool m_UseVelocity = true;
-	bool m_UseFriction = false; // NOTE: This is a dampinging value of the project
-	bool m_UseDrag = true;
+	bool m_UseFriction = false;
+	bool m_UseDrag = false;
 
 
 public:

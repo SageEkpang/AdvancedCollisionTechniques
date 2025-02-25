@@ -19,7 +19,6 @@ private:
 
 	SATCollider* m_SatCollider;
 	Octree* m_Octree;
-	Octant* m_Tree;
 
 public:
 
@@ -37,6 +36,7 @@ public:
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime, ID3D11Device* device) override;
+	void RandomImpulseDirection(float deltaTime);
 
 	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
 };

@@ -30,11 +30,9 @@ void PhysicsObject::Update(float deltaTime)
 	if (m_Mass == 0) return;
 
 	// NET FORCE ACCUMULATION
-	// if (m_SimulateGravity) { m_NetForce += GravityForce(); }
-
-	// TODO: Turn these back on when done with the physics implementation
-	// if (m_UseDrag) { m_NetForce += DragForce(); }
-	// if (m_UseFriction) { m_NetForce += FrictionForce(); }
+	if (m_SimulateGravity) { m_NetForce += GravityForce(); }
+	if (m_UseDrag) { m_NetForce += DragForce(); }
+	if (m_UseFriction) { m_NetForce += FrictionForce(); }
 
 	CalculateAcceleration(deltaTime);
 
@@ -44,14 +42,15 @@ void PhysicsObject::Update(float deltaTime)
 
 Vector3 PhysicsObject::FrictionForce()
 {
-	float NormalForce = m_Gravity * m_Mass; // NOTE: This would be the normal of the ground to the object.
-	float CoefFric = 0.9; // Friction Coefficent
-	float Friction = CoefFric * NormalForce;
+	float t_NormalForce = m_Gravity * m_Mass; // NOTE: This would be the normal of the ground to the object.
+	float t_CoefFric = 0.9; // Friction Coefficent
+	float t_Friction = t_CoefFric * t_NormalForce;
+	float t_Dampening = 0.5; // Dampen the Friction Force
 
 	// Intergration
-	Vector3 CopyVelocity = m_Velocity * -1;
-	CopyVelocity = Vector::Normalise(CopyVelocity) * std::abs(Friction);
-	return CopyVelocity;
+	Vector3 t_CopyVelocity = m_Velocity * -1;
+	t_CopyVelocity = Vector::Normalise(t_CopyVelocity) * std::abs(t_Friction);
+	return t_CopyVelocity;
 }
 
 Vector3 PhysicsObject::DragForce()

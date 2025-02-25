@@ -28,12 +28,9 @@ public:
 
 	MemoryPool* m_MemoryPool;
 
-
 	// CLASS FUNCTION(s)
 	MemoryPool(size_t spaceCount);
 	~MemoryPool();
-
-
 
 	// BASE FUNCTION(s)
 	void* Alloc(size_t size);

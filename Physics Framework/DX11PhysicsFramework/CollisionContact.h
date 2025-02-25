@@ -17,7 +17,6 @@ class CollisionContact
 private:
 
 	CollisionManifold m_CollisionManifold;
-
 	Vector3 m_ContactPoint;
 
 protected:
@@ -33,8 +32,8 @@ public:
 
 	// BASE FUNCTION(s)
 
-	/// <summary> Resolve Collision Code for the Collision of the Game Objects
-	void ResolveCollision(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration);
+	/// <summary> Resolve Collision Code for the Collision of the Game Objects <summary>
+	void ResolveCollision(GameObject* rigidbodyObjectA, GameObject* rigidbodyObjectB, float CoefRest, float duration);
 
 	void ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration, Vector3 collisionNormal);
 	void ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB, float penetration, Vector3 contactNormal);

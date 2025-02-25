@@ -3,19 +3,17 @@
 CollisionContact::CollisionContact()
 {
 
-
 }
 
 CollisionContact::~CollisionContact()
 {
 
-
 }
 
-void CollisionContact::ResolveCollision(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration)
+void CollisionContact::ResolveCollision(GameObject* rigidbodyObjectA, GameObject* rigidbodyObjectB, float CoefRest, float duration)
 {
 	// ResolveVelocityAlt(rigidbodyObjectA, rigidbodyObjectB, CoefRest, duration);
-	// ResolveInterpenetration(rigidbodyObjectA, rigidbodyObjectB);
+	// ResolveInterpenetration(rigidbodyObjectA, rigidbodyObjectB, );
 }
 
 // NOTE: The above function is the same as the below, but the below function factors in the accerlation of the objects as well as velocity, use below function instead
@@ -68,7 +66,7 @@ void CollisionContact::ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, Rig
 
 	// Apply impulses: they are applied in the direction of the contact, and are proportional to the inverse mass
 	Vector3 t_ImpulsePerMass = collisionNormal * t_Impulse;
-	float dampening = 0.9;
+	float dampening = 0.0001;
 
 	rigidbodyObjectA->ApplyImpulse(t_ImpulsePerMass * rigidbodyObjectA->GetInverseMass() * dampening);
 	rigidbodyObjectB->ApplyImpulse(t_ImpulsePerMass * -rigidbodyObjectB->GetInverseMass() * dampening);
