@@ -7,7 +7,7 @@ MassAggScreen::MassAggScreen(std::string screenName, ID3D11Device* device)
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_MASS_ARG_SCREEN;
 
 	// NOTE: Box Mass Aggregate System
-	Vector3 t_Position[5] = {
+	Vector3 t_Position[4] = {
 		Vector3(0, 5, 3),
 		Vector3(0, 5, 10),
 		Vector3(10, 5, 10),
@@ -34,12 +34,14 @@ MassAggScreen::~MassAggScreen()
 
 void MassAggScreen::Update(float deltaTime, ID3D11Device* device)
 {
+	// NOTE: Update the Mass Screen
 	Screen::Update(deltaTime, device);
 	for (auto& v : m_MassObjects) { v->Update(deltaTime); }
 }
 
 void MassAggScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
+	// NOTE: Draw the Mass Screen
 	Screen::Draw(constantBufferData, constBuff, pImmediateContext, device);
 	for (auto& v : m_MassObjects) { v->Draw(constantBufferData, constBuff, pImmediateContext, device); }
 }

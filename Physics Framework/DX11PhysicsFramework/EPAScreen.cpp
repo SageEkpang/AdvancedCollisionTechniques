@@ -117,7 +117,8 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 						// NOTE: Resolve Collision
 						CollisionContact t_ColContact;
 						t_ColContact.ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, 0.001, deltaTime, t_ColManifold.collisionNormal);
-						t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, (float)t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
+						// t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, (float)t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
+						t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, 0.1, t_ColManifold.collisionNormal);
 					}
 				}
 			}

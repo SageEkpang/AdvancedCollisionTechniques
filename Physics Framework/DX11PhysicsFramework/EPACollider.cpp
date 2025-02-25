@@ -67,16 +67,16 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 		}
 
 		// NOTE: Quick Check just to make sure that the unique edge does not repeat;
-		//if (t_UniqueEdges.empty())
-		//{
-		//	CollisionManifold t_ColMan = CollisionManifold();
+		if (t_UniqueEdges.empty())
+		{
+			CollisionManifold t_ColMan = CollisionManifold();
 
-		//	t_ColMan.penetrationDepth = t_MinimumDistance + 0.001f;
-		//	t_ColMan.collisionNormal = t_MinimumNormal;
-		//	t_ColMan.hasCollision = false;
-		//	t_ColMan.contactPointCount = 1.0;
-		//	return t_ColMan;
-		//}
+			t_ColMan.penetrationDepth = t_MinimumDistance + 0.001f;
+			t_ColMan.collisionNormal = t_MinimumNormal;
+			t_ColMan.hasCollision = false;
+			t_ColMan.contactPointCount = 1.0;
+			return t_ColMan;
+		}
 
 		// NOTE: Work out if the New Faces and the Unique Edges match
 		std::vector<size_t> t_NewFaces;

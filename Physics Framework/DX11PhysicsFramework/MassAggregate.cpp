@@ -40,27 +40,53 @@ MassAggregate::~MassAggregate()
 void MassAggregate::Update(float deltaTime)
 {
 	// NOTE: Update Particles
-	for (auto& v : m_MassPoints)
+	if (GetAsyncKeyState(VK_RETURN))
 	{
-		// NOTE: The particle does not have mass, so do not do anything with it
-		if (v->GetMass() <= 0) { return; }
-
-		// NOTE: Apply Gravity to Objects
-		v->ApplyImpulse(v->GetGravity() * deltaTime);
-		
-		// NOTE: Resolve Position for the Floor // NOTE: "0" = floor
-		if (v->GetPosition().y < 0)
+		for (auto& v : m_MassPoints)
 		{
-			v->SetPosition(Vector3(v->GetPosition().x, 0, v->GetPosition().z));
-			float t_Dampening = 0.01f;
-			v->SetVelocity(Vector3(v->GetVelocity().x, -v->GetVelocity().y * t_Dampening, v->GetVelocity().z));
+			v->ApplyImpulse(Vector3(0, 1, 0));
 		}
-
-		v->Update(deltaTime);
 	}
 
+	bool t_ApplyGravity = false;
+	for (int i = 0; i < m_MassPoints.size(); ++i)
+	{
+		// NOTE: Checks if the particle mass is not 0
+		if (m_MassPoints[i]->GetMass() <= 0) { return; }
+
+		// NOTE: Check if all the mass points are in the air or if one is touching the ground
+		for (int j = 0; j < m_MassPoints.size(); ++j)
+		{
+			if (m_MassPoints[j]->GetPosition().y > 0)
+			{
+				t_ApplyGravity = true;
+			}
+			else
+			{
+				t_ApplyGravity = false;
+				// continue;
+			}
+		}
+
+		// NOTE: This checks and applies the mass for the objects
+		if (t_ApplyGravity == true)
+		{
+			m_MassPoints[i]->ApplyImpulse(m_MassPoints[i]->GetGravity() * 2 * deltaTime);
+		}
+
+		if (m_MassPoints[i]->GetPosition().y < 0)
+		{
+			m_MassPoints[i]->SetPosition(Vector3(m_MassPoints[i]->GetPosition().x, 0, m_MassPoints[i]->GetPosition().z));
+			float t_Dampening = 0.01f;
+			m_MassPoints[i]->SetVelocity(Vector3(m_MassPoints[i]->GetVelocity().x, -m_MassPoints[i]->GetVelocity().y * t_Dampening, m_MassPoints[i]->GetVelocity().z));
+		}
+
+		m_MassPoints[i]->Update(deltaTime);
+	}
+
+
 	// NOTE: Rod Code
-	#pragma region MyRegion
+	#pragma region Rod Mass Code
 
 	for (int i = 0; i < m_MassPoints.size(); ++i)
 	{
@@ -91,24 +117,6 @@ void MassAggregate::Update(float deltaTime)
 
 			m_MassPoints[i]->SetPosition(t_TargetPosA);
 			m_MassPoints[j]->SetPosition(t_TargetPosB);
-
-
-			//if (t_CurrentLength >= m_Size)
-			//{
-			//	t_ColManifold.collisionNormal = t_Normal.Normalise();
-			//	t_ColManifold.penetrationDepth = t_CurrentLength - m_Size;
-
-			//	ResolveVelocity(m_MassPoints[i], m_MassPoints[j], deltaTime, t_ColManifold.collisionNormal);
-			//	ResolveInterpenetrationAlt(m_MassPoints[i], m_MassPoints[j], t_ColManifold.penetrationDepth, deltaTime, t_ColManifold.collisionNormal);
-			//}
-			//else
-			//{
-			//	t_ColManifold.collisionNormal = -t_Normal.Normalise();
-			//	t_ColManifold.penetrationDepth = m_Size - t_CurrentLength;
-
-			//	ResolveVelocity(m_MassPoints[i], m_MassPoints[j], deltaTime, t_ColManifold.collisionNormal);
-			//	ResolveInterpenetrationAlt(m_MassPoints[i], m_MassPoints[j], t_ColManifold.penetrationDepth, deltaTime, t_ColManifold.collisionNormal);
-			//}
 		}
 	}
 
@@ -122,101 +130,6 @@ void MassAggregate::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constB
 	{
 		v->Draw(constantBufferData, constBuff, pImmediateContext, device, Vector3(1, 0, 0));
 	}
-}
-
-void MassAggregate::ResolveVelocity(Particle* particleA, Particle* particleB, float duration, Vector3 collisionNormal)
-{
-	// Find the velocity in the direction of the contact
-	Vector3 t_SeperatingVelocity = CalculateSeparatingVelocity(particleA, particleB, collisionNormal);
-
-	// Check if the Collision needs to be resolved 
-	// If contact is seperating or stationary there is no impulse required
-	if (t_SeperatingVelocity > 0) { return; }
-
-	// Calculate new seperating Velocity
-	Vector3 t_NewSepVelocity = -t_SeperatingVelocity;
-
-	// Calculate a new Delta Velocity
-	Vector3 t_DeltaVelocity = t_NewSepVelocity - t_SeperatingVelocity;
-
-	// Those with a higher mass get a less effect to there mass and inverse mass
-	float t_TotalInverseMass = particleA->GetInverseMass() * GRAVITY_EARTH;
-	if (particleB) { t_TotalInverseMass += particleB->GetInverseMass() * GRAVITY_EARTH; }
-
-	// If all particles have infinite mass, then impulses have no effect
-	if (t_TotalInverseMass <= 0) return;
-
-	// Calculate the impulse to apply
-	Vector3 t_Impulse = t_DeltaVelocity / t_TotalInverseMass;
-
-	// Apply impulses: they are applied in the direction of the contact, and are proportional to the inverse mass
-	Vector3 t_ImpulsePerMass = collisionNormal * t_Impulse * 2;
-
-	particleA->SetVelocity(particleA->GetVelocity() + t_ImpulsePerMass * -particleA->GetInverseMass());
-
-	if (particleB)
-	{
-		particleB->SetVelocity(particleB->GetVelocity() + t_ImpulsePerMass * -particleB->GetInverseMass());
-	}
-}
-
-void MassAggregate::ResolveInterpenetration(Particle* particleA, Particle* particleB, float penetration, float duration, Vector3 collisionNormal)
-{
-	// NOTE: If no penetration, skip this step
-	if (penetration <= 0) return;
-
-	// Move Objects based on Inverse Mass
-	float t_TotalInverseMass = particleA->GetInverseMass();
-	if (particleB) { t_TotalInverseMass += particleB->GetInverseMass(); }
-
-	// If infinite mass, return (Good for stationary / static objects)
-	if (t_TotalInverseMass <= 0) return;
-
-
-	// Find the amount of penetration resolution per unit of inverse mass
-	Vector3 t_MovePerMass = collisionNormal * (penetration / t_TotalInverseMass);
-
-	// Calculate Movement Amount
-	Vector3 t_ParticleMovementA = t_MovePerMass * particleA->GetInverseMass();
-	Vector3 t_ParticleMovementB;
-
-	if (particleB) { t_ParticleMovementB = t_MovePerMass * -particleB->GetInverseMass(); }
-	else { t_ParticleMovementB = Vector3(); }
-
-
-	// Apply Penetration Resolution
-	particleA->GetTransform()->SetPosition(particleA->GetTransform()->GetPosition() + t_ParticleMovementA);
-	if (particleB) { particleB->GetTransform()->SetPosition((particleB->GetTransform()->GetPosition() + t_ParticleMovementB)); }
-}
-
-void MassAggregate::ResolveInterpenetrationAlt(Particle* particleA, Particle* particleB, float penetration, float duration, Vector3 collisionNormal)
-{
-	if (penetration <= 0) return;
-
-	// Move Objects based on Inverse Mass
-	float t_TotalInverseMass = particleA->GetInverseMass();
-	t_TotalInverseMass += particleB->GetInverseMass();
-
-	// If infinite mass, return (Good for stationary / static objects)
-	if (t_TotalInverseMass <= 0) return;
-
-	// Find the amount of penetration resolution per unit of inverse mass
-	Vector3 t_MovePerMass = collisionNormal * (penetration / t_TotalInverseMass);
-
-	// Calculate Movement Amount
-	Vector3 t_ParticleMovementA = t_MovePerMass * particleA->GetInverseMass();
-	Vector3 t_ParticleMovementB = t_MovePerMass * -particleB->GetInverseMass();
-
-	// Apply Penetration Resolution
-	particleA->GetTransform()->SetPosition(particleA->GetTransform()->GetPosition() + t_ParticleMovementA);
-	particleB->GetTransform()->SetPosition(particleB->GetTransform()->GetPosition() + t_ParticleMovementB);
-}
-
-Vector3 MassAggregate::CalculateSeparatingVelocity(Particle* particleA, Particle* particleB, Vector3 contactNormal)
-{
-	Vector3 t_RelativeVelocity = particleA->GetVelocity();
-	if (particleB) { t_RelativeVelocity -= particleB->GetVelocity(); }
-	return t_RelativeVelocity * contactNormal;
 }
 
 void MassAggregate::ClearParticle()
