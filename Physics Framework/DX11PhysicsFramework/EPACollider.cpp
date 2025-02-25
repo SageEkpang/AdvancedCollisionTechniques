@@ -28,20 +28,21 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 
 	// NOTE: n-Polytope of the face, Minimum face normal
 	// NOTE: Calculates the new normals of the Face
-	auto [t_Normals, t_MinFace] = GetFaceNormals(t_Polytope, t_Faces); // TODO: May need to move this into the loop
+	auto [t_Normals, t_MinFace] = GetFaceNormals(t_Polytope, t_Faces);
 
-	Vector3 t_MinNormal;
-	float t_MinDistance = FLT_MAX;
+	Vector3 t_MinimumNormal;
+	float t_MinimumDistance = FLT_MAX;
 
-	t_MinNormal = t_Normals[t_MinFace].xyz();
-	t_MinDistance = t_Normals[t_MinFace].w;
+	t_MinimumNormal = t_Normals[t_MinFace].xyz();
+	t_MinimumDistance = t_Normals[t_MinFace].w;
 
-	Vector3 t_Support = Support(colliderA, colliderB, t_MinNormal);
-	float t_Distance = Vector::CalculateDotProductNotNorm(t_MinNormal, t_Support);
+	Vector3 t_Support = Support(colliderA, colliderB, t_MinimumNormal);
+	float t_Distance = Vector::CalculateDotProductNotNorm(t_MinimumNormal, t_Support);
 
-	if (std::abs(t_Distance - t_MinDistance) > 0.001f)
+	// NOTE: Calculate the Distance to see if the normal face is within range of the point
+	if (std::abs(t_Distance - t_MinimumDistance) > 0.001f)
 	{
-		t_MinDistance = FLT_MAX;
+		t_MinimumDistance = FLT_MAX;
 		std::vector<std::pair<size_t, size_t>> t_UniqueEdges;
 
 		for (size_t i = 0; i < t_Normals.size(); i++)
@@ -50,13 +51,13 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 			{
 				size_t t_F = i * 3;
 
-				AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F,     t_F + 1);
+				AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F, t_F + 1);
 				AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 1, t_F + 2);
 				AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 2, t_F);
 
 				t_Faces[t_F + 2] = t_Faces.back(); t_Faces.pop_back();
 				t_Faces[t_F + 1] = t_Faces.back(); t_Faces.pop_back();
-				t_Faces[t_F    ] = t_Faces.back(); t_Faces.pop_back();
+				t_Faces[t_F] = t_Faces.back(); t_Faces.pop_back();
 
 				t_Normals[i] = t_Normals.back();
 				t_Normals.pop_back();
@@ -70,13 +71,14 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 		{
 			CollisionManifold t_ColMan = CollisionManifold();
 
-			t_ColMan.penetrationDepth = t_MinDistance + 0.001f;
-			t_ColMan.collisionNormal = t_MinNormal;
+			t_ColMan.penetrationDepth = t_MinimumDistance + 0.001f;
+			t_ColMan.collisionNormal = t_MinimumNormal;
 			t_ColMan.hasCollision = false;
 			t_ColMan.contactPointCount = 1.0;
 			return t_ColMan;
 		}
 
+		// NOTE: Work out if the New Faces and the Unique Edges match
 		std::vector<size_t> t_NewFaces;
 		for (auto [edgeIndex1, edgeIndex2] : t_UniqueEdges)
 		{
@@ -87,8 +89,9 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 
 		t_Polytope.push_back(t_Support);
 
-		auto [t_NewNormals, t_NewMinFace] = GetFaceNormals(t_Polytope, t_NewFaces);
+		auto [t_NewNormals, t_NewMinimumFace] = GetFaceNormals(t_Polytope, t_NewFaces);
 
+		// NOTE: Check if the Normal is within the distance from the old distance to calculate the normal distance
 		float t_OldMinDistance = FLT_MAX;
 		for (size_t i = 0; i < t_Normals.size(); i++)
 		{
@@ -99,9 +102,9 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 			}
 		}
 
-		if (t_NewNormals[t_NewMinFace].w < t_OldMinDistance)
+		if (t_NewNormals[t_NewMinimumFace].w < t_OldMinDistance)
 		{
-			t_MinFace = t_NewMinFace + t_Normals.size();
+			t_MinFace = t_NewMinimumFace + t_Normals.size();
 		}
 
 		t_Faces.insert(t_Faces.end(), t_NewFaces.begin(), t_NewFaces.end());
@@ -110,8 +113,8 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 
 	CollisionManifold t_Points;
 	
-	t_Points.collisionNormal = t_MinNormal;
-	t_Points.penetrationDepth = t_MinDistance + 0.001f;
+	t_Points.collisionNormal = t_MinimumNormal;
+	t_Points.penetrationDepth = t_MinimumDistance + 0.001f;
 	t_Points.hasCollision = true;
 	t_Points.contactPointCount = 1.0;
 

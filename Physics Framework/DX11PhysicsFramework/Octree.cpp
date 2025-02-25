@@ -232,11 +232,16 @@ void Octree::QueryTree(CollisionManifold(*CollisionFunc)(GameObject*, GameObject
 			CollisionManifold t_CollisionManifold = CollisionManifold();
 			t_CollisionManifold = CollisionFunc(*t_ObjectA, *t_ObjectB);
 
+			// NOTE: If the collision is true, resolve it
 			if (t_CollisionManifold.hasCollision == true)
 			{
+				// NOTE: Work out the Material Co-efficient
+				// MaterialCoefficient t_MaterialCoef;
+				double t_RestCoef = 1.0;
+				// double t_RestCoef = t_MaterialCoef.MaterialRestCoef((*t_ObjectA)->GetRigidbody()->GetMaterial(), (*t_ObjectB)->GetRigidbody()->GetMaterial());
 
-				float Ref = 1.0f;
-				ResolveFunc(*t_ObjectA, *t_ObjectB, Ref, t_CollisionManifold.collisionNormal);
+				// NOTE: Resolve Collision Function Pointer
+				ResolveFunc(*t_ObjectA, *t_ObjectB, static_cast<float>(t_RestCoef), t_CollisionManifold.collisionNormal);
 			}
 		}
 	}

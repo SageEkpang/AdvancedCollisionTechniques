@@ -17,9 +17,7 @@ private:
 
 	GJKCollider* m_GJKCollider;
 	EPACollider* m_EPACollider;	
-
 	Octree* m_Octree;
-	Octant* m_Tree;
 
 public:
 
@@ -34,7 +32,7 @@ public:
 	// HELPER FUNCTION(s)
 	void ProcessEPA(const float deltaTime, ID3D11Device* device);
 	void CreatePhysicsObject(ID3D11Device* device);
-	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
+	void ResolveCollision(GameObject* objectA, GameObject* objectB, float CoefRest, Vector3 normal);
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime, ID3D11Device* device) override;

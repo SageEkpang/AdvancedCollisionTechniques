@@ -9,15 +9,15 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device)
 	m_SatCollider = new SATCollider();
 
 	// NOTE: Octree Init
-	m_Octree = new Octree();
-	m_Tree = new Octant();
+	//m_Octree = new Octree();
+	//m_Tree = new Octant();
 
-	m_Tree = m_Octree->BuildOctree(Vector3(10, 10, 10), 60, 3);
+	//m_Tree = m_Octree->BuildOctree(Vector3(10, 10, 10), 60, 3);
 
 	// NOTE: Init 100 Objects for Testing Collosions
 	srand(time(NULL));
 
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
@@ -65,52 +65,52 @@ SATScreen::~SATScreen()
 
 void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 {
-	// NOTE: Clear Octree of Values
-	for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
+	//// NOTE: Clear Octree of Values
+	//for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
 
-	// NOTE: Insert Entities
-	for (auto& v : m_GameObjects) { m_Octree->InsertEntity(m_Tree, v); }
+	//// NOTE: Insert Entities
+	//for (auto& v : m_GameObjects) { m_Octree->InsertEntity(m_Tree, v); }
 
-	// NOTE: Update the Tree
-	m_Octree->UpdateTree(m_Tree, deltaTime);
+	//// NOTE: Update the Tree
+	//m_Octree->UpdateTree(m_Tree, deltaTime);
 
-	// NOTE: Query the Different parts of the Tree
-	for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree, 0); }
+	//// NOTE: Query the Different parts of the Tree
+	//for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree, 0); }
 
 
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
 	// NOTE: Collision Checks
-	//for (int i = 0; i < m_GameObjects.size(); ++i)
-	//{
-	//	for (int j = 0; j < m_GameObjects.size(); ++j)
-	//	{
-	//		if (i == j) { continue; }
+	for (int i = 0; i < m_GameObjects.size(); ++i)
+	{
+		for (int j = 0; j < m_GameObjects.size(); ++j)
+		{
+			if (i == j) { continue; }
 
-	//		// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
-	//		GameObject* t_ObjectAGame = m_GameObjects[i];
-	//		GameObject* t_ObjectBGame = m_GameObjects[j];
+			// Get Rigidbody Information from the Objects (Objects Colliding with Each Other)
+			GameObject* t_ObjectAGame = m_GameObjects[i];
+			GameObject* t_ObjectBGame = m_GameObjects[j];
 
-	//		RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
-	//		RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
+			RigidbodyObject* t_ObjectARig = m_GameObjects[i]->GetRigidbody();
+			RigidbodyObject* t_ObjectBRig = m_GameObjects[j]->GetRigidbody();
 
-	//		// NOTE: Clear Collision Manifold
-	//		t_ColManifold = CollisionManifold();
-	//		t_ColManifold = m_SatCollider->SATCollision(*m_GameObjects[i], *m_GameObjects[j]);
+			// NOTE: Clear Collision Manifold
+			t_ColManifold = CollisionManifold();
+			t_ColManifold = m_SatCollider->SATCollision(*m_GameObjects[i], *m_GameObjects[j]);
 
-	//		// NOTE: SAT Collision Test
-	//		if (t_ColManifold.hasCollision == true)
-	//		{
-	//			// Material Coef Calculate
-	//			MaterialCoefficient t_MaterialCoef;
-	//			//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-	//			double t_Rep = 0.1;
+			// NOTE: SAT Collision Test
+			if (t_ColManifold.hasCollision == true)
+			{
+				// Material Coef Calculate
+				MaterialCoefficient t_MaterialCoef;
+				//double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+				double t_Rep = 0.1;
 
-	//			ResolveCollision(t_ObjectARig, t_ObjectARig, t_Rep, t_ColManifold.collisionNormal);
-	//		}
-	//	}
-	//}
+				ResolveCollision(t_ObjectARig, t_ObjectARig, t_Rep, t_ColManifold.collisionNormal);
+			}
+		}
+	}
 }
 
 void SATScreen::Update(float deltaTime, ID3D11Device* device)

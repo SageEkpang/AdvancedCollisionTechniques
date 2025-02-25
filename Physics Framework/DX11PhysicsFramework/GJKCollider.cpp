@@ -69,7 +69,7 @@ bool GJKCollider::Line(Simplex& points, Vector3& direction)
 	Vector3 t_B = points[1];
 
 	Vector3 t_AB = t_B - t_A;
-	Vector3 t_AO =     - t_A;
+	Vector3 t_AO = -t_A;
 
 	if (SameDirection(t_AB, t_AO))
 	{
@@ -93,7 +93,7 @@ bool GJKCollider::Triangle(Simplex& points, Vector3& direction)
 
 	Vector3 t_AB = t_B - t_A;
 	Vector3 t_AC = t_C - t_A;
-	Vector3 t_AO =     - t_A;
+	Vector3 t_AO = -t_A;
 
 	Vector3 t_ABC = Vector::CalculateCrossProductV(t_AB, t_AC);
 
@@ -143,7 +143,7 @@ bool GJKCollider::Tetrahedron(Simplex& points, Vector3& direction)
 	Vector3 t_AB = t_B - t_A;
 	Vector3 t_AC = t_C - t_A;
 	Vector3 t_AD = t_D - t_A;
-	Vector3 t_AO =     - t_A; //     - t_A
+	Vector3 t_AO = -t_A;
 
 	Vector3 t_ABC = Vector::CalculateCrossProductV(t_AB, t_AC);
 	Vector3 t_ACD = Vector::CalculateCrossProductV(t_AC, t_AD);
@@ -170,7 +170,7 @@ bool GJKCollider::Tetrahedron(Simplex& points, Vector3& direction)
 bool GJKCollider::SameDirection(Vector3 direction, Vector3 Ao)
 {
 	// NOTE: Calculate the direction of the vectors pointing in the direction of the AO
-	return Vector::CalculateDotProductNotNorm(direction, Ao) > 0; // FIXME: May not need to be not norm dot product
+	return Vector::CalculateDotProduct(direction, Ao) > 0; // FIXME: May not need to be not norm dot product
 }
 
 Vector3 GJKCollider::Support(Collider* colliderA, Collider* colliderB, Vector3 direction)

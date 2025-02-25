@@ -7,8 +7,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	m_GJKCollider = new GJKCollider();
 	m_EPACollider = new EPACollider();
 
-	m_Octree = new Octree();
-	m_Tree = new Octant();
+	m_Octree = new Octree(Vector3(10, 10, 10), 60, 3);
 
 	srand(time(NULL));
 	for (int i = 0; i < 50; ++i)
@@ -62,22 +61,23 @@ void EPAScreen::Update(float deltaTime, ID3D11Device* device)
 	ProcessEPA(deltaTime, device);
 }
 
+
 void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 {
 	// Collision Manifold
 	CollisionManifold t_ColManifold;
 
 	// NOTE: Clear the Octant of Variables
-	//for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
+	//for (int i = 0; i < 8; ++i) { m_Octree->ClearTree(i); }
 
-	//// NOTE: 
-	//for (auto& object : m_GameObjects) { m_Octree->InsertEntity(m_Tree, object); }
+	// NOTE: 
+	//for (auto& entity : m_GameObjects) { m_Octree->InsertEntity(entity); }
 
-	//// NOTE: Update Tree
-	//m_Octree->UpdateTree(m_Tree, deltaTime);
+	// NOTE: Update Tree
+	//m_Octree->UpdateTree(deltaTime);
 
-	//// Query the Tree
-	//m_Octree->QueryTree(m_Tree, 2);
+	// Query the Tree
+	//m_Octree->QueryTree(GJKAlgo, print);
 
 	// if (GetAsyncKeyState(VK_RETURN) & 0x000001) { CreatePhysicsObject(device); }
 
@@ -110,12 +110,12 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 					if (t_ColManifold.hasCollision == true)
 					{
 						// NOTE: Material Coef Calculate
-						MaterialCoefficient t_MaterialCoef;
+						// MaterialCoefficient t_MaterialCoef;
 						// double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-						double t_Rep = 0.5;
+						double t_Rep = 0.001;
 						
 						// NOTE: Resolve Collision
-						ResolveCollision(t_ObjectARig, t_ObjectBRig, t_Rep, t_ColManifold.collisionNormal);
+						ResolveCollision(t_ObjectAGame, t_ObjectBGame, t_Rep, t_ColManifold.collisionNormal);
 					}
 				}
 			}
@@ -165,10 +165,10 @@ void EPAScreen::CreatePhysicsObject(ID3D11Device* device)
 	InsertObjectIntoList(t_CubeObject);
 }
 
-void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal)
+void EPAScreen::ResolveCollision(GameObject* objectA, GameObject* objectB, float CoefRest, Vector3 normal)
 {
 	// NOTE: Calculate Impulse to push object out of other object
-	Vector3 t_RelativeVelocity = objectA->GetVelocity() - objectB->GetVelocity();
+	Vector3 t_RelativeVelocity = objectA->GetRigidbody()->GetVelocity() - objectB->GetRigidbody()->GetVelocity();
 	float t_Impulse = Vector::CalculateDotProductNotNorm(t_RelativeVelocity, normal);
 
 	// NOTE: Check if there needs to be a seperation between both of the objects
@@ -179,6 +179,6 @@ void EPAScreen::ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* obje
 
 	// NOTE: Output "Impulse" for result
 	float t_J = -(1.0f + t_E) * t_Impulse * t_Dampening;
-	objectA->ApplyImpulse(normal * t_J);
-	objectB->ApplyImpulse(normal * t_J * -1);
+	objectA->GetRigidbody()->ApplyImpulse(normal * t_J);
+	objectB->GetRigidbody()->ApplyImpulse(normal * t_J * -1);
 }
