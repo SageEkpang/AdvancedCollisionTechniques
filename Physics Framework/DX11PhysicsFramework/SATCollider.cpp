@@ -84,6 +84,78 @@ CollisionManifold SATCollider::SATCollision(GameObject& objectA, GameObject& obj
 	return t_CollisionManifold;  // Seperating Axis not Found (There was Collision)
 }
 
+CollisionManifold SATCollider::S_SATCollision(GameObject* objectA, GameObject* objectB)
+{
+	CollisionManifold t_CollisionManifold;
+
+	// NOTE: Fill Orientation Array (A)
+	float t_OrA[9];
+	{
+		t_OrA[0] = objectA->GetTransform()->GetRotation().x;
+		t_OrA[1] = 0;
+		t_OrA[2] = 0;
+
+		t_OrA[3] = 0;
+		t_OrA[4] = objectA->GetTransform()->GetRotation().y;
+		t_OrA[5] = 0;
+
+		t_OrA[6] = 0;
+		t_OrA[7] = 0;
+		t_OrA[8] = objectA->GetTransform()->GetRotation().z;
+	}
+
+	// NOTE: Fill Orientation Array (B)
+	float t_OrB[9];
+	{
+		t_OrB[0] = objectB->GetTransform()->GetRotation().x;
+		t_OrB[1] = 0;
+		t_OrB[2] = 0;
+
+		t_OrB[3] = 0;
+		t_OrB[4] = objectB->GetTransform()->GetRotation().y;
+		t_OrB[5] = 0;
+
+		t_OrB[6] = 0;
+		t_OrB[7] = 0;
+		t_OrB[8] = objectB->GetTransform()->GetRotation().z;
+	}
+
+	// NOTE: Set up tests
+	Vector3 t_Test[15] = {
+		Vector3(t_OrA[0], t_OrA[1], t_OrA[2]),
+		Vector3(t_OrA[3], t_OrA[4], t_OrA[5]),
+		Vector3(t_OrA[6], t_OrA[7], t_OrA[8]),
+
+		Vector3(t_OrB[0], t_OrB[1], t_OrB[2]),
+		Vector3(t_OrB[3], t_OrB[4], t_OrB[5]),
+		Vector3(t_OrB[6], t_OrB[7], t_OrB[8])
+	};
+
+	// NOTE: Insert Differnet Axis into Array
+	for (int i = 0; i < 3; ++i)
+	{
+		t_Test[6 + i * 3 + 0] = Vector::CalculateCrossProductV(t_Test[i], t_Test[0]);
+		t_Test[6 + i * 3 + 1] = Vector::CalculateCrossProductV(t_Test[i], t_Test[1]);
+		t_Test[6 + i * 3 + 2] = Vector::CalculateCrossProductV(t_Test[i], t_Test[2]);
+	}
+
+	// NOTE: Do the Seperating Axis Tests
+	for (int i = 0; i < 15; ++i)
+	{
+		bool t_Overlapping = OverlapOnAxis(*objectA, *objectB, t_Test[i]);
+		if (!t_Overlapping)
+		{
+			return false; // Seperating Axis was found (There is not a collision)
+		}
+	}
+
+	t_CollisionManifold.hasCollision = true;
+	t_CollisionManifold.collisionNormal = objectA->GetTransform()->GetPosition() - objectB->GetTransform()->GetPosition();
+	t_CollisionManifold.penetrationDepth = 1.0;
+
+	return t_CollisionManifold;  // Seperating Axis not Found (There was Collision)
+}
+
 bool SATCollider::OverlapOnAxis(GameObject& satA, GameObject& satB, Vector3& axis)
 {
 	Interval t_A = GetIntervalOr(satA, axis);

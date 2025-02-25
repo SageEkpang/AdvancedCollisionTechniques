@@ -20,6 +20,7 @@ public:
 
 	// BASE FUNCTION(s)
 	CollisionManifold SATCollision(GameObject& objectA, GameObject& objectB);
+	static CollisionManifold S_SATCollision(GameObject* objectA, GameObject* objectB);
 
 	// HELPER FUNCTION(s)
 	static bool OverlapOnAxis(GameObject& satA, GameObject& satB, Vector3& axis);

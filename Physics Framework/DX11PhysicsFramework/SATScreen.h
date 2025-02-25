@@ -19,6 +19,7 @@ private:
 
 	SATCollider* m_SatCollider;
 	Octree* m_Octree;
+	bool m_UseOctree = false;
 
 public:
 
@@ -32,13 +33,11 @@ public:
 
 	// HELPER FUNCTION(s)
 	void ProcessSAT(const float deltaTime, ID3D11Device* device);
-	void CreatePhysicsObject(ID3D11Device* device);
+	static CollisionManifold SATTreeFunc(GameObject* objectA, GameObject* objectB);
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime, ID3D11Device* device) override;
 	void RandomImpulseDirection(float deltaTime);
-
-	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
 };
 
 #endif

@@ -19,6 +19,7 @@ private:
 
 	GJKCollider* m_GJKCollider;
 	Octree* m_Octree;
+	bool m_UseOctree = false;
 
 public:
 
@@ -32,13 +33,13 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
 	void ProcessGJK(const float deltaTime);
 
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
 	void Update(float deltaTime, ID3D11Device* device) override;
+	void RandomImpulseDirection(float deltaTime);
 };
 
 #endif

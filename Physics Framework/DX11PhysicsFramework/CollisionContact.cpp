@@ -108,6 +108,42 @@ void CollisionContact::ResolveInterpenetration(GameObject* gameObjectA, GameObje
 	if (t_TransformB) { t_TransformB->SetPosition(t_TransformB->GetPosition() + t_ParticleMovementB); }
 }
 
+void CollisionContact::S_ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB, float penetration, Vector3 contactNormal)
+{
+	// NOTE: If no penetration, skip this step
+	if (penetration <= 0) return;
+
+	// NOTE: Init Variables
+	RigidbodyObject* t_RigidbodyObjectA = gameObjectA->GetRigidbody();
+	RigidbodyObject* t_RigidbodyObjectB = gameObjectB->GetRigidbody();
+
+	Transform* t_TransformA = gameObjectA->GetTransform();
+	Transform* t_TransformB = gameObjectB->GetTransform();
+
+	// Move Objects based on Inverse Mass
+	float t_TotalInverseMass = t_RigidbodyObjectA->GetInverseMass();
+	if (t_RigidbodyObjectB) { t_TotalInverseMass += t_RigidbodyObjectB->GetInverseMass(); }
+
+	// If infinite mass, return (Good for stationary / static objects)
+	if (t_TotalInverseMass <= 0) return;
+
+
+	// Find the amount of penetration resolution per unit of inverse mass
+	Vector3 t_MovePerMass = contactNormal * (penetration / t_TotalInverseMass);
+
+	// Calculate Movement Amount
+	Vector3 t_ParticleMovementA = t_MovePerMass * t_RigidbodyObjectA->GetInverseMass();
+	Vector3 t_ParticleMovementB;
+
+	if (t_RigidbodyObjectB) { t_ParticleMovementB = t_MovePerMass * -t_RigidbodyObjectB->GetInverseMass(); }
+	else { t_ParticleMovementB = Vector3(); }
+
+
+	// Apply Penetration Resolution
+	t_TransformA->SetPosition(t_TransformA->GetPosition() + t_ParticleMovementA);
+	if (t_TransformB) { t_TransformB->SetPosition(t_TransformB->GetPosition() + t_ParticleMovementB); }
+}
+
 Vector3 CollisionContact::CalculateSeparatingVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, Vector3 contactNormal) const
 {
 	Vector3 t_RelativeVelocity = rigidbodyObjectA->GetVelocity();

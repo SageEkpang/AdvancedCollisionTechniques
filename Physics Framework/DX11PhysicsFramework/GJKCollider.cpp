@@ -49,6 +49,51 @@ CollisionManifold GJKCollider::GJKCollision(Collider* colliderA, Collider* colli
 	}
 }
 
+CollisionManifold GJKCollider::S_GJKCollision(GameObject* objectA, GameObject* objectB)
+{
+	Collider* t_ColliderA = objectA->GetCollider();
+	Collider* t_ColliderB = objectB->GetCollider();
+
+	Vector3 t_Support = Support(t_ColliderA, t_ColliderB, Vector3(1, 0, 0));
+
+	// Simplex is an array of points, max count is 4
+	Simplex t_Points;
+	t_Points.push_front(t_Support);
+
+	Vector3 t_Direction = t_Support * -1;
+
+	for (int i = 0; i < 100; ++i)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(t_ColliderA, t_ColliderB, t_Direction);
+
+		float t_Dis = Vector::CalculateDotProductNotNorm(t_Support, t_Direction); // FIXME: Might need to use the NotNorm version of this
+
+		// NOTE: No Collision
+		if (t_Dis <= 0) { return false; }
+
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction))
+		{
+			CollisionManifold t_CollisionManifold = CollisionManifold();
+
+			t_Points = Simplex();
+
+			t_CollisionManifold.collisionNormal = t_ColliderA->GetPosition() - t_ColliderB->GetPosition();
+			t_CollisionManifold.penetrationDepth = 1.0f;
+			t_CollisionManifold.hasCollision = true;
+
+			return t_CollisionManifold;
+		}
+	}
+
+
+
+	return CollisionManifold();
+}
+
 bool GJKCollider::NextSimplex(Simplex& points, Vector3& direction)
 {
 	switch (points.GetSize())

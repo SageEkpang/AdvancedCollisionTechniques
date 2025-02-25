@@ -8,6 +8,7 @@
 #include "Structures.h"
 #include "Constants.h"
 #include "Vector.h"
+#include "GameObject.h"
 
 // CASES FOR INTERSECTION
 // A Tetrahedron
@@ -37,7 +38,8 @@ public:
 
 	// BASE FUNCTION(s)
 	CollisionManifold GJKCollision(Collider* colliderA, Collider* colliderB);
-	bool NextSimplex(Simplex& points, Vector3& direction);
+	static CollisionManifold S_GJKCollision(GameObject* objectA, GameObject* objectB);
+	static bool NextSimplex(Simplex& points, Vector3& direction);
 	
 
 	// GETTER FUNCTION(s)
@@ -45,13 +47,13 @@ public:
 
 
 	// EXTRA FUNCTION(s)
-	bool Line(Simplex& points, Vector3& direction);
-	bool Triangle(Simplex& points, Vector3& direction);
-	bool Tetrahedron(Simplex& points, Vector3& direction);
+	static bool Line(Simplex& points, Vector3& direction);
+	static bool Triangle(Simplex& points, Vector3& direction);
+	static bool Tetrahedron(Simplex& points, Vector3& direction);
 
 	// HELPER FUNCTION(s)
-	bool SameDirection(Vector3 direction, Vector3 Ao);
-	Vector3 Support(Collider* colliderA, Collider* colliderB, Vector3 direction);
+	static bool SameDirection(Vector3 direction, Vector3 Ao);
+	static Vector3 Support(Collider* colliderA, Collider* colliderB, Vector3 direction);
 };
 
 #endif

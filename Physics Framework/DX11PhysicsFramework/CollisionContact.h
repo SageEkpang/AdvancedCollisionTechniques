@@ -37,6 +37,7 @@ public:
 
 	void ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration, Vector3 collisionNormal);
 	void ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB, float penetration, Vector3 contactNormal);
+	static void S_ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB, float penetration, Vector3 contactNormal);
 
 	// SETTER FUNCTION(s)
 
