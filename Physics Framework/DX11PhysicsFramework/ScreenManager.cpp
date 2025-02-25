@@ -114,7 +114,7 @@ HRESULT ScreenManager::CreateScreens()
 	HRESULT hr = S_OK;
 
 	// Assign Basic Screen to Screen Variable
-	m_CurrentScreen = new MassAggScreen("MassAggregateScreen", _device);
+	m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithmScreen", _device);
 
 	return S_OK;
 }
@@ -185,7 +185,6 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 
 void ScreenManager::TransitionScreen(PhysicsScreenState state)
 {
-	// FIXME: Move to GUI and this will work because of order of Update
 	m_CurrentScreen = nullptr;
 	delete m_CurrentScreen;
 

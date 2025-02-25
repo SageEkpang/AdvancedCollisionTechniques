@@ -37,7 +37,7 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 	t_MinimumDistance = t_Normals[t_MinFace].w;
 
 	Vector3 t_Support = Support(colliderA, colliderB, t_MinimumNormal);
-	float t_Distance = Vector::CalculateDotProductNotNorm(t_MinimumNormal, t_Support);
+	float t_Distance = Vector::CalculateDotProduct(t_MinimumNormal, t_Support);
 
 	// NOTE: Calculate the Distance to see if the normal face is within range of the point
 	if (std::abs(t_Distance - t_MinimumDistance) > 0.001f)
@@ -71,7 +71,7 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 		{
 			CollisionManifold t_ColMan = CollisionManifold();
 
-			t_ColMan.penetrationDepth = t_MinimumDistance + 0.001f;
+			t_ColMan.penetrationDepth = 0.001f;
 			t_ColMan.collisionNormal = t_MinimumNormal;
 			t_ColMan.hasCollision = false;
 			t_ColMan.contactPointCount = 1.0;
@@ -109,13 +109,12 @@ CollisionManifold EPACollider::EPACollision(Simplex& simplex, Collider& collider
 
 		t_Faces.insert(t_Faces.end(), t_NewFaces.begin(), t_NewFaces.end());
 		t_Normals.insert(t_Normals.end(), t_NewNormals.begin(), t_NewNormals.end());
+
 	}
-	
 
 	CollisionManifold t_Points;
-	
 	t_Points.collisionNormal = t_MinimumNormal;
-	t_Points.penetrationDepth = t_MinimumDistance + 0.001f;
+	t_Points.penetrationDepth = t_MinimumDistance + 0.01f;
 	t_Points.hasCollision = true;
 	t_Points.contactPointCount = 1.0;
 
@@ -129,9 +128,8 @@ bool EPACollider::SameDirection(Vector3 direction, Vector3 Ao)
 
 Vector3 EPACollider::Support(Collider& colliderA, Collider& colliderB, Vector3 direction)
 {
-	// REWORK: Rework the collider class so it knows what vertices it has, this is used for this function
 	Vector3 t_TempA = colliderA.FindFurthestPoint(direction);
-	Vector3 t_TempB = colliderB.FindFurthestPoint(-direction); // TODO: Need to actually check if it is working
+	Vector3 t_TempB = colliderB.FindFurthestPoint(-direction);
 
 	return t_TempA - t_TempB;
 }

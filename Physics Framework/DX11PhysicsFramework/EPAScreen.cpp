@@ -10,7 +10,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device)
 	m_Octree = new Octree(Vector3(10, 10, 10), 60, 3);
 
 	srand(time(NULL));
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 40; ++i)
 	{
 		// Cube Object
 		GameObject* t_CubeObject = new GameObject(Tag("Box", PhysicTag::PHYSICS_KINEMATIC));
@@ -65,7 +65,6 @@ void EPAScreen::Update(float deltaTime, ID3D11Device* device)
 void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 {
 	// Collision Manifold
-	CollisionManifold t_ColManifold;
 
 	// NOTE: Clear the Octant of Variables
 	//for (int i = 0; i < 8; ++i) { m_Octree->ClearTree(i); }
@@ -105,26 +104,20 @@ void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 				if (t_GJKManifold.hasCollision == true)
 				{
 					// NOTE: Send Simplex Data to the EPA Collision Code
+					CollisionManifold t_ColManifold;
 					t_ColManifold = m_EPACollider->EPACollision(m_GJKCollider->GetSimplex(), *t_ObjectAGame->GetCollider(), *t_ObjectBGame->GetCollider());
 
-					if (t_ColManifold.hasCollision == true)
-					{
-						// NOTE: Material Coef Calculate
-						// MaterialCoefficient t_MaterialCoef;
-						// double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
-						double t_Rep = 0.001;
+					// NOTE: Material Coef Calculate
+					// MaterialCoefficient t_MaterialCoef;
+					// double t_RestCoef = t_MaterialCoef.MaterialRestCoef(m_GameObjects[i]->GetRigidbody()->GetMaterial(), m_GameObjects[j]->GetRigidbody()->GetMaterial());
+					double t_Rep = 0.001;
 						
-						// NOTE: Resolve Collision
-						CollisionContact t_ColContact;
-						t_ColContact.ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, 0.001, deltaTime, t_ColManifold.collisionNormal);
-						// t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, (float)t_ColManifold.penetrationDepth, t_ColManifold.collisionNormal);
-						t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, 0.1, t_ColManifold.collisionNormal);
-					}
+					// NOTE: Resolve Collision
+					CollisionContact t_ColContact;
+					t_ColContact.ResolveVelocityAlt(t_ObjectARig, t_ObjectBRig, 0.1, deltaTime, t_ColManifold.collisionNormal);
+					t_ColContact.ResolveInterpenetration(t_ObjectAGame, t_ObjectBGame, t_ColManifold.penetrationDepth / t_ColManifold.penetrationDepth * 3, t_GJKManifold.collisionNormal);
 				}
 			}
-
-			// Clear Collision Manifold
-			t_ColManifold = CollisionManifold();
 		}
 	}
 }
