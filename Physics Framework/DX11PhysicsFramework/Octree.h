@@ -40,43 +40,26 @@ private: // PRIVATE VARIABLE(s)
 	Octant* m_Octant;
 	int m_RegionAmount;
 
-	SATCollider* m_SATCollider;
-	GJKCollider* m_GJKCollider;
-	EPACollider* m_EPACollider;
-
 private: // PRIVATE FUNCTION(s)
 
 	// BASE FUNCTION(s)
-
+	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
+	void P_InsertEntity(Octant* tree, GameObject* entity);
+	void P_UpdateTree(Octant* tree, const float deltaTime);
+	void P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObject*, GameObject*), void(*ResolveFunc)(GameObject*, GameObject*, float, Vector3));
+	void P_ClearOctant(Octant* tree, int index);
 
 public: // PUBLIC FUNCTION(s)
 
 	// CLASS FUNCTION(s)
-	Octree();
-	Octree(int regionAmount);
 	Octree(Vector3 centre, float halfWidth, int stopDepth);
 	~Octree();
 
-
 	// BASE FUNCTION(s)
-	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
-
-	void InsertEntity(Octant* tree, GameObject* physicsEntity);
-	void InsertEntities(Octant* tree, std::vector<GameObject*> physicsEntities);
-
-	void UpdateTree(Octant* tree, const float deltaTime);
-
-	void QueryTree();
-	void QueryTree(Octant* octantTree, int i);
-
-	void ClearOctant(int index);
-	void ClearOctant(Octant* tree, int index);
-
-	void ResolveCollision(RigidbodyObject* objectA, RigidbodyObject* objectB, float CoefRest, Vector3 normal);
-
-	// GETTER FUNCTION(s)
-	inline Octant* GetOctant() const { return m_Octant; }
-
+	void InsertEntity(GameObject* entity);
+	void UpdateTree(const float deltaTime);
+	void QueryTree(CollisionManifold (*CollisionFunc)(GameObject*, GameObject*),  void (*ResolveFunc)(GameObject*, GameObject*, float, Vector3));
+	void ClearTree(int index);
 };
 
 #endif

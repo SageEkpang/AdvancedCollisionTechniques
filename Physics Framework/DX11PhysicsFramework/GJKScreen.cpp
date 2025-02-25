@@ -73,16 +73,16 @@ void GJKScreen::ProcessGJK(const float deltaTime)
 {
 
 	// NOTE: Clear Octree of Values
-	for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
+	//for (int i = 0; i < 8; ++i) { m_Octree->ClearOctant(m_Tree, i); }
 
-	// NOTE: Insert Entities
-	for (auto& v : m_GameObjects) { m_Octree->InsertEntity(m_Tree, v); }
+	//// NOTE: Insert Entities
+	//for (auto& v : m_GameObjects) { m_Octree->InsertEntity(m_Tree, v); }
 
-	// NOTE: Update the Tree
-	m_Octree->UpdateTree(m_Tree, deltaTime);
+	//// NOTE: Update the Tree
+	//m_Octree->UpdateTree(m_Tree, deltaTime);
 
-	// NOTE: Query the Different parts of the Tree
-	for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree, 1); }
+	//// NOTE: Query the Different parts of the Tree
+	//for (int i = 0; i < 8; ++i) { m_Octree->QueryTree(m_Tree, 1); }
 
 
 	//// Collision Manifold

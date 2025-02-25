@@ -1,12 +1,8 @@
-#ifndef QuickHull_Vector3_hpp
-#define QuickHull_Vector3_hpp
+#pragma once
 
 #include <cmath>
 #include <iostream>
 
-namespace quickhull {
-
-	template <typename T>
 	class Vector3
 	{
 	public:
