@@ -45,7 +45,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	PlaneCollider* t_HeadCollider = new PlaneCollider(t_HeadTransform);
 
 	t_HeadObject->SetTransform(t_HeadTransform);
-	t_HeadTransform->SetScale(1.0f, 1.0f, 1.0f);
+	t_HeadTransform->SetScale(3.0f, 3.0f, 3.0f);
 	t_HeadTransform->SetRotation(0.0f, 180.0f, 0.0f);
 	t_HeadTransform->SetPosition(-8.0f, 5.0f, 10.0f);
 
