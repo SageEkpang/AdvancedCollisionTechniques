@@ -41,22 +41,22 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	GameObject* t_HeadObject = new GameObject(Tag("Head", PhysicTag::PHYSICS_KINEMATIC));
 	Transform* t_HeadTransform = new Transform();
 	Render* t_HeadRender = new Render(t_HeadTransform);
-	RigidbodyObject* t_HeadRigidbody = new RigidbodyObject(t_HeadTransform, 0.0f);
+	RigidbodyObject* t_HeadRigidbody = new RigidbodyObject(t_HeadTransform, 1.0f);
 	PlaneCollider* t_HeadCollider = new PlaneCollider(t_HeadTransform);
 
 	t_HeadObject->SetTransform(t_HeadTransform);
-	t_HeadTransform->SetScale(0.2f, 0.2f, 0.2f);
+	t_HeadTransform->SetScale(3.0f, 3.0f, 3.0f);
 	t_HeadTransform->SetRotation(0.0f, 180.0f, 0.0f);
-	t_HeadTransform->SetPosition(5.0f, 5.0f, 10.0f);
+	t_HeadTransform->SetPosition(-8.0f, 5.0f, 10.0f);
 
 	t_HeadObject->SetRigidbody(t_HeadRigidbody);
 	t_HeadRigidbody->SetCollider(t_HeadCollider);
 
 	t_HeadObject->SetRender(t_HeadRender);
-	t_HeadRender->SetGeometryAndMaterial("Resources\\OBJ\\joelModel.obj", MATERIAL_SHINY, device);
+	t_HeadRender->SetGeometryAndMaterial("Resources\\OBJ\\Saucer.obj", MATERIAL_SHINY, device);
 	t_HeadRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-	// InsertObjectIntoList(t_HeadObject);
+	InsertObjectIntoList(t_HeadObject);
 
 	#pragma endregion
 
@@ -72,9 +72,9 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 
 	// Transform
 	t_SpikeObject->SetTransform(t_SpikeTransform);
-	t_SpikeTransform->SetScale(1.0f, 1.0f, 1.0f);
+	t_SpikeTransform->SetScale(5.0f, 5.0f, 5.0f);
 	t_SpikeTransform->SetRotation(0.0f, 0.0f, 0.0f);
-	t_SpikeTransform->SetPosition(15.0f, 6.0f, 11.0f);
+	t_SpikeTransform->SetPosition(10.0f, 6.0f, 11.0f);
 
 	// Rigidbody
 	t_SpikeObject->SetRigidbody(t_SpikeRigidbody);
@@ -90,7 +90,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device)
 	t_SpikeRender->SetGeometryAndMaterial("Resources\\OBJ\\SpikeBall.obj", MATERIAL_MAX, device);
 	t_SpikeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-	// InsertObjectIntoList(t_SpikeObject);
+	InsertObjectIntoList(t_SpikeObject);
 
 	#pragma endregion
 }

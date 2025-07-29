@@ -203,12 +203,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Camera\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Structures.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="EPAScreen.h">
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
@@ -247,6 +241,12 @@
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Helpers\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,10 +7,16 @@ namespace MeshLoader
 		ifstream t_InFile;
 		t_InFile.open(path);
 
-		if (!t_InFile.good()) { std::cerr << "Can not open OBJ file: " << path << endl; }
+		if (!t_InFile.good()) 
+		{ 
+			std::cerr << "Can not open OBJ file: " << path << endl;
+			std::vector<Vector3> t_Vertices;
+			return t_Vertices;
+		}
 
 		return LoadObjVertices(t_InFile, path);
 	}
+
 	std::vector<Vector3> LoadObjVertices(ifstream& InFile, char* path)
 	{
 		std::vector<Vector3> t_Vertices;
