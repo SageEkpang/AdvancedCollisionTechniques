@@ -1,17 +1,17 @@
-#include "PhysicsObject.h"
+#include "PhysicsEntity.h"
 
-PhysicsObject::PhysicsObject(Transform* transform, float mass)
+PhysicsEntity::PhysicsEntity(Transform* transform, float mass)
 {
 	m_Transform = transform;
 	m_Mass = mass;
 }
 
-PhysicsObject::~PhysicsObject()
+PhysicsEntity::~PhysicsEntity()
 {
 	delete m_Transform;
 }
 
-void PhysicsObject::CalculateAcceleration(float deltaTime)
+void PhysicsEntity::CalculateAcceleration(float deltaTime)
 {
 	// Add NetForce to Acceleration
 	m_Acceleration += m_NetForce; // / m_Mass
@@ -25,7 +25,7 @@ void PhysicsObject::CalculateAcceleration(float deltaTime)
 	m_Transform->SetPosition(t_Position);
 }
 
-void PhysicsObject::Update(float deltaTime)
+void PhysicsEntity::Update(float deltaTime)
 {
 	if (m_Mass == 0) return;
 
@@ -40,7 +40,7 @@ void PhysicsObject::Update(float deltaTime)
 	m_Acceleration = VECTOR3_ZERO;
 }
 
-Vector3 PhysicsObject::FrictionForce()
+Vector3 PhysicsEntity::FrictionForce()
 {
 	float t_NormalForce = m_Gravity * m_Mass; // NOTE: This would be the normal of the ground to the object.
 	float t_CoefFric = 0.9; // Friction Coefficent
@@ -53,7 +53,7 @@ Vector3 PhysicsObject::FrictionForce()
 	return t_CopyVelocity;
 }
 
-Vector3 PhysicsObject::DragForce()
+Vector3 PhysicsEntity::DragForce()
 {
 	// Check if the value is more than 0, do not want to divide by 0
 	if (m_Velocity == 0) { return Vector3(0, 0, 0); }
@@ -69,7 +69,7 @@ Vector3 PhysicsObject::DragForce()
 }
 
 // NOTE: Gravity Formula changed to be more simpler relative to objects
-Vector3 PhysicsObject::GravityForce()
+Vector3 PhysicsEntity::GravityForce()
 {
 	// Calculate the Distance from Object to Ground (0, 0, 0 will always be the ground)
 
@@ -81,7 +81,7 @@ Vector3 PhysicsObject::GravityForce()
 	return t_Gravity;
 }
 
-Vector3 PhysicsObject::TensionForce()
+Vector3 PhysicsEntity::TensionForce()
 {
 	Vector3 t_Tension = (m_Mass * GetGravity()) + (m_Mass * m_Acceleration);
 
@@ -91,7 +91,7 @@ Vector3 PhysicsObject::TensionForce()
 	return t_CopyVelocity;
 }
 
-float PhysicsObject::GetDensity()
+float PhysicsEntity::GetDensity()
 {
 	float Volume = m_Transform->GetScale().x * m_Transform->GetScale().y * m_Transform->GetScale().z;
 	return m_Mass / Volume;

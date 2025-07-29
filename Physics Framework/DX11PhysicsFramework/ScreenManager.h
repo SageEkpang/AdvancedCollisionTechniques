@@ -6,7 +6,7 @@
 #include "Camera.h"
 #include "Structures.h"
 #include "OBJLoader.h"
-#include "GameObject.h"
+#include "GameObjectEntity.h"
 #include "Screen.h"
 #include "Timer.h"
 
@@ -102,7 +102,6 @@ public: // PUBLIC FUNCTION(s)
 	void Process();
 	void Showcase();
 	bool HandleKeyboard(MSG msg);
-
 
 	// HELPER FUNCTION(s)
 	void TransitionScreen(PhysicsScreenState state);

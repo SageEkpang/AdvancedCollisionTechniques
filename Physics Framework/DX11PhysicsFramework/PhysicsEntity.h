@@ -13,7 +13,7 @@
 #include "PlaneCollider.h"	
 
 // PHYSICS BODY
-class PhysicsObject
+class PhysicsEntity
 {
 protected:
 
@@ -58,9 +58,9 @@ protected:
 public:
 
 	// CLASS FUNCTION(s)
-	PhysicsObject(Transform* transform, float mass = 1.0f);
+	PhysicsEntity(Transform* transform, float mass = 1.0f);
 
-	virtual ~PhysicsObject();
+	virtual ~PhysicsEntity();
 
 
 	// ADDITIONAL FUNCTION(s)

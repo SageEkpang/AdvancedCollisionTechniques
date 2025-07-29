@@ -2,9 +2,7 @@
 #define COLLISION_CONTACT_H
 
 // ABSTRACT CLASS(s)
-#include "Collider.h"
-#include "RigidbodyObject.h"
-#include "GameObject.h"
+#include "GameObjectEntity.h"
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
@@ -21,7 +19,7 @@ private:
 
 protected:
 
-	Vector3 CalculateSeparatingVelocity(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, Vector3 contactNormal) const;
+	Vector3 CalculateSeparatingVelocity(GameObjectEntity* gameObjectA, GameObjectEntity* gameObjectB);
 
 public:
 
@@ -29,15 +27,10 @@ public:
 	CollisionContact();
 	~CollisionContact();
 
-
 	// BASE FUNCTION(s)
 
 	/// <summary> Resolve Collision Code for the Collision of the Game Objects <summary>
-	void ResolveCollision(GameObject* rigidbodyObjectA, GameObject* rigidbodyObjectB, float CoefRest, float duration);
-
-	void ResolveVelocityAlt(RigidbodyObject* rigidbodyObjectA, RigidbodyObject* rigidbodyObjectB, float CoefRest, float duration, Vector3 collisionNormal);
-	void ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB, float penetration, Vector3 contactNormal);
-	static void S_ResolveInterpenetration(GameObject* gameObjectA, GameObject* gameObjectB, float penetration, Vector3 contactNormal);
+	void ResolveCollision(GameObjectEntity* rigidbodyObjectA, GameObjectEntity* rigidbodyObjectB, float CoefRest, float penetration, Vector3 contactNormal);
 
 	// SETTER FUNCTION(s)
 

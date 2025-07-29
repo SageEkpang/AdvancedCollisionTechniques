@@ -27,15 +27,6 @@
     <Filter Include="PhysicScreens\Source">
       <UniqueIdentifier>{6198a9b1-1309-4b7e-9ea5-e0dbb0547c0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Colliders">
-      <UniqueIdentifier>{8ba39916-a5ed-4673-a34d-846652a8df46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Colliders\Header">
-      <UniqueIdentifier>{36211a9d-55fd-412d-928a-87506d9d90b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Colliders\Source">
-      <UniqueIdentifier>{f7fceda7-e32b-49e5-84dd-57d5377fbb4e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{42d69fbc-bcf9-43dd-8971-585fe6dfb768}</UniqueIdentifier>
     </Filter>
@@ -51,42 +42,6 @@
     <Filter Include="Helpers\Source">
       <UniqueIdentifier>{819aec98-a571-49c4-9592-8af85aa12b4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Optimisation">
-      <UniqueIdentifier>{546fa27c-abf6-46f6-9f97-961be42ac264}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Optimisation\Header">
-      <UniqueIdentifier>{4b466832-683f-4adb-a964-6641c4673f8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Optimisation\Source">
-      <UniqueIdentifier>{d2b20f0a-0f71-4c31-a7a4-fec8b8cc4c6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MassPhysics">
-      <UniqueIdentifier>{d7824f22-d2c7-488d-889b-fde8dc73dae9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics">
-      <UniqueIdentifier>{1026c1d0-b69d-4e1b-a6d9-5c864c900dae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CollisionTesting">
-      <UniqueIdentifier>{e4be6d75-3b4d-433a-919b-2e2299f8433b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CollisionTesting\Header">
-      <UniqueIdentifier>{5841a447-385f-4db1-be4f-80c394b143aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CollisionTesting\Source">
-      <UniqueIdentifier>{82fc81e6-c1cb-40ef-96aa-94060c7c8cc8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics\Header">
-      <UniqueIdentifier>{c79b3c7e-ebed-4828-8d3f-fd8837627451}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics\Source">
-      <UniqueIdentifier>{e3ef51e7-278d-47c0-b392-4b52d7e2d3b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MassPhysics\Header">
-      <UniqueIdentifier>{5469ff18-80a2-455d-bd90-e69e8b2076fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MassPhysics\Source">
-      <UniqueIdentifier>{92ea8b8a-f5b2-49d3-96d6-0c6d6d029662}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Camera">
       <UniqueIdentifier>{e10538e1-ac6a-4932-821d-87d1db393ff9}</UniqueIdentifier>
     </Filter>
@@ -96,15 +51,6 @@
     <Filter Include="Camera\Source">
       <UniqueIdentifier>{eea4af4a-376b-4da5-93fe-daecf7ff9bf2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CollisionTesting\CollisionResolution">
-      <UniqueIdentifier>{3fb0418f-e976-43bf-ad21-fc21ae713992}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CollisionTesting\CollisionResolution\Header">
-      <UniqueIdentifier>{645d6b8e-8499-4f2b-94a4-812069fcdbef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CollisionTesting\CollisionResolution\Source">
-      <UniqueIdentifier>{10249e68-76a1-4399-931f-bb08f56d8f22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{bedc717e-e0ef-4947-986a-d0ed7d6aedc9}</UniqueIdentifier>
     </Filter>
@@ -113,6 +59,33 @@
     </Filter>
     <Filter Include="imgui\Source">
       <UniqueIdentifier>{20b37efb-01aa-438e-82d2-e9f3be881cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseClasses">
+      <UniqueIdentifier>{91e465dc-567c-45e6-ac4b-a80bef271ac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{ec91b9e8-c449-4875-8de2-72dfd457a373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Optimisations">
+      <UniqueIdentifier>{546fa27c-abf6-46f6-9f97-961be42ac264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Optimisations\Header">
+      <UniqueIdentifier>{4b466832-683f-4adb-a964-6641c4673f8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Optimisations\Source">
+      <UniqueIdentifier>{d2b20f0a-0f71-4c31-a7a4-fec8b8cc4c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Header">
+      <UniqueIdentifier>{ea993006-e53c-4d10-ad8a-cdfc3f52d76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Source">
+      <UniqueIdentifier>{65fb9918-5f2a-4ec2-8705-3ee8c0e8b556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseClasses\Header">
+      <UniqueIdentifier>{7b285b6c-14ce-4bce-805d-a3120103a193}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseClasses\Source">
+      <UniqueIdentifier>{c4ce976a-2a95-40d6-a051-419cff112861}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -124,21 +97,6 @@
     </ClInclude>
     <ClInclude Include="ScreenManager.h">
       <Filter>PhysicScreens\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaneCollider.h">
-      <Filter>Colliders\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Components\Header</Filter>
     </ClInclude>
     <ClInclude Include="Render.h">
       <Filter>Components\Header</Filter>
@@ -168,49 +126,19 @@
       <Filter>PhysicScreens\Header</Filter>
     </ClInclude>
     <ClInclude Include="Octree.h">
-      <Filter>Optimisation\Header</Filter>
+      <Filter>Optimisations\Header</Filter>
     </ClInclude>
     <ClInclude Include="ThreadPool.h">
-      <Filter>Optimisation\Header</Filter>
+      <Filter>Optimisations\Header</Filter>
     </ClInclude>
     <ClInclude Include="MemoryPool.h">
-      <Filter>Optimisation\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="GJKCollider.h">
-      <Filter>CollisionTesting\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SATCollider.h">
-      <Filter>CollisionTesting\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsObject.h">
-      <Filter>Physics\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="RigidbodyObject.h">
-      <Filter>Physics\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="MaterialCoefficient.h">
-      <Filter>Physics\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionContact.h">
-      <Filter>CollisionTesting\CollisionResolution\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="EPACollider.h">
-      <Filter>CollisionTesting\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="OBBCollider.h">
-      <Filter>CollisionTesting\Header</Filter>
+      <Filter>Optimisations\Header</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Camera\Header</Filter>
     </ClInclude>
     <ClInclude Include="EPAScreen.h">
       <Filter>PhysicScreens\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="MassAggregate.h">
-      <Filter>MassPhysics\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>MassPhysics\Header</Filter>
     </ClInclude>
     <ClInclude Include="MassAggScreen.h">
       <Filter>PhysicScreens\Header</Filter>
@@ -242,11 +170,56 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Structures.h">
-      <Filter>Helpers\Header</Filter>
+    <ClInclude Include="EPACollider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GJKCollider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="OBBCollider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SATCollider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MassAggregate.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneCollider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidbodyObject.h">
+      <Filter>Components\Header</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Helpers\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionContact.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialCoefficient.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectEntity.h">
+      <Filter>BaseClasses\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEntity.h">
+      <Filter>BaseClasses\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -261,21 +234,6 @@
     </ClCompile>
     <ClCompile Include="BasicScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PlaneCollider.cpp">
-      <Filter>Colliders\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="Render.cpp">
       <Filter>Components\Source</Filter>
@@ -305,49 +263,19 @@
       <Filter>PhysicScreens\Source</Filter>
     </ClCompile>
     <ClCompile Include="Octree.cpp">
-      <Filter>Optimisation\Source</Filter>
+      <Filter>Optimisations\Source</Filter>
     </ClCompile>
     <ClCompile Include="ThreadPool.cpp">
-      <Filter>Optimisation\Source</Filter>
+      <Filter>Optimisations\Source</Filter>
     </ClCompile>
     <ClCompile Include="MemoryPool.cpp">
-      <Filter>Optimisation\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="GJKCollider.cpp">
-      <Filter>CollisionTesting\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SATCollider.cpp">
-      <Filter>CollisionTesting\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsObject.cpp">
-      <Filter>Physics\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="RigidbodyObject.cpp">
-      <Filter>Physics\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="MaterialCoefficient.cpp">
-      <Filter>Physics\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionContact.cpp">
-      <Filter>CollisionTesting\CollisionResolution\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="EPACollider.cpp">
-      <Filter>CollisionTesting\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="OBBCollider.cpp">
-      <Filter>CollisionTesting\Source</Filter>
+      <Filter>Optimisations\Source</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Camera\Source</Filter>
     </ClCompile>
     <ClCompile Include="EPAScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="MassAggregate.cpp">
-      <Filter>MassPhysics\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>MassPhysics\Source</Filter>
     </ClCompile>
     <ClCompile Include="MassAggScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
@@ -375,6 +303,51 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EPACollider.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GJKCollider.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="OBBCollider.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SATCollider.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MassAggregate.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneCollider.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyObject.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialCoefficient.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionContact.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectEntity.cpp">
+      <Filter>BaseClasses\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsEntity.cpp">
+      <Filter>BaseClasses\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
