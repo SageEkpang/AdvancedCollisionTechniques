@@ -95,7 +95,6 @@ constexpr int MIN_Z = -20;
 #define RESTCCOEF_NICKEL 0.15
 #define RESTCCOEF_ZINC 0.21
 
-
 // FRICTION COEFFICIENT DEFINE(s)
 #define FRICCOEF_GRAPHIRE 0.1
 #define FRICCOEF_PHOSPHOR_BRONZE 0.35
@@ -106,8 +105,5 @@ constexpr int MIN_Z = -20;
 #define FRICCOEF_ALUMINUM 0.61
 #define FRICCOEF_GLASS 0.9
 #define FRICCOEF_DIAMOND 0.1
-
-
-
 
 #endif

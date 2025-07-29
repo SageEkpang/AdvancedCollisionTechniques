@@ -1,64 +1,203 @@
-#pragma once
+#ifndef GAME_OBJECT_H
+#define GAME_OBJECT_H
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
 #include "Structures.h"
 
-// COMPONENT INCLUDE(s)
-#include "Transform.h"
-#include "Render.h"
-#include "PhysicsObject.h"
-#include "RigidbodyObject.h"
-#include "Collider.h"
+#include <unordered_map>
+#include <bitset>
+#include <typeindex>
+#include <typeinfo>
 
 // COMPONENT INCLUDE(s)
-#include "OBJLoader.h"
+//#include "Transform.h"
+//#include "Render.h"
+//#include "PhysicsObject.h"
+//#include "RigidbodyObject.h"
+//#include "Collider.h"
 
+#include <queue>
+#include <list>
+
+// COMPONENT INCLUDE(s)
 using namespace DirectX;
+
+unsigned int constexpr MAX_COMPONENTS = 8u;
 
 class GameObject
 {
 private:
 
-	// BASE CLASS VARIABLE(s)
-	Transform* m_TransformComponent;
-	Render* m_RenderComponent;
-	PhysicsObject* m_PhysicsComponent;
-	RigidbodyObject* m_RigidbodyComponent;
-	Collider* m_ColliderComponent;
+	// COMPONENT VARIABLE(s)
+	unsigned int m_ComponentIndex = 0u;
+	std::bitset<MAX_COMPONENTS> m_ComponentBitMask;
 
-	Tag m_Type;
+	// COMPONENT ARRAY(s)
+	// std::unordered_map<std::type_index, ComponentEntity> m_Components;
+
+	// TODO: Find out how to make this work
+	GameObject* m_Parent;
+	std::list<GameObject*> m_Children;
+
+public:
+
+	Transform m_Transform;
 
 public:
 
 	// CLASS FUNCTION(s)
 	GameObject();
-	GameObject(Tag type);
 	~GameObject();
-
-	Tag GetType() const { return m_Type; }
-
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime);
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
 
-	// GETTER FUNCTION(s)
-	Transform* GetTransform() { return m_TransformComponent; }
-	Render* GetRender() { return m_RenderComponent; }
-	PhysicsObject* GetPhysics() { return m_PhysicsComponent; }
-	RigidbodyObject* GetRigidbody() { return m_RigidbodyComponent; }
-	Collider* GetCollider() { return m_ColliderComponent; }
+	// PARENT & CHILDREN FUNCTION(s)
 
-	// SETTER FUNCTION(s)
-	void SetTransform(Transform* transform) { m_TransformComponent = transform; }
-	void SetRender(Render* render) { m_RenderComponent = render; }
-	void SetPhysics(PhysicsObject* physics) { m_PhysicsComponent = physics; }
-	void SetRigidbody(RigidbodyObject* rigidbody) { m_RigidbodyComponent = rigidbody; }
-	void SetCollider(Collider* collider) { m_ColliderComponent = collider; }
+		// PARENT FUNCTION(s)
 
-	// HELPER FUNCTION()
-	static GameObject* QuickObject(Vector3 position, Vector3 scale, Vector3 rotation, Collider* collider, char* geoFileName, Material material, const wchar_t* texFileName, ID3D11Device* device);
+		// NOTE: Set the Parent
+	inline void Parent(GameObject* parent) { m_Parent = parent; }
+
+	// NOTE: Get the Parent of the current game object, if not null
+	inline GameObject* const GetParent()
+	{
+		if (m_Parent == nullptr) { return nullptr; }
+		return m_Parent;
+	}
+
+	// NOTE: Get the Grand Parent of the current parent, if not null
+	inline GameObject* const GetGrandParent()
+	{
+		if (m_Parent->m_Parent == nullptr) { return nullptr; }
+		return m_Parent->m_Parent;
+	}
+
+
+	// CHILD FUNCTION(s)
+
+	// NOTE: Set the Child
+	inline void Child(GameObject* child) { m_Children.push_back(child); }
+
+	// NOTE: By default it will get the first child on the parent
+	GameObject* GetChild(int index = 0);
+
+	// NOTE: Get the amount of childern are in the list
+	inline int GetChildCount() const { return (int)m_Children.size(); }
+
+
+	// HELPER FUNCTION(s)
+	//template<std::derived_from<ComponentEntity> T>
+	//T* AddComponent();
+
+	//template<std::derived_from<ComponentEntity> T>
+	//void RemoveComponent();
+
+	//template<typename T>
+	//T* FindChildComponent();
+
+	//template<typename T>
+	//std::type_index FindChildComponentID();
+
+	//template<std::derived_from<ComponentEntity> T>
+	//T* GetComponent();
+
+	//template<std::derived_from<ComponentEntity> T>
+	//bool HasComponent();
+
+
+	
 };
 
+///// <summary>
+///// Remove the component from the component list
+///// </summary>
+///// <typeparam name="T"></typeparam>
+//template<std::derived_from<ComponentEntity> T>
+//inline void GameObjectEntity::RemoveComponent()
+//{
+//	try
+//	{
+//		--m_ComponentIndex;
+//		if (m_ComponentIndex < 0u)
+//		{
+//			m_ComponentIndex = 0u;
+//			throw;
+//		}
+//	}
+//	catch (...)
+//	{
+//		printf("No Component is on this Game Object");
+//		return;
+//	}
+//
+//	m_Components.erase(std::type_index(typeid(T)));
+//}
+//
+///// <summary>
+///// Find the Component from Parent Class
+///// </summary>
+///// <typeparam name="T"></typeparam>
+///// <returns></returns>
+//template<typename T>
+//inline T* GameObjectEntity::FindChildComponent()
+//{
+//	T* t_Result = nullptr;
+//	for (auto& [ComponentId, ComponentType] : m_Components)
+//	{
+//		t_Result = dynamic_cast<T*>(ComponentType);
+//		if (t_Result) { break; }
+//	}
+//
+//	return t_Result;
+//}
+//
+///// <summary>
+///// Find the ID from Parent Id
+///// </summary>
+///// <typeparam name="T"></typeparam>
+///// <returns></returns>
+//template<typename T>
+//inline std::type_index GameObjectEntity::FindChildComponentID()
+//{
+//	T* t_Result = nullptr;
+//	for (auto& [ComponentId, ComponentType] : m_Components)
+//	{
+//		t_Result = dynamic_cast<T*>(ComponentType);
+//		if (t_Result)
+//		{
+//			return ComponentId;
+//		}
+//	}
+//
+//	return std::type_index(typeid(0));
+//}
+//
+///// <summary>
+///// Get the Component currently in the Components map
+///// </summary>
+///// <typeparam name="T"></typeparam>
+///// <returns></returns>
+//template<std::derived_from<ComponentEntity> T>
+//inline T* GameObjectEntity::GetComponent()
+//{
+//	auto t_Index = m_Components.find(std::type_index(typeid(T)));
+//	return t_Index == m_Components.end() ? nullptr : static_cast<T*>(t_Index->second);
+//}
+//
+///// <summary>
+///// Check if the game object has said component
+///// </summary>
+///// <typeparam name="T"></typeparam>
+///// <returns></returns>
+//template<std::derived_from<ComponentEntity> T>
+//inline bool GameObjectEntity::HasComponent()
+//{
+//	auto t_Index = m_Components.find(std::type_index(typeid(T)));
+//	return t_Index == m_Components.end() ? false : true;
+//}
+
+#endif
