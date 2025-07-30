@@ -4,6 +4,8 @@
 // NEEDED INCLUDE(s)
 #include "Constants.h"
 #include "Structures.h"
+#include "ComponentEntity.h"
+#include <concepts>
 
 #include <unordered_map>
 #include <bitset>
@@ -16,6 +18,7 @@
 //#include "PhysicsObject.h"
 //#include "RigidbodyObject.h"
 //#include "Collider.h"
+
 
 #include <queue>
 #include <list>
@@ -90,23 +93,23 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	//template<std::derived_from<ComponentEntity> T>
-	//T* AddComponent();
+	template<std::derived_from<componententity> T>
+	T* addcomponent();
 
-	//template<std::derived_from<ComponentEntity> T>
-	//void RemoveComponent();
+	template<std::derived_from<componententity> t>
+	void removecomponent();
 
-	//template<typename T>
-	//T* FindChildComponent();
+	template<typename t>
+	t* findchildcomponent();
 
-	//template<typename T>
-	//std::type_index FindChildComponentID();
+	template<typename t>
+	std::type_index findchildcomponentid();
 
-	//template<std::derived_from<ComponentEntity> T>
-	//T* GetComponent();
+	template<std::derived_from<componententity> t>
+	t* getcomponent();
 
-	//template<std::derived_from<ComponentEntity> T>
-	//bool HasComponent();
+	template<std::derived_from<componententity> t>
+	bool hascomponent();
 
 
 	
