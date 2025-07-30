@@ -25,8 +25,8 @@ public: // PUBLIC FUNCTION(s)
 	virtual ~ComponentEntity() { m_Owner = nullptr; }
 
 	// BASE FUNCTION(s)
-	virtual void Update(const float deltaTime) {}
-	virtual void Draw() {}
+	virtual void Update(const float deltaTime) { }
+	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) { }
 };
 
 #endif

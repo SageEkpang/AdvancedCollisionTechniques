@@ -37,7 +37,7 @@ private:
 	std::bitset<MAX_COMPONENTS> m_ComponentBitMask;
 
 	// COMPONENT ARRAY(s)
-	// std::unordered_map<std::type_index, ComponentEntity> m_Components;
+	std::unordered_map<std::type_index, ComponentEntity*> m_Components;
 
 	// TODO: Find out how to make this work
 	GameObjectEntity* m_Parent;
@@ -93,114 +93,145 @@ public:
 
 
 	// HELPER FUNCTION(s)
-	template<std::derived_from<componententity> T>
-	T* addcomponent();
+	template<std::derived_from<ComponentEntity> T>
+	T* AddComponent();
 
-	template<std::derived_from<componententity> t>
-	void removecomponent();
+	template<std::derived_from<ComponentEntity> T>
+	void RemoveComponent();
+
+	template<typename T>
+	T* FindChildComponent();
 
 	template<typename t>
-	t* findchildcomponent();
+	std::type_index FindChildComponentID();
 
-	template<typename t>
-	std::type_index findchildcomponentid();
+	template<std::derived_from<ComponentEntity> T>
+	T* GetComponent();
 
-	template<std::derived_from<componententity> t>
-	t* getcomponent();
-
-	template<std::derived_from<componententity> t>
-	bool hascomponent();
+	template<std::derived_from<ComponentEntity> T>
+	bool HasComponent();
 
 
 	
 };
 
-///// <summary>
-///// Remove the component from the component list
-///// </summary>
-///// <typeparam name="T"></typeparam>
-//template<std::derived_from<ComponentEntity> T>
-//inline void GameObjectEntity::RemoveComponent()
-//{
-//	try
-//	{
-//		--m_ComponentIndex;
-//		if (m_ComponentIndex < 0u)
-//		{
-//			m_ComponentIndex = 0u;
-//			throw;
-//		}
-//	}
-//	catch (...)
-//	{
-//		printf("No Component is on this Game Object");
-//		return;
-//	}
-//
-//	m_Components.erase(std::type_index(typeid(T)));
-//}
-//
-///// <summary>
-///// Find the Component from Parent Class
-///// </summary>
-///// <typeparam name="T"></typeparam>
-///// <returns></returns>
-//template<typename T>
-//inline T* GameObjectEntity::FindChildComponent()
-//{
-//	T* t_Result = nullptr;
-//	for (auto& [ComponentId, ComponentType] : m_Components)
-//	{
-//		t_Result = dynamic_cast<T*>(ComponentType);
-//		if (t_Result) { break; }
-//	}
-//
-//	return t_Result;
-//}
-//
-///// <summary>
-///// Find the ID from Parent Id
-///// </summary>
-///// <typeparam name="T"></typeparam>
-///// <returns></returns>
-//template<typename T>
-//inline std::type_index GameObjectEntity::FindChildComponentID()
-//{
-//	T* t_Result = nullptr;
-//	for (auto& [ComponentId, ComponentType] : m_Components)
-//	{
-//		t_Result = dynamic_cast<T*>(ComponentType);
-//		if (t_Result)
-//		{
-//			return ComponentId;
-//		}
-//	}
-//
-//	return std::type_index(typeid(0));
-//}
-//
-///// <summary>
-///// Get the Component currently in the Components map
-///// </summary>
-///// <typeparam name="T"></typeparam>
-///// <returns></returns>
-//template<std::derived_from<ComponentEntity> T>
-//inline T* GameObjectEntity::GetComponent()
-//{
-//	auto t_Index = m_Components.find(std::type_index(typeid(T)));
-//	return t_Index == m_Components.end() ? nullptr : static_cast<T*>(t_Index->second);
-//}
-//
-///// <summary>
-///// Check if the game object has said component
-///// </summary>
-///// <typeparam name="T"></typeparam>
-///// <returns></returns>
-//template<std::derived_from<ComponentEntity> T>
-//inline bool GameObjectEntity::HasComponent()
-//{
-//	auto t_Index = m_Components.find(std::type_index(typeid(T)));
-//	return t_Index == m_Components.end() ? false : true;
-//}
+/// <summary>
+/// Add the component to the component map, if it is derived from the component entity
+/// </summary>
+/// <typeparam name="T"></typeparam>
+template<std::derived_from<ComponentEntity> T>
+inline T* GameObjectEntity::AddComponent()
+{
+	try
+	{
+		++m_ComponentIndex;
+		if (m_ComponentIndex > MAX_COMPONENTS)
+		{
+			m_ComponentIndex = MAX_COMPONENTS;
+			throw;
+		}
+	}
+	catch (...)
+	{
+		printf("Max Component count has been reached");
+		return nullptr;
+	}
+
+	m_Components[std::type_index(typeid(T))] = new T();
+
+	auto t_Index = m_Components.find(std::type_index(typeid(T)));
+	t_Index->second->m_Owner = this;
+	// t_Index->second->m_ID;
+
+	return t_Index == m_Components.end() ? nullptr : static_cast<T*>(t_Index->second);
+}
+
+/// <summary>
+/// Remove the component from the component list
+/// </summary>
+/// <typeparam name="T"></typeparam>
+template<std::derived_from<ComponentEntity> T>
+inline void GameObjectEntity::RemoveComponent()
+{
+	try
+	{
+		--m_ComponentIndex;
+		if (m_ComponentIndex < 0u)
+		{
+			m_ComponentIndex = 0u;
+			throw;
+		}
+	}
+	catch (...)
+	{
+		printf("No Component is on this Game Object");
+		return;
+	}
+
+	m_Components.erase(std::type_index(typeid(T)));
+}
+
+/// <summary>
+/// Find the Component from Parent Class
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <returns></returns>
+template<typename T>
+inline T* GameObjectEntity::FindChildComponent()
+{
+	T* t_Result = nullptr;
+	for (auto& [ComponentId, ComponentType] : m_Components)
+	{
+		t_Result = dynamic_cast<T*>(ComponentType);
+		if (t_Result) { break; }
+	}
+
+	return t_Result;
+}
+
+/// <summary>
+/// Find the ID from Parent Id
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <returns></returns>
+template<typename T>
+inline std::type_index GameObjectEntity::FindChildComponentID()
+{
+	T* t_Result = nullptr;
+	for (auto& [ComponentId, ComponentType] : m_Components)
+	{
+		t_Result = dynamic_cast<T*>(ComponentType);
+		if (t_Result)
+		{
+			return ComponentId;
+		}
+	}
+
+	return std::type_index(typeid(0));
+}
+
+/// <summary>
+/// Get the Component currently in the Components map
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <returns></returns>
+template<std::derived_from<ComponentEntity> T>
+inline T* GameObjectEntity::GetComponent()
+{
+	auto t_Index = m_Components.find(std::type_index(typeid(T)));
+	return t_Index == m_Components.end() ? nullptr : static_cast<T*>(t_Index->second);
+}
+
+/// <summary>
+/// Check if the game object has said component
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <returns></returns>
+template<std::derived_from<ComponentEntity> T>
+inline bool GameObjectEntity::HasComponent()
+{
+	auto t_Index = m_Components.find(std::type_index(typeid(T)));
+	return t_Index == m_Components.end() ? false : true;
+}
 
 #endif

@@ -6,7 +6,7 @@
 #include "Constants.h"
 #include "Camera.h"
 #include "OBJLoader.h"
-#include "GameObject.h"
+#include "GameObjectEntity.h"
 #include "Timer.h"
 
 using namespace DirectX;

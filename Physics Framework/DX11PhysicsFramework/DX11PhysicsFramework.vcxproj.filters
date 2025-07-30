@@ -42,15 +42,6 @@
     <Filter Include="Helpers\Source">
       <UniqueIdentifier>{819aec98-a571-49c4-9592-8af85aa12b4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Camera">
-      <UniqueIdentifier>{e10538e1-ac6a-4932-821d-87d1db393ff9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Camera\Header">
-      <UniqueIdentifier>{637df7a4-fddc-45e8-ac72-cfbcb2285ab6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Camera\Source">
-      <UniqueIdentifier>{eea4af4a-376b-4da5-93fe-daecf7ff9bf2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{bedc717e-e0ef-4947-986a-d0ed7d6aedc9}</UniqueIdentifier>
     </Filter>
@@ -133,9 +124,6 @@
     </ClInclude>
     <ClInclude Include="MemoryPool.h">
       <Filter>Optimisations\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Camera\Header</Filter>
     </ClInclude>
     <ClInclude Include="EPAScreen.h">
       <Filter>PhysicScreens\Header</Filter>
@@ -221,6 +209,15 @@
     <ClInclude Include="PhysicsEntity.h">
       <Filter>BaseClasses\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentEntity.h">
+      <Filter>BaseClasses\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderEntity.h">
+      <Filter>BaseClasses\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -270,9 +267,6 @@
     </ClCompile>
     <ClCompile Include="MemoryPool.cpp">
       <Filter>Optimisations\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Camera\Source</Filter>
     </ClCompile>
     <ClCompile Include="EPAScreen.cpp">
       <Filter>PhysicScreens\Source</Filter>
@@ -347,6 +341,15 @@
       <Filter>BaseClasses\Source</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsEntity.cpp">
+      <Filter>BaseClasses\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentEntity.cpp">
+      <Filter>BaseClasses\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderEntity.cpp">
       <Filter>BaseClasses\Source</Filter>
     </ClCompile>
   </ItemGroup>
