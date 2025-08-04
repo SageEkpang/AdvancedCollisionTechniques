@@ -3,8 +3,6 @@
 GameObjectEntity::GameObjectEntity()
 {
 	// NOTE: Parent and Children Variable(s)
-	m_Parent = nullptr;
-	m_Children.clear();
 
 	// NOTE: Transform Variable(s)
 	//m_Transform.position = OKVector2<float>(0.f, 0.f);
@@ -26,8 +24,6 @@ GameObjectEntity::~GameObjectEntity()
 		}
 	}
 
-	m_Parent = nullptr;
-	m_Children.clear();
 	m_Components.clear();
 }
 
@@ -55,19 +51,4 @@ void GameObjectEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* con
 			Component->Draw(constantBufferData, constBuff, pImmediateContext, device);
 		}
 	}
-}
-
-GameObjectEntity* GameObjectEntity::GetChild(int index)
-{
-	// NOTE: Check if the index is bigger than the current amount of children in said list
-	if (index + 1 > m_Children.size()) { return nullptr; }
-
-	// NOTE: Set the iterator to the Beginning on the list
-	std::list<GameObjectEntity*>::iterator itr = m_Children.begin();
-
-	// NOTE: Iterate until we reach the index we want
-	for (int i = 0; i < index; ++i) { ++itr; }
-
-	// NOTE: Return the index that was found
-	return *itr;
 }

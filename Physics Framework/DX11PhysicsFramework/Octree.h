@@ -4,8 +4,8 @@
 
 #include "Constants.h"
 #include "Structures.h"
-#include "PhysicsObject.h"
-#include "GameObject.h"
+#include "PhysicsEntity.h"
+#include "GameObjectEntity.h"
 
 #include "SATCollider.h"
 #include "EPACollider.h"
@@ -23,7 +23,7 @@ struct Octant
 	Vector3 centre;
 	float halfWidth;
 	Octant* child[8]{};
-	std::list<GameObject*> objList;
+	std::list<GameObjectEntity*> objList;
 
 	Octant() = default;
 	Octant(Octant& value)
@@ -46,9 +46,9 @@ private: // PRIVATE FUNCTION(s)
 
 	// BASE FUNCTION(s)
 	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
-	void P_InsertEntity(Octant* tree, GameObject* entity);
+	void P_InsertEntity(Octant* tree, GameObjectEntity* entity);
 	void P_UpdateTree(Octant* tree, const float deltaTime);
-	void P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObject*, GameObject*), void(*ResolveFunc)(GameObject*, GameObject*, float, Vector3));
+	void P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObjectEntity*, GameObjectEntity*), void(*ResolveFunc)(GameObjectEntity*, GameObjectEntity*, float, Vector3));
 	void P_ClearOctant(Octant* tree, int index);
 
 public: // PUBLIC FUNCTION(s)
@@ -58,9 +58,9 @@ public: // PUBLIC FUNCTION(s)
 	~Octree();
 
 	// BASE FUNCTION(s)
-	void InsertEntity(GameObject* entity);
+	void InsertEntity(GameObjectEntity* entity);
 	void UpdateTree(const float deltaTime);
-	void QueryTree(CollisionManifold (*CollisionFunc)(GameObject*, GameObject*),  void (*ResolveFunc)(GameObject*, GameObject*, float, Vector3));
+	void QueryTree(CollisionManifold (*CollisionFunc)(GameObjectEntity*, GameObjectEntity*),  void (*ResolveFunc)(GameObjectEntity*, GameObjectEntity*, float, Vector3));
 	void ClearTree(int index);
 };
 

@@ -2,6 +2,8 @@
 #define COMPONENT_H
 
 // NEEDED INCLUDE(s)
+#include "Constants.h"
+#include "Structures.h"
 #include <iostream>
 #include <optional>
 

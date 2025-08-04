@@ -45,8 +45,8 @@ protected:
 	ScreenInformation m_ScreenInformation = ScreenInformation();
 
 	// OBJECT VARIABLE(s)
-	std::vector<GameObject*> m_GameObjects;
-	GameObject* m_GroundPlane;
+	std::vector<GameObjectEntity*> m_GameObjects;
+	GameObjectEntity* m_GroundPlane;
 
 public:
 
@@ -68,7 +68,7 @@ public:
 	virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
 	// HELPER FUNCTION(s)
-	void InsertObjectIntoList(GameObject* gameObject);
+	void InsertObjectIntoList(GameObjectEntity* gameObject);
 
 
 

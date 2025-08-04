@@ -13,20 +13,17 @@
 #include "PlaneCollider.h"	
 
 // PHYSICS BODY
-class PhysicsEntity
-{
+class PhysicsEntity {
 protected:
 
 	// Base Variables
 	Transform* m_Transform = nullptr;
 	float m_Radius;
 
-
 	// Physics Variables
 	Vector3 m_Velocity = VECTOR3_ZERO;
 	Vector3 m_Acceleration = VECTOR3_ZERO;
 	Vector3 m_NetForce = VECTOR3_ZERO;
-
 
 	// Mass Variables
 	mutable float m_Gravity = GRAVITY_EARTH;
@@ -34,18 +31,14 @@ protected:
 	float m_Weight = 0.0f;
 	float m_Density = 0.0f;
 
-
 	// Force Variables
 	float m_Drag = 1.0f;
 	float m_DragCoef = 1.0f;
 	float m_Friction = 1.0f;
 	float m_FrictionCoef = 0.0f;
 
-
 	// Collision Variables
 	bool m_HasCollided = false;
-	Collider* m_Collider = nullptr;
-
 
 	// Simulation Variables
 	bool m_SimulateGravity = false;
@@ -107,7 +100,6 @@ public:
 	Vector3 GetVelocity() { return m_Velocity; }
 	Vector3 GetAcceleration() { return m_Acceleration; }
 	Vector3 GetGravity() { return Vector3(0.0f, m_Gravity, 0.0f); }
-	Collider* GetCollider() const { return m_Collider; }
 	Vector3 GetNetForce() { return m_NetForce; }
 
 	inline float GetMass() { return m_Mass; }
@@ -116,16 +108,11 @@ public:
 	inline float GetWeight() { return m_Mass * m_Gravity; }
 	float GetDensity();
 
-	inline bool IsCollideable() const { return m_Collider != nullptr; }
-
 	inline Transform* GetTransform() { return m_Transform; }
 
 	inline float GetRadius() { return m_Radius; }
 
-
 	// SETTER FUNCTION(s)
-	void SetCollider(Collider* collider) { m_Collider = collider; }
-
 	virtual inline void SetVelocity(Vector3 velocity) { m_Velocity = velocity; }
 	inline void SetVelocity(float x, float y, float z) { m_Velocity = Vector3(x, y, z); }
 

@@ -41,7 +41,7 @@ Octant* Octree::BuildOctree(Vector3 centre, float halfWidth, int stopDepth)
 	}
 }
 
-void Octree::P_InsertEntity(Octant* tree, GameObject* entity)
+void Octree::P_InsertEntity(Octant* tree, GameObjectEntity* entity)
 {
 	int t_Index = 0;
 	bool t_Straddle = false;
@@ -99,7 +99,7 @@ void Octree::P_UpdateTree(Octant* tree, const float deltaTime)
 	}
 }
 
-void Octree::P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObject*, GameObject*), void(*ResolveFunc)(GameObject*, GameObject*, float, Vector3))
+void Octree::P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObjectEntity*, GameObjectEntity*), void(*ResolveFunc)(GameObjectEntity*, GameObjectEntity*, float, Vector3))
 {
 	// Keep track of all ancester objects lists in a stack
 	std::list<GameObject*> t_AncesterStackList;
@@ -151,7 +151,7 @@ void Octree::P_ClearOctant(Octant* tree, int index)
 	}
 }
 
-void Octree::InsertEntity(GameObject* entity)
+void Octree::InsertEntity(GameObjectEntity* entity)
 {
 	int t_Index = 0;
 	bool t_Straddle = false;
@@ -211,14 +211,14 @@ void Octree::UpdateTree(const float deltaTime)
 	}
 }
 
-void Octree::QueryTree(CollisionManifold(*CollisionFunc)(GameObject*, GameObject*), void(*ResolveFunc)(GameObject*, GameObject*, float, Vector3))
+void Octree::QueryTree(CollisionManifold(*CollisionFunc)(GameObjectEntity*, GameObjectEntity*), void(*ResolveFunc)(GameObjectEntity*, GameObjectEntity*, float, Vector3))
 {
 	// Keep track of all ancester objects lists in a stack
-	std::list<GameObject*> t_AncesterStackList;
+	std::list<GameObjectEntity*> t_AncesterStackList;
 	t_AncesterStackList.clear();
 	t_AncesterStackList = m_Octant->objList;
 
-	std::list<GameObject*>::iterator t_ObjectA, t_ObjectB;
+	std::list<GameObjectEntity*>::iterator t_ObjectA, t_ObjectB;
 
 	// Collision Response Calculations
 	for (t_ObjectA = t_AncesterStackList.begin(); t_ObjectA != t_AncesterStackList.end(); ++t_ObjectA)
