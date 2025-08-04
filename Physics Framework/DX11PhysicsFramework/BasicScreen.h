@@ -7,10 +7,11 @@
 #include "Structures.h"
 
 // CUSTOM INCLUDE(s)
-#include "Screen.h"
+#include "ScreenEntity.h"
 #include "CollisionContact.h"
 
-class BasicScreen : public Screen
+// NOTE: Simple Collisions Colliding
+class BasicScreen : public ScreenEntity
 {
 private:
 
@@ -24,19 +25,18 @@ public:
 	BasicScreen(std::string screenName, ID3D11Device* device);
 
 	/// <summary> Default Destructor for Class </summary>
-	~BasicScreen();
-
+	~BasicScreen() override;
 
 	// HELPER FUNCTION(s)
-
-	// TODO: Put this in collision class
-	void ResolveCollision(const float deltaTime);
-
 
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
 	void Update(float deltaTime, ID3D11Device* device) override;
+
+	/// <summary> Default Draw function for Class </summary>
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
+
 };
 
 #endif

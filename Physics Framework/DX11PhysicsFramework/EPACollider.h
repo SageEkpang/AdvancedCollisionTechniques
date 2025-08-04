@@ -8,7 +8,7 @@
 // NEEDED INCLUDE(s)
 #include "Constants.h"
 #include "Structures.h"
-#include "GameObject.h"
+#include "GameObjectEntity.h"
 
 class EPACollider
 {

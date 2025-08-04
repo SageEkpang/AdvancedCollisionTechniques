@@ -7,10 +7,10 @@
 #include "Constants.h"
 
 // CUSTOM INCLUDE(s)
-#include "Screen.h"
+#include "ScreenEntity.h"
 #include "MassAggregate.h"
 
-class MassAggScreen : public Screen
+class MassAggScreen : public ScreenEntity
 {
 private:
 
@@ -20,7 +20,7 @@ public:
 
 	// CLASS FUNCTION(s)
 	MassAggScreen(std::string screenName, ID3D11Device* device);
-	~MassAggScreen();
+	~MassAggScreen() override;
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime, ID3D11Device* device) override;

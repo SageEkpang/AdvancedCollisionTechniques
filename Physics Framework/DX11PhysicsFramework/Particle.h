@@ -5,7 +5,7 @@
 #include "Constants.h"
 #include "Structures.h"
 
-#include "PhysicsObject.h"
+#include "PhysicsEntity.h"
 #include "Transform.h"
 
 // NOTE: Derives from Physics Object

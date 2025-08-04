@@ -6,20 +6,19 @@
 #include "Structures.h"
 
 // CUSTOM INCLUDE(s)
-#include "Screen.h"
+#include "ScreenEntity.h"
 #include "EPACollider.h"
 #include "GJKCollider.h"
 #include "Octree.h"
 
 #include "CollisionContact.h"
 
-class EPAScreen : public Screen
+class EPAScreen : public ScreenEntity
 {
 private:
 
 	GJKCollider* m_GJKCollider;
 	EPACollider* m_EPACollider;	
-	Octree* m_Octree;
 	bool m_UseOctree = false;
 
 public:

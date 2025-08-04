@@ -72,7 +72,6 @@ Vector3 PhysicsEntity::DragForce()
 Vector3 PhysicsEntity::GravityForce()
 {
 	// Calculate the Distance from Object to Ground (0, 0, 0 will always be the ground)
-
 	Vector3 t_Gravity = GetGravity() * m_Mass; // NOTE: Simplified Gravity Formula
 
 	// Inverse the Gravity

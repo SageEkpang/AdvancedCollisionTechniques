@@ -1,6 +1,6 @@
-#include "Screen.h"
+#include "ScreenEntity.h"
 
-Screen::Screen(std::string screenName, ID3D11Device* device)
+ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device)
 	: m_ScreenName(screenName)
 {
 	// Plane Object
@@ -25,7 +25,7 @@ Screen::Screen(std::string screenName, ID3D11Device* device)
 	}
 }
 
-Screen::~Screen()
+ScreenEntity::~ScreenEntity()
 {
 	// NOTE: Ground Plane Delete
 	delete m_GroundPlane;
@@ -43,7 +43,7 @@ Screen::~Screen()
 	//}
 }
 
-void Screen::Update(float deltaTime, ID3D11Device* device)
+void ScreenEntity::Update(float deltaTime, ID3D11Device* device)
 {
 	// NOTE: Ground Plane
 	m_GroundPlane->Update(deltaTime);
@@ -83,7 +83,7 @@ void Screen::Update(float deltaTime, ID3D11Device* device)
 	}
 }
 
-void Screen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
+void ScreenEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
 	if (!m_GameObjects.empty())
 	{
@@ -92,7 +92,7 @@ void Screen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID
 	m_GroundPlane->Draw(constantBufferData, constBuff, pImmediateContext, device);
 }
 
-void Screen::InsertObjectIntoList(GameObjectEntity* gameObject)
+void ScreenEntity::InsertObjectIntoList(GameObjectEntity* gameObject)
 {
 	// m_GameObjects.push_back(gameObject);
 }

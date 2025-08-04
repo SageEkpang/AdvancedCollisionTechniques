@@ -7,7 +7,7 @@
 #include "Structures.h"
 #include "OBJLoader.h"
 #include "GameObjectEntity.h"
-#include "Screen.h"
+#include "ScreenEntity.h"
 #include "Timer.h"
 
 //  CUSTOM INCLUDE(s) / FORWARD DEC(s)
@@ -62,7 +62,7 @@ private: // PRIVATE VARIABLE(s) (Custom Variables)
 	int _WindowWidth = 1280;
 	int _WindowHeight = 768;
 	Camera* _camera = nullptr;
-	Screen* m_CurrentScreen = nullptr;
+	ScreenEntity* m_CurrentScreen = nullptr;
 
 	// TIME VARIABLE(s)
 	Timer* m_Timer;

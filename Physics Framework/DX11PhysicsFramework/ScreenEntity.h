@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SCREEN_H
-#define SCREEN_H
+#ifndef SCREEN_ENTITY_H
+#define SCREEN_ENTITY_H
 
 #include "Structures.h"
 #include "Constants.h"
@@ -36,7 +36,7 @@ typedef struct ScreenInformation
 
 } ScreenInfo;
 
-class Screen
+class ScreenEntity
 {
 protected:
 
@@ -52,11 +52,10 @@ public:
 
 	// CLASS FUNCTION(s)
 	/// <summary> Default Constructor for Base Class </summary>
-	Screen(std::string screenName, ID3D11Device* device);
+	ScreenEntity(std::string screenName, ID3D11Device* device);
 
 	/// <summary> Default Destructor for Base Class </summary>
-	virtual ~Screen();
-
+	virtual ~ScreenEntity();
 
 
 	// BASE FUNCTION(s)

@@ -8,7 +8,7 @@
 #include "Constants.h"
 #include "Structures.h"
 #include "OBBCollider.h"
-#include "GameObject.h"
+#include "GameObjectEntity.h"
 
 class SATCollider
 {
@@ -19,12 +19,12 @@ public:
 	~SATCollider();
 
 	// BASE FUNCTION(s)
-	CollisionManifold SATCollision(GameObject& objectA, GameObject& objectB);
-	static CollisionManifold S_SATCollision(GameObject* objectA, GameObject* objectB);
+	CollisionManifold SATCollision(GameObjectEntity& objectA, GameObjectEntity& objectB);
+	static CollisionManifold S_SATCollision(GameObjectEntity* objectA, GameObjectEntity* objectB);
 
 	// HELPER FUNCTION(s)
-	static bool OverlapOnAxis(GameObject& satA, GameObject& satB, Vector3& axis);
-	static Interval GetIntervalOr(GameObject& sat, Vector3& axis);
+	static bool OverlapOnAxis(GameObjectEntity& satA, GameObjectEntity& satB, Vector3& axis);
+	static Interval GetIntervalOr(GameObjectEntity& sat, Vector3& axis);
 };
 
 #endif

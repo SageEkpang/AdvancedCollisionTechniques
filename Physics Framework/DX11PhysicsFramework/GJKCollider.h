@@ -8,7 +8,7 @@
 #include "Structures.h"
 #include "Constants.h"
 #include "Vector.h"
-#include "GameObject.h"
+#include "GameObjectEntity.h"
 
 // CASES FOR INTERSECTION
 // A Tetrahedron
@@ -38,7 +38,7 @@ public:
 
 	// BASE FUNCTION(s)
 	CollisionManifold GJKCollision(Collider* colliderA, Collider* colliderB);
-	static CollisionManifold S_GJKCollision(GameObject* objectA, GameObject* objectB);
+	static CollisionManifold S_GJKCollision(GameObjectEntity* objectA, GameObjectEntity* objectB);
 	static bool NextSimplex(Simplex& points, Vector3& direction);
 	
 
