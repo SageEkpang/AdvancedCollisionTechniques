@@ -8,15 +8,10 @@
 
 // CUSTOM INCLUDE(s)
 #include "ScreenEntity.h"
-#include "CollisionContact.h"
 
 // NOTE: Simple Collisions Colliding
 class BasicScreen : public ScreenEntity
 {
-private:
-
-	CollisionContact* m_CollisionContact;
-
 public:
 
 	// CLASS FUNCTION(s)

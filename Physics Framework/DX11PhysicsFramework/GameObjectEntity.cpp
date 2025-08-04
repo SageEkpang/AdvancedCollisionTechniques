@@ -31,6 +31,26 @@ void GameObjectEntity::Update(float deltaTime)
 {
 	// TODO: PARENT FUNCTIONALITY
 	
+		// Scale Matrix
+	XMMATRIX Scale = XMMatrixScaling(m_Transform.m_Scale.x, m_Transform.m_Scale.y, m_Transform.m_Scale.z);
+
+	// Rotation Matrix
+	XMMATRIX Orientation = XMMatrixRotationQuaternion(XMVectorSet(m_Transform.m_Orientation.x, m_Transform.m_Orientation.y, m_Transform.m_Orientation.z, m_Transform.m_Orientation.w));
+
+	// Position Matrix
+	XMMATRIX Position = XMMatrixTranslation(m_Transform.m_Position.x, m_Transform.m_Position.y, m_Transform.m_Position.z);
+
+	if (m_Transform.m_Parent == nullptr)
+	{
+		XMStoreFloat4x4(m_Transform.m_World, Scale * Orientation * Position);
+	}
+	else
+	{
+		XMStoreFloat4x4(m_Transform.m_Parent->m_World, m_Transform.GetWorldMatrix());
+	}
+
+	// Store Transform in Matrix
+
 	// NOTE: Update the Components
 	if (!m_Components.empty())
 	{

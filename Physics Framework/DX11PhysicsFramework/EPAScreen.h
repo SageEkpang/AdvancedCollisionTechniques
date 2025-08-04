@@ -11,7 +11,7 @@
 #include "GJKCollider.h"
 #include "Octree.h"
 
-#include "CollisionContact.h"
+#include "CollisionContactManager.h"
 
 class EPAScreen : public ScreenEntity
 {

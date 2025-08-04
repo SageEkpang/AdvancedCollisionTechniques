@@ -378,10 +378,10 @@
   <ItemGroup>
     <ClCompile Include="BasicScreen.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
-    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="BSPTree.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColliderEntity.cpp" />
-    <ClCompile Include="CollisionContact.cpp" />
+    <ClCompile Include="CollisionContactManager.cpp" />
     <ClCompile Include="ComponentEntity.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="EPACollider.cpp" />
@@ -400,7 +400,6 @@
     <ClCompile Include="MassAggregate.cpp" />
     <ClCompile Include="MassAggScreen.cpp" />
     <ClCompile Include="MaterialCoefficient.cpp" />
-    <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
@@ -409,14 +408,13 @@
     <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="Quaternion.cpp" />
-    <ClCompile Include="Render.cpp" />
-    <ClCompile Include="RigidbodyObject.cpp" />
+    <ClCompile Include="Rigidbody3DObject.cpp" />
     <ClCompile Include="SATCollider.cpp" />
     <ClCompile Include="SATScreen.cpp" />
-    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="ScreenEntity.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
+    <ClCompile Include="SpatialHashing.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector.cpp" />
@@ -430,9 +428,9 @@
   <ItemGroup>
     <ClInclude Include="BasicScreen.h" />
     <ClInclude Include="BoxCollider.h" />
-    <ClInclude Include="Collider.h" />
+    <ClInclude Include="BSPTree.h" />
     <ClInclude Include="ColliderEntity.h" />
-    <ClInclude Include="CollisionContact.h" />
+    <ClInclude Include="CollisionContactManager.h" />
     <ClInclude Include="ComponentEntity.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Camera.h" />
@@ -453,7 +451,6 @@
     <ClInclude Include="MassAggregate.h" />
     <ClInclude Include="MassAggScreen.h" />
     <ClInclude Include="MaterialCoefficient.h" />
-    <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="OBJLoader.h" />
@@ -464,14 +461,14 @@
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Render.h" />
     <CLInclude Include="resource.h" />
-    <ClInclude Include="RigidbodyObject.h" />
+    <ClInclude Include="Rigidbody3DObject.h" />
     <ClInclude Include="SATCollider.h" />
     <ClInclude Include="SATScreen.h" />
-    <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenEntity.h" />
     <ClInclude Include="ScreenManager.h" />
+    <ClInclude Include="SpatialHashing.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Structures.h" />
-    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector.h" />
