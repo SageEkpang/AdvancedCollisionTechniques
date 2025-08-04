@@ -1,52 +1,20 @@
 #include "Render.h"
+#include "GameObjectEntity.h"
 
-Render::Render(Transform* transform)
+Render::Render(Transform * transform)
 {
 	m_Geometry = Geometry();
 	m_Material = Material();
-	m_World = new XMFLOAT4X4();
-
-	m_Transform = transform;
-
-	// Scale Matrix
-	XMMATRIX Scale = XMMatrixScaling(transform->GetScale().x, transform->GetScale().y, transform->GetScale().z);
-
-	// Rotation Matrix
-	XMMATRIX Orientation = XMMatrixRotationQuaternion(XMVectorSet(transform->GetOrientation().x, transform->GetOrientation().y, transform->GetOrientation().z, transform->GetOrientation().w));
-
-	// Position Matrix
-	XMMATRIX Position = XMMatrixTranslation(transform->GetPosition().x, transform->GetPosition().y, transform->GetPosition().z);
-
-	// Store Transform in Matrix
-	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }
 
 Render::Render(Geometry geometry, Material material)
-{
-	m_Geometry = geometry;
-	m_Material = material;
+{ 
+	m_Geometry.vertexBuffer = nullptr;
 }
 
 Render::~Render()
 {
-	m_TextureRV = nullptr;
-	m_Geometry.indexBuffer = nullptr;
-	m_Geometry.vertexBuffer = nullptr;
-}
 
-void Render::Update(float deltaTime)
-{
-	// Scale Matrix
-	XMMATRIX Scale = XMMatrixScaling(m_Transform->GetScale().x, m_Transform->GetScale().y, m_Transform->GetScale().z);
-
-	// Rotation Matrix
-	XMMATRIX Orientation = XMMatrixRotationQuaternion(XMVectorSet(m_Transform->GetOrientation().x, m_Transform->GetOrientation().y, m_Transform->GetOrientation().z, m_Transform->GetOrientation().w));
-
-	// Position Matrix
-	XMMATRIX Position = XMMatrixTranslation(m_Transform->GetPosition().x, m_Transform->GetPosition().y, m_Transform->GetPosition().z);
-
-	// Store Transform in Matrix
-	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }
 
 void Render::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
@@ -68,7 +36,7 @@ void Render::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID
 	constantBufferData.surface.DiffuseMtrl = m_Material.diffuse;
 	constantBufferData.surface.SpecularMtrl = m_Material.specular;
 
-	XMMATRIX temp = XMLoadFloat4x4(m_World);
+	XMMATRIX temp = XMLoadFloat4x4(m_Owner->m_Transform.m_World);
 	constantBufferData.World = XMMatrixTranspose(temp);
 
 	if (m_TextureRV != nullptr)
@@ -88,30 +56,5 @@ void Render::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID
 
 	pImmediateContext->IASetVertexBuffers(0, 1, &m_Geometry.vertexBuffer, &m_Geometry.vertexBufferStride, &m_Geometry.vertexBufferOffset);
 	pImmediateContext->IASetIndexBuffer(m_Geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);
-
-	pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
 }
 
-void Render::SetGeometryAndMaterial(char* fileName, Material material, ID3D11Device* device)
-{
-	Geometry t_Geometry;
-	MeshData t_Mesh;
-
-	t_Mesh = OBJLoader::Load(fileName, device);
-	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
-	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
-	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
-
-	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
-	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
-
-	m_Geometry = t_Geometry;
-	m_Material = material;
-}
-
-void Render::SetTexture(const wchar_t* fileName, ID3D11Device* device)
-{
-	ID3D11ShaderResourceView* t_Texture = nullptr;
-	CreateDDSTextureFromFile(device, fileName, nullptr, &t_Texture);
-	m_TextureRV = t_Texture;
-}

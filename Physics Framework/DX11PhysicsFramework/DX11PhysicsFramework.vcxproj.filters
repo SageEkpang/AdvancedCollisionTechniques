@@ -21,12 +21,6 @@
     <Filter Include="Components">
       <UniqueIdentifier>{42d69fbc-bcf9-43dd-8971-585fe6dfb768}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Header">
-      <UniqueIdentifier>{f1476e7c-2122-4d98-bf37-f1dc3a1e83c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Source">
-      <UniqueIdentifier>{495c2c66-cfbb-42f7-82fc-d6213a614bbc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Helpers\Header">
       <UniqueIdentifier>{cacc7230-f188-4cd7-80a4-9861fd51d6ca}</UniqueIdentifier>
     </Filter>
@@ -108,17 +102,23 @@
     <Filter Include="Components\PhysicsComponents\Source">
       <UniqueIdentifier>{96022f47-5410-458f-ac21-03cc679453e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\CameraComponents">
-      <UniqueIdentifier>{dd9d0a92-f8e1-4b4a-a77a-7cabce6bcc0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\CameraComponents\Header">
-      <UniqueIdentifier>{dc71cbc3-a063-4406-ba85-63b844d5da59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\CameraComponents\Source">
-      <UniqueIdentifier>{6400da24-4e36-4c08-abb1-a7d3962f8e11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\RenderComponents">
       <UniqueIdentifier>{fd63915f-aa52-498d-92c5-d086b7c06190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\RenderComponents\Header">
+      <UniqueIdentifier>{3ce645c2-32c5-4d0d-9c0e-e02f3e4dbcd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\RenderComponents\Source">
+      <UniqueIdentifier>{c2bfb289-1e3b-4119-bbba-b09d3d6d89af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{502127af-9159-4398-a0f8-f971a13bec4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\Header">
+      <UniqueIdentifier>{1b58b9fb-3e60-487f-9567-357c2bf5e342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\Source">
+      <UniqueIdentifier>{6ac3690d-8487-473e-af46-cab676f2fe90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +206,6 @@
     <ClInclude Include="SpatialHashing.h">
       <Filter>OptimisationTrees\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Structures.h">
-      <Filter>Helpers\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Structs</Filter>
     </ClInclude>
@@ -245,9 +242,6 @@
     <ClInclude Include="Rigidbody3DObject.h">
       <Filter>Components\PhysicsComponents\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Components\CameraComponents\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Components\PhysicsComponents\Header</Filter>
     </ClInclude>
@@ -255,7 +249,13 @@
       <Filter>Structs</Filter>
     </ClInclude>
     <ClInclude Include="Render.h">
-      <Filter>Components\RenderComponents</Filter>
+      <Filter>Components\RenderComponents\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -376,14 +376,17 @@
     <ClCompile Include="Rigidbody3DObject.cpp">
       <Filter>Components\PhysicsComponents\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Components\CameraComponents\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Components\PhysicsComponents\Source</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Structs</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Components\RenderComponents\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

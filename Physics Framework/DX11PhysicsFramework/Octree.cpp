@@ -51,9 +51,9 @@ void Octree::P_InsertEntity(Octant* tree, GameObjectEntity* entity)
 	for (int i = 0; i < 3; ++i)
 	{
 		float t_Delta = 0;
-		if (i == 0) { t_Delta = entity->GetTransform()->GetPosition().x - tree->centre.x; }
-		if (i == 1) { t_Delta = entity->GetTransform()->GetPosition().y - tree->centre.y; }
-		if (i == 2) { t_Delta = entity->GetTransform()->GetPosition().z - tree->centre.z; }
+		if (i == 0) { t_Delta = entity->m_Transform.m_Position.x - tree->centre.x; }
+		if (i == 1) { t_Delta = entity->m_Transform.m_Position.y - tree->centre.y; }
+		if (i == 2) { t_Delta = entity->m_Transform.m_Position.z - tree->centre.z; }
 
 		if (std::abs(t_Delta) <= 1) // CHOICE: Can raise to the power of 2 to make it more accurate
 		{
@@ -102,11 +102,11 @@ void Octree::P_UpdateTree(Octant* tree, const float deltaTime)
 void Octree::P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObjectEntity*, GameObjectEntity*), void(*ResolveFunc)(GameObjectEntity*, GameObjectEntity*, float, Vector3))
 {
 	// Keep track of all ancester objects lists in a stack
-	std::list<GameObject*> t_AncesterStackList;
+	std::list<GameObjectEntity*> t_AncesterStackList;
 	t_AncesterStackList.clear();
 	t_AncesterStackList = tree->objList;
 
-	std::list<GameObject*>::iterator t_ObjectA, t_ObjectB;
+	std::list<GameObjectEntity*>::iterator t_ObjectA, t_ObjectB;
 
 	// Collision Response Calculations
 	for (t_ObjectA = t_AncesterStackList.begin(); t_ObjectA != t_AncesterStackList.end(); ++t_ObjectA)
@@ -161,9 +161,9 @@ void Octree::InsertEntity(GameObjectEntity* entity)
 	for (int i = 0; i < 3; ++i)
 	{
 		float t_Delta = 0;
-		if (i == 0) { t_Delta = entity->GetTransform()->GetPosition().x - m_Octant->centre.x; }
-		if (i == 1) { t_Delta = entity->GetTransform()->GetPosition().y - m_Octant->centre.y; }
-		if (i == 2) { t_Delta = entity->GetTransform()->GetPosition().z - m_Octant->centre.z; }
+		if (i == 0) { t_Delta = entity->m_Transform.m_Position.x - m_Octant->centre.x; }
+		if (i == 1) { t_Delta = entity->m_Transform.m_Position.y - m_Octant->centre.y; }
+		if (i == 2) { t_Delta = entity->m_Transform.m_Position.z - m_Octant->centre.z; }
 
 		if (std::abs(t_Delta) <= 1) // CHOICE: Can raise to the power of 2 to make it more accurate
 		{

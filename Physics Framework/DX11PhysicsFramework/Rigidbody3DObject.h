@@ -4,14 +4,23 @@
 
 #include "Structures.h"
 #include "Constants.h"
-#include "PhysicsObject.h"
+#include "PhysicsEntity.h"
 #include "MaterialCoefficient.h"
 
 // RIGIDBODY PHYSICS
 
-class RigidbodyObject : public PhysicsObject
+
+enum class Rigidbody3DMovementType : std::int8_t
 {
-private:
+	RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC,
+	RIGIDBODY_3D_MOVEMENT_TYPE_STATIC,
+	RIGIDBODY_3D_MOVEMENT_TYPE_KINEMATIC
+};
+
+
+class Rigidbody3DObject : public PhysicsEntity
+{
+public:
 
 	// ROTATION TENSOR (MATRIX)
 	XMFLOAT3X3 m_InertiaTensor;
@@ -22,6 +31,7 @@ private:
 	Vector3 m_Torque = VECTOR3_ZERO;
 	Vector3 m_AngularVelocity = VECTOR3_ZERO;
 	float m_AngularDamping = 0.99f;
+	Rigidbody3DMovementType m_RigidbodyMovementType;
 
 	
 	// MATERIAL VARIABLE(s) 
@@ -30,9 +40,9 @@ private:
 public:
 
 	// CLASS FUNCTION(s)
-	RigidbodyObject(Transform* transform, float mass = 1.0f); // Box
-	RigidbodyObject(Transform* transform, float radius, float mass); // Sphere
-	~RigidbodyObject() override;
+	Rigidbody3DObject(Transform* transform, float mass = 1.0f); // Box
+	Rigidbody3DObject(Transform* transform, float radius, float mass); // Sphere
+	~Rigidbody3DObject() override;
 
 
 	// BASE FUNCTION(s)
@@ -43,17 +53,22 @@ public:
 	void AddForceAddBodyPoint(const Vector3& force, const Vector3& point);
 
 	// Not Applied to the at the center of mass, it may be split into both a force and torque
-	void AddForceAtPoint(const Vector3& force, const Vector3& point);
+	void AddForceAtPoint(const Vector3& force, const Vector3& point) { }
+
+
+	void ApplyImpulseX(float x_force) { }
+	void ApplyImpulseY(float y_force) { }
+	void ApplyImpulseZ(float z_force) { }
 
 
 
 	// ADDITIONAL FUNCTION(s)
 
 	/// <summary> Add a Relative Force to the point on the object </summary>
-	void AddRelativeForce(Vector3 force, Vector3 point) override;
+	void AddRelativeForce(Vector3 force, Vector3 point) { };
 
 	/// <summary> Calculate the Angular Velocity of the Point </summary>
-	void CalculateAngularVelocity(float DeltaTime);
+	void CalculateAngularVelocity(float DeltaTime) { };
 
 
 	// GETTER FUNCTION(s)

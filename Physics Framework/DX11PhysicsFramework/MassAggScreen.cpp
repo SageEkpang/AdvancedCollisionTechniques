@@ -16,8 +16,8 @@ MassAggScreen::MassAggScreen(std::string screenName, ID3D11Device* device) : Scr
 
 	for (int i = 0; i < 5; ++i)
 	{
-		MassAggregate* t_TempARG = new MassAggregate("Resources\\OBJ\\pyramid.obj", t_Position[i], 1.0f, 1, device);
-		m_MassObjects.push_back(t_TempARG);
+		// MassAggregate* t_TempARG = new MassAggregate("Resources\\OBJ\\pyramid.obj", t_Position[i], 1.0f, 1, device);
+		// m_MassObjects.push_back(t_TempARG);
 	}
 }
 

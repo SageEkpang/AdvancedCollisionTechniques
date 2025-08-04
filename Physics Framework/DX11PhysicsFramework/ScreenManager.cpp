@@ -150,9 +150,13 @@ void ScreenManager::Showcase()
 
 	// Transpose Matrices and Load Information from Calculated Update function
 	// _cbData.World = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetW));
-	_cbData.View = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetView()));
-	_cbData.Projection = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetProjection()));
-	_cbData.EyePosW = _camera->GetPosition();
+	XMFLOAT4X4 tempView = _camera->GetView();
+	XMFLOAT4X4 tempProjection = _camera->GetProjection();
+	XMFLOAT3 tempPosition = _camera->GetPosition();
+
+	_cbData.View = XMMatrixTranspose(XMLoadFloat4x4(&tempView));
+	_cbData.Projection = XMMatrixTranspose(XMLoadFloat4x4(&tempProjection));
+	_cbData.EyePosW = tempPosition;
 	_cbData.light = basicLight;
 
 	// Draw the Current Physics Screen

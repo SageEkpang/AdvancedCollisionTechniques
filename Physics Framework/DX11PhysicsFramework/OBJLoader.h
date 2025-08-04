@@ -10,8 +10,6 @@
 
 using namespace DirectX;
 
-//
-
 namespace OBJLoader
 {
 	//The only method you'll need to call

@@ -408,6 +408,7 @@
     <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="Render.cpp" />
     <ClCompile Include="Rigidbody3DObject.cpp" />
     <ClCompile Include="SATCollider.cpp" />
     <ClCompile Include="SATScreen.cpp" />

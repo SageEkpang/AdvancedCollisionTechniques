@@ -11,8 +11,6 @@
 #include "GJKCollider.h"
 #include "Octree.h"
 
-#include "CollisionContact.h"
-
 class GJKScreen : public ScreenEntity
 {
 private:

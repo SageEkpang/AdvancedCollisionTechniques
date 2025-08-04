@@ -3,13 +3,13 @@
 #define BOX_COLLIDER_H
 
 // ABSTRACT CLASS(s)
-#include "Collider.h"
+#include "ColliderEntity.h"
 
 // NEEDED INCLUDE(s)
 #include "Structures.h"
 #include "Constants.h"
 
-class BoxCollider : public Collider
+class BoxCollider : public ColliderEntity
 {
 private:
 
@@ -25,15 +25,6 @@ private:
 	Vector3 m_CentrePoint;
 
 public:
-
-	// CLASS FUNCTION(s)
-	BoxCollider(Transform* transform) : Collider(transform) { }
-
-	virtual bool CollidesWith(Collider& other, CollisionManifold& out) override { return other.CollidesWith(*this, out); }
-	virtual bool CollidesWith(BoxCollider& other, CollisionManifold& out) override;
-	virtual bool CollidesWith(SphereCollider& other, CollisionManifold& out) override;
-	virtual bool CollidesWith(PlaneCollider& other, CollisionManifold& out) override;
-	virtual bool CollidesWith(OBBCollider& other, CollisionManifold& out) override;
 
 	inline Vector3 GetMax() { return m_Max; }
 	inline Vector3 GetMin() { return m_Min; }

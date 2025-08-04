@@ -43,7 +43,7 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device) : ScreenEntit
 		//t_CubeRender->SetGeometryAndMaterial("Resources\\OBJ\\cube.obj", MATERIAL_SHINY, device);
 		//t_CubeRender->SetTexture(L"Resources\\Textures\\stone.dds", device);
 
-		InsertObjectIntoList(t_CubeObject);
+		// InsertObjectIntoList(t_CubeObject);
 	}
 }
 

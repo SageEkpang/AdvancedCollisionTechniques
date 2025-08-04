@@ -4,7 +4,6 @@
 // NEEDED INCLUDE(s)
 #include "Constants.h"
 #include "Structures.h"
-#include "ComponentEntity.h"
 #include <concepts>
 
 #include <unordered_map>
@@ -12,13 +11,28 @@
 #include <typeindex>
 #include <typeinfo>
 
-// COMPONENT INCLUDE(s)
+// NOTE: BASE INCLUDE(s)
 #include "Transform.h"
-//#include "Render.h"
-//#include "PhysicsObject.h"
-//#include "RigidbodyObject.h"
-//#include "Collider.h"
+#include "ComponentEntity.h"
 
+// COMPONENT INCLUDE(s)
+// Render Component(s)
+#include "Render.h"
+
+// Simple Collider Component(s)
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "OBBCollider.h"
+#include "PlaneCollider.h"
+
+// Complex Collider Components(s)
+#include "EPACollider.h"
+#include "GJKCollider.h"
+#include "MassAggregate.h"
+#include "SATCollider.h"
+
+// Physics Components (s)
+#include "Rigidbody3DObject.h"
 
 #include <queue>
 #include <list>

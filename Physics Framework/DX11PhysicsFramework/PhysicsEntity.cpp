@@ -17,12 +17,12 @@ void PhysicsEntity::CalculateAcceleration(float deltaTime)
 	m_Acceleration += m_NetForce; // / m_Mass
 
 	// Get position and add it to the velocity of the object
-	Vector3 t_Position = m_Transform->GetPosition();
+	Vector3 t_Position = m_Transform->m_Position;
 	m_Velocity += m_Acceleration * deltaTime;
 
 	// Change position based on velocity and set new position based on velocity
 	t_Position += m_Velocity * deltaTime;
-	m_Transform->SetPosition(t_Position);
+	m_Transform->m_Position = t_Position;
 }
 
 void PhysicsEntity::Update(float deltaTime)
@@ -92,6 +92,6 @@ Vector3 PhysicsEntity::TensionForce()
 
 float PhysicsEntity::GetDensity()
 {
-	float Volume = m_Transform->GetScale().x * m_Transform->GetScale().y * m_Transform->GetScale().z;
+	float Volume = m_Transform->m_Scale.x * m_Transform->m_Scale.y * m_Transform->m_Scale.z;
 	return m_Mass / Volume;
 }

@@ -5,6 +5,7 @@
 #include "Constants.h"
 #include "Structures.h"
 
+#include "OBJLoader.h"
 #include "PhysicsEntity.h"
 #include "Transform.h"
 
@@ -56,13 +57,8 @@ public:
 	XMMATRIX GetWorld() const { return XMLoadFloat4x4(m_World); }
 
 	Transform* GetTransform() const { return m_Transform; }
-	Vector3 GetPosition() { return m_Transform->GetPosition(); }
-	Vector3 GetScale() { return m_Transform->GetScale(); }
-
 
 	// SETTER FUNCTION(s)
-	void SetPosition(float x, float y, float z) { m_Transform->SetPosition(x, y, z); }
-	void SetPosition(Vector3 value) { m_Transform->SetPosition(value); }
 	virtual inline void SetVelocity(Vector3 velocity) { m_Velocity = velocity; }
 	inline void SetVelocity(float x, float y, float z) { m_Velocity = Vector3(x, y, z); }
 

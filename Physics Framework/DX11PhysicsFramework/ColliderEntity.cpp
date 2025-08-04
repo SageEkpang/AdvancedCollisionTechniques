@@ -192,16 +192,3 @@ Vector3 ColliderEntity::FindFurthestPoint(Vector3 direction)
 
 	return t_MaxPoint;
 }
-
-Vector3 ColliderEntity::SphereNearestPoint(Vector3 point)
-{
-	//Vector3 t_SphereToPoint = Vector::Normalise(point - GetPosition());
-	//t_SphereToPoint *= m_Radius;
-	//return t_SphereToPoint + GetPosition();
-}
-
-//void ColliderEntity::FillVerticesArray(char* path, Transform* objectTransform)
-//{
-//	// NOTE: Fill array with the different mesh load values
-//	// m_PositionStore = MeshLoader::LoadObj(path);
-//}

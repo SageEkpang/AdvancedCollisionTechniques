@@ -11,7 +11,7 @@ Particle::Particle(Transform* transform, float mass, ID3D11Device* device)
 	MeshData t_Mesh;
 	Geometry t_Geometry;
 
-	t_Mesh = OBJLoader::Load("Resources\\OBJ\\sphere.obj", device);
+	t_Mesh = OBJLoader::Load((char*)"Resources\\OBJ\\sphere.obj", device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
 	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
@@ -24,10 +24,10 @@ Particle::Particle(Transform* transform, float mass, ID3D11Device* device)
 	m_Transform = transform;
 
 	// Scale Matrix
-	XMMATRIX Scale = XMMatrixScaling(transform->GetScale().x, transform->GetScale().y, transform->GetScale().z);
+	XMMATRIX Scale = XMMatrixScaling(transform->m_Scale.x, transform->m_Scale.y, transform->m_Scale.z);
 	
 	// Position Matrix
-	XMMATRIX Position = XMMatrixTranslation(transform->GetPosition().x, transform->GetPosition().y, transform->GetPosition().z);
+	XMMATRIX Position = XMMatrixTranslation(transform->m_Position.x, transform->m_Position.y, transform->m_Position.z);
 
 	// Store Transform in Matrix
 	XMStoreFloat4x4(m_World, Scale * Position);
@@ -45,13 +45,13 @@ void Particle::Update(float deltaTime)
 	// NOTE: Call the Physics Update Functions needed for this
 
 	// Scale Matrix
-	XMMATRIX t_Scale = XMMatrixScaling(m_Transform->GetScale().x, m_Transform->GetScale().y, m_Transform->GetScale().z);
+	XMMATRIX t_Scale = XMMatrixScaling(m_Transform->m_Scale.x, m_Transform->m_Scale.y, m_Transform->m_Scale.z);
 
 	// Rotation Matrix
 	XMMATRIX t_Rotation = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
 
 	// Position Matrix
-	XMMATRIX t_Position = XMMatrixTranslation(m_Transform->GetPosition().x, m_Transform->GetPosition().y, m_Transform->GetPosition().z);
+	XMMATRIX t_Position = XMMatrixTranslation(m_Transform->m_Position.x, m_Transform->m_Position.y, m_Transform->m_Position.z);
 
 	// Store Transform in Matrix
 	XMStoreFloat4x4(m_World, t_Scale * t_Rotation * t_Position); 
@@ -65,12 +65,12 @@ void Particle::CalculateAcceleration(float deltaTime)
 	m_Acceleration += m_NetForce; // / m_Mass
 
 	// Get position and add it to the velocity of the object
-	Vector3 t_Position = m_Transform->GetPosition();
+	Vector3 t_Position = m_Transform->m_Position;
 	m_Velocity += m_Acceleration * deltaTime;
 
 	// Change position based on velocity and set new position based on velocity
 	t_Position += m_Velocity * deltaTime;
-	m_Transform->SetPosition(t_Position);
+	m_Transform->m_Position = t_Position;
 }
 
 void Particle::ClearAccumulator()

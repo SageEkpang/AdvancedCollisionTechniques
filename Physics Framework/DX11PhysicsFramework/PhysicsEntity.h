@@ -2,19 +2,16 @@
 #ifndef PHYSICS_OBJECT_H
 #define PHYSICS_OBJECT_H
 
+#include "ComponentEntity.h"
 #include "Constants.h"
 #include "Structures.h"
 #include "Vector.h"
 #include "Transform.h"
 
-#include "Collider.h"
-#include "SphereCollider.h"
-#include "BoxCollider.h"
-#include "PlaneCollider.h"	
-
 // PHYSICS BODY
-class PhysicsEntity {
-protected:
+class PhysicsEntity : public ComponentEntity
+{
+public:
 
 	// Base Variables
 	Transform* m_Transform = nullptr;
