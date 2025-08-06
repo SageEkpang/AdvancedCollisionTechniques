@@ -416,9 +416,9 @@
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="SpatialHashing.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="SurfaceInfo.h" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleShaders.hlsl">
@@ -432,13 +432,16 @@
     <ClInclude Include="BSPTree.h" />
     <ClInclude Include="ColliderEntity.h" />
     <ClInclude Include="CollisionContactManager.h" />
+    <ClInclude Include="CollisionManifold.h" />
     <ClInclude Include="ComponentEntity.h" />
+    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="EPACollider.h" />
     <ClInclude Include="EPAScreen.h" />
     <ClInclude Include="GameObjectEntity.h" />
+    <ClInclude Include="Geometry.h" />
     <ClInclude Include="GJKCollider.h" />
     <ClInclude Include="GJKScreen.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -449,9 +452,12 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="MassAggregate.h" />
     <ClInclude Include="MassAggScreen.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCoefficient.h" />
+    <ClInclude Include="MeshData.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="OBJLoader.h" />
@@ -467,12 +473,14 @@
     <ClInclude Include="SATScreen.h" />
     <ClInclude Include="ScreenEntity.h" />
     <ClInclude Include="ScreenManager.h" />
+    <ClInclude Include="SimpleVertex.h" />
     <ClInclude Include="SpatialHashing.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Structures.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vector4.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\floor.dds" />

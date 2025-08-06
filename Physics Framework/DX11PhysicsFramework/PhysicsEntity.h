@@ -3,9 +3,6 @@
 #define PHYSICS_OBJECT_H
 
 #include "ComponentEntity.h"
-#include "Constants.h"
-#include "Structures.h"
-#include "Vector.h"
 #include "Transform.h"
 
 // PHYSICS BODY
@@ -15,7 +12,6 @@ public:
 
 	// Base Variables
 	Transform* m_Transform = nullptr;
-	float m_Radius;
 
 	// Physics Variables
 	Vector3 m_Velocity = VECTOR3_ZERO;
@@ -106,8 +102,6 @@ public:
 	float GetDensity();
 
 	inline Transform* GetTransform() { return m_Transform; }
-
-	inline float GetRadius() { return m_Radius; }
 
 	// SETTER FUNCTION(s)
 	virtual inline void SetVelocity(Vector3 velocity) { m_Velocity = velocity; }

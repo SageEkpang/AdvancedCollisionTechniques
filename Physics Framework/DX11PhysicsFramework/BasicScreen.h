@@ -1,10 +1,9 @@
-#pragma once
 #ifndef BASIC_SCREEN_H
 #define BASIC_SCREEN_H
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
-#include "Structures.h"
+#include "ConstantBuffer.h"
 
 // CUSTOM INCLUDE(s)
 #include "ScreenEntity.h"

@@ -5,8 +5,7 @@
 #include "GameObjectEntity.h"
 
 // NEEDED INCLUDE(s)
-#include "Constants.h"
-#include "Structures.h"
+#include "CollisionManifold.h"
 
 // CLASS INCLUDE(s)
 

@@ -29,9 +29,7 @@ GameObjectEntity::~GameObjectEntity()
 
 void GameObjectEntity::Update(float deltaTime)
 {
-	// TODO: PARENT FUNCTIONALITY
-	
-		// Scale Matrix
+	// Scale Matrix
 	XMMATRIX Scale = XMMatrixScaling(m_Transform.m_Scale.x, m_Transform.m_Scale.y, m_Transform.m_Scale.z);
 
 	// Rotation Matrix
@@ -68,7 +66,7 @@ void GameObjectEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* con
 	{
 		for (auto& [ComponentType, Component] : m_Components)
 		{
-			Component->Draw(constantBufferData, constBuff, pImmediateContext, device);
+			// Component->Draw(constantBufferData, constBuff, pImmediateContext, device);
 		}
 	}
 }

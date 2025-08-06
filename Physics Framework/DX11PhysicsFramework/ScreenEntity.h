@@ -1,11 +1,7 @@
-#pragma once
 #ifndef SCREEN_ENTITY_H
 #define SCREEN_ENTITY_H
 
-#include "Structures.h"
-#include "Constants.h"
 #include "Camera.h"
-#include "OBJLoader.h"
 #include "GameObjectEntity.h"
 #include "Timer.h"
 

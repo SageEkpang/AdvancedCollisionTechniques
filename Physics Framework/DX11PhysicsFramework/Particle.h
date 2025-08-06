@@ -4,10 +4,17 @@
 
 #include "Constants.h"
 #include "Structures.h"
+#include "ConstantBuffer.h"
 
 #include "OBJLoader.h"
 #include "PhysicsEntity.h"
 #include "Transform.h"
+
+#include "Geometry.h"
+#include "Material.h"
+#include <directxmath.h>
+
+using namespace DirectX;
 
 // NOTE: Derives from Physics Object
 class Particle

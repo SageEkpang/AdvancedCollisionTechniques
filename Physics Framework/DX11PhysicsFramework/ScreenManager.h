@@ -9,6 +9,9 @@
 #include "GameObjectEntity.h"
 #include "ScreenEntity.h"
 #include "Timer.h"
+#include "Light.h"
+#include "ConstantBuffer.h"
+#include <d3dcompiler.h>
 
 //  CUSTOM INCLUDE(s) / FORWARD DEC(s)
 class BasicScreen;

@@ -9,6 +9,10 @@
 #include "OBJLoader.h"
 #include "MeshLoader.h"
 
+#include "ConstantBuffer.h"
+#include "Geometry.h"
+#include "Material.h"
+
 class GameObjectEntity;
 
 enum class TriggerAreaState : std::int8_t
@@ -60,7 +64,7 @@ public: // PUBLIC FUNCTION(s)
     virtual ~ColliderEntity();
 
     // BASE FUNCTION(s)
-    void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
+    void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
     // HELPER FUNCTION(s)
     void TriggerQuery(GameObjectEntity* gameObject);

@@ -6,6 +6,8 @@
 // NEEDED INCLUDE(s)
 #include "Constants.h"
 #include "Structures.h"
+#include <map>
+#include <utility>
 
 // Make life easier
 typedef std::pair<MaterialTypes, MaterialTypes> Mat2;

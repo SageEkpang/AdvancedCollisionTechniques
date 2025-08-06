@@ -11,7 +11,7 @@ Vector3 Quaternion::QGetAxis(Quaternion4 q)
     float m;
 
     v = q.GetVector3();
-    m = Vector::Magnitude(v);
+    m = v.Magnitude();
 
     if (m <= MINTOL)
         return Vector3();

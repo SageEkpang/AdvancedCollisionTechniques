@@ -7,7 +7,6 @@
 // NEEDE INCLUDE(s)
 #include "Structures.h"
 #include "Constants.h"
-#include "Vector.h"
 #include "GameObjectEntity.h"
 
 // CASES FOR INTERSECTION
@@ -28,7 +27,7 @@ class GJKCollider : public ColliderEntity
 private:
 
 	Vector3 m_Vertices;
-	Simplex m_OutSimplex;
+	// Simplex m_OutSimplex;
 
 public:
 

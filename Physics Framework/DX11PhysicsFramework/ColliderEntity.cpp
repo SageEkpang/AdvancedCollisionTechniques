@@ -180,13 +180,13 @@ Vector3 ColliderEntity::FindFurthestPoint(Vector3 direction)
 		// NOTE: Find furthest vertex
 		for (Vector3& v : m_Vertices)
 		{
-			float t_Distance = Vector::CalculateDotProductNotNorm(v, direction); // NOTE: May have to change dot product back to normalise one
+			// float t_Distance = Vector::CalculateDotProductNotNorm(v, direction); // NOTE: May have to change dot product back to normalise one
 
-			if (t_Distance > t_MaxDistance)
-			{
-				t_MaxDistance = t_Distance;
-				t_MaxPoint = v;
-			}
+			//if (t_Distance > t_MaxDistance)
+			//{
+			//	t_MaxDistance = t_Distance;
+			//	t_MaxPoint = v;
+			//}
 		}
 	}
 

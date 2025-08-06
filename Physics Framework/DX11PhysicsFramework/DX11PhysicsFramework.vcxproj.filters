@@ -102,15 +102,6 @@
     <Filter Include="Components\PhysicsComponents\Source">
       <UniqueIdentifier>{96022f47-5410-458f-ac21-03cc679453e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\RenderComponents">
-      <UniqueIdentifier>{fd63915f-aa52-498d-92c5-d086b7c06190}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\RenderComponents\Header">
-      <UniqueIdentifier>{3ce645c2-32c5-4d0d-9c0e-e02f3e4dbcd2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\RenderComponents\Source">
-      <UniqueIdentifier>{c2bfb289-1e3b-4119-bbba-b09d3d6d89af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Camera">
       <UniqueIdentifier>{502127af-9159-4398-a0f8-f971a13bec4a}</UniqueIdentifier>
     </Filter>
@@ -119,6 +110,21 @@
     </Filter>
     <Filter Include="Camera\Source">
       <UniqueIdentifier>{6ac3690d-8487-473e-af46-cab676f2fe90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\MeshComponents">
+      <UniqueIdentifier>{fd63915f-aa52-498d-92c5-d086b7c06190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\MeshComponents\Header">
+      <UniqueIdentifier>{3ce645c2-32c5-4d0d-9c0e-e02f3e4dbcd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\MeshComponents\Source">
+      <UniqueIdentifier>{c2bfb289-1e3b-4119-bbba-b09d3d6d89af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Structs\Header">
+      <UniqueIdentifier>{90f6f880-02d6-4b5d-8e7c-c05b0ea37229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Structs\Source">
+      <UniqueIdentifier>{5f5f92ba-26a1-49eb-8003-7756c3b84005}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -206,15 +212,6 @@
     <ClInclude Include="SpatialHashing.h">
       <Filter>OptimisationTrees\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Quaternion.h">
-      <Filter>Structs</Filter>
-    </ClInclude>
     <ClInclude Include="EPACollider.h">
       <Filter>Components\ComplexColliderComponents\Header</Filter>
     </ClInclude>
@@ -245,17 +242,50 @@
     <ClInclude Include="Particle.h">
       <Filter>Components\PhysicsComponents\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Structs</Filter>
-    </ClInclude>
     <ClInclude Include="Render.h">
-      <Filter>Components\RenderComponents\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Structures.h">
-      <Filter>Structs</Filter>
+      <Filter>Components\MeshComponents\Header</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Camera\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Structs\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Structs\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Structs\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Structs\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Structs\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Structs\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleVertex.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshData.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Helpers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManifold.h">
+      <Filter>Structs\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -343,12 +373,6 @@
     <ClCompile Include="SpatialHashing.cpp">
       <Filter>OptimisationTrees\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Vector.cpp">
-      <Filter>Structs</Filter>
-    </ClCompile>
-    <ClCompile Include="Quaternion.cpp">
-      <Filter>Structs</Filter>
-    </ClCompile>
     <ClCompile Include="MassAggregate.cpp">
       <Filter>Components\ComplexColliderComponents\Source</Filter>
     </ClCompile>
@@ -379,14 +403,20 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Components\PhysicsComponents\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Structs</Filter>
-    </ClCompile>
     <ClCompile Include="Render.cpp">
-      <Filter>Components\RenderComponents\Source</Filter>
+      <Filter>Components\MeshComponents\Source</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Camera\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Structs\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Structs\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceInfo.h">
+      <Filter>Helpers\Header</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

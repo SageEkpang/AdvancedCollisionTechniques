@@ -2,8 +2,6 @@
 #define GAME_OBJECT_ENTITY_H
 
 // NEEDED INCLUDE(s)
-#include "Constants.h"
-#include "Structures.h"
 #include <concepts>
 
 #include <unordered_map>
@@ -33,12 +31,6 @@
 
 // Physics Components (s)
 #include "Rigidbody3DObject.h"
-
-#include <queue>
-#include <list>
-
-// COMPONENT INCLUDE(s)
-using namespace DirectX;
 
 unsigned int constexpr MAX_COMPONENTS = 8u;
 

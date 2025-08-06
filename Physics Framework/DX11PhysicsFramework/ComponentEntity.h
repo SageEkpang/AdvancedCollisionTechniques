@@ -2,10 +2,9 @@
 #define COMPONENT_H
 
 // NEEDED INCLUDE(s)
-#include "Constants.h"
-#include "Structures.h"
+#include "ConstantBuffer.h"
+#include <d3d11.h>
 #include <iostream>
-#include <optional>
 
 class GameObjectEntity;
 

@@ -2,9 +2,11 @@
 #define TRANSFORM_H
 
 // NEEDED INCLUDE(s)
-#include "Structures.h"
 #include "Quaternion.h"
-#include "Vector.h"
+#include "Vector3.h"
+#include <directxmath.h>
+
+using namespace DirectX;
 
 class Transform
 {
@@ -17,7 +19,7 @@ public:
 
 	// WORLD VARIABLE(s)
 	Transform* m_Parent = nullptr;
-	XMFLOAT4X4* m_World;
+	DirectX::XMFLOAT4X4* m_World;
 
 public:
 

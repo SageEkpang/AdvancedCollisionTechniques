@@ -42,15 +42,15 @@ void PhysicsEntity::Update(float deltaTime)
 
 Vector3 PhysicsEntity::FrictionForce()
 {
-	float t_NormalForce = m_Gravity * m_Mass; // NOTE: This would be the normal of the ground to the object.
-	float t_CoefFric = 0.9; // Friction Coefficent
-	float t_Friction = t_CoefFric * t_NormalForce;
-	float t_Dampening = 0.5; // Dampen the Friction Force
+	//float t_NormalForce = m_Gravity * m_Mass; // NOTE: This would be the normal of the ground to the object.
+	//float t_CoefFric = 0.9; // Friction Coefficent
+	//float t_Friction = t_CoefFric * t_NormalForce;
+	//float t_Dampening = 0.5; // Dampen the Friction Force
 
-	// Intergration
-	Vector3 t_CopyVelocity = m_Velocity * -1;
-	t_CopyVelocity = Vector::Normalise(t_CopyVelocity) * std::abs(t_Friction);
-	return t_CopyVelocity;
+	//// Intergration
+	//Vector3 t_CopyVelocity = m_Velocity * -1;
+	//t_CopyVelocity = Vector::Normalise(t_CopyVelocity) * std::abs(t_Friction);
+	return Vector3();
 }
 
 Vector3 PhysicsEntity::DragForce()
@@ -58,14 +58,14 @@ Vector3 PhysicsEntity::DragForce()
 	// Check if the value is more than 0, do not want to divide by 0
 	if (m_Velocity == 0) { return Vector3(0, 0, 0); }
 
-	// Calculate drag using the fluid density, velocity squared, drag coefficient and cross sectional area
-	float DensityOfFluid = 1.225; // Density of Air 
-	float Drag = Vector::Magnitude((DensityOfFluid * Vector::Pow(m_Velocity, 2) * m_DragCoef * 1) * 0.5);
+	//// Calculate drag using the fluid density, velocity squared, drag coefficient and cross sectional area
+	//float DensityOfFluid = 1.225; // Density of Air 
+	//float Drag = Vector::Magnitude((DensityOfFluid * Vector::Pow(m_Velocity, 2) * m_DragCoef * 1) * 0.5);
 
-	// Intergration
-	Vector3 CopyVelocity = m_Velocity * -1;
-	CopyVelocity = Vector::Normalise(CopyVelocity) * Drag;
-	return CopyVelocity;
+	//// Intergration
+	//Vector3 CopyVelocity = m_Velocity * -1;
+	//CopyVelocity = Vector::Normalise(CopyVelocity) * Drag;
+	return Vector3();
 }
 
 // NOTE: Gravity Formula changed to be more simpler relative to objects
@@ -82,12 +82,12 @@ Vector3 PhysicsEntity::GravityForce()
 
 Vector3 PhysicsEntity::TensionForce()
 {
-	Vector3 t_Tension = (m_Mass * GetGravity()) + (m_Mass * m_Acceleration);
+	//Vector3 t_Tension = (m_Mass * GetGravity()) + (m_Mass * m_Acceleration);
 
-	Vector3 t_CopyVelocity = m_Velocity * -1;
-	t_CopyVelocity = Vector::Normalise(t_CopyVelocity) * t_Tension; // TODO: Make sure that this works in the future
+	//Vector3 t_CopyVelocity = m_Velocity * -1;
+	//t_CopyVelocity = Vector::Normalise(t_CopyVelocity) * t_Tension; // TODO: Make sure that this works in the future
 
-	return t_CopyVelocity;
+	return Vector3();
 }
 
 float PhysicsEntity::GetDensity()

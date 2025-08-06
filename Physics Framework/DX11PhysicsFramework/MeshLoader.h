@@ -1,13 +1,14 @@
 #ifndef MESH_LOADER_H
+#define MESH_LOADER_H // MIGHT NEED TO REMOVE THIS
 
-#include "Structures.h"
-#include "Constants.h"
-
+#include "Vector3.h"
 
 #include <fstream>
 #include <vector>
 #include <string>
 #include <iostream>
+
+using namespace std;
 
 namespace MeshLoader
 {

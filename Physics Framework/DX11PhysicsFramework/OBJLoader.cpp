@@ -1,5 +1,4 @@
 #include "OBJLoader.h"
-#include <string>
 
 bool OBJLoader::FindSimilarVertex(const SimpleVertex& vertex, std::map<SimpleVertex, unsigned short>& vertToIndexMap, unsigned short& index)
 {
@@ -16,13 +15,13 @@ bool OBJLoader::FindSimilarVertex(const SimpleVertex& vertex, std::map<SimpleVer
 	}
 }
 
-void OBJLoader::CreateIndices(const std::vector<XMFLOAT3>& inVertices, 
-							  const std::vector<XMFLOAT2>& inTexCoords, 
-							  const std::vector<XMFLOAT3>& inNormals, 
+void OBJLoader::CreateIndices(const std::vector<DirectX::XMFLOAT3>& inVertices, 
+							  const std::vector<DirectX::XMFLOAT2>& inTexCoords,
+							  const std::vector<DirectX::XMFLOAT3>& inNormals,
 							  std::vector<unsigned short>& outIndices, 
-							  std::vector<XMFLOAT3>& outVertices, 
-							  std::vector<XMFLOAT2>& outTexCoords, 
-							  std::vector<XMFLOAT3>& outNormals)
+							  std::vector<DirectX::XMFLOAT3>& outVertices,
+							  std::vector<DirectX::XMFLOAT2>& outTexCoords,
+							  std::vector<DirectX::XMFLOAT3>& outNormals)
 {
 	// Mapping from an already-existing SimpleVertex to its corresponding index
 	std::map<SimpleVertex, unsigned short> vertToIndexMap;
@@ -85,9 +84,9 @@ MeshData OBJLoader::Load(char* filename, ID3D11Device* _pd3dDevice, bool invertT
 		{
 			//Vectors to store the vertex positions, normals and texture coordinates. Need to use vectors since they're resizeable and we have
 			//no way of knowing ahead of time how large these meshes will be
-			std::vector<XMFLOAT3> verts;
-			std::vector<XMFLOAT3> normals;
-			std::vector<XMFLOAT2> texCoords;
+			std::vector<DirectX::XMFLOAT3> verts;
+			std::vector<DirectX::XMFLOAT3> normals;
+			std::vector<DirectX::XMFLOAT2> texCoords;
 
 			//DirectX uses 1 index buffer, OBJ is optimized for storage and not rendering and so uses 3 smaller index buffers.....great...
 			//We'll have to merge this into 1 index buffer which we'll do after loading in all of the required data.
@@ -97,9 +96,9 @@ MeshData OBJLoader::Load(char* filename, ID3D11Device* _pd3dDevice, bool invertT
 
 			std::string input;
 
-			XMFLOAT3 vert;
-			XMFLOAT2 texCoord;
-			XMFLOAT3 normal;
+			DirectX::XMFLOAT3 vert;
+			DirectX::XMFLOAT2 texCoord;
+			DirectX::XMFLOAT3 normal;
 			unsigned short vInd[3]; //indices for the vertex position
 			unsigned short tInd[3]; //indices for the texture coordinate
 			unsigned short nInd[3]; //indices for the normal
@@ -168,9 +167,9 @@ MeshData OBJLoader::Load(char* filename, ID3D11Device* _pd3dDevice, bool invertT
 			inFile.close(); //Finished with input file now, all the data we need has now been loaded in
 
 			//Get vectors to be of same size, ready for singular indexing
-			std::vector<XMFLOAT3> expandedVertices;
-			std::vector<XMFLOAT3> expandedNormals;
-			std::vector<XMFLOAT2> expandedTexCoords;
+			std::vector<DirectX::XMFLOAT3> expandedVertices;
+			std::vector<DirectX::XMFLOAT3> expandedNormals;
+			std::vector<DirectX::XMFLOAT2> expandedTexCoords;
 			unsigned int numIndices = vertIndices.size();
 			for(unsigned int i = 0; i < numIndices; i++)
 			{
@@ -182,11 +181,11 @@ MeshData OBJLoader::Load(char* filename, ID3D11Device* _pd3dDevice, bool invertT
 			//Now to (finally) form the final vertex, texture coord, normal list and single index buffer using the above expanded vectors
 			std::vector<unsigned short> meshIndices;
 			meshIndices.reserve(numIndices);
-			std::vector<XMFLOAT3> meshVertices;
+			std::vector<DirectX::XMFLOAT3> meshVertices;
 			meshVertices.reserve(expandedVertices.size());
-			std::vector<XMFLOAT3> meshNormals;
+			std::vector<DirectX::XMFLOAT3> meshNormals;
 			meshNormals.reserve(expandedNormals.size());
-			std::vector<XMFLOAT2> meshTexCoords;
+			std::vector<DirectX::XMFLOAT2> meshTexCoords;
 			meshTexCoords.reserve(expandedTexCoords.size());
 
 			CreateIndices(expandedVertices, expandedTexCoords, expandedNormals, meshIndices, meshVertices, meshTexCoords, meshNormals);

@@ -1,9 +1,11 @@
-#pragma once
 #ifndef CAMERA_H
 #define CAMERA_H
 
 #include "Structures.h"
 #include "Constants.h"
+
+#include <directxmath.h>
+#include <d3d11.h>
 
 using namespace DirectX;
 

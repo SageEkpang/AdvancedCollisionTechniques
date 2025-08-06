@@ -1,14 +1,15 @@
-#pragma once
-#include <windows.h>
+#ifndef OBJ_LOADER_H
+#define OBJ_LOADER_H
+
 #include <d3d11_1.h>
 #include <directxmath.h>
 #include <fstream>		//For loading in an external file
 #include <vector>		//For storing the XMFLOAT3/2 variables
 #include <map>			//For fast searching when re-creating the index buffer
 
-#include "Structures.h"
-
-using namespace DirectX;
+#include "MeshData.h"
+#include "SimpleVertex.h"
+#include <string>
 
 namespace OBJLoader
 {
@@ -20,5 +21,7 @@ namespace OBJLoader
 	bool FindSimilarVertex(const SimpleVertex& vertex, std::map<SimpleVertex, unsigned short>& vertToIndexMap, unsigned short& index);
 
 	//Re-creates a single index buffer from the 3 given in the OBJ file
-	void CreateIndices(const std::vector<XMFLOAT3>& inVertices, const std::vector<XMFLOAT2>& inTexCoords, const std::vector<XMFLOAT3>& inNormals, std::vector<unsigned short>& outIndices, std::vector<XMFLOAT3>& outVertices, std::vector<XMFLOAT2>& outTexCoords, std::vector<XMFLOAT3>& outNormals);
+	void CreateIndices(const std::vector<DirectX::XMFLOAT3>& inVertices, const std::vector<DirectX::XMFLOAT2>& inTexCoords, const std::vector<DirectX::XMFLOAT3>& inNormals, std::vector<unsigned short>& outIndices, std::vector<DirectX::XMFLOAT3>& outVertices, std::vector<DirectX::XMFLOAT2>& outTexCoords, std::vector<DirectX::XMFLOAT3>& outNormals);
 };
+
+#endif

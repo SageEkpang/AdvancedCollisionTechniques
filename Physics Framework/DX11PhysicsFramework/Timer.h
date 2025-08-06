@@ -1,10 +1,10 @@
-#pragma once
-
 #ifndef TIMER_H
 #define TIMER_H
 
 #include "Constants.h"
-#include "Structures.h"
+
+#include <debugapi.h>
+#include <iostream>
 #include <chrono>
 
 using namespace std::chrono;

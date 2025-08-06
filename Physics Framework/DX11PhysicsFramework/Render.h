@@ -4,8 +4,9 @@
 #include "Structures.h"
 #include "OBJLoader.h"
 
-#include "Transform.h"
 #include "ComponentEntity.h"
+#include "Material.h"
+#include "Geometry.h"
 
 class Mesh : public ComponentEntity
 {
