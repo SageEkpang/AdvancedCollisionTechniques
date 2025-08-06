@@ -5,10 +5,6 @@
 // ABSTRACT CLASS(s)
 #include "ColliderEntity.h"
 
-// NEEDED INCLUDE(s)
-#include "Constants.h"
-#include "Structures.h"
-
 class PlaneCollider : public ColliderEntity
 {
 private:

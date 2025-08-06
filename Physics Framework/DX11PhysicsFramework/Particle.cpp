@@ -1,4 +1,4 @@
-#include "Particle.h"
+  #include "Particle.h"
 
 Particle::Particle(Transform* transform, float mass, ID3D11Device* device)
 {

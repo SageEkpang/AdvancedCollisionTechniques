@@ -5,11 +5,6 @@
 // ABSTRACT CLASS(s)
 #include "ColliderEntity.h"
 
-// NEEDED INCLUDE(s)
-#include "Constants.h"
-#include "Structures.h"
-#include "GameObjectEntity.h"
-
 class EPACollider : public ColliderEntity
 {
 public:

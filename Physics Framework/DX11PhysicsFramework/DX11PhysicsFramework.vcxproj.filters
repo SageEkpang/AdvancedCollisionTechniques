@@ -242,7 +242,7 @@
     <ClInclude Include="Particle.h">
       <Filter>Components\PhysicsComponents\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Render.h">
+    <ClInclude Include="Mesh.h">
       <Filter>Components\MeshComponents\Header</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -403,7 +403,7 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Components\PhysicsComponents\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Render.cpp">
+    <ClCompile Include="Mesh.cpp">
       <Filter>Components\MeshComponents\Source</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">

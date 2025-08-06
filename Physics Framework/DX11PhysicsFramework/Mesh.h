@@ -1,7 +1,6 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "Structures.h"
 #include "OBJLoader.h"
 
 #include "ComponentEntity.h"
@@ -14,7 +13,7 @@ private:
 
 	Material m_Material;
 	Geometry m_Geometry;
-	bool m_RenderObject = true;
+	bool m_RenderMesh = true;
 
 public:
 

@@ -1,11 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Structures.h"
-#include "Constants.h"
-
-#include <directxmath.h>
+#include <windows.h>
 #include <d3d11.h>
+#include <directxmath.h>
+#include <directxcolors.h>
 
 using namespace DirectX;
 

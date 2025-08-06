@@ -247,7 +247,7 @@ typedef struct Vector3
 		return *this;
 	}
 
-	Vector3 Pow(int power) const
+	Vector3 Pow(float power) const
 	{
 		return Vector3(std::powf(this->x, power), std::powf(this->y, power), std::powf(this->z, power));
 	}

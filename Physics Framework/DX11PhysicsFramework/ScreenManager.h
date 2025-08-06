@@ -1,4 +1,3 @@
-#pragma once
 #ifndef SCREEN_MANAGER_H
 #define SCREEN_MANAGER_H
 
@@ -6,7 +5,6 @@
 #include "Camera.h"
 #include "Structures.h"
 #include "OBJLoader.h"
-#include "GameObjectEntity.h"
 #include "ScreenEntity.h"
 #include "Timer.h"
 #include "Light.h"

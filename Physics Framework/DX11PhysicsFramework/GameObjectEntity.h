@@ -14,8 +14,8 @@
 #include "ComponentEntity.h"
 
 // COMPONENT INCLUDE(s)
-// Render Component(s)
-#include "Render.h"
+// Mesh Component(s)
+#include "Mesh.h"
 
 // Simple Collider Component(s)
 #include "BoxCollider.h"

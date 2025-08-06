@@ -35,14 +35,14 @@ void Camera::Update(const float deltaTime)
 	XMMATRIX t_TempWorld = XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_ViewMatrix));
 
 	// MOVEMENT // TODO: Could add a smoothing function to the camera to move better
-	if (GetAsyncKeyState(VK_W)) { t_TempWorld.r[3] += t_TempWorld.r[2] * m_CameraSpeed * deltaTime; } // Move Forward
-	if (GetAsyncKeyState(VK_A)) { t_TempWorld.r[3] -= t_TempWorld.r[0] * m_CameraSpeed * deltaTime; } // Move Left
-	if (GetAsyncKeyState(VK_S)) { t_TempWorld.r[3] -= t_TempWorld.r[2] * m_CameraSpeed * deltaTime; } // Move Back
-	if (GetAsyncKeyState(VK_D)) { t_TempWorld.r[3] += t_TempWorld.r[0] * m_CameraSpeed * deltaTime; } // Move Right
+	if (GetAsyncKeyState('W')) { t_TempWorld.r[3] += t_TempWorld.r[2] * m_CameraSpeed * deltaTime; } // Move Forward
+	if (GetAsyncKeyState('A')) { t_TempWorld.r[3] -= t_TempWorld.r[0] * m_CameraSpeed * deltaTime; } // Move Left
+	if (GetAsyncKeyState('S')) { t_TempWorld.r[3] -= t_TempWorld.r[2] * m_CameraSpeed * deltaTime; } // Move Back
+	if (GetAsyncKeyState('D')) { t_TempWorld.r[3] += t_TempWorld.r[0] * m_CameraSpeed * deltaTime; } // Move Right
 
 	// UP AND DOWN
-	if (GetAsyncKeyState(VK_E)) { t_TempWorld.r[3] += t_TempWorld.r[1] * m_CameraSpeed * deltaTime; } // Move Up
-	if (GetAsyncKeyState(VK_Q)) { t_TempWorld.r[3] -= t_TempWorld.r[1] * m_CameraSpeed * deltaTime; } // Move Down
+	if (GetAsyncKeyState('E')) { t_TempWorld.r[3] += t_TempWorld.r[1] * m_CameraSpeed * deltaTime; } // Move Up
+	if (GetAsyncKeyState('Q')) { t_TempWorld.r[3] -= t_TempWorld.r[1] * m_CameraSpeed * deltaTime; } // Move Down
 
 
 	// ROTATE (Left and Right) (Yaw)
@@ -74,13 +74,13 @@ void Camera::Update(const float deltaTime)
 	}
 
 	// ROTATE (ClockWise and Anti-Clockwise) (Roll)
-	if (GetAsyncKeyState(VK_Z)) // Rotate Anit-Clockwise
+	if (GetAsyncKeyState('Z')) // Rotate Anit-Clockwise
 	{
 		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[2], XMConvertToRadians(1 * (m_CameraRotationSpeed * 10) * deltaTime));
 		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
 		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
 	}
-	if (GetAsyncKeyState(VK_X)) // Rotate Clockwise
+	if (GetAsyncKeyState('X')) // Rotate Clockwise
 	{
 		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[2], XMConvertToRadians(-1 * (m_CameraRotationSpeed * 10) * deltaTime));
 		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);

@@ -4,11 +4,9 @@
 
 // ABSTRACT CLASS(s)
 #include "ColliderEntity.h"
-#include "Particle.h"
+//#include "Particle.h"
 
 // NEEDED INCLUDE(s)
-#include "Constants.h"
-#include "Structures.h"
 // #include "CollisionContact.h"
 
 // MASS AGGREGATE		

@@ -1,4 +1,4 @@
-#include "Render.h"
+#include "Mesh.h"
 #include "GameObjectEntity.h"
 
 Mesh::Mesh(Geometry geometry, Material material)
@@ -16,7 +16,7 @@ Mesh::~Mesh()
 
 void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
-	if (m_RenderObject == false) { return; }
+	if (m_RenderMesh == false) { return; }
 
 	D3D11_RASTERIZER_DESC cmdesc;
 	ID3D11RasterizerState* m_NormalCull;

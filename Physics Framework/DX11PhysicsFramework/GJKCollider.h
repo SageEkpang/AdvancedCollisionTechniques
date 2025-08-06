@@ -3,11 +3,7 @@
 
 // ABSTRACT CLASS
 #include "ColliderEntity.h" // NOTE: Use for Difference
-
-// NEEDE INCLUDE(s)
-#include "Structures.h"
-#include "Constants.h"
-#include "GameObjectEntity.h"
+#include "Vector3.h"
 
 // CASES FOR INTERSECTION
 // A Tetrahedron
@@ -26,7 +22,7 @@ class GJKCollider : public ColliderEntity
 {
 private:
 
-	Vector3 m_Vertices;
+	// Vector3 m_Vertices;
 	// Simplex m_OutSimplex;
 
 public:

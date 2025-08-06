@@ -8,7 +8,6 @@
 #include "CollisionManifold.h"
 
 // CLASS INCLUDE(s)
-
 namespace CollisionContactManager
 {
 	Vector3 CalculateSeparatingVelocity(GameObjectEntity* gameObjectA, GameObjectEntity* gameObjectB);

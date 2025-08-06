@@ -4,10 +4,6 @@
 // ABSTRACT CLASS(s)
 #include "ColliderEntity.h"
 
-// NEEDED INCLUDE(s)
-#include "Structures.h"
-#include "Constants.h"
-
 class OBBCollider : public ColliderEntity
 {
 private:

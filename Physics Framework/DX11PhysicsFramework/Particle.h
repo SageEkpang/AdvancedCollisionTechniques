@@ -1,15 +1,10 @@
-#pragma once
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
-#include "Constants.h"
-#include "Structures.h"
-#include "ConstantBuffer.h"
-
 #include "OBJLoader.h"
 #include "PhysicsEntity.h"
-#include "Transform.h"
 
+#include "ConstantBuffer.h"
 #include "Geometry.h"
 #include "Material.h"
 #include <directxmath.h>

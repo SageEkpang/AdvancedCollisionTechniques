@@ -1,14 +1,10 @@
-#pragma once
 #ifndef RIGIDBODY_OBJECT_H
 #define RIGIDBODY_OBJECT_H
 
-#include "Structures.h"
-#include "Constants.h"
 #include "PhysicsEntity.h"
 #include "MaterialCoefficient.h"
 
 // RIGIDBODY PHYSICS
-
 
 enum class Rigidbody3DMovementType : std::int8_t
 {

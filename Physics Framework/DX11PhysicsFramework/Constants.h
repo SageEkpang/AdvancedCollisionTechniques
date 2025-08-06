@@ -1,8 +1,8 @@
-#pragma once
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
 #include "Structures.h"
+// #include "Material.h"
 
 constexpr int MAX_X = 20;
 constexpr int MIN_X = -20;

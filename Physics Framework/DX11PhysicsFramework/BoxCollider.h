@@ -1,13 +1,8 @@
-#pragma once
 #ifndef BOX_COLLIDER_H
 #define BOX_COLLIDER_H
 
 // ABSTRACT CLASS(s)
 #include "ColliderEntity.h"
-
-// NEEDED INCLUDE(s)
-#include "Structures.h"
-#include "Constants.h"
 
 class BoxCollider : public ColliderEntity
 {

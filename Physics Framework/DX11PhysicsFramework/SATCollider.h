@@ -1,14 +1,8 @@
 #ifndef SAT_COLLIDER_H
 #define SAT_COLLIDER_H
 
-// ABSTRACT CLASS(s)
+// PARENT CLASS(s)
 #include "ColliderEntity.h"
-
-// NEEDED INCLUDE(s)
-#include "Constants.h"
-#include "Structures.h"
-#include "OBBCollider.h"
-#include "GameObjectEntity.h"
 
 class SATCollider : public ColliderEntity
 {
