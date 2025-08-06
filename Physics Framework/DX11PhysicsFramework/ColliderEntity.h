@@ -79,7 +79,7 @@ public: // PUBLIC FUNCTION(s)
 
     // HELPER
     Vector3 FindFurthestPoint(Vector3 direction); // GJK Algo Function
-    Vector3 SphereNearestPoint(Vector3 point);
+    /*Vector3 SphereNearestPoint(Vector3 point);*/
 
     // TODO: Make a function that updates the verticese within this field
     /// <summary> NOTE: This needs to take a file path for computing the points to draw </summary>

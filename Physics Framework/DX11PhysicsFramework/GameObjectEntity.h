@@ -93,8 +93,6 @@ public:
 
 	template<std::derived_from<ComponentEntity> T>
 	bool HasComponent();
-
-
 	
 };
 

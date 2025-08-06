@@ -45,13 +45,3 @@ void Transform::Update(float DeltaTime)
 		XMStoreFloat4x4(m_World, this->GetWorldMatrix() * m_Parent->GetWorldMatrix());
 	}
 }
-
-void Transform::Move(Vector3 Direction)
-{
-	m_Position += Direction;
-}
-
-void Transform::Resize(Vector3 Direction)
-{
-	m_Scale += Direction;
-}

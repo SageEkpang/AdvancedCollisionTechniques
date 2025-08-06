@@ -424,12 +424,8 @@ typedef struct VertexDataSource
 
 typedef struct Simplex
 {
-private:
-
 	std::array<Vector3, 4> points;
 	unsigned size;
-
-public:
 
 	Simplex()
 	{
@@ -670,23 +666,6 @@ typedef struct Quaternion4
 
 
 }Quaternion4;
-
-typedef struct Transform3D
-{
-	Transform3D* parent;
-	Vector3 position;
-	Vector3 scale;
-	Vector3 rotation;
-
-	Transform3D(Transform3D* parent = nullptr, Vector3 position = Vector3(), Vector3 scale = Vector3(), Vector3 rotation = Vector3())
-	{
-		this->parent = parent;
-		this->position = position;
-		this->scale = scale;
-		this->rotation = rotation;
-	}
-
-}Transform3D;
 
 typedef struct ContactPoint
 {

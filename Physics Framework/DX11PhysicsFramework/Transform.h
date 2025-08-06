@@ -1,7 +1,5 @@
-#pragma once
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
-
 
 // NEEDED INCLUDE(s)
 #include "Structures.h"
@@ -32,21 +30,10 @@ public:
 	~Transform();
 
 
-
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Base Update Class for Class </summary>
 	void Update(float DeltaTime);
-
-
-
-	// ADDITIONAL FUNCTION(s)
-
-	/// <summary> Function to Move Entity (Vector3) </summary>
-	void Move(Vector3 Direction);
-
-	/// <summary> Function to Resize Entity (Scale3) </summary>
-	void Resize(Vector3 Direction);
 
 
 	// GETTER FUNCTION(s)
