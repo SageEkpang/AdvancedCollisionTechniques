@@ -5,24 +5,16 @@ Transform::Transform()
 	m_Parent = nullptr;
 	m_World = new XMFLOAT4X4();
 
-	m_Position = Vector3();
-	m_Scale = Vector3();
-	m_Orientation = Quaternion4();
+	m_Position = Vector3(0, 0, 0);
+	m_Scale = Vector3(1, 1, 1);
+	m_Orientation = Quaternion4(0, 0, 0, 1);
 }
 
 Transform::~Transform()
 {
-	if (m_World != nullptr)
-	{
-		delete m_World;
-		// m_World = nullptr;
-	}
+	if (m_World != nullptr) { delete m_World; }
+	if (m_Parent != nullptr) { delete m_Parent; }
 
-	if (m_Parent != nullptr)
-	{
-		delete m_Parent;
-		// m_Parent = nullptr;
-	}
 }
 
 void Transform::Update(float DeltaTime)
@@ -37,11 +29,11 @@ void Transform::Update(float DeltaTime)
 	XMMATRIX Position = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
 	// Store Transform in Matrix
-	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
+	DirectX::XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 
 	// Set Parent
 	if (m_Parent != nullptr)
 	{
-		XMStoreFloat4x4(m_World, this->GetWorldMatrix() * m_Parent->GetWorldMatrix());
+		DirectX::XMStoreFloat4x4(m_World, this->GetWorldMatrix() * m_Parent->GetWorldMatrix());
 	}
 }

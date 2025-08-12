@@ -1,8 +1,7 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "Constants.h"
-
+#include <windows.h>
 #include <debugapi.h>
 #include <iostream>
 #include <chrono>

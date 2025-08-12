@@ -42,7 +42,6 @@ protected:
 
 	// OBJECT VARIABLE(s)
 	std::vector<GameObjectEntity*> m_GameObjects;
-	GameObjectEntity* m_GroundPlane;
 
 public:
 

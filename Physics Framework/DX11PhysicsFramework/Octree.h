@@ -2,7 +2,7 @@
 #define OCTREE_H
 
 #include "Constants.h"
-#include "Structures.h"
+// #include "Structures.h"
 #include "PhysicsEntity.h"
 #include "GameObjectEntity.h"
 #include "CollisionManifold.h"

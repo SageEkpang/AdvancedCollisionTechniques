@@ -173,15 +173,15 @@ bool ScreenManager::HandleKeyboard(MSG msg)
 	switch (msg.wParam)
 	{
 		// RASTERIZER STATE(s)
-		case VK_V: _immediateContext->RSSetState(_CWcullMode); break;
-		case VK_C: _immediateContext->RSSetState(m_WireFrameMode); break;
+		case 'V': _immediateContext->RSSetState(_CWcullMode); break;
+		case 'C': _immediateContext->RSSetState(m_WireFrameMode); break;
 
 		// TRANSITION SCREEN(s)
-		case VK_0: TransitionScreen(STATE_BASIC_SCREEN); break;
-		case VK_1: TransitionScreen(STATE_SAT_SCREEN); break;
-		case VK_2: TransitionScreen(STATE_GJK_SCREEN); break;
-		case VK_3: TransitionScreen(STATE_EPA_SCREEN); break;
-		case VK_4: TransitionScreen(STATE_MASS_ARG_SCREEN); break;
+		case '0': TransitionScreen(STATE_BASIC_SCREEN); break;
+		case '1': TransitionScreen(STATE_SAT_SCREEN); break;
+		case '2': TransitionScreen(STATE_GJK_SCREEN); break;
+		case '3': TransitionScreen(STATE_EPA_SCREEN); break;
+		case '4': TransitionScreen(STATE_MASS_ARG_SCREEN); break;
 	}
 
 	return false;

@@ -4,10 +4,11 @@
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
-#include "Structures.h"
+// #include "Structures.h"
 
 // CUSTOM INCLUDE(s)
 #include "ScreenEntity.h"
+
 
 class SATScreen : public ScreenEntity
 {

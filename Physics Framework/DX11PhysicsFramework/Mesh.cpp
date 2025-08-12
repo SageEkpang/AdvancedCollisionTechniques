@@ -1,8 +1,40 @@
 #include "Mesh.h"
 #include "GameObjectEntity.h"
 
-Mesh::Mesh(Geometry geometry, Material material)
-{ 
+void Mesh::Construct(char* fileName, ID3D11Device* device)
+{
+	Geometry t_Geometry;
+	MeshData t_Mesh;
+
+	t_Mesh = OBJLoader::Load(fileName, device);
+	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
+	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
+	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
+	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
+
+	m_Geometry = t_Geometry;
+	m_Material = MATERIAL_GROUND;
+}
+
+void Mesh::Construct(char* fileName, Material material, Geometry geometry, ID3D11Device* device)
+{
+	Geometry t_Geometry;
+	MeshData t_Mesh;
+
+	t_Mesh = OBJLoader::Load(fileName, device);
+	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
+	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
+	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
+	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
+
+	m_Geometry = t_Geometry;
+	m_Material = material;
+}
+
+Mesh::Mesh()
+{
 	m_Material = Material();
 	m_Geometry = Geometry();
 	m_Geometry.vertexBuffer = nullptr;
@@ -11,7 +43,10 @@ Mesh::Mesh(Geometry geometry, Material material)
 
 Mesh::~Mesh()
 {
-
+	m_Material = Material();
+	m_Geometry = Geometry();
+	m_Geometry.vertexBuffer = nullptr;
+	m_Geometry.indexBuffer = nullptr;
 }
 
 void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)

@@ -56,14 +56,14 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 {
 	// NOTE: Set Game objects to random impulse direction
 
-	if ((GetAsyncKeyState(VK_C) && m_UseOctree == true) & 0x0001) 
-	{
-		m_UseOctree = false;
-	}
-	else if ((GetAsyncKeyState(VK_C) && m_UseOctree == false) & 0x0001)
-	{
-		m_UseOctree = true;
-	}
+	//if ((GetAsyncKeyState(VK_C) && m_UseOctree == true) & 0x0001) 
+	//{
+	//	m_UseOctree = false;
+	//}
+	//else if ((GetAsyncKeyState(VK_C) && m_UseOctree == false) & 0x0001)
+	//{
+	//	m_UseOctree = true;
+	//}
 }
 
 void SATScreen::Update(float deltaTime, ID3D11Device* device)

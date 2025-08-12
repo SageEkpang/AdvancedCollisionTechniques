@@ -3,7 +3,7 @@
 #define MASS_AGG_SCREEN_H
 
 // NEEDED INCLUDE(s)
-#include "Structures.h"
+// #include "Structures.h"
 #include "Constants.h"
 
 // CUSTOM INCLUDE(s)

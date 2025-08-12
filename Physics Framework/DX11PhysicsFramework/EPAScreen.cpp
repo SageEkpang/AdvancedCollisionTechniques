@@ -75,16 +75,16 @@ void EPAScreen::RandomImpulseDirection(float deltaTime)
 void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
 {
 	// Collision Manifold
-	if (GetAsyncKeyState(VK_RETURN)) { RandomImpulseDirection(deltaTime); }
+	//if (GetAsyncKeyState(VK_RETURN)) { RandomImpulseDirection(deltaTime); }
 
-	if ((GetAsyncKeyState(VK_C) && m_UseOctree == true) & 0x0001)
-	{
-		m_UseOctree = false;
-	}
-	else if ((GetAsyncKeyState(VK_C) && m_UseOctree == false) & 0x0001)
-	{
-		m_UseOctree = true;
-	}
+	//if ((GetAsyncKeyState(VK_C) && m_UseOctree == true) & 0x0001)
+	//{
+	//	m_UseOctree = false;
+	//}
+	//else if ((GetAsyncKeyState(VK_C) && m_UseOctree == false) & 0x0001)
+	//{
+	//	m_UseOctree = true;
+	//}
 
 	//if (m_UseOctree == true)
 	//{

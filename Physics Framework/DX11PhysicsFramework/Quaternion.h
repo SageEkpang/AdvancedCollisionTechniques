@@ -4,6 +4,8 @@
 #include "Constants.h"
 #include "Vector3.h"
 
+#define PI 3.14159
+
 struct Quaternion4
 {
 	float x, y, z, w;
@@ -162,7 +164,7 @@ struct Quaternion4
 
 	static float DegreesToRadians(float deg)
 	{
-		return deg * PI / 180.0f;
+		return deg *  PI / 180.0f;
 	}
 
 	static float RadiansToDegrees(float rad)

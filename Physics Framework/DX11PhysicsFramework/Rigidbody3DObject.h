@@ -5,14 +5,12 @@
 #include "MaterialCoefficient.h"
 
 // RIGIDBODY PHYSICS
-
 enum class Rigidbody3DMovementType : std::int8_t
 {
 	RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC,
 	RIGIDBODY_3D_MOVEMENT_TYPE_STATIC,
 	RIGIDBODY_3D_MOVEMENT_TYPE_KINEMATIC
 };
-
 
 class Rigidbody3DObject : public PhysicsEntity
 {

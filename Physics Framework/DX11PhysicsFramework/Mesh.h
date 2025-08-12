@@ -6,10 +6,11 @@
 #include "ComponentEntity.h"
 #include "Material.h"
 #include "Geometry.h"
+#include "Constants.h"
 
 class Mesh : public ComponentEntity
 {
-private:
+public:
 
 	Material m_Material;
 	Geometry m_Geometry;
@@ -17,10 +18,14 @@ private:
 
 public:
 
-	// CLASS FUNCTION(s)
+	// CLASS FUNCTION (Components)
+	void Construct(char* fileName, ID3D11Device* device);
+	void Construct(char* fileName, Material material, Geometry geometry, ID3D11Device* device);
 
+
+	// CLASS FUNCTION (Generals)
 	/// <summary> Default Constructor for Class </summary>
-	Mesh(Geometry geometry, Material material);
+	Mesh();
 
 	/// <summary> Default Deconstructor for Class </summary>
 	~Mesh();
@@ -32,7 +37,7 @@ public:
 	void Update(float deltaTime) { };
 
 	/// <summary> Default Base Draw Function for Class </summary>
-	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 
 	// GETTER FUNCTION(s)
 	Geometry GetGeometryData() const { return m_Geometry; }

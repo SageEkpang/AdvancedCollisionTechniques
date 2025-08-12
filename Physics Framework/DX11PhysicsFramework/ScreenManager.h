@@ -3,13 +3,19 @@
 
 // NEEDED INCLUDE(s)
 #include "Camera.h"
-#include "Structures.h"
+// #include "Structures.h"
 #include "OBJLoader.h"
 #include "ScreenEntity.h"
 #include "Timer.h"
 #include "Light.h"
 #include "ConstantBuffer.h"
+
+// #include <windows.h>
 #include <d3dcompiler.h>
+#include <windows.h>
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_dx11.h"
 
 //  CUSTOM INCLUDE(s) / FORWARD DEC(s)
 class BasicScreen;
@@ -56,7 +62,7 @@ private: // PRIVATE VARIABLE(s) (Application Init Variables)
 	#pragma endregion
 
 	void Destroy();
-
+	
 private: // PRIVATE VARIABLE(s) (Custom Variables)
 
 	// WINDOW VARIABLE(s)

@@ -126,6 +126,9 @@
     <Filter Include="Structs\Source">
       <UniqueIdentifier>{5f5f92ba-26a1-49eb-8003-7756c3b84005}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Constants">
+      <UniqueIdentifier>{7c9e61a3-827e-4334-b777-6175778bd6a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicScreen.h">
@@ -248,13 +251,7 @@
     <ClInclude Include="Camera.h">
       <Filter>Camera\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Structs\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Quaternion.h">
-      <Filter>Structs\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Structures.h">
       <Filter>Structs\Header</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
@@ -286,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="CollisionManifold.h">
       <Filter>Structs\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Constants</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

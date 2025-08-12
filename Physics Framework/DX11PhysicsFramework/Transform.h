@@ -46,7 +46,7 @@ public:
 	Vector3 GetRotation() { return Quaternion4::MakeEulerAnglesFromQ(m_Orientation); }
 
 	/// <summary> Getter function for World Matrix </summary>
-	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(m_World); }
+	XMMATRIX GetWorldMatrix() { return XMLoadFloat4x4(m_World); }
 
 
 	// SETTER FUNCTION(s)

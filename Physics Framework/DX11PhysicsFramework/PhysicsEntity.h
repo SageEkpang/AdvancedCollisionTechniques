@@ -1,9 +1,16 @@
-#pragma once
 #ifndef PHYSICS_OBJECT_H
 #define PHYSICS_OBJECT_H
 
 #include "ComponentEntity.h"
 #include "Transform.h"
+
+// GRAVITY DEFINE(s)
+#define GRAVITY_EARTH 9.81f
+#define GRAVITY_MARS 3.7f
+#define GRAVITY_SATURN 10.5f
+#define GRAVITY_SUN 293.0f
+#define GRAVITY_MERCURY 3.7f
+#define GRAVITY_URANUS 9.0f
 
 // PHYSICS BODY
 class PhysicsEntity : public ComponentEntity

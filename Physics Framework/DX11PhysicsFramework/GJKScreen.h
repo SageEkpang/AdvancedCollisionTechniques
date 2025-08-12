@@ -1,10 +1,8 @@
-#pragma once
 #ifndef GJK_SCREEN_H
 #define GJK_SCREEN_H
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
-#include "Structures.h"
 
 // CUSTOM INCLUDE(s)
 #include "ScreenEntity.h"
