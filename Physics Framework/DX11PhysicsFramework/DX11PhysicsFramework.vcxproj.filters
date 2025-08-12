@@ -409,9 +409,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Camera\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Quaternion.cpp">
-      <Filter>Structs\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Structs\Source</Filter>
     </ClCompile>

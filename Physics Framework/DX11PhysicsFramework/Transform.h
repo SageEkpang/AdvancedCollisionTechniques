@@ -43,7 +43,7 @@ public:
 	inline Transform* GetParent() { return m_Parent; }
 
 	/// <summary> Getter function for Transform Rotation (Derived from Quaternion) </summary>
-	Vector3 GetRotation() { return Quaternion::MakeEulerAnglesFromQ(m_Orientation); }
+	Vector3 GetRotation() { return Quaternion4::MakeEulerAnglesFromQ(m_Orientation); }
 
 	/// <summary> Getter function for World Matrix </summary>
 	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(m_World); }
@@ -53,8 +53,8 @@ public:
 	void SetParent(Transform* Parent) { m_Parent = Parent; }
 
 	// rotation
-	void SetRotation(Vector3 rotation) { m_Orientation = Quaternion::MakeQFromEulerAngles(rotation.x, rotation.y, rotation.z); } // Quaternion Rotation
-	void SetRotation(float x, float y, float z) { m_Orientation = Quaternion::MakeQFromEulerAngles(x, y, z); } // Quaternion Rotation
+	void SetRotation(Vector3 rotation) { m_Orientation = Quaternion4::MakeQFromEulerAngles(rotation.x, rotation.y, rotation.z); } // Quaternion Rotation
+	void SetRotation(float x, float y, float z) { m_Orientation = Quaternion4::MakeQFromEulerAngles(x, y, z); } // Quaternion Rotation
 	void SetOrientation(Quaternion4 orientation) { m_Orientation = orientation; } // Quaternion Rotation
 };
 
