@@ -164,12 +164,12 @@ struct Quaternion4
 
 	static float DegreesToRadians(float deg)
 	{
-		return deg *  PI / 180.0f;
+		return float(deg *  PI / 180.0f);
 	}
 
 	static float RadiansToDegrees(float rad)
 	{
-		return rad * 180.0f / PI;
+		return float(rad * 180.0f / PI);
 	}
 
 	static Quaternion4 MakeQFromEulerAngles(float x, float y, float z)

@@ -11,6 +11,7 @@
 // NOTE: Simple Collisions Colliding
 class BasicScreen : public ScreenEntity
 {
+private:
 public:
 
 	// CLASS FUNCTION(s)

@@ -44,10 +44,12 @@ private:
 
 	// COMPONENT ARRAY(s)
 	std::unordered_map<std::type_index, ComponentEntity*> m_Components;
+	DirectX::XMFLOAT4X4* m_World;
 
 public:
 
 	Transform m_Transform;
+	GameObjectEntity* m_Parent;
 
 public:
 
@@ -58,7 +60,8 @@ public:
 	// BASE FUNCTION(s)
 	void Update(float deltaTime);
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
-
+		
+	XMFLOAT4X4* GetWorld() { return m_World; }
 
 	// PARENT & CHILDREN FUNCTION(s)
 

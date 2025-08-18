@@ -120,12 +120,6 @@
     <Filter Include="Components\MeshComponents\Source">
       <UniqueIdentifier>{c2bfb289-1e3b-4119-bbba-b09d3d6d89af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Structs\Header">
-      <UniqueIdentifier>{90f6f880-02d6-4b5d-8e7c-c05b0ea37229}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Structs\Source">
-      <UniqueIdentifier>{5f5f92ba-26a1-49eb-8003-7756c3b84005}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Constants">
       <UniqueIdentifier>{7c9e61a3-827e-4334-b777-6175778bd6a5}</UniqueIdentifier>
     </Filter>
@@ -251,18 +245,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Camera\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Quaternion.h">
-      <Filter>Structs\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Structs\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Structs\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector4.h">
-      <Filter>Structs\Header</Filter>
-    </ClInclude>
     <ClInclude Include="SimpleVertex.h">
       <Filter>Helpers\Header</Filter>
     </ClInclude>
@@ -281,11 +263,23 @@
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Helpers\Header</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManifold.h">
-      <Filter>Structs\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManifold.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Structs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -408,9 +402,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Camera\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Structs\Source</Filter>
     </ClCompile>
     <ClCompile Include="SurfaceInfo.h">
       <Filter>Helpers\Header</Filter>

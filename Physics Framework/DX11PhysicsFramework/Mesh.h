@@ -10,17 +10,22 @@
 
 class Mesh : public ComponentEntity
 {
+private:
+
+	DirectX::XMFLOAT4X4* m_World;
+
 public:
 
 	Material m_Material;
 	Geometry m_Geometry;
 	bool m_RenderMesh = true;
 
+
 public:
 
 	// CLASS FUNCTION (Components)
 	void Construct(char* fileName, ID3D11Device* device);
-	void Construct(char* fileName, Material material, Geometry geometry, ID3D11Device* device);
+	void Construct(char* fileName, Material material, ID3D11Device* device);
 
 
 	// CLASS FUNCTION (Generals)
@@ -34,7 +39,7 @@ public:
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Base Update Function for Class </summary>
-	void Update(float deltaTime) { };
+	void Update(float deltaTime) override { };
 
 	/// <summary> Default Base Draw Function for Class </summary>
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;

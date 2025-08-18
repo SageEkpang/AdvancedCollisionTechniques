@@ -123,7 +123,7 @@ void ColliderEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* const
 	constantBufferData.surface.DiffuseMtrl = MATERIAL_WIREFRAME.diffuse;
 	constantBufferData.surface.SpecularMtrl = MATERIAL_WIREFRAME.specular;
 
-	XMMATRIX temp = XMLoadFloat4x4(m_Owner->m_Transform.m_World);
+	XMMATRIX temp = XMLoadFloat4x4(m_Owner->GetWorld());
 	constantBufferData.World = XMMatrixTranspose(temp);
 	constantBufferData.HasTexture = 0.0f;
 

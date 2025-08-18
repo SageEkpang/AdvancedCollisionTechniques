@@ -34,6 +34,10 @@ typedef struct ScreenInformation
 
 class ScreenEntity
 {
+private:
+
+	GameObjectEntity* m_PlaneObject;
+
 protected:
 
 	// SCREEN VARIABLE(s)

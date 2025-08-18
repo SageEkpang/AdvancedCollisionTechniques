@@ -5,6 +5,7 @@
 #include <d3d11.h>
 #include <directxmath.h>
 #include <directxcolors.h>
+#include <iostream>
 
 using namespace DirectX;
 
@@ -45,6 +46,9 @@ public:
 	inline XMFLOAT4X4* GetWorld() { return m_World; }
 	inline XMFLOAT4X4 GetView() { return m_ViewMatrix; }
 	inline XMFLOAT4X4 GetProjection() { return m_ProjectionMatrix; }
+
+	inline XMMATRIX GetViewMatrix() { return XMLoadFloat4x4(&m_ViewMatrix); }
+	inline XMMATRIX GetProjectionMatrix() { return XMLoadFloat4x4(&m_ProjectionMatrix); }
 
 	inline XMFLOAT4X4 GetViewProjection() const;
 

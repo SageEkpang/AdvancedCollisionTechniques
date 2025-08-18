@@ -3,7 +3,8 @@
 
 void Mesh::Construct(char* fileName, ID3D11Device* device)
 {
-	Geometry t_Geometry;
+	m_World = new XMFLOAT4X4();
+	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
 
 	t_Mesh = OBJLoader::Load(fileName, device);
@@ -14,12 +15,12 @@ void Mesh::Construct(char* fileName, ID3D11Device* device)
 	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
 
 	m_Geometry = t_Geometry;
-	m_Material = MATERIAL_GROUND;
+	m_Material = Material::MATERIAL_GROUND;
 }
 
-void Mesh::Construct(char* fileName, Material material, Geometry geometry, ID3D11Device* device)
+void Mesh::Construct(char* fileName, Material material, ID3D11Device* device)
 {
-	Geometry t_Geometry;
+	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
 
 	t_Mesh = OBJLoader::Load(fileName, device);
@@ -37,8 +38,6 @@ Mesh::Mesh()
 {
 	m_Material = Material();
 	m_Geometry = Geometry();
-	m_Geometry.vertexBuffer = nullptr;
-	m_Geometry.indexBuffer = nullptr;
 }
 
 Mesh::~Mesh()
@@ -68,7 +67,17 @@ void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D
 	constantBufferData.surface.DiffuseMtrl = m_Material.diffuse;
 	constantBufferData.surface.SpecularMtrl = m_Material.specular;
 
-	XMMATRIX temp = XMLoadFloat4x4(m_Owner->m_Transform.m_World);
+	// Scale Matrix
+	XMMATRIX Scale = XMMatrixScaling(10, 10, 10);
+
+	// Position Matrix
+	XMMATRIX Position = XMMatrixTranslation(0, 0, 10);
+
+	// Store Transform in Matrix
+	DirectX::XMStoreFloat4x4(m_World, Scale * Position);
+
+
+	XMMATRIX temp = XMLoadFloat4x4(m_World);
 	constantBufferData.World = XMMatrixTranspose(temp);
 
 

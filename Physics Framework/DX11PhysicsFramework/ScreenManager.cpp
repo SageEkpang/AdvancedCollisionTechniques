@@ -149,17 +149,14 @@ void ScreenManager::Showcase()
 	EndGUI();
 
 	// Transpose Matrices and Load Information from Calculated Update function
-	// _cbData.World = XMMatrixTranspose(XMLoadFloat4x4(&_camera->GetW));
-	XMFLOAT4X4 tempView = _camera->GetView();
-	XMFLOAT4X4 tempProjection = _camera->GetProjection();
-	XMFLOAT3 tempPosition = _camera->GetPosition();
-
-	_cbData.View = XMMatrixTranspose(XMLoadFloat4x4(&tempView));
-	_cbData.Projection = XMMatrixTranspose(XMLoadFloat4x4(&tempProjection));
-	_cbData.EyePosW = tempPosition;
+	_cbData.View = XMMatrixTranspose(_camera->GetViewMatrix());
+	_cbData.Projection = XMMatrixTranspose(_camera->GetProjectionMatrix());
+	_cbData.EyePosW = _camera->GetPosition();
 	_cbData.light = basicLight;
+	_cbData.HasTexture = 0;
 
 	// Draw the Current Physics Screen
+	// TODO: Needs to take in camera
 	m_CurrentScreen->Draw(_cbData, _constantBuffer, _immediateContext, _device);
 
 	// End "Drawing" the content
@@ -480,7 +477,7 @@ HRESULT ScreenManager::InitRunTimeData()
 	if (FAILED(hr)) { return hr; }
 
 	// Setup Camera
-	XMFLOAT3 eye = XMFLOAT3(0.0f, 5.0f, -6.0f);
+	XMFLOAT3 eye = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
@@ -501,7 +498,11 @@ HRESULT ScreenManager::InitRunTimeData()
 void ScreenManager::BeginRendering()
 {
 	// Clear Buffers
-	float ClearColor[4] = { 0.01f, 0.01f, 0.01f, 1.0f }; // red,green,blue,alpha
+	// float ClearColor[4] = { 0.01f, 0.01f, 0.01f, 1.0f }; // red,green,blue,alpha
+	float tempRed = 2.5f;
+	float tempGreen = 2.5f;
+	float tempBlue = 2.5f;
+	float ClearColor[4] = { tempRed / 255.f, tempGreen / 255.f, tempBlue / 255.f, 1.0f }; // red,green,blue,alpha
 	_immediateContext->OMSetRenderTargets(1, &_frameBufferView, _depthBufferView);
 	_immediateContext->ClearRenderTargetView(_frameBufferView, ClearColor);
 	_immediateContext->ClearDepthStencilView(_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);

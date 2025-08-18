@@ -93,7 +93,7 @@ public:
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update Function for Class </summary>
-	virtual void Update(float deltaTime) = 0;
+	virtual void Update(float deltaTime) override;
 
 
 	// GETTER FUNCTION(s)

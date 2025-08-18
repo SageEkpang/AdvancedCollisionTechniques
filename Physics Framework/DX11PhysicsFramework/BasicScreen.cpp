@@ -3,8 +3,6 @@
 BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenEntity(screenName, device)
 {
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_BASIC_SCREEN;
-
-
 	
 }
 
@@ -15,7 +13,6 @@ BasicScreen::~BasicScreen()
 
 void BasicScreen::Update(float deltaTime, ID3D11Device* device)
 {
-	int i = 0;
 	ScreenEntity::Update(deltaTime, device);
 }
 

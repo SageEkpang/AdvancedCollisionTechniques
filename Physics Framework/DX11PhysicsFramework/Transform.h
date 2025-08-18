@@ -17,19 +17,23 @@ public:
 	Vector3 m_Scale;
 	Quaternion4 m_Orientation;
 
-	// WORLD VARIABLE(s)
-	Transform* m_Parent = nullptr;
-	DirectX::XMFLOAT4X4* m_World;
-
 public:
 
 	// CLASS FUNCTION(s)
 
 	/// <summary> Default Constructor for Class </summary>
-	Transform();
+	Transform()
+	{
+		m_Position = Vector3(0, 0, 0);
+		m_Scale = Vector3(1, 1, 1);
+		m_Orientation = Quaternion4(0, 0, 0, 1);
+	}
 
 	/// <summary> Default Deconstructor for Clas </summary>
-	~Transform();
+	~Transform()
+	{
+
+	}
 
 
 	// BASE FUNCTION(s)
@@ -40,17 +44,10 @@ public:
 
 	// GETTER FUNCTION(s)
 
-	inline Transform* GetParent() { return m_Parent; }
-
 	/// <summary> Getter function for Transform Rotation (Derived from Quaternion) </summary>
 	Vector3 GetRotation() { return Quaternion4::MakeEulerAnglesFromQ(m_Orientation); }
 
 	/// <summary> Getter function for World Matrix </summary>
-	XMMATRIX GetWorldMatrix() { return XMLoadFloat4x4(m_World); }
-
-
-	// SETTER FUNCTION(s)
-	void SetParent(Transform* Parent) { m_Parent = Parent; }
 
 	// rotation
 	void SetRotation(Vector3 rotation) { m_Orientation = Quaternion4::MakeQFromEulerAngles(rotation.x, rotation.y, rotation.z); } // Quaternion Rotation

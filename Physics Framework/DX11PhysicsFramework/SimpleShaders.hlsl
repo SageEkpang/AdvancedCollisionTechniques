@@ -113,22 +113,11 @@ float4 PS_main(VS_OUTPUT input) : SV_Target
 	// Sum all the terms together and copy over the diffuse alpha.
 	float4 finalColour;
 
-	if (HasTexture == 1.0f)
-	{
-        specular += specularAmount * (surface.SpecularMtrl * light.SpecularLight);
-        diffuse += diffuseAmount * (textureColour * light.DiffuseLight);
-        ambient += (textureColour * light.AmbientLight);
+    specular += specularAmount * (surface.SpecularMtrl * light.SpecularLight);
+    diffuse += diffuseAmount * (surface.DiffuseMtrl * light.DiffuseLight);
+    ambient += (surface.AmbientMtrl * light.AmbientLight);
 		
-		finalColour = ambient + diffuse + specular;
-    }
-	else
-	{
-        specular += specularAmount * (surface.SpecularMtrl * light.SpecularLight);
-        diffuse += diffuseAmount * (surface.DiffuseMtrl * light.DiffuseLight);
-        ambient += (surface.AmbientMtrl * light.AmbientLight);
-		
-		finalColour.rgb = ambient + diffuse + specular;
-	}
+	finalColour.rgb = ambient + diffuse + specular;
 
 	finalColour.a = surface.DiffuseMtrl.a;
 
