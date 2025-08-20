@@ -88,6 +88,8 @@ void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D
 
 	pImmediateContext->IASetVertexBuffers(0, 1, &m_Geometry.vertexBuffer, &m_Geometry.vertexBufferStride, &m_Geometry.vertexBufferOffset);
 	pImmediateContext->IASetIndexBuffer(m_Geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+
+	pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
 }
 
 void Mesh::SetGeometryAndMaterial(char* fileName, Material material, ID3D11Device* device)
