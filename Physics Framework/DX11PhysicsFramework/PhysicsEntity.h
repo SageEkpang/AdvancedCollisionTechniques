@@ -87,7 +87,7 @@ public:
 	void ApplyImpulse(float x, float y, float z) { m_Velocity += Vector3(x, y, z); }
 
 	/// <summary> Add Relative force that effects the objects movement </summary>
-	virtual void AddRelativeForce(Vector3 force, Vector3 point) { };
+	// virtual void AddRelativeForce(Vector3 force, Vector3 point) { };
 
 
 	// BASE FUNCTION(s)

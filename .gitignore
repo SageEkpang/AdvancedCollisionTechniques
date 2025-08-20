@@ -399,5 +399,6 @@ FodyWeavers.xsd
 
 # Do not ignore obj files
 !**/DX11PhysicsFramework/Resources/OBJ/
+!**/DX11PhysicsFramework/Resources/CollisionOBJ/
 
 

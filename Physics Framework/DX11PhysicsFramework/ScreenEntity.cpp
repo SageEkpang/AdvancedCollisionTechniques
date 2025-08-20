@@ -4,10 +4,10 @@ ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device) : m_Scr
 {
 	// Plane Object
 	m_PlaneObject = new GameObjectEntity();
-	m_PlaneObject->m_Transform.m_Position = Vector3(0, 0, 10);
-	m_PlaneObject->m_Transform.m_Scale = Vector3(100, 100, 100);
+	m_PlaneObject->m_Transform.m_Position = Vector3(0, 0, 0);
+	m_PlaneObject->m_Transform.m_Scale = Vector3(1, 1, 1);
 	m_PlaneObject->m_Transform.m_Orientation = Quaternion4(0, 0, 0, 0);
-	m_PlaneObject->AddComponent<Mesh>()->Construct((char*)"Resources\\OBJ\\cube.obj", device);
+	m_PlaneObject->AddComponent<Mesh>()->Construct((char*)"Resources\\OBJ\\donut.obj", device);
 	InsertObjectIntoList(m_PlaneObject);
 
 }

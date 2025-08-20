@@ -47,22 +47,22 @@ public:
 	void AddForceAddBodyPoint(const Vector3& force, const Vector3& point);
 
 	// Not Applied to the at the center of mass, it may be split into both a force and torque
-	void AddForceAtPoint(const Vector3& force, const Vector3& point) { }
+	// void AddForceAtPoint(const Vector3 force, const Vector3& point) { }
 
 
-	void ApplyImpulseX(float x_force) { }
-	void ApplyImpulseY(float y_force) { }
-	void ApplyImpulseZ(float z_force) { }
+	void ApplyImpulseX(float x_impulse) { m_Velocity += Vector3(x_impulse, 0, 0); }
+	void ApplyImpulseY(float y_impulse) { m_Velocity += Vector3(0, y_impulse, 0); }
+	void ApplyImpulseZ(float z_impulse) { m_Velocity += Vector3(0, 0, z_impulse); }
 
 
 
 	// ADDITIONAL FUNCTION(s)
 
 	/// <summary> Add a Relative Force to the point on the object </summary>
-	void AddRelativeForce(Vector3 force, Vector3 point) { };
+	// void AddRelativeForce(Vector3 force, Vector3 point) { };
 
 	/// <summary> Calculate the Angular Velocity of the Point </summary>
-	void CalculateAngularVelocity(float DeltaTime) { };
+	void CalculateAngularVelocity(float deltaTime);
 
 
 	// GETTER FUNCTION(s)

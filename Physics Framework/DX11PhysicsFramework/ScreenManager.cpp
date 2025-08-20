@@ -156,7 +156,6 @@ void ScreenManager::Showcase()
 	_cbData.HasTexture = 0;
 
 	// Draw the Current Physics Screen
-	// TODO: Needs to take in camera
 	m_CurrentScreen->Draw(_cbData, _constantBuffer, _immediateContext, _device);
 
 	// End "Drawing" the content
@@ -477,7 +476,7 @@ HRESULT ScreenManager::InitRunTimeData()
 	if (FAILED(hr)) { return hr; }
 
 	// Setup Camera
-	XMFLOAT3 eye = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 eye = XMFLOAT3(0.0f, 5.0f, 0.0f);
 	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 

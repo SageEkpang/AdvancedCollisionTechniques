@@ -53,6 +53,11 @@ void Rigidbody3DObject::AddForceAddBodyPoint(const Vector3& force, const Vector3
 
 }
 
+void Rigidbody3DObject::CalculateAngularVelocity(float deltaTime)
+{
+
+}
+
 //void RigidbodyObject::AddForceAtPoint(const Vector3& force, const Vector3& point)
 //{
 //	Vector3 t_Point = point;
