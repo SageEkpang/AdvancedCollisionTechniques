@@ -188,9 +188,6 @@ typedef struct Vector3
 		return false;
 	}
 
-
-
-
 	
 	// FUNCTION(s)
 	
@@ -268,6 +265,16 @@ typedef struct Vector3
 		float t_NormX = this->x / t_Length;
 		float t_NormY = this->y / t_Length;
 		float t_NormZ = this->z / t_Length;
+
+		return Vector3(t_NormX, t_NormY, t_NormZ);
+	}
+
+	static Vector3 S_Normalise(Vector3 value)
+	{
+		float t_Length = Vector3::S_Magnitude(value);
+		float t_NormX = value.x / t_Length;
+		float t_NormY = value.y / t_Length;
+		float t_NormZ = value.z / t_Length;
 
 		return Vector3(t_NormX, t_NormY, t_NormZ);
 	}

@@ -6,17 +6,27 @@
 
 class SphereCollider : public ColliderEntity
 {
-private:
+public:
 
 	float m_Radius = 0.0f;
+	Vector3 m_Offset;
 
 public:
 
-	//SphereCollider(Transform* transform, float radius) { }
+	// CLASS FUNCTION(s) (General)
+	SphereCollider(Vector3 offset, float radius);
+	SphereCollider(float x_offset, float y_offset, float z_offset, float radius);
+	SphereCollider(float radius);
 
-	// Replace these when collision manifold is implemented
+	// CLASS FUNCTION(s) (Components)
+	SphereCollider();
 
-	float GetRadius() const { return m_Radius; }
+	void Construct(Vector3 offset, float radius);
+	void Construct(float x_offset, float y_offset, float z_offset, float radius);
+	void Construct(float radius);
+
+
+	// GETTER FUNCTIONS
 	Vector3 NearestPoint(Vector3 point);
 	bool PointInSphere(Vector3 point);
 };

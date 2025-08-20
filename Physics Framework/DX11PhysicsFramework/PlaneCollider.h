@@ -29,7 +29,7 @@ public:
 	PlaneCollider(Vector3 offset, Vector3 scale);
 	PlaneCollider(Vector3 offset, float width, float height, float length);
 	PlaneCollider(Vector3 scale);
-	PlaneCollider(float x, float y, float z, float width, float height, float length);
+	PlaneCollider(float x_offset, float y_offset, float z_offset, float width, float height, float length);
 
 	// CLASS FUNCTION(s) (Components)
 	PlaneCollider();
@@ -37,7 +37,7 @@ public:
 	void Construct(Vector3 offset, Vector3 scale);
 	void Construct(Vector3 offset, float width, float height, float length);
 	void Construct(Vector3 scale);
-	void Construct(float x, float y, float z, float width, float height, float length);
+	void Construct(float x_offset, float y_offset, float z_offset, float width, float height, float length);
 
 
 	// GETTER FUNCTION(s)

@@ -19,9 +19,9 @@ PlaneCollider::PlaneCollider(Vector3 scale)
 	m_Scale = scale;
 }
 
-PlaneCollider::PlaneCollider(float x, float y, float z, float width, float height, float length)
+PlaneCollider::PlaneCollider(float x_offset, float y_offset, float z_offset, float width, float height, float length)
 {
-	m_Offset = Vector3(x, y, z);
+	m_Offset = Vector3(x_offset, y_offset, z_offset);
 	m_Scale = Vector3(width, height, length);
 }
 
@@ -49,9 +49,9 @@ void PlaneCollider::Construct(Vector3 scale)
 	m_Scale = scale;
 }
 
-void PlaneCollider::Construct(float x, float y, float z, float width, float height, float length)
+void PlaneCollider::Construct(float x_offset, float y_offset, float z_offset, float width, float height, float length)
 {
-	m_Offset = Vector3(x, y, z);
+	m_Offset = Vector3(x_offset, y_offset, z_offset);
 	m_Scale = Vector3(width, height, length);
 }
 
