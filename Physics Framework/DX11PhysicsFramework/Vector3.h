@@ -257,6 +257,11 @@ typedef struct Vector3
 		return sqrt((x * x) + (y * y) + (z * z));
 	}
 
+	static float S_Magnitude(Vector3 value)
+	{
+		return sqrt((value.x * value.x) + (value.y * value.y) + (value.z * value.z));
+	}
+
 	Vector3 Normalise() const
 	{
 		float t_Length = this->Magnitude();

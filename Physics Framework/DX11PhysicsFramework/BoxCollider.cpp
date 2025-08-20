@@ -1,10 +1,65 @@
 #include "BoxCollider.h"
+#include "GameObjectEntity.h"
+
+BoxCollider::BoxCollider(Vector3 offset, Vector3 scale)
+{
+	m_Offset = offset;
+	m_Scale = scale;
+}
+
+BoxCollider::BoxCollider(Vector3 offset, float width, float height, float length)
+{
+	m_Offset = offset;
+	m_Scale = Vector3(width, height, length);
+}
+
+BoxCollider::BoxCollider(Vector3 scale)
+{
+	m_Offset = Vector3(0, 0, 0);
+	m_Scale = scale;
+}
+
+BoxCollider::BoxCollider(float x, float y, float z, float width, float height, float length)
+{
+	m_Offset = Vector3(x, y, z);
+	m_Scale = Vector3(width, height, length);
+}
+
+BoxCollider::BoxCollider()
+{
+	m_Offset = Vector3(0, 0, 0);
+	m_Scale = Vector3(1, 1, 1);
+}
+
+void BoxCollider::Construct(Vector3 offset, Vector3 scale)
+{
+	m_Offset = offset;
+	m_Scale = scale;
+}
+
+void BoxCollider::Construct(Vector3 offset, float width, float height, float length)
+{
+	m_Offset = offset;
+	m_Scale = Vector3(width, height, length);
+}
+
+void BoxCollider::Construct(Vector3 scale)
+{
+	m_Offset = Vector3(0, 0, 0);
+	m_Scale = scale;
+}
+
+void BoxCollider::Construct(float x, float y, float z, float width, float height, float length)
+{
+	m_Offset = Vector3(x, y, z);
+	m_Scale = Vector3(width, height, length);
+}
 
 Vector3 BoxCollider::NearestPoint(Vector3 point)
 {
 	// Min and Max Extents of Box Collider
-	//m_Max = GetPosition() + GetScale();
-	//m_Min = GetPosition() - GetScale();
+	m_Max = (m_Owner->m_Transform.m_Position + m_Offset) + (m_Scale);
+	m_Min = (m_Owner->m_Transform.m_Position + m_Offset) - (m_Scale);
 
 	// Calculating the nearest point
 	float t_NearPointX = (point.x < m_Min.x) ? m_Min.x : point.x;
