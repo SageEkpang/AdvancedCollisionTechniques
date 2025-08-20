@@ -272,6 +272,11 @@ typedef struct Vector3
 		return (this->x * value.x) + (this->y * value.y) + (this->z * value.z);
 	}
 
+	static float S_Dot(Vector3 valueA, Vector3 valueB)
+	{
+		return (valueA.x * valueB.x) + (valueA.y * valueB.y) + (valueA.z * valueB.z);
+	}
+
 	Vector3 Cross(Vector3 value) const
 	{
 		float t_TempX = (this->y * value.z - this->z * value.y);

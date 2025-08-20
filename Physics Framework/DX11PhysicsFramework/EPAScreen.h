@@ -32,10 +32,10 @@ public:
 	~EPAScreen();
 
 	// HELPER FUNCTION(s)
-	void ProcessEPA(const float deltaTime, ID3D11Device* device);
+	void ProcessEPA(const float deltaTime);
 
 	// BASE FUNCTION(s)
-	void Update(float deltaTime, ID3D11Device* device) override;
+	void Update(float deltaTime) override;
 	void RandomImpulseDirection(float deltaTime);
 };
 

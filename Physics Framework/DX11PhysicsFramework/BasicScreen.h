@@ -27,7 +27,7 @@ public:
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
-	void Update(float deltaTime, ID3D11Device* device) override;
+	void Update(float deltaTime) override;
 
 	/// <summary> Default Draw function for Class </summary>
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;

@@ -31,10 +31,10 @@ MassAggScreen::~MassAggScreen()
 	m_MassObjects.clear();
 }
 
-void MassAggScreen::Update(float deltaTime, ID3D11Device* device)
+void MassAggScreen::Update(float deltaTime)
 {
 	// NOTE: Update the Mass Screen
-	ScreenEntity::Update(deltaTime, device);
+	ScreenEntity::Update(deltaTime);
 	for (auto& v : m_MassObjects) { v->Update(deltaTime); }
 }
 

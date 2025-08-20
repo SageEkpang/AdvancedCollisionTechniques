@@ -5,7 +5,7 @@ SATScreen::SATScreen(std::string screenName, ID3D11Device* device) : ScreenEntit
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_SAT_SCREEN;
 
 	// NOTE: Init 50 Objects for Testing Collosions
-	srand(time(NULL));
+	// srand(time(NULL));
 
 	for (int i = 0; i < 50; ++i)
 	{
@@ -66,9 +66,9 @@ void SATScreen::ProcessSAT(const float deltaTime, ID3D11Device* device)
 	//}
 }
 
-void SATScreen::Update(float deltaTime, ID3D11Device* device)
+void SATScreen::Update(float deltaTime)
 {
-	ScreenEntity::Update(deltaTime, device);
+	ScreenEntity::Update(deltaTime);
 	
 }
 

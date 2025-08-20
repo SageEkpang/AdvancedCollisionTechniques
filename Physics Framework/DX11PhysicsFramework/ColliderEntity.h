@@ -27,6 +27,8 @@ class ColliderEntity : public ComponentEntity
 {
 private: // PRIVATE VARIABLE(s)
 
+    DirectX::XMFLOAT4X4* m_World;
+
     std::function<void()> m_TriggerEnteredLambda = nullptr;
     std::function<void()> m_TriggerStayedLambda = nullptr;
     std::function<void()> m_TriggerExitedLambda = nullptr;
@@ -64,7 +66,8 @@ public: // PUBLIC FUNCTION(s)
     virtual ~ColliderEntity();
 
     // BASE FUNCTION(s)
-    void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+    void Update(float deltaTime) override;
+    void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 
     // HELPER FUNCTION(s)
     void TriggerQuery(GameObjectEntity* gameObject);

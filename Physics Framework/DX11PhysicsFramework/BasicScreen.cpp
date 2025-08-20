@@ -11,9 +11,9 @@ BasicScreen::~BasicScreen()
 	
 }
 
-void BasicScreen::Update(float deltaTime, ID3D11Device* device)
+void BasicScreen::Update(float deltaTime)
 {
-	ScreenEntity::Update(deltaTime, device);
+	ScreenEntity::Update(deltaTime);
 }
 
 void BasicScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)

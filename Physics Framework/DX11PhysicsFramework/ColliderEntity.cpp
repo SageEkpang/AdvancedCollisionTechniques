@@ -1,15 +1,16 @@
 #include "ColliderEntity.h"
 #include "GameObjectEntity.h"
 
-ColliderEntity::ColliderEntity()
-	: m_HasCollided(false), m_IsActivated(true), m_IsTrigger(false)
+ColliderEntity::ColliderEntity() : m_HasCollided(false), m_IsActivated(true), m_IsTrigger(false)
 {
+	m_World = new XMFLOAT4X4();
 	m_TriggerState = TriggerAreaState::TRIGGER_AREA_STATE_NONE;
 	m_ObjectList.clear();
 }
 
 ColliderEntity::~ColliderEntity()
 {
+	delete m_World;
 	if (!m_ObjectList.empty()) { m_ObjectList.clear(); }
 
 	m_TriggerState = TriggerAreaState::TRIGGER_AREA_STATE_NONE;
@@ -105,6 +106,20 @@ void ColliderEntity::TriggerQueryExecute()
 	}
 }
 
+void ColliderEntity::Update(float deltaTime)
+{
+	// NOTE: Scale Matrix
+	XMMATRIX Scale = XMMatrixScaling(m_Owner->m_Transform.m_Scale.width, m_Owner->m_Transform.m_Scale.height, m_Owner->m_Transform.m_Scale.length);
+
+	// NOTE: Orientation Matrix
+	XMMATRIX Orientation = XMMatrixRotationQuaternion(XMVectorSet(m_Owner->m_Transform.m_Orientation.x, m_Owner->m_Transform.m_Orientation.y, m_Owner->m_Transform.m_Orientation.z, m_Owner->m_Transform.m_Orientation.w));
+
+	// NOTE: Position Matrix
+	XMMATRIX Position = XMMatrixTranslation(m_Owner->m_Transform.m_Scale.x, m_Owner->m_Transform.m_Scale.y, m_Owner->m_Transform.m_Scale.z);
+
+	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
+}
+
 void ColliderEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
 	if (m_RenderCollision == false || m_Geometry.numberOfIndices <= 0) return;
@@ -123,15 +138,13 @@ void ColliderEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* const
 	constantBufferData.surface.DiffuseMtrl = MATERIAL_WIREFRAME.diffuse;
 	constantBufferData.surface.SpecularMtrl = MATERIAL_WIREFRAME.specular;
 
-	XMMATRIX temp = XMLoadFloat4x4(m_Owner->GetWorld());
+	XMMATRIX temp = XMLoadFloat4x4(m_World);
 	constantBufferData.World = XMMatrixTranspose(temp);
-	constantBufferData.HasTexture = 0.0f;
 
 	D3D11_MAPPED_SUBRESOURCE t_CollMappedSubresource;
 	pImmediateContext->Map(constBuff, 0, D3D11_MAP_WRITE_DISCARD, 0, &t_CollMappedSubresource);
 	memcpy(t_CollMappedSubresource.pData, &constantBufferData, sizeof(constantBufferData));
 	pImmediateContext->Unmap(constBuff, 0);
-
 
 	pImmediateContext->IASetVertexBuffers(0, 1, &m_Geometry.vertexBuffer, &m_Geometry.vertexBufferStride, &m_Geometry.vertexBufferOffset);
 	pImmediateContext->IASetIndexBuffer(m_Geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);
@@ -171,8 +184,9 @@ Vector3 ColliderEntity::FindFurthestPoint(Vector3 direction)
 	// NOTE: Update Vertices Positions
 	for (int i = 0; i < m_PositionStore.size(); ++i)
 	{
-		//Vector3 t_VecPos = (m_PositionStore[i] * m_Transform->GetScale()) + m_Transform->GetPosition();
-		// m_Vertices.push_back(t_VecPos);
+		// TODO: Replace this with this components transform variables
+		Vector3 t_VecPos = (m_PositionStore[i] * m_Owner->m_Transform.m_Scale) + m_Owner->m_Transform.m_Position;
+		m_Vertices.push_back(t_VecPos);
 	}
 
 	if (!m_Vertices.empty())
@@ -180,13 +194,13 @@ Vector3 ColliderEntity::FindFurthestPoint(Vector3 direction)
 		// NOTE: Find furthest vertex
 		for (Vector3& v : m_Vertices)
 		{
-			// float t_Distance = Vector::CalculateDotProductNotNorm(v, direction); // NOTE: May have to change dot product back to normalise one
+			float t_Distance = Vector3::S_Dot(v, direction); // NOTE: May have to change dot product back to normalise one
 
-			//if (t_Distance > t_MaxDistance)
-			//{
-			//	t_MaxDistance = t_Distance;
-			//	t_MaxPoint = v;
-			//}
+			if (t_Distance > t_MaxDistance)
+			{
+				t_MaxDistance = t_Distance;
+				t_MaxPoint = v;
+			}
 		}
 	}
 

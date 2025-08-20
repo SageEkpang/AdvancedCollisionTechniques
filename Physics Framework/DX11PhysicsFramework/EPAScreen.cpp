@@ -54,25 +54,25 @@ EPAScreen::~EPAScreen()
 	
 }
 
-void EPAScreen::Update(float deltaTime, ID3D11Device* device)
+void EPAScreen::Update(float deltaTime)
 {
-	ScreenEntity::Update(deltaTime, device);
-	ProcessEPA(deltaTime, device);
+	ScreenEntity::Update(deltaTime);
+	ProcessEPA(deltaTime);
 }
 
 void EPAScreen::RandomImpulseDirection(float deltaTime)
 {
-	for (auto& v : m_GameObjects)
-	{
-		float t_RandX = (rand() % 10) * 2 - 10;
-		float t_RandY = rand() % 3;
-		float t_RandZ = (rand() % 10) * 2 - 10;
+	//for (auto& v : m_GameObjects)
+	//{
+	//	//float t_RandX = (rand() % 10) * 2 - 10;
+	//	//float t_RandY = rand() % 3;
+	//	//float t_RandZ = (rand() % 10) * 2 - 10;
 
-		// v->GetRigidbody()->ApplyImpulse(Vector3(t_RandX, t_RandY, t_RandZ));
-	}
+	//	// v->GetRigidbody()->ApplyImpulse(Vector3(t_RandX, t_RandY, t_RandZ));
+	//}
 }
 
-void EPAScreen::ProcessEPA(const float deltaTime, ID3D11Device* device)
+void EPAScreen::ProcessEPA(const float deltaTime)
 {
 	// Collision Manifold
 	//if (GetAsyncKeyState(VK_RETURN)) { RandomImpulseDirection(deltaTime); }

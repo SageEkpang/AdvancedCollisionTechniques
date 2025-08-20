@@ -31,7 +31,7 @@ public:
 	// BASE FUNCTION(s)
 
 	/// <summary> Default Update function for Class </summary>
-	void Update(float deltaTime, ID3D11Device* device) override;
+	void Update(float deltaTime) override;
 	void RandomImpulseDirection(float deltaTime);
 };
 

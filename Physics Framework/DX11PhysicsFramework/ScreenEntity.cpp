@@ -5,9 +5,9 @@ ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device) : m_Scr
 	// Plane Object
 	m_PlaneObject = new GameObjectEntity();
 	m_PlaneObject->m_Transform.m_Position = Vector3(0, 0, 0);
-	m_PlaneObject->m_Transform.m_Scale = Vector3(1, 1, 1);
+	m_PlaneObject->m_Transform.m_Scale = Vector3(1000, 1, 1000);
 	m_PlaneObject->m_Transform.m_Orientation = Quaternion4(0, 0, 0, 0);
-	m_PlaneObject->AddComponent<Mesh>()->Construct((char*)"Resources\\OBJ\\donut.obj", device);
+	m_PlaneObject->AddComponent<Mesh>()->Construct((char*)"Resources\\OBJ\\plane.obj", device);
 	InsertObjectIntoList(m_PlaneObject);
 
 }
@@ -24,7 +24,7 @@ ScreenEntity::~ScreenEntity()
 	}
 }
 
-void ScreenEntity::Update(float deltaTime, ID3D11Device* device)
+void ScreenEntity::Update(float deltaTime)
 {
 	// Updating the Physics Objects
 	if (!m_GameObjects.empty())

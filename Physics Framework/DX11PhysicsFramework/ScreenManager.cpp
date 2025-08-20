@@ -116,7 +116,7 @@ HRESULT ScreenManager::CreateScreens()
 	// Assign Basic Screen to Screen Variable
 	m_CurrentScreen = new BasicScreen("BasicScreen", _device);
 
-	return S_OK;
+	return hr;
 }
 
 void ScreenManager::Process()
@@ -132,7 +132,7 @@ void ScreenManager::Process()
 		_camera->Update(FPS60);
 
 		// Update Screen
-		m_CurrentScreen->Update(FPS60, _device);
+		m_CurrentScreen->Update(FPS60);
 
 		m_Accumulator -= FPS60;
 	}
@@ -327,7 +327,7 @@ HRESULT ScreenManager::InitGUI()
 	ImGui_ImplWin32_Init(_windowHandle);
 	ImGui_ImplDX11_Init(_device, _immediateContext);
 
-	return S_OK;
+	return t_HR;
 }
 
 HRESULT ScreenManager::InitShadersAndInputLayout()
@@ -449,7 +449,8 @@ HRESULT ScreenManager::InitPipelineStates()
 	bilinearSamplerdesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	bilinearSamplerdesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	bilinearSamplerdesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	bilinearSamplerdesc.MaxLOD = INT_MAX;
+	bilinearSamplerdesc.MaxLOD = FLT_MAX;
+	// bilinearSamplerdesc.MaxLOD = INT_MAX;
 	bilinearSamplerdesc.MinLOD = 0;
 
 	hr = _device->CreateSamplerState(&bilinearSamplerdesc, &_samplerLinear);

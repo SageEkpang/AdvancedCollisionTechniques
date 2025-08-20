@@ -97,7 +97,7 @@ namespace CollisionContactManager
 			// NOTE: Apply calculation to the new objects
 			gameObjectB->GetComponent<Rigidbody3DObject>()->ApplyImpulseX(-1 * impulseX / gameObjectB->GetComponent<Rigidbody3DObject>()->m_Mass);
 			gameObjectB->GetComponent<Rigidbody3DObject>()->ApplyImpulseY(-1 * impulseY / gameObjectB->GetComponent<Rigidbody3DObject>()->m_Mass);
-			gameObjectB->GetComponent<Rigidbody3DObject>()->ApplyImpulseZ(-1 * impulseY / gameObjectB->GetComponent<Rigidbody3DObject>()->m_Mass);
+			gameObjectB->GetComponent<Rigidbody3DObject>()->ApplyImpulseZ(-1 * impulseZ / gameObjectB->GetComponent<Rigidbody3DObject>()->m_Mass);
 		}
 	}
 

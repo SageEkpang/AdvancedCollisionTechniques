@@ -14,10 +14,10 @@ namespace MeshLoader
 			return t_Vertices;
 		}
 
-		return LoadObjVertices(t_InFile, path);
+		return LoadObjVertices(t_InFile);
 	}
 
-	std::vector<Vector3> LoadObjVertices(ifstream& InFile, char* path)
+	std::vector<Vector3> LoadObjVertices(ifstream& InFile)
 	{
 		std::vector<Vector3> t_Vertices;
 
@@ -28,9 +28,6 @@ namespace MeshLoader
 
 		// Counting Contents Variables
 		unsigned int VerticesCount{};
-		unsigned int VertexNormalCount{};
-		unsigned int VertexTextureCount{};
-		unsigned int FCount{};
 
 		// Vertex
 		Vector3 Pos = Vector3();

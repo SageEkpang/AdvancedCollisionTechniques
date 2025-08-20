@@ -13,7 +13,7 @@ using namespace std;
 namespace MeshLoader
 {
 	std::vector<Vector3> LoadObj(char* path);
-	std::vector<Vector3> LoadObjVertices(ifstream& InFile, char* path);
+	std::vector<Vector3> LoadObjVertices(ifstream& InFile);
 };
 
 #endif

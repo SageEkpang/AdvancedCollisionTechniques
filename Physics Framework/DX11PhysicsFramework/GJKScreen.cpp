@@ -6,7 +6,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device) : ScreenEntit
 
 	m_GJKCollider = new GJKCollider();
 
-	srand(time(NULL));
+	// srand(time(NULL));
 	for (int i = 0; i < 50; ++i)
 	{
 		// Cube Object
@@ -52,22 +52,22 @@ GJKScreen::~GJKScreen()
 	
 }
 
-void GJKScreen::Update(float deltaTime, ID3D11Device* device)
+void GJKScreen::Update(float deltaTime)
 {
-	ScreenEntity::Update(deltaTime, device);
+	ScreenEntity::Update(deltaTime);
 	// ProcessGJK(deltaTime);
 }
 
 void GJKScreen::RandomImpulseDirection(float deltaTime)
 {
-	for (auto& v : m_GameObjects)
-	{
-		//float t_RandX = (rand() % 10) * 2 - 10;
-		//float t_RandY = rand() % 3;
-		//float t_RandZ = (rand() % 10) * 2 - 10;
+	//for (auto& v : m_GameObjects)
+	//{
+	//	//float t_RandX = (rand() % 10) * 2 - 10;
+	//	//float t_RandY = rand() % 3;
+	//	//float t_RandZ = (rand() % 10) * 2 - 10;
 
-		// v->GetRigidbody()->ApplyImpulse(Vector3(t_RandX, t_RandY, t_RandZ));
-	}
+	//	// v->GetRigidbody()->ApplyImpulse(Vector3(t_RandX, t_RandY, t_RandZ));
+	//}
 }
 
 void GJKScreen::ProcessGJK(const float deltaTime)
