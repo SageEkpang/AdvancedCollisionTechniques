@@ -55,35 +55,12 @@ void BoxCollider::Construct(float x_offset, float y_offset, float z_offset, floa
 	m_Scale = Vector3(width, height, length);
 }
 
-Vector3 BoxCollider::NearestPoint(Vector3 point)
+Vector3 BoxCollider::GetMax()
 {
-	// Min and Max Extents of Box Collider
-	const Vector3 t_Max = (m_Owner->m_Transform.m_Position + m_Offset) + (m_Scale);
-	const Vector3 t_Min = (m_Owner->m_Transform.m_Position + m_Offset) - (m_Scale);
-
-	// Calculating the nearest point
-	float t_NearPointX = (point.x < t_Min.x) ? t_Min.x : point.x;
-	float t_NearPointY = (point.y < t_Min.y) ? t_Min.y : point.y;
-	float t_NearPointZ = (point.z < t_Min.z) ? t_Min.z : point.z;
-
-	// If the nearest point on the axis (x, y, z) are more than the extents, assign the max extent
-	t_NearPointX = (t_NearPointX > t_Max.x) ? t_Max.x : t_NearPointX;
-	t_NearPointY = (t_NearPointY > t_Max.y) ? t_Max.y : t_NearPointY;
-	t_NearPointZ = (t_NearPointZ > t_Max.z) ? t_Max.z : t_NearPointZ;
-
-	// Return final computed video
-	return Vector3(t_NearPointX, t_NearPointY, t_NearPointZ);
+	return (m_Owner->m_Transform.m_Position + m_Offset) + ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
 }
 
-bool BoxCollider::PointInBox(Vector3 point)
+Vector3 BoxCollider::GetMin()
 {
-	const Vector3 t_Max = (m_Owner->m_Transform.m_Position + m_Offset) + (m_Scale);
-	const Vector3 t_Min = (m_Owner->m_Transform.m_Position + m_Offset) - (m_Scale);
-	
-	// Not in Box
-	if (point.x < t_Min.x || point.y < t_Min.y || point.z < t_Min.z) { return false; }
-	if (point.x > t_Max.x || point.y > t_Max.y || point.z > t_Max.z) { return false; }
-
-	// In Box
-	return true;
+	return (m_Owner->m_Transform.m_Position + m_Offset) - ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
 }

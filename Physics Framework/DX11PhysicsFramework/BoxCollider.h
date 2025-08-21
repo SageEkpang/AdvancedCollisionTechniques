@@ -27,15 +27,11 @@ public:
 	void Construct(Vector3 scale);
 	void Construct(float x_offset, float y_offset, float z_offset, float width, float height, float length);
 
-
 	// GETTER FUNCTION(s)
 	inline Vector3 GetMax();
 	inline Vector3 GetMin();
-	inline Vector3 GetExtents() { return m_Scale; }
+	inline const Vector3 GetExtents() { return m_Scale; }
 	inline Vector3 GetHalfExtents() { return m_Scale / 2; }
-	Vector3 NearestPoint(Vector3 point);
-	bool PointInBox(Vector3 point);
-
 };
 
 #endif

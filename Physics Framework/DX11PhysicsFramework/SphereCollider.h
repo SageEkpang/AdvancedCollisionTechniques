@@ -24,11 +24,6 @@ public:
 	void Construct(Vector3 offset, float radius);
 	void Construct(float x_offset, float y_offset, float z_offset, float radius);
 	void Construct(float radius);
-
-
-	// GETTER FUNCTIONS
-	Vector3 NearestPoint(Vector3 point);
-	bool PointInSphere(Vector3 point);
 };
 
 #endif;

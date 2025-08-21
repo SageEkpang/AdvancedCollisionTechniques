@@ -55,17 +55,12 @@ void PlaneCollider::Construct(float x_offset, float y_offset, float z_offset, fl
 	m_Scale = Vector3(width, height, length);
 }
 
-Vector3 PlaneCollider::NearestPoint(Vector3 point)
+Vector3 PlaneCollider::GetMax()
 {
-	float NormalDot = Vector3::S_Dot(m_PlaneNormal, point);
-	float t_Distance = NormalDot - Vector3::S_Magnitude(point - m_Owner->m_Transform.m_Position);
-	Vector3 ClosestPoint = point - m_PlaneNormal * t_Distance;
-	return ClosestPoint;
+	return (m_Owner->m_Transform.m_Position + m_Offset) + ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
 }
 
-bool PlaneCollider::PointOnPlane(Vector3 point)
+Vector3 PlaneCollider::GetMin()
 {
-	float t_Dot = Vector3::S_Dot(point, m_PlaneNormal);
-	float t_PlaneDistance = Vector3::S_Magnitude(point - m_Owner->m_Transform.m_Position);
-	return t_Dot - t_PlaneDistance == 0.0f;
+	return (m_Owner->m_Transform.m_Position + m_Offset) - ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
 }
