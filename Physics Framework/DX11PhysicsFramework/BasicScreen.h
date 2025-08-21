@@ -12,6 +12,9 @@
 class BasicScreen : public ScreenEntity
 {
 private:
+
+	GameObjectEntity* m_DonutObject;
+
 public:
 
 	// CLASS FUNCTION(s)

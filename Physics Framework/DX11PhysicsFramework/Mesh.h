@@ -7,6 +7,7 @@
 #include "Material.h"
 #include "Geometry.h"
 #include "Constants.h"
+#include "Vector4.h"
 
 class Mesh : public ComponentEntity
 {
@@ -20,12 +21,12 @@ public:
 	Geometry m_Geometry;
 	bool m_RenderMesh = true;
 
-
 public:
 
 	// CLASS FUNCTION (Components)
 	void Construct(char* fileName, ID3D11Device* device);
 	void Construct(char* fileName, Material material, ID3D11Device* device);
+	void Construct(char* fileName, Vector4 colour, ID3D11Device* device);
 
 
 	// CLASS FUNCTION (Generals)
@@ -43,15 +44,6 @@ public:
 
 	/// <summary> Default Base Draw Function for Class </summary>
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
-
-	// GETTER FUNCTION(s)
-	Geometry GetGeometryData() const { return m_Geometry; }
-	Material GetMaterial() { return m_Material; }
-
-	// SETTER FUNCTION(s)
-	void SetGeometry(Geometry geometry) { m_Geometry = geometry; }
-	void SetMaterial(Material material) { m_Material = material; }
-	void SetGeometryAndMaterial(char* fileName, Material material, ID3D11Device* device);
 };
 
 #endif

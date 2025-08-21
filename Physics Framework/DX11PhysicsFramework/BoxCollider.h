@@ -28,8 +28,8 @@ public:
 	void Construct(float x_offset, float y_offset, float z_offset, float width, float height, float length);
 
 	// GETTER FUNCTION(s)
-	inline Vector3 GetMax();
-	inline Vector3 GetMin();
+	Vector3 GetMax();
+	Vector3 GetMin();
 	inline const Vector3 GetExtents() { return m_Scale; }
 	inline Vector3 GetHalfExtents() { return m_Scale / 2; }
 };

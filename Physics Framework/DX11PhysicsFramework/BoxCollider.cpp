@@ -57,10 +57,10 @@ void BoxCollider::Construct(float x_offset, float y_offset, float z_offset, floa
 
 Vector3 BoxCollider::GetMax()
 {
-	return (m_Owner->m_Transform.m_Position + m_Offset) + ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
+	return Vector3(m_Owner->m_Transform.m_Position + m_Offset) + ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
 }
 
 Vector3 BoxCollider::GetMin()
 {
-	return (m_Owner->m_Transform.m_Position + m_Offset) - ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
+	return Vector3(m_Owner->m_Transform.m_Position + m_Offset) - ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
 }

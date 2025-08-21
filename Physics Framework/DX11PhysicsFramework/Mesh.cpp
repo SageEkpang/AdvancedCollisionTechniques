@@ -35,6 +35,23 @@ void Mesh::Construct(char* fileName, Material material, ID3D11Device* device)
 	m_Material = material;
 }
 
+void Mesh::Construct(char* fileName, Vector4 colour, ID3D11Device* device)
+{
+	m_World = new XMFLOAT4X4();
+	Geometry t_Geometry = Geometry();
+	MeshData t_Mesh;
+
+	t_Mesh = OBJLoader::Load(fileName, device);
+	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
+	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
+	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
+	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
+
+	m_Geometry = t_Geometry;
+	m_Material = Material(XMFLOAT4(colour.r, colour.g, colour.b, colour.a), XMFLOAT4(colour.r, colour.g, colour.b, colour.a), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+}
+
 Mesh::Mesh()
 {
 	m_World = new XMFLOAT4X4();
@@ -100,20 +117,3 @@ void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D
 	// NOTE: Draw Call
 	pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
 }
-
-void Mesh::SetGeometryAndMaterial(char* fileName, Material material, ID3D11Device* device)
-{
-	Geometry t_Geometry;
-	MeshData t_Mesh;
-
-	t_Mesh = OBJLoader::Load(fileName, device);
-	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
-	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
-	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
-	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
-	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
-
-	m_Geometry = t_Geometry;
-	m_Material = material;
-}
-

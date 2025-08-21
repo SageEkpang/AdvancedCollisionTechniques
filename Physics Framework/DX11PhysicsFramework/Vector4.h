@@ -1,9 +1,12 @@
 #ifndef VECTOR4_H
 #define VECTOR4_H
 
-typedef struct Vector4
+struct Vector4
 {
-	float x, y, z, w;
+	union { float x, r; };
+	union { float y, g; };
+	union { float z, b; };
+	union { float w, a; };
 
 	Vector4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f)
 	{
@@ -13,7 +16,7 @@ typedef struct Vector4
 		this->w = w;
 	}
 
-	Vector4(Vector4& value)
+	Vector4(const Vector4& value)
 	{
 		this->x = value.x;
 		this->y = value.y;
@@ -54,7 +57,6 @@ typedef struct Vector4
 	{
 		return Vector4(x * value.x, y * value.y, z * value.z, w * value.w);
 	}
-
-}Vector4, Vector4D;
+};
 
 #endif
