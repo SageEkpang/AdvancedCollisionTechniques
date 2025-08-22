@@ -2,18 +2,21 @@
 #define MESH_H
 
 #include "OBJLoader.h"
+#include "DDSTextureLoader.h"
 
 #include "ComponentEntity.h"
 #include "Material.h"
 #include "Geometry.h"
 #include "Constants.h"
 #include "Vector4.h"
+#include <string>
 
 class Mesh : public ComponentEntity
 {
 private:
 
 	DirectX::XMFLOAT4X4* m_World;
+	ID3D11ShaderResourceView* m_ShaderResource = nullptr;
 
 public:
 
@@ -24,9 +27,12 @@ public:
 public:
 
 	// CLASS FUNCTION (Components)
-	void Construct(char* fileName, ID3D11Device* device);
-	void Construct(char* fileName, Material material, ID3D11Device* device);
-	void Construct(char* fileName, Vector4 colour, ID3D11Device* device);
+	void Construct(std::string meshFileName, ID3D11Device* device);
+	void Construct(std::string meshFileName, Material material, ID3D11Device* device);
+	void Construct(std::string meshFileName, Vector4 colour, ID3D11Device* device);
+	void Construct(std::string meshFileName, std::string textureFileName, ID3D11Device* device);
+
+	void SetTexture(std::string textureFileName, ID3D11Device* device);
 
 
 	// CLASS FUNCTION (Generals)

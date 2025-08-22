@@ -153,7 +153,6 @@ void ScreenManager::Showcase()
 	_cbData.Projection = XMMatrixTranspose(_camera->GetProjectionMatrix());
 	_cbData.EyePosW = _camera->GetPosition();
 	_cbData.light = basicLight;
-	_cbData.HasTexture = 0;
 
 	// Draw the Current Physics Screen
 	m_CurrentScreen->Draw(_cbData, _constantBuffer, _immediateContext, _device);
@@ -272,8 +271,8 @@ HRESULT ScreenManager::CreateSwapChainAndFrameBuffer()
 	swapChainDesc.Height = 0; // Defer to WindowHeight
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; //FLIP* modes don't support sRGB backbuffer
 	swapChainDesc.Stereo = FALSE;
-	swapChainDesc.SampleDesc.Count = 1;
-	swapChainDesc.SampleDesc.Quality = 0;
+	swapChainDesc.SampleDesc.Count = 1; // 1
+	swapChainDesc.SampleDesc.Quality = 0; // 0
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.BufferCount = 2;
 	swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
@@ -299,14 +298,32 @@ HRESULT ScreenManager::CreateSwapChainAndFrameBuffer()
 
 	frameBuffer->Release();
 
+
+
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
 	frameBuffer->GetDesc(&depthBufferDesc); // copy from framebuffer properties
 
 	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthBufferDesc.CPUAccessFlags = D3D11_USAGE_DEFAULT;
+	depthBufferDesc.MipLevels = 1;
+	depthBufferDesc.SampleDesc.Count = 1;
+	depthBufferDesc.SampleDesc.Quality = 0;
+	depthBufferDesc.MiscFlags = 0;
 
 	_device->CreateTexture2D(&depthBufferDesc, nullptr, &_depthStencilBuffer);
+
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC t_depth_stencil_view_desc;
+	ZeroMemory(&t_depth_stencil_view_desc, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
+	t_depth_stencil_view_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	t_depth_stencil_view_desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	t_depth_stencil_view_desc.Texture2D.MipSlice = 0;
+
 	_device->CreateDepthStencilView(_depthStencilBuffer, nullptr, &_depthBufferView);
+
+	//UINT a;
+	//_device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 2, &a);
 
 	return hr;
 }
@@ -419,10 +436,12 @@ HRESULT ScreenManager::InitPipelineStates()
 	cmdesc.FillMode = D3D11_FILL_SOLID;
 	cmdesc.CullMode = D3D11_CULL_NONE;
 	cmdesc.FrontCounterClockwise = true;
+	cmdesc.MultisampleEnable = true;
 	hr = _device->CreateRasterizerState(&cmdesc, &_CCWcullMode);
 
 	// Clock Wise Rasterizer
 	cmdesc.FrontCounterClockwise = false;
+	//cmdesc.AntialiasedLineEnable = true;
 	hr = _device->CreateRasterizerState(&cmdesc, &_CWcullMode);
 
 	_immediateContext->RSSetState(_CWcullMode);
@@ -455,6 +474,9 @@ HRESULT ScreenManager::InitPipelineStates()
 
 	hr = _device->CreateSamplerState(&bilinearSamplerdesc, &_samplerLinear);
 	if (FAILED(hr)) return hr;
+
+
+
 
 	return S_OK;
 }

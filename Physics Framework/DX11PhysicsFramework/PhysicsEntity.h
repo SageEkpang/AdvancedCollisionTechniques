@@ -17,9 +17,6 @@ class PhysicsEntity : public ComponentEntity
 {
 public:
 
-	// Base Variables
-	Transform* m_Transform = nullptr;
-
 	// Physics Variables
 	Vector3 m_Velocity = VECTOR3_ZERO;
 	Vector3 m_Acceleration = VECTOR3_ZERO;
@@ -29,7 +26,6 @@ public:
 	mutable float m_Gravity = GRAVITY_EARTH;
 	float m_Mass = 1.0f;
 	float m_Weight = 0.0f;
-	float m_Density = 0.0f;
 
 	// Force Variables
 	float m_Drag = 1.0f;
@@ -41,18 +37,15 @@ public:
 	bool m_HasCollided = false;
 
 	// Simulation Variables
-	bool m_SimulateGravity = false;
-	bool m_UseAcceleration = false;
-	bool m_UseVelocity = true;
-	bool m_UseFriction = false;
-	bool m_UseDrag = false;
+	bool m_SimulateGravity = true;
+	bool m_SimulateFriction = false;
+	bool m_SimulateDrag = false;
 
 
 public:
 
 	// CLASS FUNCTION(s)
-	PhysicsEntity(Transform* transform, float mass = 1.0f);
-
+	PhysicsEntity();
 	virtual ~PhysicsEntity();
 
 
@@ -79,12 +72,19 @@ public:
 	/// <summary> Add Tension force that effects the object spring / rope calculation </summary>
 	Vector3 TensionForce();
 
+	inline void ApplyForce(Vector3 force) { m_NetForce += force; }
+	inline void ApplyForce(float x_force, float y_force, float z_force) { m_NetForce += Vector3(x_force, y_force, z_force); }
 
+	inline void ApplyForceX(float x_force) { m_NetForce.x += x_force; }
+	inline void ApplyForceY(float y_force) { m_NetForce.y += y_force; }
+	inline void ApplyForceZ(float z_force) { m_NetForce.z += z_force; }
 
+	inline void ApplyImpulse(Vector3 impulse) { m_Velocity += impulse; }
+	inline void ApplyImpulse(float x, float y, float z) { m_Velocity += Vector3(x, y, z); }
 
-	/// <summary> Add Impulse force that effects the objects movement (Vector3) </summary>
-	void ApplyImpulse(Vector3 impulse) { m_Velocity += impulse; }
-	void ApplyImpulse(float x, float y, float z) { m_Velocity += Vector3(x, y, z); }
+	inline void ApplyImpulseX(float x_impulse) { m_Velocity.x += x_impulse; }
+	inline void ApplyImpulseY(float y_impulse) { m_Velocity.y += y_impulse; }
+	inline void ApplyImpulseZ(float z_impulse) { m_Velocity.z += z_impulse; }
 
 	/// <summary> Add Relative force that effects the objects movement </summary>
 	// virtual void AddRelativeForce(Vector3 force, Vector3 point) { };
@@ -94,7 +94,7 @@ public:
 
 	/// <summary> Default Update Function for Class </summary>
 	virtual void Update(float deltaTime) override;
-
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 
 	// GETTER FUNCTION(s)
 	Vector3 GetVelocity() { return m_Velocity; }
@@ -108,24 +108,12 @@ public:
 	inline float GetWeight() { return m_Mass * m_Gravity; }
 	float GetDensity();
 
-	inline Transform* GetTransform() { return m_Transform; }
-
 	// SETTER FUNCTION(s)
 	virtual inline void SetVelocity(Vector3 velocity) { m_Velocity = velocity; }
 	inline void SetVelocity(float x, float y, float z) { m_Velocity = Vector3(x, y, z); }
 
 	inline void SetAcceleration(Vector3 acceleration) { m_Acceleration = acceleration; }
 	inline void SetAcceleration(float x, float y, float z) { m_Acceleration = Vector3(x, y, z); }
-
-	virtual inline void SetGravity(float gravity) { m_Gravity = gravity; }
-	inline void SimulateGravity(bool simulating) { m_SimulateGravity = simulating; }
-
-	virtual inline void SetMass(float mass) { m_Mass = mass; }
-	inline void SetDensity(float density) { m_Density = density; }
-	inline void SetWeight(float weight) { m_Weight = weight; }
-
-	inline void SimulateDrag(bool simulating) { m_UseDrag = simulating; }
-	inline void SimulateFriction(bool simulating) { m_UseFriction = simulating; }
 
 };
 

@@ -21,6 +21,7 @@ public:
 
 	// CLASS FUNCTION(s) (Components)
 	BoxCollider();
+	~BoxCollider() override { }
 
 	void Construct(Vector3 offset, Vector3 scale);
 	void Construct(Vector3 offset, float width, float height, float length);

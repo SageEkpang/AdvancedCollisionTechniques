@@ -1,13 +1,17 @@
 #include "Mesh.h"
 #include "GameObjectEntity.h"
 
-void Mesh::Construct(char* fileName, ID3D11Device* device)
+void Mesh::Construct(std::string meshFileName, ID3D11Device* device)
 {
 	m_World = new XMFLOAT4X4();
 	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
 
-	t_Mesh = OBJLoader::Load(fileName, device);
+	// NOTE: Set the Mesh
+	std::string t_tempMeshString = "Resources\\OBJ\\";
+	t_tempMeshString.append(meshFileName);
+
+	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
 	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
@@ -15,16 +19,20 @@ void Mesh::Construct(char* fileName, ID3D11Device* device)
 	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
 
 	m_Geometry = t_Geometry;
-	m_Material = Material::MATERIAL_GROUND;
+	m_Material = MATERIAL_MAX;
 }
 
-void Mesh::Construct(char* fileName, Material material, ID3D11Device* device)
+void Mesh::Construct(std::string meshFileName, Material material, ID3D11Device* device)
 {
 	m_World = new XMFLOAT4X4();
 	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
 
-	t_Mesh = OBJLoader::Load(fileName, device);
+	// NOTE: Set the Mesh
+	std::string t_tempMeshString = "Resources\\OBJ\\";
+	t_tempMeshString.append(meshFileName);
+
+	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
 	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
@@ -35,13 +43,17 @@ void Mesh::Construct(char* fileName, Material material, ID3D11Device* device)
 	m_Material = material;
 }
 
-void Mesh::Construct(char* fileName, Vector4 colour, ID3D11Device* device)
+void Mesh::Construct(std::string meshFileName, Vector4 colour, ID3D11Device* device)
 {
 	m_World = new XMFLOAT4X4();
 	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
 
-	t_Mesh = OBJLoader::Load(fileName, device);
+	// NOTE: Set the Mesh
+	std::string t_tempMeshString = "Resources\\OBJ\\";
+	t_tempMeshString.append(meshFileName);
+
+	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
 	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
@@ -49,7 +61,58 @@ void Mesh::Construct(char* fileName, Vector4 colour, ID3D11Device* device)
 	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
 
 	m_Geometry = t_Geometry;
-	m_Material = Material(XMFLOAT4(colour.r, colour.g, colour.b, colour.a), XMFLOAT4(colour.r, colour.g, colour.b, colour.a), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	m_Material = Material(XMFLOAT4(colour.r / 255.f, colour.g / 255.f, colour.b / 255.f, colour.a / 255.f), XMFLOAT4(colour.r / 255.f, colour.g / 255.f, colour.b / 255.f, colour.a / 255.f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+}
+
+void Mesh::Construct(std::string meshFileName, std::string textureFileName, ID3D11Device* device)
+{
+	m_World = new XMFLOAT4X4();
+	Geometry t_Geometry = Geometry();
+	MeshData t_Mesh;
+
+	// NOTE: Set the Mesh
+	std::string t_tempMeshString = "Resources\\OBJ\\";
+	t_tempMeshString.append(meshFileName);
+
+	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
+	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
+	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
+	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
+	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
+
+	m_Geometry = t_Geometry;
+	m_Material = MATERIAL_GROUND;
+
+
+	// NOTE: Set the Texture
+	ID3D11ShaderResourceView* t_Texture = nullptr;
+
+	std::string t_tempTextureString = "Resources\\Textures\\";
+	t_tempTextureString.append(textureFileName);
+
+	std::wstring t_widestr = std::wstring(t_tempTextureString.begin(), t_tempTextureString.end());
+	const wchar_t* t_widecstr = t_widestr.c_str();
+
+	CreateDDSTextureFromFile(device, t_widecstr, nullptr, &t_Texture);
+
+	m_ShaderResource = t_Texture;
+}
+
+void Mesh::SetTexture(std::string textureFileName, ID3D11Device* device)
+{
+	// NOTE: Set the Texture
+	ID3D11ShaderResourceView* t_Texture = nullptr;
+
+	std::string t_tempTextureString = "Resources\\Textures\\";
+	t_tempTextureString.append(textureFileName);
+
+	std::wstring t_widestr = std::wstring(t_tempTextureString.begin(), t_tempTextureString.end());
+	const wchar_t* t_widecstr = t_widestr.c_str();
+
+	CreateDDSTextureFromFile(device, t_widecstr, nullptr, &t_Texture);
+
+	m_ShaderResource = t_Texture;
 }
 
 Mesh::Mesh()
@@ -63,9 +126,11 @@ Mesh::~Mesh()
 {
 	delete m_World;
 	m_Material = Material();
-	m_Geometry = Geometry();
+	m_Geometry = Geometry();  
 	m_Geometry.vertexBuffer = nullptr;
 	m_Geometry.indexBuffer = nullptr;
+
+	if (m_ShaderResource) m_ShaderResource->Release();
 }
 
 void Mesh::Update(float deltaTime)
@@ -91,11 +156,23 @@ void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D
 	ID3D11RasterizerState* m_NormalCull;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
 	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_NONE;
+	cmdesc.CullMode = D3D11_CULL_BACK;
 	cmdesc.FrontCounterClockwise = false;
+	//cmdesc.MultisampleEnable = true;
+	//cmdesc.AntialiasedLineEnable = true;
 	device->CreateRasterizerState(&cmdesc, &m_NormalCull);
 
 	pImmediateContext->RSSetState(m_NormalCull);
+
+	if (m_ShaderResource != nullptr)
+	{
+		pImmediateContext->PSSetShaderResources(0, 1, &m_ShaderResource);
+		constantBufferData.HasTexture = 1;
+	}
+	else
+	{
+		constantBufferData.HasTexture = 0;
+	}
 
 	// Draw Render Object
 	constantBufferData.surface.AmbientMtrl = m_Material.ambient;

@@ -7,7 +7,7 @@ ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device) : m_Scr
 	m_PlaneObject->m_Transform.m_Position = Vector3(0, 0, 0);
 	m_PlaneObject->m_Transform.m_Scale = Vector3(1000, 1, 1000);
 	m_PlaneObject->m_Transform.m_Orientation = Quaternion4(0, 0, 0, 0);
-	m_PlaneObject->AddComponent<Mesh>()->Construct((char*)"Resources\\OBJ\\plane.obj", device);
+	m_PlaneObject->AddComponent<Mesh>()->Construct("plane.obj", "stone.dds", device);
 	InsertObjectIntoList(m_PlaneObject);
 
 }
