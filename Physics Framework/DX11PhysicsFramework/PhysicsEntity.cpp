@@ -43,6 +43,8 @@ void PhysicsEntity::Update(float deltaTime)
 void PhysicsEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
 
+
+
 }
 
 Vector3 PhysicsEntity::FrictionForce()

@@ -54,6 +54,7 @@ public:
 
     // SPHERE
     static CollisionManifold SphereToSphere(GameObjectEntity* sphereA, GameObjectEntity* sphereB);
+    static CollisionManifold S_SphereToSphere(Vector3 sphereAPos, float sphereARadius, Vector3 sphereBPos, float sphereBRadius);
 
     // BOX
     static CollisionManifold BoxToBox(GameObjectEntity* boxA, GameObjectEntity* boxB);

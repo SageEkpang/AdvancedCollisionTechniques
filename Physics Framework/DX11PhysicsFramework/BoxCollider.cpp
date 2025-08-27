@@ -163,10 +163,10 @@ void BoxCollider::Update(float deltaTime)
 
 Vector3 BoxCollider::GetMax()
 {
-	return Vector3(m_Owner->m_Transform.m_Position + m_Offset) + ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
+	return Vector3(m_Owner->m_Transform.m_Position + m_Offset) + (m_Scale);
 }
 
 Vector3 BoxCollider::GetMin()
 {
-	return Vector3(m_Owner->m_Transform.m_Position + m_Offset) - ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);
+	return Vector3(m_Owner->m_Transform.m_Position + m_Offset) - (m_Scale);
 }

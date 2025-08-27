@@ -13,6 +13,8 @@ class GJKScreen : public ScreenEntity
 {
 private:
 
+	GameObjectEntity* m_CylinderObject;
+	GameObjectEntity* m_PyramidObject;
 	GJKCollider* m_GJKCollider;
 	bool m_UseOctree = false;
 

@@ -63,5 +63,9 @@ struct Vector4
 #define COLOUR_BLUE Vector4(0.f, 0.f, 255.f, 1.f)
 #define COLOUR_RED Vector4(255.f, 0.f, 0.f, 1.f)
 #define COLOUR_GREEN Vector4(0.f, 255.f, 0.f, 1.f)
+#define COLOUR_PURPLE Vector4(255.f, 0.f, 255.f, 1.f)
+
+#define COLOUR_WHITE Vector4(255.f, 255.f, 255.f, 1.f)
+#define COLOUR_BLACK Vector4(0.f, 0.f, 0.f, 1.f);
 
 #endif

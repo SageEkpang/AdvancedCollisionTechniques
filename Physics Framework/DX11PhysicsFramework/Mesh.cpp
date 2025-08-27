@@ -28,7 +28,7 @@ void Mesh::Construct(std::string meshFileName, ID3D11Device* device)
 	D3D11_RASTERIZER_DESC cmdesc;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
 	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.CullMode = D3D11_CULL_NONE;
 	cmdesc.FrontCounterClockwise = false;
 	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
 
@@ -84,7 +84,7 @@ void Mesh::Construct(std::string meshFileName, Material material, ID3D11Device* 
 	D3D11_RASTERIZER_DESC cmdesc;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
 	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.CullMode = D3D11_CULL_NONE;
 	cmdesc.FrontCounterClockwise = false;
 	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
 
@@ -140,7 +140,7 @@ void Mesh::Construct(std::string meshFileName, Vector4 colour, ID3D11Device* dev
 	D3D11_RASTERIZER_DESC cmdesc;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
 	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.CullMode = D3D11_CULL_NONE;
 	cmdesc.FrontCounterClockwise = false;
 	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
 
@@ -210,7 +210,7 @@ void Mesh::Construct(std::string meshFileName, std::string textureFileName, ID3D
 	D3D11_RASTERIZER_DESC cmdesc;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
 	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.CullMode = D3D11_CULL_NONE;
 	cmdesc.FrontCounterClockwise = false;
 	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
 	if (FAILED(t_H_R))

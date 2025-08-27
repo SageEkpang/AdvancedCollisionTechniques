@@ -3,6 +3,8 @@
 
 #include "Camera.h"
 #include "GameObjectEntity.h"
+#include "CollisionManager.h"
+#include "CollisionContactManager.h"
 #include "Timer.h"
 
 using namespace DirectX;

@@ -67,16 +67,126 @@ CollisionManifold CollisionManager::CheckCollisions(GameObjectEntity* colliderA,
 
 CollisionManifold CollisionManager::SphereToSphere(GameObjectEntity* sphereA, GameObjectEntity* sphereB)
 {
-	return CollisionManifold();
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	Vector3 SphereAPosition = sphereA->m_Transform.m_Position;
+	const float SphereARadius = sphereA->GetComponent<SphereCollider>()->m_Radius;
+
+	Vector3 SphereBPosition = sphereB->m_Transform.m_Position;
+	const float SphereBRadius = sphereB->GetComponent<SphereCollider>()->m_Radius;
+
+	float t_Distance = Vector3(SphereAPosition - SphereBPosition).Magnitude();
+	float t_RadiiSum = SphereARadius + SphereBRadius;
+
+	if (t_Distance <= t_RadiiSum)
+	{
+		t_ColMani.hasCollision = true;
+		t_ColMani.collisionNormal = Vector3(SphereAPosition - SphereBPosition).Normalise();
+		t_ColMani.penetrationDepth = t_RadiiSum - t_Distance;
+		t_ColMani.contactPointCount = 1;
+	}
+
+	return t_ColMani;
+}
+
+CollisionManifold CollisionManager::S_SphereToSphere(Vector3 sphereAPos, float sphereARadius, Vector3 sphereBPos, float sphereBRadius)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	Vector3 SphereAPosition = sphereAPos;
+	const float SphereARadius = sphereARadius;
+
+	Vector3 SphereBPosition = sphereBPos;
+	const float SphereBRadius = sphereBRadius;
+
+	float t_Distance = Vector3(SphereAPosition - SphereBPosition).Magnitude();
+	float t_RadiiSum = SphereARadius + SphereBRadius;
+
+	if (t_Distance <= t_RadiiSum)
+	{
+		t_ColMani.hasCollision = true;
+		t_ColMani.collisionNormal = Vector3(SphereAPosition - SphereBPosition).Normalise();
+		t_ColMani.penetrationDepth = t_RadiiSum - t_Distance;
+		t_ColMani.contactPointCount = 1;
+	}
+
+	return t_ColMani;
 }
 
 CollisionManifold CollisionManager::BoxToBox(GameObjectEntity* boxA, GameObjectEntity* boxB)
 {
-	return CollisionManifold();
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	Vector3 BoxAPosition = boxA->m_Transform.m_Position;
+	Vector3 BoxBPosition = boxB->m_Transform.m_Position;
+
+	Vector3 t_MaxA = boxA->GetComponent<BoxCollider>()->GetMax();
+	Vector3 t_MinA = boxA->GetComponent<BoxCollider>()->GetMin();
+
+	Vector3 t_MaxB = boxB->GetComponent<BoxCollider>()->GetMax();
+	Vector3 t_MinB = boxB->GetComponent<BoxCollider>()->GetMin();
+
+	if (t_MinA.x <= t_MaxB.x &&
+		t_MaxA.x >= t_MinB.x &&
+
+		t_MinA.y <= t_MaxB.y &&
+		t_MaxA.y >= t_MinB.y &&
+
+		t_MinA.z <= t_MaxB.z &&
+		t_MaxA.z >= t_MinB.z)
+	{
+		t_ColMani.hasCollision = true;
+		t_ColMani.collisionNormal = Vector3(BoxAPosition - BoxBPosition).Normalise();
+
+		Vector3 closestPointA = BoxNearestPoint(boxA, boxB->m_Transform.m_Position);
+		Vector3 closestPointB = BoxNearestPoint(boxB, boxA->m_Transform.m_Position);
+
+		t_ColMani.penetrationDepth = 0.5f;
+		t_ColMani.contactPointCount = 1;
+	}
+
+	 return t_ColMani;
 }
 
 CollisionManifold CollisionManager::BoxToSphere(GameObjectEntity* boxA, GameObjectEntity* sphereB)
 {
+	//// Sphere Component Variables
+	//Vector3 TempPos = other.GetPosition();
+	//float TempRadius = other.GetRadius();
+
+	//// Box Component Variables
+	//// Centre Position (-+) Extents
+	//m_Max = m_Transform->GetPosition() + m_Transform->GetScale();
+	//m_Min = m_Transform->GetPosition() - m_Transform->GetScale();
+
+	//// Minimum Distance Temp Variable
+	//float DistanceMin = 0;
+
+	//// Check the Distance of the Circle Position from the Box position and extents
+	//if (TempPos.x < m_Min.x) DistanceMin += std::powf(TempPos.x - m_Min.x, 2);
+	//else if (TempPos.x > m_Max.x) DistanceMin += std::powf(TempPos.x - m_Max.x, 2);
+
+	//if (TempPos.y < m_Min.y) DistanceMin += std::powf(TempPos.y - m_Min.y, 2);
+	//else if (TempPos.y > m_Max.y) DistanceMin += std::powf(TempPos.y - m_Max.y, 2);
+
+	//if (TempPos.z < m_Min.z) DistanceMin += std::powf(TempPos.z - m_Min.z, 2);
+	//else if (TempPos.z > m_Max.z) DistanceMin += std::powf(TempPos.z - m_Max.z, 2);
+
+	//// Check if the Distance of the Circle is in the Box's "Radius"
+	//if (DistanceMin <= (std::powf(TempRadius, 2)))
+	//{
+	//	out.CollisionNormal = Vector::Normalise(other.GetPosition() - m_Transform->GetPosition());
+	//	out.CollisionNormal = Vector::Normalise(out.CollisionNormal);
+	//	return true;
+	//}
+
+	//return false;
+
+
+
+
+
+
 	return CollisionManifold();
 }
 
@@ -143,17 +253,17 @@ bool CollisionManager::PointInBox(GameObjectEntity* boxA, Vector3 pointB)
 	return true;
 }
 
-Vector3 CollisionManager::SphereNearestPoint(GameObjectEntity* sphereA, Vector3 pointB)
+Vector3 CollisionManager::SphereNearestPoint(GameObjectEntity* sphere, Vector3 pointB)
 {
-	Vector3 t_SphereToPoint = Vector3::S_Normalise(pointB - (sphereA->m_Transform.m_Position + sphereA->GetComponent<SphereCollider>()->m_Offset));
-	t_SphereToPoint *= sphereA->GetComponent<SphereCollider>()->m_Radius * float((sphereA->m_Transform.m_Scale.x + sphereA->m_Transform.m_Scale.y + sphereA->m_Transform.m_Scale.z) / 3.0f);
-	return t_SphereToPoint + (sphereA->m_Transform.m_Position + sphereA->GetComponent<SphereCollider>()->m_Offset);
+	Vector3 t_SphereToPoint = Vector3::S_Normalise(pointB - (sphere->m_Transform.m_Position + sphere->GetComponent<SphereCollider>()->m_Offset));
+	t_SphereToPoint *= sphere->GetComponent<SphereCollider>()->m_Radius;// *float((sphere->m_Transform.m_Scale.x + sphere->m_Transform.m_Scale.y + sphere->m_Transform.m_Scale.z) / 3.0f);
+	return t_SphereToPoint + (sphere->m_Transform.m_Position + sphere->GetComponent<SphereCollider>()->m_Offset);
 }
 
-bool CollisionManager::PointInSphere(GameObjectEntity* sphereA, Vector3 pointB)
+bool CollisionManager::PointInSphere(GameObjectEntity* sphere, Vector3 pointB)
 {
-	float t_MagnitudeSquared = std::pow(Vector3::S_Magnitude(pointB - (sphereA->m_Transform.m_Position + sphereA->GetComponent<SphereCollider>()->m_Offset)), 2);
-	float t_RadiusAmount = sphereA->GetComponent<SphereCollider>()->m_Radius * sphereA->GetComponent<SphereCollider>()->m_Radius;
+	float t_MagnitudeSquared = std::pow(Vector3::S_Magnitude(pointB - (sphere->m_Transform.m_Position + sphere->GetComponent<SphereCollider>()->m_Offset)), 2);
+	float t_RadiusAmount = sphere->GetComponent<SphereCollider>()->m_Radius * sphere->GetComponent<SphereCollider>()->m_Radius;
 	return t_MagnitudeSquared < t_RadiusAmount;
 }
 

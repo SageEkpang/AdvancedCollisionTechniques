@@ -7,15 +7,17 @@
 
 // CUSTOM INCLUDE(s)
 #include "ScreenEntity.h"
+#include <vector>
 
 // NOTE: Simple Collisions Colliding
 class BasicScreen : public ScreenEntity
 {
 private:
 
-	GameObjectEntity* m_DonutObject;
 	GameObjectEntity* m_SphereObject;
 	GameObjectEntity* m_CubeObject;
+
+	std::vector<GameObjectEntity*> m_GameObjects;
 
 public:
 
@@ -27,14 +29,8 @@ public:
 	/// <summary> Default Destructor for Class </summary>
 	~BasicScreen() override;
 
-	// HELPER FUNCTION(s)
-
 	// BASE FUNCTION(s)
-
-	/// <summary> Default Update function for Class </summary>
 	void Update(float deltaTime) override;
-
-	/// <summary> Default Draw function for Class </summary>
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 
 };
