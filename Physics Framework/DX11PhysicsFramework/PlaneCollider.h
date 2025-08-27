@@ -26,11 +26,13 @@ public:
 	// CLASS FUNCTION(s) (Components)
 	PlaneCollider();
 
-	void Construct(Vector3 offset, Vector3 scale);
-	void Construct(Vector3 offset, float width, float height, float length);
-	void Construct(Vector3 scale);
-	void Construct(float x_offset, float y_offset, float z_offset, float width, float height, float length);
+	void Construct(Vector3 offset, Vector3 scale, ID3D11Device* device);
+	void Construct(Vector3 offset, float width, float height, float length, ID3D11Device* device);
+	void Construct(Vector3 scale, ID3D11Device* device);
+	void Construct(float x_offset, float y_offset, float z_offset, float width, float height, float length, ID3D11Device* device);
 
+	// BASE FUNCTION(s)
+	void Update(float deltaTime) override;
 
 	// GETTER FUNCTION(s)
 	inline Vector3 GetMax();

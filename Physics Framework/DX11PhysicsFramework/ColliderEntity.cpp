@@ -115,7 +115,7 @@ void ColliderEntity::Update(float deltaTime)
 	XMMATRIX Orientation = XMMatrixRotationQuaternion(XMVectorSet(m_Owner->m_Transform.m_Orientation.x, m_Owner->m_Transform.m_Orientation.y, m_Owner->m_Transform.m_Orientation.z, m_Owner->m_Transform.m_Orientation.w));
 
 	// NOTE: Position Matrix
-	XMMATRIX Position = XMMatrixTranslation(m_Owner->m_Transform.m_Scale.x, m_Owner->m_Transform.m_Scale.y, m_Owner->m_Transform.m_Scale.z);
+	XMMATRIX Position = XMMatrixTranslation(m_Owner->m_Transform.m_Position.x, m_Owner->m_Transform.m_Position.y, m_Owner->m_Transform.m_Position.z);
 
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }

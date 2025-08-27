@@ -14,6 +14,8 @@ class BasicScreen : public ScreenEntity
 private:
 
 	GameObjectEntity* m_DonutObject;
+	GameObjectEntity* m_SphereObject;
+	GameObjectEntity* m_CubeObject;
 
 public:
 

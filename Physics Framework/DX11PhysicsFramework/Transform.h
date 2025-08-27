@@ -29,6 +29,13 @@ public:
 		m_Orientation = Quaternion4(0, 0, 0, 1);
 	}
 
+	Transform(Vector3 position, Vector3 scale, Quaternion4 orientation)
+	{
+		this->m_Position = position;
+		this->m_Scale = scale;
+		this->m_Orientation = orientation;
+	}
+
 	/// <summary> Default Deconstructor for Clas </summary>
 	~Transform()
 	{

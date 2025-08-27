@@ -17,6 +17,8 @@ private:
 
 	DirectX::XMFLOAT4X4* m_World;
 	ID3D11ShaderResourceView* m_ShaderResource = nullptr;
+	ID3D11SamplerState* m_SamplerState = nullptr;
+	ID3D11RasterizerState* m_NormalCull = nullptr;
 
 public:
 

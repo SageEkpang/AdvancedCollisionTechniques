@@ -18,12 +18,16 @@ public:
 	SphereCollider(float x_offset, float y_offset, float z_offset, float radius);
 	SphereCollider(float radius);
 
+
 	// CLASS FUNCTION(s) (Components)
 	SphereCollider();
 
-	void Construct(Vector3 offset, float radius);
-	void Construct(float x_offset, float y_offset, float z_offset, float radius);
-	void Construct(float radius);
+	void Construct(Vector3 offset, float radius, ID3D11Device* device);
+	void Construct(float x_offset, float y_offset, float z_offset, float radius, ID3D11Device* device);
+	void Construct(float radius, ID3D11Device* device);
+
+	// BASE FUNCTION(s)
+	void Update(float deltaTime) override;
 };
 
 #endif;

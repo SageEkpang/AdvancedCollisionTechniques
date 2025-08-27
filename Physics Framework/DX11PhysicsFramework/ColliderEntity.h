@@ -25,9 +25,12 @@ enum class TriggerAreaState : std::int8_t
 
 class ColliderEntity : public ComponentEntity
 {
-private: // PRIVATE VARIABLE(s)
+protected:
 
     DirectX::XMFLOAT4X4* m_World;
+
+private: // PRIVATE VARIABLE(s)
+
 
     std::function<void()> m_TriggerEnteredLambda = nullptr;
     std::function<void()> m_TriggerStayedLambda = nullptr;
@@ -60,14 +63,14 @@ public: // PUBLIC VARIABLE(s)
     // ColliderType m_ColliderType;
 
 public: // PUBLIC FUNCTION(s)
-
+   
     // CLASS FUNCTION(s)
     ColliderEntity();
     virtual ~ColliderEntity();
 
     // BASE FUNCTION(s)
-    void Update(float deltaTime) override;
-    void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
+    virtual void Update(float deltaTime) override;
+    virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 
     // HELPER FUNCTION(s)
     void TriggerQuery(GameObjectEntity* gameObject);

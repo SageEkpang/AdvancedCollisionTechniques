@@ -20,6 +20,41 @@ void Mesh::Construct(std::string meshFileName, ID3D11Device* device)
 
 	m_Geometry = t_Geometry;
 	m_Material = MATERIAL_MAX;
+
+	// ------------ Creating States
+	HRESULT t_H_R;
+
+	// NOTE: Setting States
+	D3D11_RASTERIZER_DESC cmdesc;
+	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
+	cmdesc.FillMode = D3D11_FILL_SOLID;
+	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
+
+
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
+	D3D11_SAMPLER_DESC t_sampler_desc;
+	t_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	t_sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.MipLODBias = 0.0f;
+	t_sampler_desc.MaxAnisotropy = 1;
+	t_sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	t_sampler_desc.BorderColor[0] = t_sampler_desc.BorderColor[1] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[4] = 0.0f;
+	t_sampler_desc.MinLOD = 0;
+	t_sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	t_H_R = device->CreateSamplerState(&t_sampler_desc, &m_SamplerState);
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Sampler State");
+	}
 }
 
 void Mesh::Construct(std::string meshFileName, Material material, ID3D11Device* device)
@@ -41,6 +76,41 @@ void Mesh::Construct(std::string meshFileName, Material material, ID3D11Device* 
 
 	m_Geometry = t_Geometry;
 	m_Material = material;
+
+	// ------------ Creating States
+	HRESULT t_H_R;
+
+	// NOTE: Setting States
+	D3D11_RASTERIZER_DESC cmdesc;
+	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
+	cmdesc.FillMode = D3D11_FILL_SOLID;
+	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
+
+
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
+	D3D11_SAMPLER_DESC t_sampler_desc;
+	t_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	t_sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.MipLODBias = 0.0f;
+	t_sampler_desc.MaxAnisotropy = 1;
+	t_sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	t_sampler_desc.BorderColor[0] = t_sampler_desc.BorderColor[1] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[4] = 0.0f;
+	t_sampler_desc.MinLOD = 0;
+	t_sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	t_H_R = device->CreateSamplerState(&t_sampler_desc, &m_SamplerState);
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Sampler State");
+	}
 }
 
 void Mesh::Construct(std::string meshFileName, Vector4 colour, ID3D11Device* device)
@@ -62,6 +132,41 @@ void Mesh::Construct(std::string meshFileName, Vector4 colour, ID3D11Device* dev
 
 	m_Geometry = t_Geometry;
 	m_Material = Material(XMFLOAT4(colour.r / 255.f, colour.g / 255.f, colour.b / 255.f, colour.a / 255.f), XMFLOAT4(colour.r / 255.f, colour.g / 255.f, colour.b / 255.f, colour.a / 255.f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+
+	// ------------ Creating States
+	HRESULT t_H_R;
+
+	// NOTE: Setting States
+	D3D11_RASTERIZER_DESC cmdesc;
+	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
+	cmdesc.FillMode = D3D11_FILL_SOLID;
+	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
+
+
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
+	D3D11_SAMPLER_DESC t_sampler_desc;
+	t_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	t_sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.MipLODBias = 0.0f;
+	t_sampler_desc.MaxAnisotropy = 1;
+	t_sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	t_sampler_desc.BorderColor[0] = t_sampler_desc.BorderColor[1] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[4] = 0.0f;
+	t_sampler_desc.MinLOD = 0;
+	t_sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	t_H_R = device->CreateSamplerState(&t_sampler_desc, &m_SamplerState);
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Sampler State");
+	}
 }
 
 void Mesh::Construct(std::string meshFileName, std::string textureFileName, ID3D11Device* device)
@@ -97,6 +202,40 @@ void Mesh::Construct(std::string meshFileName, std::string textureFileName, ID3D
 	CreateDDSTextureFromFile(device, t_widecstr, nullptr, &t_Texture);
 
 	m_ShaderResource = t_Texture;
+
+	// ------------ Creating States
+	HRESULT t_H_R;
+
+	// NOTE: Setting States
+	D3D11_RASTERIZER_DESC cmdesc;
+	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
+	cmdesc.FillMode = D3D11_FILL_SOLID;
+	cmdesc.CullMode = D3D11_CULL_BACK;
+	cmdesc.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
+	// NOTE: Sampler State
+	D3D11_SAMPLER_DESC t_sampler_desc;
+	t_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	t_sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.MipLODBias = 0.0f;
+	t_sampler_desc.MaxAnisotropy = 1;
+	t_sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	t_sampler_desc.BorderColor[0] = t_sampler_desc.BorderColor[1] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[4] = 0.0f;
+	t_sampler_desc.MinLOD = 0;
+	t_sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	t_H_R = device->CreateSamplerState(&t_sampler_desc, &m_SamplerState);
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Sampler State");
+	}
 }
 
 void Mesh::SetTexture(std::string textureFileName, ID3D11Device* device)
@@ -131,6 +270,8 @@ Mesh::~Mesh()
 	m_Geometry.indexBuffer = nullptr;
 
 	if (m_ShaderResource) m_ShaderResource->Release();
+	if (m_SamplerState) m_SamplerState->Release();
+	if (m_NormalCull) m_NormalCull->Release();
 }
 
 void Mesh::Update(float deltaTime)
@@ -151,22 +292,13 @@ void Mesh::Update(float deltaTime)
 void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
 	if (m_RenderMesh == false) { return; }
-
-	D3D11_RASTERIZER_DESC cmdesc;
-	ID3D11RasterizerState* m_NormalCull;
-	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
-	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_BACK;
-	cmdesc.FrontCounterClockwise = false;
-	//cmdesc.MultisampleEnable = true;
-	//cmdesc.AntialiasedLineEnable = true;
-	device->CreateRasterizerState(&cmdesc, &m_NormalCull);
-
+	
 	pImmediateContext->RSSetState(m_NormalCull);
 
 	if (m_ShaderResource != nullptr)
 	{
 		pImmediateContext->PSSetShaderResources(0, 1, &m_ShaderResource);
+		pImmediateContext->PSSetSamplers(0, 1, &m_SamplerState);
 		constantBufferData.HasTexture = 1;
 	}
 	else

@@ -57,6 +57,11 @@ struct Vector4
 	{
 		return Vector4(x * value.x, y * value.y, z * value.z, w * value.w);
 	}
+
 };
+
+#define COLOUR_BLUE Vector4(0.f, 0.f, 255.f, 1.f)
+#define COLOUR_RED Vector4(255.f, 0.f, 0.f, 1.f)
+#define COLOUR_GREEN Vector4(0.f, 255.f, 0.f, 1.f)
 
 #endif
