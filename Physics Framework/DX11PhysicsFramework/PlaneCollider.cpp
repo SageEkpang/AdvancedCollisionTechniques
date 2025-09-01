@@ -133,6 +133,23 @@ void PlaneCollider::Update(float deltaTime)
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }
 
+inline Vector3 PlaneCollider::GetNormal()
+{
+
+
+
+	return Vector3();
+}
+
+inline Vector3 PlaneCollider::GetDirection()
+{
+
+
+
+
+	return Vector3();
+}
+
 Vector3 PlaneCollider::GetMax()
 {
 	return (m_Owner->m_Transform.m_Position + m_Offset) + ((m_Owner->m_Transform.m_Scale * m_Scale) / 2);

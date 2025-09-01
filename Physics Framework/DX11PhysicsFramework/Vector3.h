@@ -216,9 +216,9 @@ typedef struct Vector3
 		return value;
 	}
 
-	Vector3 DistanceTo(Vector3 value)
+	float DistanceTo(Vector3 value)
 	{
-		return Vector3(value - Vector3(x, y, z));
+		return sqrt(pow((value.x - this->x), 2) + pow((value.y - this->y), 2) + pow((value.z - this->z), 2));
 	}
 
 	float* ToArray()

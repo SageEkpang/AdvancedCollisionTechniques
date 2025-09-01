@@ -6,7 +6,7 @@
 
 class PlaneCollider : public ColliderEntity
 {
-private:
+public:
 
 	Vector3 m_Offset;
 	Vector3 m_Scale;
@@ -35,6 +35,8 @@ public:
 	void Update(float deltaTime) override;
 
 	// GETTER FUNCTION(s)
+	inline Vector3 GetNormal();
+	inline Vector3 GetDirection();
 	inline Vector3 GetMax();
 	inline Vector3 GetMin();
 	inline Vector3 GetExtents() { return m_Scale; }

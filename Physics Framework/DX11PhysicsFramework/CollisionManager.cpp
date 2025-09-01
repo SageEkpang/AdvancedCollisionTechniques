@@ -137,77 +137,103 @@ CollisionManifold CollisionManager::BoxToBox(GameObjectEntity* boxA, GameObjectE
 	{
 		t_ColMani.hasCollision = true;
 		t_ColMani.collisionNormal = Vector3(BoxAPosition - BoxBPosition).Normalise();
-
-		Vector3 closestPointA = BoxNearestPoint(boxA, boxB->m_Transform.m_Position);
-		Vector3 closestPointB = BoxNearestPoint(boxB, boxA->m_Transform.m_Position);
-
-		t_ColMani.penetrationDepth = 0.5f;
-		t_ColMani.contactPointCount = 1;
+		t_ColMani.penetrationDepth = 1 / Vector3(BoxBPosition - BoxAPosition).Magnitude();
 	}
 
-	 return t_ColMani;
+	return t_ColMani;
 }
 
 CollisionManifold CollisionManager::BoxToSphere(GameObjectEntity* boxA, GameObjectEntity* sphereB)
 {
-	//// Sphere Component Variables
-	//Vector3 TempPos = other.GetPosition();
-	//float TempRadius = other.GetRadius();
+	CollisionManifold t_ColMani = CollisionManifold();
 
-	//// Box Component Variables
-	//// Centre Position (-+) Extents
-	//m_Max = m_Transform->GetPosition() + m_Transform->GetScale();
-	//m_Min = m_Transform->GetPosition() - m_Transform->GetScale();
+	Vector3 Nearest = BoxNearestPoint(boxA, sphereB->m_Transform.m_Position);
+	float Distance = Nearest.DistanceTo(sphereB->m_Transform.m_Position);
 
-	//// Minimum Distance Temp Variable
-	//float DistanceMin = 0;
+	// Check if the Distance of the Circle is in the Box's "Radius"
+	if (Distance <= sphereB->GetComponent<SphereCollider>()->m_Radius)
+	{
+		t_ColMani.hasCollision = true;
+		t_ColMani.collisionNormal = Vector3(sphereB->m_Transform.m_Position - boxA->m_Transform.m_Position).Normalise();
+		t_ColMani.penetrationDepth = 0.5;
+	}
 
-	//// Check the Distance of the Circle Position from the Box position and extents
-	//if (TempPos.x < m_Min.x) DistanceMin += std::powf(TempPos.x - m_Min.x, 2);
-	//else if (TempPos.x > m_Max.x) DistanceMin += std::powf(TempPos.x - m_Max.x, 2);
-
-	//if (TempPos.y < m_Min.y) DistanceMin += std::powf(TempPos.y - m_Min.y, 2);
-	//else if (TempPos.y > m_Max.y) DistanceMin += std::powf(TempPos.y - m_Max.y, 2);
-
-	//if (TempPos.z < m_Min.z) DistanceMin += std::powf(TempPos.z - m_Min.z, 2);
-	//else if (TempPos.z > m_Max.z) DistanceMin += std::powf(TempPos.z - m_Max.z, 2);
-
-	//// Check if the Distance of the Circle is in the Box's "Radius"
-	//if (DistanceMin <= (std::powf(TempRadius, 2)))
-	//{
-	//	out.CollisionNormal = Vector::Normalise(other.GetPosition() - m_Transform->GetPosition());
-	//	out.CollisionNormal = Vector::Normalise(out.CollisionNormal);
-	//	return true;
-	//}
-
-	//return false;
-
-
-
-
-
-
-	return CollisionManifold();
+	return t_ColMani;
 }
 
 CollisionManifold CollisionManager::PlaneToPlane(GameObjectEntity* planeA, GameObjectEntity* planeB)
 {
-	return CollisionManifold();
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	//Vector3 CrossResult = planeA->GetComponent<PlaneCollider>()->GetNormal().Cross(planeB->GetComponent<PlaneCollider>()->GetNormal());
+
+	//if (CrossResult.Magnitude() > 0 || planeA->m_Transform.m_Position.Magnitude() == planeB->m_Transform.m_Position.Magnitude())
+	//{
+	//	t_ColMani.hasCollision = true;
+	//	t_ColMani.penetrationDepth = 0;
+	//	t_ColMani.collisionNormal = Vector3(0, 1, 0);
+	//}
+
+	return t_ColMani;
 }
 
 CollisionManifold CollisionManager::PlaneToBox(GameObjectEntity* planeA, GameObjectEntity* boxB)
 {
-	return CollisionManifold();
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	// Vector3 t_Anorm = planeA->GetComponent<PlaneCollider>()->GetNormal().Abs();
+	Vector3 t_Anorm = Vector3(0, 1, 0).Abs();
+	float t_pLength = boxB->GetComponent<BoxCollider>()->m_Scale.Dot(t_Anorm);
+	float t_NormalDot = Vector3(0, 1, 0).Dot(boxB->m_Transform.m_Position);
+	float t_Distance = t_NormalDot + planeA->m_Transform.m_Position.Magnitude();
+
+	if (abs(t_Distance) <= t_pLength)
+	{
+		t_ColMani.hasCollision = true;
+		t_ColMani.penetrationDepth = 0.5;
+		t_ColMani.collisionNormal = Vector3(0, 1, 0);
+	}
+
+	return t_ColMani;
 }
 
 CollisionManifold CollisionManager::PlaneToSphere(GameObjectEntity* planeA, GameObjectEntity* sphereB)
 {
-	return CollisionManifold();
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	Vector3 t_NearPoint = PlaneNearestPoint(planeA, Vector3(0, 1, 0), sphereB->m_Transform.m_Position);
+	
+	float Distance = t_NearPoint.DistanceTo(sphereB->m_Transform.m_Position);
+
+	if (Distance <= sphereB->GetComponent<SphereCollider>()->m_Radius)
+	{
+		t_ColMani.hasCollision = true;
+		// t_ColMani.collisionNormal = planeA->GetComponent<PlaneCollider>()->GetNormal();
+		t_ColMani.collisionNormal = Vector3(0, 1, 0);
+		t_ColMani.penetrationDepth = 1 / Vector3(t_NearPoint - sphereB->m_Transform.m_Position).Magnitude();
+	}
+
+	return t_ColMani;
 }
 
 CollisionManifold CollisionManager::SATtoSAT(GameObjectEntity* satA, GameObjectEntity* satB)
 {
-	return CollisionManifold();
+	CollisionManifold t_ColMani = CollisionManifold();
+
+
+
+
+
+	if (true)
+	{
+		// NOTE: Because SAT does not return the actual penetration depth, we need to aproximate or "make up" what this is
+		t_ColMani.hasCollision == true;
+		t_ColMani.collisionNormal = Vector3(satA->m_Transform.m_Position - satB->m_Transform.m_Position).Normalise();
+		t_ColMani.penetrationDepth = 1 / Vector3(satA->m_Transform.m_Position - satB->m_Transform.m_Position).Magnitude();
+	}
+
+
+	return t_ColMani;
 }
 
 CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectEntity* gjkB)
@@ -256,7 +282,7 @@ bool CollisionManager::PointInBox(GameObjectEntity* boxA, Vector3 pointB)
 Vector3 CollisionManager::SphereNearestPoint(GameObjectEntity* sphere, Vector3 pointB)
 {
 	Vector3 t_SphereToPoint = Vector3::S_Normalise(pointB - (sphere->m_Transform.m_Position + sphere->GetComponent<SphereCollider>()->m_Offset));
-	t_SphereToPoint *= sphere->GetComponent<SphereCollider>()->m_Radius;// *float((sphere->m_Transform.m_Scale.x + sphere->m_Transform.m_Scale.y + sphere->m_Transform.m_Scale.z) / 3.0f);
+	t_SphereToPoint *= sphere->GetComponent<SphereCollider>()->m_Radius;
 	return t_SphereToPoint + (sphere->m_Transform.m_Position + sphere->GetComponent<SphereCollider>()->m_Offset);
 }
 
@@ -269,10 +295,10 @@ bool CollisionManager::PointInSphere(GameObjectEntity* sphere, Vector3 pointB)
 
 Vector3 CollisionManager::PlaneNearestPoint(GameObjectEntity* planeA, Vector3 planeNormal, Vector3 pointB)
 {
-	float NormalDot = Vector3::S_Dot(planeNormal, pointB);
-	float t_Distance = NormalDot - Vector3::S_Magnitude(pointB - planeA->m_Transform.m_Position);
-	Vector3 ClosestPoint = pointB - Vector3(0, 1, 0) * t_Distance;
-	return ClosestPoint;
+	float NormalDot = planeNormal.Dot(pointB);
+	float t_Distance = NormalDot + planeA->m_Transform.m_Position.Magnitude();
+	Vector3 ClosestPoint = planeNormal * t_Distance;
+	return pointB - ClosestPoint;
 }
 
 bool CollisionManager::PointInPlane(GameObjectEntity* planeA, Vector3 planeNormal, Vector3 pointB)

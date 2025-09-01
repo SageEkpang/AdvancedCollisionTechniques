@@ -36,12 +36,23 @@ enum Collider_Type_Collisions
     COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK
 };
 
+struct Interval
+{
+    float Max;
+    float Min;
+};
+
 class CollisionManager
 {
 private:
 
     typedef std::pair<std::type_index, std::type_index> col_type_pair;
     std::map<col_type_pair, Collider_Type_Collisions> m_CollisionMapping;
+
+    void ColInterval(Interval valueMin, Interval valueMax)
+    {
+
+    }
 
 public:
 
