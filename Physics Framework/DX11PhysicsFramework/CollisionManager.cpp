@@ -1,7 +1,5 @@
 #include "CollisionManager.h"
 
-#include "BoxCollider.h"
-
 CollisionManager::CollisionManager()
 {
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(SphereCollider)), std::type_index(typeid(SphereCollider)))] = COLLIDER_TYPE_COLLISIONS_SPHERE_TO_SPHERE;
@@ -14,7 +12,10 @@ CollisionManager::CollisionManager()
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(PlaneCollider)), std::type_index(typeid(SphereCollider)))] = COLLIDER_TYPE_COLLISIONS_PLANE_TO_SPHERE;
 
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(SATCollider)), std::type_index(typeid(SATCollider)))] = COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT;
+	m_CollisionMapping[std::make_pair(std::type_index(typeid(SATCollider)), std::type_index(typeid(BoxCollider)))] = COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX;
+
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(EPACollider)), std::type_index(typeid(EPACollider)))] = COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA;
+
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(GJKCollider)), std::type_index(typeid(GJKCollider)))] = COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK;
 }
 
@@ -58,7 +59,10 @@ CollisionManifold CollisionManager::CheckCollisions(GameObjectEntity* colliderA,
 		case COLLIDER_TYPE_COLLISIONS_PLANE_TO_SPHERE: return t_ColMani = PlaneToSphere(tempA, tempB); break;
 
 		case COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT: return t_ColMani = SATtoSAT(tempA, tempB); break;
+		case COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX: return t_ColMani = SATtoBox(tempA, tempB); break;
+
 		case COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA: return t_ColMani = EPAtoEPA(tempA, tempB); break;
+
 		case COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK: return t_ColMani = GJKtoGJK(tempA, tempB); break;
 	}
 
@@ -224,6 +228,9 @@ CollisionManifold CollisionManager::SATtoSAT(GameObjectEntity* satA, GameObjectE
 
 
 
+
+
+
 	if (true)
 	{
 		// NOTE: Because SAT does not return the actual penetration depth, we need to aproximate or "make up" what this is
@@ -232,6 +239,39 @@ CollisionManifold CollisionManager::SATtoSAT(GameObjectEntity* satA, GameObjectE
 		t_ColMani.penetrationDepth = 1 / Vector3(satA->m_Transform.m_Position - satB->m_Transform.m_Position).Magnitude();
 	}
 
+
+	return t_ColMani;
+}
+
+bool CollisionManager::CollisionOverlapAxis(GameObjectEntity* satA, GameObjectEntity* boxB, Vector3 axis)
+{
+	Interval t_A = satA->GetComponent<SATCollider>()->GetInterval(axis);
+	Interval t_B = boxB->GetComponent<BoxCollider>()->GetInterval(axis);
+
+	return (t_B.Min <= t_A.Max) && (t_A.Min <= t_B.Max);
+}
+
+CollisionManifold CollisionManager::SATtoBox(GameObjectEntity* satA, GameObjectEntity* boxB)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	Vector3 axes[3] = {
+		Vector3(1, 0, 0),
+		Vector3(0, 1, 0),
+		Vector3(0, 0, 1)
+	};
+
+	for (int i = 0; i < 3; ++i)
+	{
+		if (CollisionOverlapAxis(satA, boxB, axes[i]))
+		{
+			// NOTE: Because SAT does not return the actual penetration depth, we need to aproximate or "make up" what this is
+			t_ColMani.hasCollision == true;
+			t_ColMani.collisionNormal = Vector3(satA->m_Transform.m_Position - boxB->m_Transform.m_Position).Normalise();
+			t_ColMani.penetrationDepth = 1 / Vector3(satA->m_Transform.m_Position - boxB->m_Transform.m_Position).Magnitude();
+			break;
+		}
+	}
 
 	return t_ColMani;
 }

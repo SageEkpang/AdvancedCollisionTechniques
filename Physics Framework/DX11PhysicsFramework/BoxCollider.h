@@ -39,6 +39,7 @@ public:
 	Vector3 GetMin();
 	inline const Vector3 GetExtents() { return m_Scale; }
 	inline Vector3 GetHalfExtents() { return m_Scale / 2; }
+	Interval GetInterval(Vector3 axis);
 };
 
 #endif

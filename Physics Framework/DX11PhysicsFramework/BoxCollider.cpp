@@ -170,3 +170,32 @@ Vector3 BoxCollider::GetMin()
 {
 	return Vector3(m_Owner->m_Transform.m_Position + m_Offset) - (m_Scale);
 }
+
+Interval BoxCollider::GetInterval(Vector3 axis)
+{
+	Vector3 t_PMin = this->GetMin();
+	Vector3 t_PMax = this->GetMax();
+
+	Vector3 Vertices[8] =
+	{
+		Vector3(t_PMin.x, t_PMin.y, t_PMin.z),
+		Vector3(t_PMin.x, t_PMin.y, t_PMin.z),
+		Vector3(t_PMin.x, t_PMin.y, t_PMin.z),
+		Vector3(t_PMin.x, t_PMin.y, t_PMin.z),
+		Vector3(t_PMin.x, t_PMin.y, t_PMin.z),
+		Vector3(t_PMin.x, t_PMin.y, t_PMin.z),
+		Vector3(t_PMin.x, t_PMin.y, t_PMin.z)
+	};
+
+	float t_IMin = axis.Dot(Vertices[0]);
+	float t_IMax = axis.Dot(Vertices[0]);
+
+	for (int i = 1; i < 8; ++i)
+	{
+		float t_DotProd = axis.Dot(Vertices[i]);
+		t_IMin = min(t_IMin, t_DotProd);
+		t_IMax = max(t_IMax, t_DotProd);
+	}
+
+	return Interval(t_IMax, t_IMin);
+}

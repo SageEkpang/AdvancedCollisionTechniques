@@ -32,14 +32,13 @@ enum Collider_Type_Collisions
 
     // COMPLEX COLLIUSION(s)
     COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT,
-    COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA,
-    COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK
-};
+    COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX,
 
-struct Interval
-{
-    float Max;
-    float Min;
+
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA,
+
+
+    COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK
 };
 
 class CollisionManager
@@ -49,10 +48,7 @@ private:
     typedef std::pair<std::type_index, std::type_index> col_type_pair;
     std::map<col_type_pair, Collider_Type_Collisions> m_CollisionMapping;
 
-    void ColInterval(Interval valueMin, Interval valueMax)
-    {
-
-    }
+    static bool CollisionOverlapAxis(GameObjectEntity* satA, GameObjectEntity* boxB, Vector3 axis);
 
 public:
 
@@ -78,6 +74,7 @@ public:
     
     // SAT
     static CollisionManifold SATtoSAT(GameObjectEntity* satA, GameObjectEntity* satB);
+    static CollisionManifold SATtoBox(GameObjectEntity* satA, GameObjectEntity* boxB);
 
     // GJK
     static CollisionManifold GJKtoGJK(GameObjectEntity* gjkA, GameObjectEntity* gjkB);

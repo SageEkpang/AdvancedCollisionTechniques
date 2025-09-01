@@ -49,6 +49,8 @@ public:
 	//// HELPER FUNCTION(s)
 	//static bool SameDirection(Vector3 direction, Vector3 Ao);
 	//static Vector3 Support(Collider* colliderA, Collider* colliderB, Vector3 direction);
+
+	Vector3 FindFurthestPoint(Vector3 direction);
 };
 
 #endif

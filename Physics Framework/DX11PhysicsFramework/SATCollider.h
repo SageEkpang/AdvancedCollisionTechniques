@@ -2,11 +2,18 @@
 #define SAT_COLLIDER_H
 
 // PARENT CLASS(s)
-#include "ColliderEntity.h"
+#include "BoxCollider.h"
 
-class SATCollider : public ColliderEntity
+
+class SATCollider : public BoxCollider
 {
 public:
+
+	SATCollider()
+	{
+
+	}
+
 
 	// CLASS FUNCTION(s)
 	//SATCollider();

@@ -6,47 +6,65 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenE
 
 	m_GameObjects.clear();
 
+
+	m_CubeObject = new GameObjectEntity();
+	m_CubeObject->m_Transform.m_Position = Vector3(0, 10, 30);
+	m_CubeObject->m_Transform.m_Scale = Vector3(5, 5, 5);
+	m_CubeObject->AddComponent<Mesh>()->Construct("cylinder.obj", COLOUR_RED, device);
+	m_CubeObject->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
+	// m_CylinderObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+	InsertObjectIntoList(m_CubeObject);
+
+
+	m_SATObject = new GameObjectEntity();
+	m_SATObject->m_Transform.m_Position = Vector3(0, 10, 30);
+	m_SATObject->m_Transform.m_Scale = Vector3(5, 5, 5);
+	m_SATObject->AddComponent<Mesh>()->Construct("cylinder.obj", COLOUR_RED, device);
+	m_SATObject->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
+	// m_SATObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+	InsertObjectIntoList(m_SATObject);
+
 	srand(time(NULL));
 
-	int m_ArraySize = 10;
-	bool m_FlipFlop = 0;
-	float m_XOffset = -1;
-	float m_YOffset = 10;
+	//int m_ArraySize = 10;
+	//bool m_FlipFlop = 0;
+	//float m_XOffset = -1;
+	//float m_YOffset = 10;
 
-	m_GameObjects.resize(m_ArraySize);
-	for (int i = 0; i < m_ArraySize; ++i)
-	{
-		if (i % (m_ArraySize / 2) == 0) 
-		{
-			m_XOffset = 0;
-			m_YOffset = i > 0 ? m_YOffset += 15 : m_YOffset;
-			m_FlipFlop = !m_FlipFlop; 
-		}
+	//m_GameObjects.resize(m_ArraySize);
+	//for (int i = 0; i < m_ArraySize; ++i)
+	//{
+	//	if (i % (m_ArraySize / 2) == 0) 
+	//	{
+	//		m_XOffset = 0;
+	//		m_YOffset = i > 0 ? m_YOffset += 15 : m_YOffset;
+	//		m_FlipFlop = !m_FlipFlop; 
+	//	}
 
-		m_GameObjects[i] = new GameObjectEntity();
-		m_GameObjects[i]->m_Transform.m_Position = Vector3((m_XOffset * 10) + (m_XOffset * 2), (m_YOffset), 30);
-		m_GameObjects[i]->m_Transform.m_Scale = Vector3(5, 5, 5);
+	//	m_GameObjects[i] = new GameObjectEntity();
+	//	m_GameObjects[i]->m_Transform.m_Position = Vector3((m_XOffset * 10) + (m_XOffset * 2), (m_YOffset), 30);
+	//	m_GameObjects[i]->m_Transform.m_Scale = Vector3(5, 5, 5);
 
-		++m_XOffset;
+	//	++m_XOffset;
 
-		m_GameObjects[i]->AddComponent<Mesh>()->Construct("cube.obj", COLOUR_RED, device);
-		m_GameObjects[i]->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
+	//	m_GameObjects[i]->AddComponent<Mesh>()->Construct("cube.obj", COLOUR_RED, device);
+	//	m_GameObjects[i]->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
 
-		//if (m_FlipFlop == true)
-		//{
-		//	m_GameObjects[i]->AddComponent<Mesh>()->Construct("cube.obj", COLOUR_RED, device);
-		//	m_GameObjects[i]->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
-		//}
-		//else
-		//{
-		//	m_GameObjects[i]->AddComponent<Mesh>()->Construct("sphere.obj", COLOUR_RED, device);
-		//	m_GameObjects[i]->AddComponent<SphereCollider>()->Construct(5.f, device);
-		//}
+	//	//if (m_FlipFlop == true)
+	//	//{
+	//	//	m_GameObjects[i]->AddComponent<Mesh>()->Construct("cube.obj", COLOUR_RED, device);
+	//	//	m_GameObjects[i]->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
+	//	//}
+	//	//else
+	//	//{
+	//	//	m_GameObjects[i]->AddComponent<Mesh>()->Construct("sphere.obj", COLOUR_RED, device);
+	//	//	m_GameObjects[i]->AddComponent<SphereCollider>()->Construct(5.f, device);
+	//	//}
 
-		m_GameObjects[i]->AddComponent<Rigidbody3DObject>()->Construct(0.1f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+	//	m_GameObjects[i]->AddComponent<Rigidbody3DObject>()->Construct(0.1f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 
-		InsertObjectIntoList(m_GameObjects[i]);
-	}
+	//	InsertObjectIntoList(m_GameObjects[i]);
+	//}
 }
 
 BasicScreen::~BasicScreen()

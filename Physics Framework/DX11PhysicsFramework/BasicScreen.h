@@ -14,7 +14,7 @@ class BasicScreen : public ScreenEntity
 {
 private:
 
-	GameObjectEntity* m_SphereObject;
+	GameObjectEntity* m_SATObject;
 	GameObjectEntity* m_CubeObject;
 
 	std::vector<GameObjectEntity*> m_GameObjects;

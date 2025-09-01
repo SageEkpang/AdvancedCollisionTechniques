@@ -23,6 +23,18 @@ enum class TriggerAreaState : std::int8_t
     TRIGGER_AREA_STATE_NONE
 };
 
+struct Interval
+{
+    float Max;
+    float Min;
+
+    Interval(float max = 0, float min = 0)
+    {
+        this->Max = max;
+        this->Min = min;
+    }
+};
+
 class ColliderEntity : public ComponentEntity
 {
 protected:
@@ -84,17 +96,12 @@ public: // PUBLIC FUNCTION(s)
     inline std::unordered_set<GameObjectEntity*>& GetObjects() { return m_ObjectList; }
     inline int GetObjectCount() { return (int)m_ObjectList.size(); }
 
-
     void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
-
-    // HELPER
-    Vector3 FindFurthestPoint(Vector3 direction); // GJK Algo Function
-    /*Vector3 SphereNearestPoint(Vector3 point);*/
+    
 
     // TODO: Make a function that updates the verticese within this field
     /// <summary> NOTE: This needs to take a file path for computing the points to draw </summary>
     // void FillVerticesArray(char* path, Transform* objectTransform);
-    // SETTER FUNCTION(s)
 
 };
 

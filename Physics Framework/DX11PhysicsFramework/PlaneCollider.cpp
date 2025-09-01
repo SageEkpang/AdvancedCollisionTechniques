@@ -138,13 +138,7 @@ inline Vector3 PlaneCollider::GetNormal()
 
 
 
-	return Vector3();
-}
-
-inline Vector3 PlaneCollider::GetDirection()
-{
-
-
+	// m_Owner->m_Transform.GetRotation();
 
 
 	return Vector3();

@@ -1,4 +1,4 @@
-//#include "GJKCollider.h"
+#include "GJKCollider.h"
 //
 //GJKCollider::GJKCollider()
 //{
@@ -226,3 +226,39 @@
 //	return t_TempA - t_TempB;
 //}
 //
+
+// Minkowaski Difference Function
+Vector3 GJKCollider::FindFurthestPoint(Vector3 direction)
+{
+	// STEP 1: Find the Max Point
+	Vector3 t_MaxPoint;
+	float t_MaxDistance = -FLT_MAX;
+
+	// NOTE: Clear the Vertices to insert new position points
+	m_Vertices.clear();
+
+	// NOTE: Update Vertices Positions
+	for (int i = 0; i < m_PositionStore.size(); ++i)
+	{
+		// TODO: Replace this with this components transform variables
+		//Vector3 t_VecPos = (m_PositionStore[i] * m_Owner->m_Transform.m_Scale) + m_Owner->m_Transform.m_Position;
+		//m_Vertices.push_back(t_VecPos);
+	}
+
+	if (!m_Vertices.empty())
+	{
+		// NOTE: Find furthest vertex
+		for (Vector3& v : m_Vertices)
+		{
+			float t_Distance = Vector3::S_Dot(v, direction); // NOTE: May have to change dot product back to normalise one
+
+			if (t_Distance > t_MaxDistance)
+			{
+				t_MaxDistance = t_Distance;
+				t_MaxPoint = v;
+			}
+		}
+	}
+
+	return t_MaxPoint;
+}

@@ -152,7 +152,6 @@ void ColliderEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* const
 	pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
 }
 
-
 void ColliderEntity::SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device)
 {
 	Geometry t_Geometry{};
@@ -171,38 +170,14 @@ void ColliderEntity::SetCollisionGeometry(char* fileName, Material material, ID3
 	m_Material = material;
 }
 
-// Minkowaski Difference Function
-Vector3 ColliderEntity::FindFurthestPoint(Vector3 direction)
-{
-	// STEP 1: Find the Max Point
-	Vector3 t_MaxPoint;
-	float t_MaxDistance = -FLT_MAX;
-
-	// NOTE: Clear the Vertices to insert new position points
-	m_Vertices.clear();
-
-	// NOTE: Update Vertices Positions
-	for (int i = 0; i < m_PositionStore.size(); ++i)
-	{
-		// TODO: Replace this with this components transform variables
-		Vector3 t_VecPos = (m_PositionStore[i] * m_Owner->m_Transform.m_Scale) + m_Owner->m_Transform.m_Position;
-		m_Vertices.push_back(t_VecPos);
-	}
-
-	if (!m_Vertices.empty())
-	{
-		// NOTE: Find furthest vertex
-		for (Vector3& v : m_Vertices)
-		{
-			float t_Distance = Vector3::S_Dot(v, direction); // NOTE: May have to change dot product back to normalise one
-
-			if (t_Distance > t_MaxDistance)
-			{
-				t_MaxDistance = t_Distance;
-				t_MaxPoint = v;
-			}
-		}
-	}
-
-	return t_MaxPoint;
-}
+//void Collider::FillVerticesArray(char* path, Transform* objectTransform)
+//{
+//	// NOTE: Fill array with the different mesh load values
+//	std::vector<Vector3> t_TempVec = MeshLoader::LoadObj(path);
+//
+//	for (int i = 0; i < t_TempVec.size(); ++i)
+//	{
+//		Vector3 t_VecPos = (t_TempVec[i] * objectTransform->GetScale()) + objectTransform->GetPosition();
+//		m_Vertices.push_back(t_VecPos);
+//	}
+//}
