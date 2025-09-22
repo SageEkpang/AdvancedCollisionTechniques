@@ -51,9 +51,9 @@ typedef struct Vector3
 
 	Vector3 operator -()
 	{
-		this->x *= -1;
-		this->y *= -1;
-		this->z *= -1;
+		-this->x;
+		-this->y;
+		-this->z;
 
 		return *this;
 	}
@@ -294,6 +294,15 @@ typedef struct Vector3
 		float t_TempX = (this->y * value.z - this->z * value.y);
 		float t_TempY = (this->z * value.x - this->x * value.z);
 		float t_TempZ = (this->x * value.y - this->y * value.x);
+
+		return Vector3(t_TempX, t_TempY, t_TempZ);
+	}
+
+	static Vector3 S_Cross(Vector3 valueA, Vector3 valueB)
+	{
+		float t_TempX = (valueA.y * valueB.z - valueA.z * valueB.y);
+		float t_TempY = (valueA.z * valueB.x - valueA.x * valueB.z);
+		float t_TempZ = (valueA.x * valueB.y - valueA.y * valueB.x);
 
 		return Vector3(t_TempX, t_TempY, t_TempZ);
 	}

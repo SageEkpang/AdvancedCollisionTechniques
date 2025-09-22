@@ -68,8 +68,7 @@ public: // PUBLIC VARIABLE(s)
     // TRIGGER AREA VARIABLE(s)
     TriggerAreaState m_TriggerState;
 
-    std::vector<Vector3> m_Vertices;
-    std::vector<Vector3> m_PositionStore;
+
 
     // COLLIDER VARIABLE(s)
     // ColliderType m_ColliderType;
@@ -97,11 +96,6 @@ public: // PUBLIC FUNCTION(s)
     inline int GetObjectCount() { return (int)m_ObjectList.size(); }
 
     void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
-    
-
-    // TODO: Make a function that updates the verticese within this field
-    /// <summary> NOTE: This needs to take a file path for computing the points to draw </summary>
-    // void FillVerticesArray(char* path, Transform* objectTransform);
 
 };
 

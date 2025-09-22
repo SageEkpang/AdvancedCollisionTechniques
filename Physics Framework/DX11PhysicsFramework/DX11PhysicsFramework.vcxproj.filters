@@ -281,6 +281,9 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>Managers\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Simplex.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

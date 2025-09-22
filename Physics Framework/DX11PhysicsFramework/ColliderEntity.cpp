@@ -170,14 +170,3 @@ void ColliderEntity::SetCollisionGeometry(char* fileName, Material material, ID3
 	m_Material = material;
 }
 
-//void Collider::FillVerticesArray(char* path, Transform* objectTransform)
-//{
-//	// NOTE: Fill array with the different mesh load values
-//	std::vector<Vector3> t_TempVec = MeshLoader::LoadObj(path);
-//
-//	for (int i = 0; i < t_TempVec.size(); ++i)
-//	{
-//		Vector3 t_VecPos = (t_TempVec[i] * objectTransform->GetScale()) + objectTransform->GetPosition();
-//		m_Vertices.push_back(t_VecPos);
-//	}
-//}

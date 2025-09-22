@@ -10,18 +10,18 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenE
 	m_CubeObject = new GameObjectEntity();
 	m_CubeObject->m_Transform.m_Position = Vector3(0, 10, 30);
 	m_CubeObject->m_Transform.m_Scale = Vector3(5, 5, 5);
-	m_CubeObject->AddComponent<Mesh>()->Construct("cylinder.obj", COLOUR_RED, device);
-	m_CubeObject->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
-	// m_CylinderObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+	m_CubeObject->AddComponent<Mesh>()->Construct("sphere.obj", COLOUR_RED, device);
+	m_CubeObject->AddComponent<GJKCollider>()->Construct((char*)"Resources\\OBJ\\sphere.obj", device);
+	// m_CubeObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 	InsertObjectIntoList(m_CubeObject);
 
 
 	m_SATObject = new GameObjectEntity();
-	m_SATObject->m_Transform.m_Position = Vector3(0, 10, 30);
+	m_SATObject->m_Transform.m_Position = Vector3(0, 50, 30);
 	m_SATObject->m_Transform.m_Scale = Vector3(5, 5, 5);
-	m_SATObject->AddComponent<Mesh>()->Construct("cylinder.obj", COLOUR_RED, device);
-	m_SATObject->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
-	// m_SATObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+	m_SATObject->AddComponent<Mesh>()->Construct("sphere.obj", COLOUR_BLUE, device);
+	m_SATObject->AddComponent<GJKCollider>()->Construct((char*)"Resources\\OBJ\\sphere.obj", device);
+	m_SATObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 	InsertObjectIntoList(m_SATObject);
 
 	srand(time(NULL));
@@ -91,6 +91,11 @@ void BasicScreen::Update(float deltaTime)
 void BasicScreen::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
 	ScreenEntity::Draw(constantBufferData, constBuff, pImmediateContext, device);
+
+	if (m_CubeObject->FindChildComponent<ColliderEntity>()->m_HasCollided == false)
+	{
+		printf("No Collision");
+	}
 
 
 

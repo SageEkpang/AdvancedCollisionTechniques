@@ -472,6 +472,7 @@
     <ClInclude Include="ScreenEntity.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="SimpleVertex.h" />
+    <ClInclude Include="Simplex.h" />
     <ClInclude Include="SpatialHashing.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Timer.h" />

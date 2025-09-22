@@ -4,6 +4,7 @@
 #include "GameObjectEntity.h"
 #include "ColliderEntity.h"
 #include "CollisionManifold.h"
+#include "Simplex.h"
 #include <utility>
 #include <map>
 
@@ -51,6 +52,24 @@ private:
     static bool CollisionOverlapAxis(GameObjectEntity* satA, GameObjectEntity* boxB, Vector3 axis);
 
 public:
+
+    // HELPER FUNCTION(s)
+    // GJK
+        static bool Line(Simplex& points, Vector3& direction);
+        static bool Triangle(Simplex& points, Vector3& direction);
+        static bool Tetrahedron(Simplex& points, Vector3& direction);
+        static bool SameDirection(const Vector3& direction, const Vector3& ao);
+        static Vector3 Support(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction);
+        static bool NextSimplex(Simplex& points, Vector3& direction);
+        static Vector3 FindFurthestPoint(GameObjectEntity* gjkA, Vector3 direction);
+
+    // EPA
+
+
+
+
+
+
 
     // CLASS FUNCTION(s)
     CollisionManager();

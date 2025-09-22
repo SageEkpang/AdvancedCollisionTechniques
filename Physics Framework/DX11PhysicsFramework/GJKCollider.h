@@ -20,37 +20,27 @@
 
 class GJKCollider : public ColliderEntity
 {
-private:
+public:
 
-	// Vector3 m_Vertices;
 	// Simplex m_OutSimplex;
+	std::vector<Vector3> m_Vertices;
+	std::vector<Vector3> m_PositionStore;
 
 public:
 
-	// CLASS FUNCTION(s)
-	//GJKCollider();
-	//~GJKCollider();
+	// CLASS FUNCTION(s) (Components)
+	GJKCollider();
+	~GJKCollider() override;
 
-	// BASE FUNCTION(s)
-	// CollisionManifold GJKCollision(Collider* colliderA, Collider* colliderB);
-	// static CollisionManifold S_GJKCollision(GameObjectEntity* objectA, GameObjectEntity* objectB);
-	// static bool NextSimplex(Simplex& points, Vector3& direction);
-	
+	void Construct(char* path, ID3D11Device* device);
 
-	//// GETTER FUNCTION(s)
-	//Simplex GetSimplex() { return m_OutSimplex; }
+	// BASE FUNCTION(s)	
+	void Update(float deltaTime) override;
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 
 
-	//// EXTRA FUNCTION(s)
-	//static bool Line(Simplex& points, Vector3& direction);
-	//static bool Triangle(Simplex& points, Vector3& direction);
-	//static bool Tetrahedron(Simplex& points, Vector3& direction);
-
-	//// HELPER FUNCTION(s)
-	//static bool SameDirection(Vector3 direction, Vector3 Ao);
-	//static Vector3 Support(Collider* colliderA, Collider* colliderB, Vector3 direction);
-
-	Vector3 FindFurthestPoint(Vector3 direction);
+	// HELPER FUNCTION(s)
+	void FillVerticesArray(char* path);
 };
 
 #endif
