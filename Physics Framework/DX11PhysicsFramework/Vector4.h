@@ -1,6 +1,8 @@
 #ifndef VECTOR4_H
 #define VECTOR4_H
 
+#include "Vector3.h"
+
 struct Vector4
 {
 	union { float x, r; };
@@ -56,6 +58,11 @@ struct Vector4
 	Vector4 operator*(Vector4 value)
 	{
 		return Vector4(x * value.x, y * value.y, z * value.z, w * value.w);
+	}
+
+	Vector3 xyz()
+	{
+		return Vector3(x, y, z);
 	}
 
 };

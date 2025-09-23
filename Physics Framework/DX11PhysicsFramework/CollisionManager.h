@@ -5,6 +5,7 @@
 #include "ColliderEntity.h"
 #include "CollisionManifold.h"
 #include "Simplex.h"
+#include "Vector4.h"
 #include <utility>
 #include <map>
 
@@ -31,13 +32,11 @@ enum Collider_Type_Collisions
     COLLIDER_TYPE_COLLISIONS_PLANE_TO_BOX,
     COLLIDER_TYPE_COLLISIONS_PLANE_TO_SPHERE,
 
-    // COMPLEX COLLIUSION(s)
+    // COMPLEX COLLISION(s)
     COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT,
     COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX,
 
-
     COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA,
-
 
     COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK
 };
@@ -59,13 +58,18 @@ public:
         static bool Triangle(Simplex& points, Vector3& direction);
         static bool Tetrahedron(Simplex& points, Vector3& direction);
         static bool SameDirection(const Vector3& direction, const Vector3& ao);
-        static Vector3 Support(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction);
+
+        static Vector3 SupportGJK(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction);
+        static Vector3 SupportEPA(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction);
+
         static bool NextSimplex(Simplex& points, Vector3& direction);
-        static Vector3 FindFurthestPoint(GameObjectEntity* gjkA, Vector3 direction);
+
+        static Vector3 FindFurthestPointGJK(GameObjectEntity* gjkA, Vector3 direction);
+        static Vector3 FindFurthestPointEPA(GameObjectEntity* epaA, Vector3 direction);
 
     // EPA
-
-
+        static void AddIfUniqueEdge(std::vector<std::pair<size_t, size_t>>& edges, std::vector<size_t>& faces, size_t a, size_t b);
+        static std::pair<std::vector<Vector4>, size_t> GetFaceNormals(std::vector<Vector3>& polytope, std::vector<size_t>& faces);
 
 
 

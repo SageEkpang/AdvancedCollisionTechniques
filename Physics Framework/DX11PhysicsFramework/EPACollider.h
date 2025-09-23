@@ -1,27 +1,31 @@
-#pragma once
 #ifndef EPA_COLLIDER_H
 #define EPA_COLLIDER_H
 
 // ABSTRACT CLASS(s)
 #include "ColliderEntity.h"
+#include "Vector3.h"
 
 class EPACollider : public ColliderEntity
 {
 public:
 
-	// CLASS FUNCTION(s)
+	std::vector<Vector3> m_Vertices;
+	std::vector<Vector3> m_PositionStore;
+
+public:
+
+	// CLASS FUNCTION(s) (Components)
 	EPACollider();
 	~EPACollider();
 
+	void Construct(char* path, ID3D11Device* device);
+
 	// BASE FUNCTION(s)
-	// CollisionManifold EPACollision(Simplex& simplex, Collider& colliderA, Collider& colliderB);
-	// static CollisionManifold S_EPACollision(GameObject* objectA, GameObject* objectB);
+	void Update(float deltaTime) override;
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 
 	// HELPER FUNCTION(s)
-	// static bool SameDirection(Vector3 direction, Vector3 Ao);
-	// static Vector3 Support(Collider& colliderA, Collider& colliderB, Vector3 direction);
-	// static void AddIfUniqueEdge(std::vector<std::pair<size_t, size_t>>& edges, std::vector<size_t>& faces, size_t a, size_t b);
-	// static std::pair<std::vector<Vector4>, size_t> GetFaceNormals(std::vector<Vector3>& polytope, std::vector<size_t>& faces);
+	void FillVerticesArray(char* path);
 };
 
 #endif
