@@ -13,14 +13,43 @@ EPACollider::~EPACollider()
 	m_PositionStore.clear();
 }
 
-void EPACollider::Construct(char* path, ID3D11Device* device)
+void EPACollider::Construct(std::string path, ID3D11Device* device)
 {
-	FillVerticesArray(path);
+	std::string t_tempPath = "Resources\\OBJ\\";
+	t_tempPath.append(path);
+	t_tempPath.append(".obj");
+
+	FillVerticesArray((char*)t_tempPath.c_str());
 
 	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
 
 	// NOTE: Set the Mesh
+	std::string t_tempMeshString = "Resources\\OBJ\\sphere.obj";
+
+	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
+	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
+	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
+	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
+	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
+
+	m_Geometry = t_Geometry;
+	m_Material = MATERIAL_WIREFRAME;
+}
+
+void EPACollider::ConstructHull(std::string filepath, ID3D11Device* device)
+{
+	Geometry t_Geometry = Geometry();
+	MeshData t_Mesh;
+
+	// NOTE: Set the Mesh
+	std::string t_temp = "Resources\\ConvexHullOBJ\\convex_";
+	t_temp.append(filepath);
+	t_temp.append(".obj");
+
+	FillVerticesArray((char*)t_temp.c_str());
+
 	std::string t_tempMeshString = "Resources\\OBJ\\sphere.obj";
 
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);

@@ -18,7 +18,8 @@ public:
 	EPACollider();
 	~EPACollider();
 
-	void Construct(char* path, ID3D11Device* device);
+	void Construct(std::string path, ID3D11Device* device);
+	void ConstructHull(std::string filepath, ID3D11Device* device);
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime) override;

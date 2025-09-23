@@ -125,6 +125,7 @@ void Mesh::Construct(std::string meshFileName, Vector4 colour, ID3D11Device* dev
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\";
 	t_tempMeshString.append(meshFileName);
+	t_tempMeshString.append(".obj");
 
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
@@ -186,9 +187,11 @@ void Mesh::ConstructHull(std::string meshFileName, Vector4 colour, ID3D11Device*
 
 	std::string path = "Resources/OBJ/";
 	path.append(meshFileName);
+	path.append(".obj");
+
 	extract_vertices_from_obj_file((char*)path.c_str(), &vertices, &nVertices);
 	convhull_3d_build(vertices, nVertices, &faceIndices, &nFaces);
-	convhull_3d_export_obj(vertices, nVertices, faceIndices, nFaces, 1, (char*)std::string("Resources/ConvexHullOBJ/convex_" + meshFileName).c_str());
+	convhull_3d_export_obj(vertices, nVertices, faceIndices, nFaces, 1, (char*)std::string("Resources/ConvexHullOBJ/convex_" + meshFileName + ".obj").c_str());
 	free(vertices);
 	free(faceIndices);
 	
@@ -196,6 +199,7 @@ void Mesh::ConstructHull(std::string meshFileName, Vector4 colour, ID3D11Device*
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\ConvexHullOBJ\\convex_";
 	t_tempMeshString.append(meshFileName);
+	t_tempMeshString.append(".obj");
 
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
@@ -252,6 +256,7 @@ void Mesh::Construct(std::string meshFileName, std::string textureFileName, ID3D
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\";
 	t_tempMeshString.append(meshFileName);
+	t_tempMeshString.append(".obj");
 
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
@@ -269,6 +274,7 @@ void Mesh::Construct(std::string meshFileName, std::string textureFileName, ID3D
 
 	std::string t_tempTextureString = "Resources\\Textures\\";
 	t_tempTextureString.append(textureFileName);
+	t_tempTextureString.append(".dds");
 
 	std::wstring t_widestr = std::wstring(t_tempTextureString.begin(), t_tempTextureString.end());
 	const wchar_t* t_widecstr = t_widestr.c_str();
