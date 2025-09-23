@@ -32,7 +32,15 @@ void OBJLoader::CreateIndices(const std::vector<DirectX::XMFLOAT3>& inVertices,
 	
 	for(int i = 0; i < numVertices; ++i) //For each vertex
 	{
-		SimpleVertex vertex = {inVertices[i], inNormals[i],  inTexCoords[i]}; 
+		SimpleVertex vertex; 
+		if (!inTexCoords.empty())
+		{
+			vertex = { inVertices[i], inNormals[i],  inTexCoords[i] };
+		}
+		else
+		{
+			vertex = { inVertices[i], inNormals[i],  DirectX::XMFLOAT2(0, 1)};
+		}
 
 		unsigned short index;
 		// See if a vertex already exists in the buffer that has the same attributes as this one
@@ -171,10 +179,18 @@ MeshData OBJLoader::Load(char* filename, ID3D11Device* _pd3dDevice, bool invertT
 			std::vector<DirectX::XMFLOAT3> expandedNormals;
 			std::vector<DirectX::XMFLOAT2> expandedTexCoords;
 			unsigned int numIndices = vertIndices.size();
+
 			for(unsigned int i = 0; i < numIndices; i++)
 			{
 				expandedVertices.push_back(verts[vertIndices[i]]);
-				expandedTexCoords.push_back(texCoords[textureIndices[i]]);
+				if (!texCoords.empty())
+				{
+					expandedTexCoords.push_back(texCoords[textureIndices[i]]);
+				}
+				else
+				{
+					expandedTexCoords.push_back(DirectX::XMFLOAT2(1, 0));
+				}
 				expandedNormals.push_back(normals[normalIndices[i]]);
 			}
 

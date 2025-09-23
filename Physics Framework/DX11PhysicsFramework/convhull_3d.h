@@ -1,4 +1,3 @@
-#pragma once
 /*
  Copyright (c) 2017-2021 Leo McCormack
 
@@ -1047,8 +1046,8 @@ void convhull_3d_export_obj
     CV_STRNCPY(path, obj_filename, strlen(obj_filename));
     FILE* obj_file;
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
-    CV_STRCAT(path, ".obj");
-    fopen_s(&obj_file, path, "wt");
+    // CV_STRCAT(path, ".obj");
+    fopen_s(&obj_file, obj_filename, "wt");
 #else
     errno = 0;
     obj_file = fopen(strcat(path, ".obj"), "wt");
@@ -1172,7 +1171,8 @@ void extract_vertices_from_obj_file_alloc
 {
     FILE* obj_file;
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
-    CV_STRCAT(obj_filename, ".obj");
+    // CV_STRCAT(obj_filename, ".obj");
+    // strcat(obj_filename, ".obj");
     fopen_s(&obj_file, obj_filename, "r");
 #else
     obj_file = fopen(strcat(obj_filename, ".obj"), "r");

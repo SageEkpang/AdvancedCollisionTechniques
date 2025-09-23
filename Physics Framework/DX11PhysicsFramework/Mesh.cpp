@@ -122,19 +122,79 @@ void Mesh::Construct(std::string meshFileName, Vector4 colour, ID3D11Device* dev
 	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
 
+	// NOTE: Set the Mesh
+	std::string t_tempMeshString = "Resources\\OBJ\\";
+	t_tempMeshString.append(meshFileName);
+
+	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
+	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
+	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
+	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
+	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
+
+	m_Geometry = t_Geometry;
+	m_Material = Material(XMFLOAT4(colour.r / 255.f, colour.g / 255.f, colour.b / 255.f, colour.a / 255.f), XMFLOAT4(colour.r / 255.f, colour.g / 255.f, colour.b / 255.f, colour.a / 255.f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+
+	// ------------ Creating States
+	HRESULT t_H_R;
+
+	// NOTE: Setting States
+	D3D11_RASTERIZER_DESC cmdesc;
+	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
+	cmdesc.FillMode = D3D11_FILL_SOLID;
+	cmdesc.CullMode = D3D11_CULL_NONE;
+	cmdesc.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
+
+
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
+	D3D11_SAMPLER_DESC t_sampler_desc;
+	t_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	t_sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	t_sampler_desc.MipLODBias = 0.0f;
+	t_sampler_desc.MaxAnisotropy = 1;
+	t_sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	t_sampler_desc.BorderColor[0] = t_sampler_desc.BorderColor[1] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[2] = t_sampler_desc.BorderColor[4] = 0.0f;
+	t_sampler_desc.MinLOD = 0;
+	t_sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	t_H_R = device->CreateSamplerState(&t_sampler_desc, &m_SamplerState);
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Sampler State");
+	}
+
+}
+
+void Mesh::ConstructHull(std::string meshFileName, Vector4 colour, ID3D11Device* device)
+{
+	m_World = new XMFLOAT4X4();
+	Geometry t_Geometry = Geometry();
+	MeshData t_Mesh;
+
 	ch_vertex* vertices = NULL;
 	int nVertices;
 	int* faceIndices = NULL;
 	int nFaces;
 
-	extract_vertices_from_obj_file((char*)"Resources\OBJ\cube", &vertices, &nVertices);
+	std::string path = "Resources/OBJ/";
+	path.append(meshFileName);
+	extract_vertices_from_obj_file((char*)path.c_str(), &vertices, &nVertices);
 	convhull_3d_build(vertices, nVertices, &faceIndices, &nFaces);
-	convhull_3d_export_obj(vertices, nVertices, faceIndices, nFaces, 1, (char*)"Resources\\OBJ\\covHullCube");
+	convhull_3d_export_obj(vertices, nVertices, faceIndices, nFaces, 1, (char*)std::string("Resources/ConvexHullOBJ/convex_" + meshFileName).c_str());
 	free(vertices);
 	free(faceIndices);
+	
 
 	// NOTE: Set the Mesh
-	std::string t_tempMeshString = "Resources\\OBJ\\";
+	std::string t_tempMeshString = "Resources\\ConvexHullOBJ\\convex_";
 	t_tempMeshString.append(meshFileName);
 
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);

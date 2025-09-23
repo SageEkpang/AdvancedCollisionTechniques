@@ -7,22 +7,19 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenE
 	m_GameObjects.clear();
 
 	m_CubeObject = new GameObjectEntity();
-	m_CubeObject->m_Transform.m_Position = Vector3(0, 10, 30);
+	m_CubeObject->m_Transform.m_Position = Vector3(10, 10, 30);
 	m_CubeObject->m_Transform.m_Scale = Vector3(5, 5, 5);
-	m_CubeObject->AddComponent<Mesh>()->Construct("cone.obj", COLOUR_RED, device);
-	m_CubeObject->AddComponent<EPACollider>()->Construct((char*)"Resources\\OBJ\\cone.obj", device);
+	m_CubeObject->AddComponent<Mesh>()->Construct("cube.obj", COLOUR_RED, device);
+	m_CubeObject->AddComponent<EPACollider>()->Construct((char*)"Resources\\OBJ\\pyramidAlt.obj", device);
 	// m_CubeObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 	InsertObjectIntoList(m_CubeObject);
 
 
 	m_SATObject = new GameObjectEntity();
-	m_SATObject->m_Transform.m_Position = Vector3(0, 50, 30);
-	m_SATObject->m_Transform.m_Scale = Vector3(5, 5, 5);
-
-	m_SATObject->AddComponent<Mesh>()->Construct("cube.obj", COLOUR_BLUE, device);
-
-
-	m_SATObject->AddComponent<EPACollider>()->Construct((char*)"Resources\\OBJ\\cube.obj", device);
+	m_SATObject->m_Transform.m_Position = Vector3(10, 50, 30);
+	m_SATObject->m_Transform.m_Scale = Vector3(2, 2, 2);
+	m_SATObject->AddComponent<Mesh>()->ConstructHull("sphere.obj", COLOUR_BLUE, device);
+	m_SATObject->AddComponent<EPACollider>()->Construct((char*)"Resources\\OBJ\\sphere.obj", device);
 	m_SATObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 	InsertObjectIntoList(m_SATObject);
 

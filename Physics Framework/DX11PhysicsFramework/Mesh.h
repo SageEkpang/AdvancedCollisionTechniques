@@ -32,6 +32,7 @@ public:
 	void Construct(std::string meshFileName, ID3D11Device* device);
 	void Construct(std::string meshFileName, Material material, ID3D11Device* device);
 	void Construct(std::string meshFileName, Vector4 colour, ID3D11Device* device);
+	void ConstructHull(std::string meshFileName, Vector4 colour, ID3D11Device* device);
 	void Construct(std::string meshFileName, std::string textureFileName, ID3D11Device* device);
 
 	void SetTexture(std::string textureFileName, ID3D11Device* device);
