@@ -436,6 +436,7 @@
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="convhull_3d.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="EPACollider.h" />
     <ClInclude Include="EPAScreen.h" />

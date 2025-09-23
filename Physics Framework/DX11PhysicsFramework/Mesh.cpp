@@ -1,6 +1,9 @@
 #include "Mesh.h"
 #include "GameObjectEntity.h"
 
+#define CONVHULL_3D_ENABLE
+#include "convhull_3d.h"
+
 void Mesh::Construct(std::string meshFileName, ID3D11Device* device)
 {
 	m_World = new XMFLOAT4X4();
@@ -118,6 +121,17 @@ void Mesh::Construct(std::string meshFileName, Vector4 colour, ID3D11Device* dev
 	m_World = new XMFLOAT4X4();
 	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
+
+	ch_vertex* vertices = NULL;
+	int nVertices;
+	int* faceIndices = NULL;
+	int nFaces;
+
+	extract_vertices_from_obj_file((char*)"Resources\OBJ\cube", &vertices, &nVertices);
+	convhull_3d_build(vertices, nVertices, &faceIndices, &nFaces);
+	convhull_3d_export_obj(vertices, nVertices, faceIndices, nFaces, 1, (char*)"Resources\\OBJ\\covHullCube");
+	free(vertices);
+	free(faceIndices);
 
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\";

@@ -284,6 +284,9 @@
     <ClInclude Include="Simplex.h">
       <Filter>Structs</Filter>
     </ClInclude>
+    <ClInclude Include="convhull_3d.h">
+      <Filter>Components\MeshComponents\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
