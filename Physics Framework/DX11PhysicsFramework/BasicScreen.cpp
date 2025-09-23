@@ -19,8 +19,8 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenE
 	m_SATObject = new GameObjectEntity();
 	m_SATObject->m_Transform.m_Position = Vector3(0, 50, 30);
 	m_SATObject->m_Transform.m_Scale = Vector3(5, 5, 5);
-	m_SATObject->AddComponent<Mesh>()->Construct("sphere.obj", COLOUR_BLUE, device);
-	m_SATObject->AddComponent<GJKCollider>()->Construct((char*)"Resources\\OBJ\\sphere.obj", device);
+	m_SATObject->AddComponent<Mesh>()->Construct("cube.obj", COLOUR_BLUE, device);
+	m_SATObject->AddComponent<GJKCollider>()->Construct((char*)"Resources\\OBJ\\cube.obj", device);
 	m_SATObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 	InsertObjectIntoList(m_SATObject);
 

@@ -30,7 +30,7 @@ bool CollisionManager::Line(Simplex& points, Vector3& direction)
 	Vector3 t_B = points[1];
 
 	Vector3 t_AB = t_B - t_A;
-	Vector3 t_AO =     - t_A;
+	Vector3 t_AO = -t_A;
 
 	if (SameDirection(t_AB, t_AO))
 	{
@@ -137,8 +137,6 @@ bool CollisionManager::SameDirection(const Vector3& direction, const Vector3& ao
 Vector3 CollisionManager::Support(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction)
 {
 	Vector3 t_TempA = FindFurthestPoint(colliderA, direction);
-
-	Vector3 testing = -direction;
 	Vector3 t_TempB = FindFurthestPoint(colliderB, -direction);
 	return t_TempA - t_TempB;
 }
@@ -462,7 +460,7 @@ CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectE
 		if (NextSimplex(t_Points, t_Direction)) 
 		{ 	
 			t_ColMani.collisionNormal = Vector3(gjkA->m_Transform.m_Position - gjkB->m_Transform.m_Position).Normalise();
-			t_ColMani.penetrationDepth = 1.0f;
+			t_ColMani.penetrationDepth = 0.2f;
 			t_ColMani.hasCollision = true;
 		 
 			return t_ColMani;

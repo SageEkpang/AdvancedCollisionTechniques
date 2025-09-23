@@ -51,11 +51,7 @@ typedef struct Vector3
 
 	Vector3 operator -()
 	{
-		-this->x;
-		-this->y;
-		-this->z;
-
-		return *this;
+		return Vector3(-x, -y, -z);
 	}
 
 	Vector3 operator++ ()
