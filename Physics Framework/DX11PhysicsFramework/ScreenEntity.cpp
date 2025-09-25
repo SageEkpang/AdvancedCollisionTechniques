@@ -39,7 +39,14 @@ void ScreenEntity::Update(float deltaTime)
 			
 			if (t_tempColMana.hasCollision == true)
 			{
-				CollisionContactManager::ResolveCollision(m_GameObjects[i], m_GameObjects[j], 0.5, t_tempColMana);
+				if (!t_tempColMana.points.empty())
+				{
+					CollisionContactManager::ResolveCollisionMulti(m_GameObjects[i], m_GameObjects[j], 0.5, t_tempColMana);
+				}
+				else
+				{
+					CollisionContactManager::ResolveCollision(m_GameObjects[i], m_GameObjects[j], 0.5, t_tempColMana);
+				}
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 #include "MassAggregate.h"
 #include "GameObjectEntity.h"
+#include "SphereCollider.h"
 
 MassAggregate::MassAggregate()
 {
@@ -40,7 +41,7 @@ void MassAggregate::Construct(std::string path, ID3D11Device* device)
 			if (i == j) { continue; }
 
 			// NOTE: Store Target distances to other points
-			float t_CurrentLength = Vector3::S_Magnitude(m_MassPoints[i].m_Position - m_MassPoints[j].m_Position) / 2;
+			float t_CurrentLength = Vector3::S_Magnitude(m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position) / 2;
 			m_TargetDistances[i][j] = t_CurrentLength;
 		}
 	}
@@ -51,11 +52,7 @@ void MassAggregate::Construct(std::string path, ID3D11Device* device)
 void MassAggregate::Update(float deltaTime)
 {
 	// NOTE: Update all the points with the Rod Code
-
-	for (auto& v : m_MassPoints)
-	{
-		v.Update(deltaTime);
-	}
+	for (auto& v : m_MassPoints) { v->Update(deltaTime); }
 
 	for (int i = 0; i < m_MassPoints.size(); ++i)
 	{
@@ -66,26 +63,26 @@ void MassAggregate::Update(float deltaTime)
 			// NOTE: Rod / Spring Code
 					
 			// NOTE: "Current Length" is just the distance between the two vectors magnitude
-			float t_CurrentLength = Vector3::S_Magnitude(m_MassPoints[i].m_Position - m_MassPoints[j].m_Position) / 2;
+			float t_CurrentLength = Vector3::S_Magnitude(m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position) / 2;
 					
 			// NOTE: Skip Current Iteration
 			if (t_CurrentLength == m_TargetDistances[i][j]) { continue; }
 				
 			// NOTE: Normal Calculation
-			Vector3 t_Normal = m_MassPoints[i].m_Position - m_MassPoints[j].m_Position;
+			Vector3 t_Normal = m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position;
 					
 			float t_Target = m_TargetDistances[i][j]; // NOTE: This is the "distance" that the rods need to be at
-			Vector3 t_Disperse = m_MassPoints[i].m_Position - m_MassPoints[j].m_Position;
+			Vector3 t_Disperse = m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position;
 			float t_Distance = t_CurrentLength;
 		
 			Vector3 t_NewNormal = t_Disperse / t_Distance;
 			float t_Delta = t_Target - t_Distance;
 		
-			Vector3 t_TargetPosA = m_MassPoints[i].m_Position + t_Delta * t_NewNormal.Normalise();
-			Vector3 t_TargetPosB = m_MassPoints[j].m_Position - t_Delta * t_NewNormal.Normalise();
+			Vector3 t_TargetPosA = m_MassPoints[i]->m_Transform.m_Position + t_Delta * t_NewNormal.Normalise();
+			Vector3 t_TargetPosB = m_MassPoints[j]->m_Transform.m_Position - t_Delta * t_NewNormal.Normalise();
 		
-			m_MassPoints[i].SetPosition(t_TargetPosA);
-			m_MassPoints[j].SetPosition(t_TargetPosB);
+			m_MassPoints[i]->m_Transform.m_Position = t_TargetPosA;
+			m_MassPoints[j]->m_Transform.m_Position = t_TargetPosB;
 		}
 	}
 }
@@ -94,7 +91,7 @@ void MassAggregate::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constB
 {
 	for (auto& v : m_MassPoints)
 	{
-		v.Draw(constantBufferData, constBuff, pImmediateContext, device, Vector3(1, 0, 0));
+		v->Draw(constantBufferData, constBuff, pImmediateContext, device);
 	}
 }
 
@@ -110,6 +107,13 @@ void MassAggregate::FillVerticesArray(char* path, ID3D11Device* device)
 
 		// NOTE: Store Transformed Vertices
 		Vector3 t_VecPos = (t_TempVec[i] * m_Owner->m_Transform.m_Scale) + m_Owner->m_Transform.m_Position;
-		m_MassPoints.push_back(Particle(t_VecPos, 1, device));
+
+		GameObjectEntity* t_tempGameObject = new GameObjectEntity();
+		t_tempGameObject->m_Transform.m_Position = t_VecPos;
+		t_tempGameObject->m_Transform.m_Scale = Vector3(1, 1, 1);
+		t_tempGameObject->AddComponent<Mesh>()->Construct("sphere", device);
+		t_tempGameObject->AddComponent<SphereCollider>()->Construct(1, device);
+		t_tempGameObject->AddComponent<Rigidbody3DObject>()->Construct(1, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+		m_MassPoints.push_back(t_tempGameObject);
 	}
 }

@@ -30,6 +30,7 @@
 
 // Physics Components (s)
 #include "Rigidbody3DObject.h"
+#include "Particle.h"
 
 unsigned int constexpr MAX_COMPONENTS = 8u;
 

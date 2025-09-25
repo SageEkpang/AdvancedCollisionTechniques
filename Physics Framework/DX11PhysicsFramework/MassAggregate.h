@@ -5,6 +5,9 @@
 // ABSTRACT CLASS(s)
 #include "ColliderEntity.h"
 #include "Particle.h"
+
+class GameObjectEntity;
+class SphereCollider;
 	
 // NOTE: THIS IS THE MASS OBJECT TO SIMULATE
 class MassAggregate : public ColliderEntity
@@ -12,7 +15,7 @@ class MassAggregate : public ColliderEntity
 public:
 
 	std::vector<Vector3> m_Vertices;
-	std::vector<Particle> m_MassPoints;
+	std::vector<GameObjectEntity*> m_MassPoints;
 	float** m_TargetDistances;
 
 	float m_Size = 1.f;
