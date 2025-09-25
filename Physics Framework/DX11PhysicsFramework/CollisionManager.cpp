@@ -673,6 +673,23 @@ CollisionManifold CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectE
 	return t_ColMani;
 }
 
+CollisionManifold CollisionManager::MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* planeB)
+{
+	return CollisionManifold();
+}
+
+CollisionManifold CollisionManager::MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB)
+{
+
+
+	return CollisionManifold();
+}
+
+CollisionManifold CollisionManager::MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* planeB)
+{
+	return CollisionManifold();
+}
+
 Vector3 CollisionManager::BoxNearestPoint(GameObjectEntity* boxA, Vector3 pointB)
 {
 	// Min and Max Extents of Box Collider

@@ -18,6 +18,7 @@ class PlaneCollider;
 
 class SATCollider;
 class EPACollider;
+class MassAggregate;
 class GJKCollider;
 
 enum Collider_Type_Collisions
@@ -38,7 +39,11 @@ enum Collider_Type_Collisions
 
     COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA,
 
-    COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK
+    COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK,
+
+    COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_SPHERE,
+    COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_PLANE,
+    COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_BOX,
 };
 
 class CollisionManager
@@ -104,6 +109,11 @@ public:
 
     // EPA
     static CollisionManifold EPAtoEPA(GameObjectEntity* epaA, GameObjectEntity* epaB);
+
+    // MassAggregate
+    static CollisionManifold MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* planeB);
+    static CollisionManifold MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB);
+    static CollisionManifold MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* planeB);
 
 
     // NEAREST POINT CHECKS
