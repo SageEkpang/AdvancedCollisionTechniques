@@ -4,44 +4,35 @@
 
 // ABSTRACT CLASS(s)
 #include "ColliderEntity.h"
-//#include "Particle.h"
-
-// NEEDED INCLUDE(s)
-// #include "CollisionContact.h"
-
-// MASS AGGREGATE		
-
+#include "Particle.h"
+	
 // NOTE: THIS IS THE MASS OBJECT TO SIMULATE
 class MassAggregate : public ColliderEntity
 {
-private: // PRIVATE VARIABLE(s)
+public:
 
-	// CollisionContact* m_CollisionContact;
-	//std::vector<Particle*> m_MassPoints;
-	//std::vector<Particle*> m_StaticPoints;
-	//float m_Mass;
-	//int m_Size;
+	std::vector<Vector3> m_Vertices;
+	std::vector<Particle> m_MassPoints;
+	float** m_TargetDistances;
 
-public: // PUBLIC VARIABLE(s)
+	float m_Size = 1.f;
 
-	// CLASS FUNCTION(s)
-	//MassAggregate(char* filePath, Vector3 position, float mass, int size, ID3D11Device* device);
-	//~MassAggregate();
+public:
+
+	// CLASS FUNCTION(s) (General)
+	MassAggregate();
+	~MassAggregate() override;
+
+	void Construct(std::string path, ID3D11Device* device);
 
 	//// BASE FUNCTION(s)
-	//void Update(float deltaTime); // Update Function
-	//void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+	void Update(float deltaTime) override; // Update Function
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
-	//// GETTER FUNCTION(s)
-	//inline std::vector<Particle*> GetParticle() { m_MassPoints; }
+private:
 
-
-	//// SETTER FUNCTION(s)
-
-
-	//// HELPER FUNCTION(s)
-	//inline void AddParticle(Particle* particle) { m_MassPoints.push_back(particle); };
-	//void ClearParticle();
+	// HELPER FUNCTION(s)
+	void FillVerticesArray(char* path, ID3D11Device* device);
 };
 
 #endif

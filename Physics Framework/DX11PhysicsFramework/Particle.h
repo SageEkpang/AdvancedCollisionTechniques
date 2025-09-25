@@ -2,11 +2,12 @@
 #define PARTICLE_H
 
 #include "OBJLoader.h"
-#include "PhysicsEntity.h"
+#include "Constants.h"
 
 #include "ConstantBuffer.h"
 #include "Geometry.h"
 #include "Material.h"
+#include "Vector3.h"
 #include <directxmath.h>
 
 using namespace DirectX;
@@ -14,11 +15,11 @@ using namespace DirectX;
 // NOTE: Derives from Physics Object
 class Particle
 {
-private:
+public:
 
+	Vector3 m_Position;
 	XMFLOAT4X4* m_World;
 	Geometry m_Geometry;
-	Transform* m_Transform;
 
 	// Physics Variables
 	float m_Mass;
@@ -26,18 +27,21 @@ private:
 	Vector3 m_Acceleration = VECTOR3_ZERO;
 	Vector3 m_NetForce = VECTOR3_ZERO;
 
-	mutable float m_Gravity = GRAVITY_EARTH;
+	mutable float m_Gravity = 9.81f;
 
 public:
 
 	// CLASS FUNCTION(s)
-	Particle(Transform* transform, float mass, ID3D11Device* device);
+	Particle(Vector3 position, float mass, ID3D11Device* device);
 	~Particle();
 
+	/// <summary> Add Gravity force that effects the objects downwards force </summary>
+	Vector3 GravityForce();
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime);
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device, Vector3 colour);
+	
 	void CalculateAcceleration(float deltaTime);
 
 
@@ -45,26 +49,14 @@ public:
 	void AddForce(Vector3 force) { m_NetForce += force; }
 	void ApplyImpulse(Vector3 impulse) { m_Velocity += impulse; }
 
-
 	// GETTER FUNCTION(s)
-	Vector3 GetVelocity() { return m_Velocity; }
-	Vector3 GetAcceleration() { return m_Acceleration; }
-
 	inline float GetMass() const { return m_Mass; }
 	inline float GetInverseMass() const { if (m_Mass == 0) { return 0; } return 1 / m_Mass; }
 
-	Vector3 GetGravity() { return Vector3(0.0f, -m_Gravity, 0.0f); }
-
-	XMFLOAT4X4* GetPureWorld() const { return m_World; }
-	XMMATRIX GetWorld() const { return XMLoadFloat4x4(m_World); }
-
-	Transform* GetTransform() const { return m_Transform; }
 
 	// SETTER FUNCTION(s)
-	virtual inline void SetVelocity(Vector3 velocity) { m_Velocity = velocity; }
-	inline void SetVelocity(float x, float y, float z) { m_Velocity = Vector3(x, y, z); }
-
 	void ClearAccumulator();
+	void SetPosition(Vector3 position) { m_Position = position; }
 
 };
 

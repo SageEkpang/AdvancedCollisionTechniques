@@ -16,8 +16,7 @@ private:
 
 	GameObjectEntity* m_SATObject;
 	GameObjectEntity* m_CubeObject;
-
-	std::vector<GameObjectEntity*> m_GameObjects;
+	GameObjectEntity* m_MassAggregateObject;
 
 public:
 

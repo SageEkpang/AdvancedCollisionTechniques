@@ -16,7 +16,7 @@ public:
 
 	// CLASS FUNCTION(s) (Components)
 	EPACollider();
-	~EPACollider();
+	~EPACollider() override;
 
 	void Construct(std::string path, ID3D11Device* device);
 	void ConstructHull(std::string filepath, ID3D11Device* device);
@@ -24,6 +24,8 @@ public:
 	// BASE FUNCTION(s)
 	void Update(float deltaTime) override;
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
+
+private:
 
 	// HELPER FUNCTION(s)
 	void FillVerticesArray(char* path);

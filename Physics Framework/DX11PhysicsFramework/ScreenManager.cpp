@@ -193,7 +193,7 @@ void ScreenManager::TransitionScreen(PhysicsScreenState state)
 		case PhysicsScreenState::STATE_SAT_SCREEN: m_CurrentScreen = new SATScreen("SeperateAxisTheorumScreen", _device); break;
 		case PhysicsScreenState::STATE_GJK_SCREEN: m_CurrentScreen = new GJKScreen("GilbertJohnsonKeerthiScreen", _device); break;
 		case PhysicsScreenState::STATE_EPA_SCREEN: m_CurrentScreen = new EPAScreen("ExpandingPolytopeAlgorithmScreen", _device); break;
-		case PhysicsScreenState::STATE_MASS_ARG_SCREEN: m_CurrentScreen = new MassAggScreen("MassAggregateScreen", _device); break;
+		// case PhysicsScreenState::STATE_MASS_ARG_SCREEN: m_CurrentScreen = new MassAggScreen("MassAggregateScreen", _device); break;
 
 		default: m_CurrentScreen = new BasicScreen("BasicScreen", _device); break;
 	}
