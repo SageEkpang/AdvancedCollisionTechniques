@@ -50,6 +50,7 @@ private: // PRIVATE VARIABLE(s)
 
     std::unordered_set<GameObjectEntity*> m_ObjectList;
     std::unordered_set<GameObjectEntity*>::iterator m_ObjectItr;
+    std::unordered_set<GameObjectEntity*> m_CollisionObjects;
 
 public: // PUBLIC VARIABLE(s)
 
@@ -97,6 +98,10 @@ public: // PUBLIC FUNCTION(s)
 
     void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
 
+    std::unordered_set<GameObjectEntity*>& GetCollisionSet() { return m_CollisionObjects; }
+
+    // SETTER FUNCTION(s)
+    inline void InsertCollisionObject(GameObjectEntity* object) { m_CollisionObjects.insert(object); }
 };
 
 #endif

@@ -16,7 +16,7 @@ public:
 
 	std::vector<Vector3> m_Vertices;
 	std::vector<GameObjectEntity*> m_MassPoints;
-	float** m_TargetDistances;
+	float** m_TargetDistances = nullptr;
 
 	float m_Size = 1.f;
 

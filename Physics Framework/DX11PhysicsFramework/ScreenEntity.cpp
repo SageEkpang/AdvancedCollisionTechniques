@@ -39,13 +39,14 @@ void ScreenEntity::Update(float deltaTime)
 			
 			if (t_tempColMana.hasCollision == true)
 			{
-				if (!t_tempColMana.points.empty())
+				for (int k = 0; k < t_tempColMana.points.size(); ++k)
 				{
-					CollisionContactManager::ResolveCollisionMulti(m_GameObjects[i], m_GameObjects[j], 0.5, t_tempColMana);
-				}
-				else
-				{
-					CollisionContactManager::ResolveCollision(m_GameObjects[i], m_GameObjects[j], 0.5, t_tempColMana);
+					CollisionManifold t_MultiColManifold;
+					t_MultiColManifold.collisionNormal = t_tempColMana.points[k].collisionNormal;
+					t_MultiColManifold.penetrationDepth = t_tempColMana.points[k].penetrationDepth;
+					t_MultiColManifold.hasCollision = t_tempColMana.points[k].hasCollision;
+
+					CollisionContactManager::ResolveCollision(m_GameObjects[i], m_GameObjects[j], 0.5, t_MultiColManifold);
 				}
 			}
 		}

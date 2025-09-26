@@ -8,20 +8,27 @@ class GameObjectEntity;
 
 struct ContactPoint
 {
-	Vector3 position;
+	GameObjectEntity* pointObject;
+	Vector3 collisionNormal;
+	int index;
 	float penetrationDepth;
+	bool hasCollision;
+	int contactPointCount;
 
-	ContactPoint()
+	ContactPoint(int contactPointCount = 0, Vector3 collisionNormal = Vector3())
 	{
-		position = Vector3();
+		this->contactPointCount = contactPointCount;
+		this->collisionNormal = collisionNormal;
+		this->hasCollision = false;
+		index = 0;
 		penetrationDepth = 0.0f;
+		pointObject = nullptr;
 	}
 };
 
 struct CollisionManifold
 {
-	std::vector<GameObjectEntity*> points; // NOTE: Purely used for the entities
-
+	std::vector<ContactPoint> points;
 	Vector3 collisionNormal;
 	int contactPointCount;
 	float penetrationDepth;

@@ -111,9 +111,9 @@ public:
     static CollisionManifold EPAtoEPA(GameObjectEntity* epaA, GameObjectEntity* epaB);
 
     // MassAggregate
-    static CollisionManifold MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* planeB);
+    static CollisionManifold MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* sphereB);
     static CollisionManifold MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB);
-    static CollisionManifold MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* planeB);
+    static CollisionManifold MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* boxB);
 
 
     // NEAREST POINT CHECKS

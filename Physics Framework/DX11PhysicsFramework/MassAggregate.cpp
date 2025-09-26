@@ -10,6 +10,9 @@ MassAggregate::MassAggregate()
 
 MassAggregate::~MassAggregate()
 {
+	for (int i = 0; i < m_MassPoints.size(); ++i) { delete[] m_TargetDistances[i]; }
+	delete[] m_TargetDistances;
+
 	m_Vertices.clear();
 	m_MassPoints.clear();
 }
