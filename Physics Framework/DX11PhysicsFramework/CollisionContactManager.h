@@ -6,6 +6,7 @@
 
 // NEEDED INCLUDE(s)
 #include "CollisionManifold.h"
+#include <unordered_set>
 
 // CLASS INCLUDE(s)
 namespace CollisionContactManager
