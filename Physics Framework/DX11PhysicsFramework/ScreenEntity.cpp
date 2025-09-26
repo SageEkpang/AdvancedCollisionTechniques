@@ -33,24 +33,19 @@ void ScreenEntity::Update(float deltaTime)
 		for (int j = 0; j < m_GameObjects.size(); ++j)
 		{
 			if (i == j) continue;
-
-			CollisionManager t_tempCollisionManager;
-			CollisionManifold t_tempColMana = t_tempCollisionManager.CheckCollisions(m_GameObjects[i], m_GameObjects[j]);
-			
-			if (t_tempColMana.hasCollision == true)
-			{
-				for (int k = 0; k < t_tempColMana.points.size(); ++k)
-				{
-					CollisionManifold t_MultiColManifold;
-					t_MultiColManifold.collisionNormal = t_tempColMana.points[k].collisionNormal;
-					t_MultiColManifold.penetrationDepth = t_tempColMana.points[k].penetrationDepth;
-					t_MultiColManifold.hasCollision = t_tempColMana.points[k].hasCollision;
-
-					CollisionContactManager::ResolveCollision(m_GameObjects[i], m_GameObjects[j], 0.5, t_MultiColManifold);
-				}
-			}
+			m_CollisionManager.CheckCollisions(m_GameObjects[i], m_GameObjects[j], m_CollisionSolutionMap).hasCollision;
 		}
 	}
+
+	// NOTE: Collision Handling
+	for (auto itr = m_CollisionSolutionMap.begin(); itr != m_CollisionSolutionMap.end(); ++itr)
+	{
+		auto collision_made_pair = std::make_pair((*itr).first.first, (*itr).first.second);
+		CollisionContactManager::ResolveCollision(collision_made_pair.first, collision_made_pair.second, 0.5, m_CollisionSolutionMap[collision_made_pair]);
+	}
+
+	// NOTE: Clear Collision List
+	m_CollisionSolutionMap.clear();
 
 	// NOTE: Updating the Objects
 	if (!m_GameObjects.empty())

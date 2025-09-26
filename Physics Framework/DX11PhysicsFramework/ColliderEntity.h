@@ -43,14 +43,13 @@ protected:
 
 private: // PRIVATE VARIABLE(s)
 
-
     std::function<void()> m_TriggerEnteredLambda = nullptr;
     std::function<void()> m_TriggerStayedLambda = nullptr;
     std::function<void()> m_TriggerExitedLambda = nullptr;
 
     std::unordered_set<GameObjectEntity*> m_ObjectList;
     std::unordered_set<GameObjectEntity*>::iterator m_ObjectItr;
-    std::unordered_set<GameObjectEntity*> m_CollisionObjects;
+    // std::unordered_set<CollisionObjectManifold> m_CollisionObjects;
 
 public: // PUBLIC VARIABLE(s)
 
@@ -68,7 +67,6 @@ public: // PUBLIC VARIABLE(s)
 
     // TRIGGER AREA VARIABLE(s)
     TriggerAreaState m_TriggerState;
-
 
 
     // COLLIDER VARIABLE(s)
@@ -95,13 +93,7 @@ public: // PUBLIC FUNCTION(s)
     auto GetTriggerObject() { return (*m_ObjectItr); }
     inline std::unordered_set<GameObjectEntity*>& GetObjects() { return m_ObjectList; }
     inline int GetObjectCount() { return (int)m_ObjectList.size(); }
-
-    void SetCollisionGeometry(char* fileName, Material material, ID3D11Device* device);
-
-    std::unordered_set<GameObjectEntity*>& GetCollisionSet() { return m_CollisionObjects; }
-
-    // SETTER FUNCTION(s)
-    inline void InsertCollisionObject(GameObjectEntity* object) { m_CollisionObjects.insert(object); }
+    
 };
 
 #endif

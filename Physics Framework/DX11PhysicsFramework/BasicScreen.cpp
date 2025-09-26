@@ -4,13 +4,25 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenE
 {
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_BASIC_SCREEN;
 
-	//m_CubeObject = new GameObjectEntity();
-	//m_CubeObject->m_Transform.m_Position = Vector3(10, 10, 30);
-	//m_CubeObject->m_Transform.m_Scale = Vector3(5, 5, 5);
-	//m_CubeObject->AddComponent<Mesh>()->ConstructHull("donut", COLOUR_RED, device);
-	//m_CubeObject->AddComponent<EPACollider>()->ConstructHull("donut", device);
-	//m_CubeObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_STATIC);
-	// InsertObjectIntoList(m_CubeObject);
+	{
+		m_CubeObject = new GameObjectEntity();
+		m_CubeObject->m_Transform.m_Position = Vector3(10, 10, 30);
+		m_CubeObject->m_Transform.m_Scale = Vector3(1, 1, 1);
+		m_CubeObject->AddComponent<Mesh>()->Construct("sphere", COLOUR_RED, device);
+		m_CubeObject->AddComponent<SphereCollider>()->Construct(4, device);
+		// m_CubeObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_STATIC);
+		InsertObjectIntoList(m_CubeObject);
+	}
+
+	{
+		m_SphereObject = new GameObjectEntity();
+		m_SphereObject->m_Transform.m_Position = Vector3(10, 50, 30);
+		m_SphereObject->m_Transform.m_Scale = Vector3(1, 1, 1);
+		m_SphereObject->AddComponent<Mesh>()->Construct("sphere", COLOUR_RED, device);
+		m_SphereObject->AddComponent<SphereCollider>()->Construct(4, device);
+		// m_SphereObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_STATIC);
+		InsertObjectIntoList(m_SphereObject);
+	}
 
 	//m_SATObject = new GameObjectEntity();
 	//m_SATObject->m_Transform.m_Position = Vector3(10, 50, 30);
@@ -20,11 +32,11 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenE
 	//m_SATObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_STATIC);
 	// InsertObjectIntoList(m_SATObject);
 
-	m_MassAggregateObject = new GameObjectEntity();
-	m_MassAggregateObject->m_Transform.m_Position = Vector3(0, 10, 30);
-	m_MassAggregateObject->m_Transform.m_Scale = Vector3(2, 2, 2);
-	m_MassAggregateObject->AddComponent<MassAggregate>()->Construct("cube", device);
-	InsertObjectIntoList(m_MassAggregateObject);
+	//m_MassAggregateObject = new GameObjectEntity();
+	//m_MassAggregateObject->m_Transform.m_Position = Vector3(0, 10, 30);
+	//m_MassAggregateObject->m_Transform.m_Scale = Vector3(2, 2, 2);
+	//m_MassAggregateObject->AddComponent<MassAggregate>()->Construct("cube", device);
+	//InsertObjectIntoList(m_MassAggregateObject);
 
 
 }

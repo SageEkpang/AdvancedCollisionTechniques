@@ -38,6 +38,8 @@ class ScreenEntity
 {
 private:
 
+	CollisionManager m_CollisionManager;
+	std::map<col_solution_pair, CollisionManifold> m_CollisionSolutionMap;
 	GameObjectEntity* m_PlaneObject;
 
 protected:

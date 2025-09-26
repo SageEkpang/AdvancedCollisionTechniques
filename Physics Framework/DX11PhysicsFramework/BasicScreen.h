@@ -16,6 +16,7 @@ private:
 
 	GameObjectEntity* m_SATObject;
 	GameObjectEntity* m_CubeObject;
+	GameObjectEntity* m_SphereObject;
 	GameObjectEntity* m_MassAggregateObject;
 
 public:
