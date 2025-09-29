@@ -17,8 +17,11 @@ MassAggregate::~MassAggregate()
 	m_MassPoints.clear();
 }
 
-void MassAggregate::Construct(std::string path, ID3D11Device* device)
+void MassAggregate::Construct(std::string path, float springConstant, float dampeningForce, ID3D11Device* device)
 {
+	m_SpringConstant = springConstant;
+	m_DampeningForce = dampeningForce;
+
 	std::string t_tempPath = "Resources\\OBJ\\";
 	t_tempPath.append(path);
 	t_tempPath.append(".obj");
@@ -80,13 +83,11 @@ void MassAggregate::Update(float deltaTime)
 			float t_X = (Vector3::S_Magnitude(t_RelativePosition) * 0.5f) - m_TargetDistances[i][j];
 			float t_V = Vector3::S_Magnitude(t_RelativeVelocity);
 
-			float t_K = -50.0f; // [ -n to 0 ]
-			float t_F = (-t_K * t_X); // +(-t_B * t_V);
+			float t_F = (-m_SpringConstant * t_X); // +(-t_B * t_V);
 
 			Vector3 t_Impulse = (Vector3::S_Normalise(t_RelativePosition) * 0.5) * t_F;
 
-			float t_B = 0.1f; // [ 0 to 1 ]
-			Vector3 t_DampeningForce = t_RelativeVelocity * t_B;
+			Vector3 t_DampeningForce = t_RelativeVelocity * m_DampeningForce;
 
 			m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->ApplyImpulse((t_Impulse * m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->m_Mass) * -1.f * m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->GetInverseMass());
 			m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->ApplyImpulse(t_DampeningForce * -1.f);
@@ -126,7 +127,16 @@ void MassAggregate::FillVerticesArray(char* path, ID3D11Device* device)
 		t_tempGameObject->m_Transform.m_Scale = Vector3(1, 1, 1);
 		t_tempGameObject->AddComponent<Mesh>()->Construct("sphere", device);
 		t_tempGameObject->AddComponent<SphereCollider>()->Construct(1, device);
-		t_tempGameObject->AddComponent<Rigidbody3DObject>()->Construct(10, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+
+		if (m_Owner->HasComponent<Rigidbody3DObject>() == true)
+		{
+			t_tempGameObject->AddComponent<Rigidbody3DObject>()->Construct(m_Owner->GetComponent<Rigidbody3DObject>()->m_Mass, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+		}
+		else
+		{
+			t_tempGameObject->AddComponent<Rigidbody3DObject>()->Construct(1, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+		}
+
 		m_MassPoints.push_back(t_tempGameObject);
 	}
 }

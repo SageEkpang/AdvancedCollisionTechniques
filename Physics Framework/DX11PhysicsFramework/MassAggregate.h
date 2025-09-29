@@ -17,8 +17,8 @@ public:
 	std::vector<Vector3> m_Vertices;
 	std::vector<GameObjectEntity*> m_MassPoints;
 	float** m_TargetDistances = nullptr;
-
-	float m_Size = 1.f;
+	float m_SpringConstant;
+	float m_DampeningForce;
 
 public:
 
@@ -26,7 +26,7 @@ public:
 	MassAggregate();
 	~MassAggregate() override;
 
-	void Construct(std::string path, ID3D11Device* device);
+	void Construct(std::string path, float springConstant, float dampeningForce, ID3D11Device* device);
 
 	//// BASE FUNCTION(s)
 	void Update(float deltaTime) override; // Update Function

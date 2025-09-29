@@ -16,15 +16,21 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenE
 	}
 
 	{
-		m_SphereObject = new GameObjectEntity();
-		m_SphereObject->m_Transform.m_Position = Vector3(10, 50, 30);
-		m_SphereObject->m_Transform.m_Scale = Vector3(5, 5, 5);
-		// m_SphereObject->AddComponent<Mesh>()->Construct("cube", COLOUR_RED, device);
-		// m_SphereObject->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
-		m_SphereObject->AddComponent<MassAggregate>()->Construct("pyramidAlt", device);
-		// m_SphereObject->GetComponent<SphereCollider>()->m_RenderCollision = false;
-		m_SphereObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
-		InsertObjectIntoList(m_SphereObject);
+		m_MassAggregateObjectCube = new GameObjectEntity();
+		m_MassAggregateObjectCube->m_Transform.m_Position = Vector3(10, 50, 30);
+		m_MassAggregateObjectCube->m_Transform.m_Scale = Vector3(5, 5, 5);
+		m_MassAggregateObjectCube->AddComponent<Rigidbody3DObject>()->Construct(10.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+		m_MassAggregateObjectCube->AddComponent<MassAggregate>()->Construct("cube", -5, 0.005, device); // -50
+		InsertObjectIntoList(m_MassAggregateObjectCube);
+	}
+
+	{
+		m_MassAggregateObjectSmall = new GameObjectEntity();
+		m_MassAggregateObjectSmall->m_Transform.m_Position = Vector3(10, 10, 30);
+		m_MassAggregateObjectSmall->m_Transform.m_Scale = Vector3(1, 1, 1);
+		m_MassAggregateObjectSmall->AddComponent<Rigidbody3DObject>()->Construct(10.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+		m_MassAggregateObjectSmall->AddComponent<MassAggregate>()->Construct("cube", -50, 0.005, device); // -50
+		InsertObjectIntoList(m_MassAggregateObjectSmall);
 	}
 
 	//m_SATObject = new GameObjectEntity();
