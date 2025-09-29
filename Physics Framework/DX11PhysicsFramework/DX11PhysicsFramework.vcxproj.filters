@@ -287,6 +287,9 @@
     <ClInclude Include="convhull_3d.h">
       <Filter>Components\MeshComponents\Header</Filter>
     </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -410,6 +413,9 @@
       <Filter>Helpers\Header</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
       <Filter>Managers\Source</Filter>
     </ClCompile>
   </ItemGroup>

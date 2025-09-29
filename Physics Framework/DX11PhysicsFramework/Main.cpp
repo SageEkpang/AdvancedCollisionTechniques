@@ -1,3 +1,4 @@
+#include "WindowManager.h"
 #include "ScreenManager.h"
 #include <windows.h>
 #include <comdef.h>
@@ -7,7 +8,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	std::unique_ptr<ScreenManager> m_Application = std::make_unique<ScreenManager>(hInstance, nCmdShow);
+	std::unique_ptr<WindowManager> m_WindowApplication = std::make_unique<WindowManager>(hInstance, nCmdShow);
+	std::unique_ptr<ScreenManager> m_ScreenApplication = std::make_unique<ScreenManager>(m_WindowApplication->GetDevice());
 
 	// Main message loop
 	MSG msg = { 0 };
@@ -20,7 +22,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 			if (msg.message >= WM_KEYFIRST && msg.message <= WM_KEYLAST)
 			{
-				handled = m_Application->HandleKeyboard(msg);
+				// handled = m_Application->HandleKeyboard(msg);
 				
 			}
 			else if (WM_QUIT == msg.message)
@@ -34,8 +36,18 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		}
 		else
 		{
-			m_Application->Process();
-			m_Application->Showcase();
+			m_WindowApplication->BeginRendering();
+
+				m_ScreenApplication->Process();
+
+				m_ScreenApplication->Showcase(
+					*m_WindowApplication->GetConstantBufferData(), 
+					m_WindowApplication->GetConstantBuffer(), 
+					m_WindowApplication->GetImmediateContext(), 
+					m_WindowApplication->GetDevice()
+				);
+
+			m_WindowApplication->EndRendering();
 		}
 	}
 

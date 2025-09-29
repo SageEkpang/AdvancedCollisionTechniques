@@ -417,6 +417,7 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SurfaceInfo.h" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleShaders.hlsl">
@@ -480,6 +481,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
+    <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\floor.dds" />

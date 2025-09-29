@@ -72,9 +72,8 @@ public:
 	// HELPER FUNCTION(s)
 	void InsertObjectIntoList(GameObjectEntity* gameObject);
 
-
-
 	// GETTER FUNCTION(s)
+	std::vector<GameObjectEntity*>& GetObjects() { return m_GameObjects; }
 	inline std::string GetName() { return m_ScreenName; }
 };
 

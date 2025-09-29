@@ -56,9 +56,7 @@ void MassAggregate::Construct(std::string path, float springConstant, float damp
 }
 
 void MassAggregate::Update(float deltaTime)
-{
-	// NOTE: Update all the points with the Rod Code
-	
+{	
 	// NOTE: Spring Code : Hooks Law (F = -kx)
 	// F = Force
 	// k = Spring Constant
@@ -83,7 +81,7 @@ void MassAggregate::Update(float deltaTime)
 			float t_X = (Vector3::S_Magnitude(t_RelativePosition) * 0.5f) - m_TargetDistances[i][j];
 			float t_V = Vector3::S_Magnitude(t_RelativeVelocity);
 
-			float t_F = (-m_SpringConstant * t_X); // +(-t_B * t_V);
+			float t_F = (-m_SpringConstant * t_X); // + (-t_B * t_V);
 
 			Vector3 t_Impulse = (Vector3::S_Normalise(t_RelativePosition) * 0.5) * t_F;
 
@@ -125,8 +123,9 @@ void MassAggregate::FillVerticesArray(char* path, ID3D11Device* device)
 		GameObjectEntity* t_tempGameObject = new GameObjectEntity();
 		t_tempGameObject->m_Transform.m_Position = t_VecPos;
 		t_tempGameObject->m_Transform.m_Scale = Vector3(1, 1, 1);
-		t_tempGameObject->AddComponent<Mesh>()->Construct("sphere", device);
+		t_tempGameObject->AddComponent<Mesh>()->Construct("sphere", COLOUR_BLUE, device);
 		t_tempGameObject->AddComponent<SphereCollider>()->Construct(1, device);
+		t_tempGameObject->GetComponent<SphereCollider>()->m_RenderCollision = false;
 
 		if (m_Owner->HasComponent<Rigidbody3DObject>() == true)
 		{

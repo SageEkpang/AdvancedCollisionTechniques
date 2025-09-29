@@ -378,8 +378,8 @@ void CollisionManager::BoxToSphere(GameObjectEntity* boxA, GameObjectEntity* sph
 	if (Distance <= sphereB->GetComponent<SphereCollider>()->m_Radius)
 	{
 		t_ColMani.hasCollision = true;
-		t_ColMani.collisionNormal = Vector3(sphereB->m_Transform.m_Position - boxA->m_Transform.m_Position).Normalise();
-		t_ColMani.penetrationDepth = Vector3(sphereB->m_Transform.m_Position - boxA->m_Transform.m_Position).Magnitude();
+		t_ColMani.collisionNormal = Vector3(sphereB->m_Transform.m_Position - Nearest).Normalise();
+		t_ColMani.penetrationDepth = sphereB->GetComponent<SphereCollider>()->m_Radius - Vector3(Nearest - sphereB->m_Transform.m_Position).Magnitude();
 
 		collisionSolutionMap[std::make_pair(sphereB, boxA)] = t_ColMani;
 	}
@@ -412,8 +412,8 @@ void CollisionManager::PlaneToBox(GameObjectEntity* planeA, GameObjectEntity* bo
 	if (abs(t_Distance) <= t_pLength)
 	{
 		t_ColMani.hasCollision = true;
-		t_ColMani.penetrationDepth = 0.5;
 		t_ColMani.collisionNormal = Vector3(0, 1, 0);
+		t_ColMani.penetrationDepth = t_pLength - Vector3(PlaneNearestPoint(planeA, Vector3(0, 1, 0), boxB->m_Transform.m_Position) - boxB->m_Transform.m_Position).Magnitude();
 
 		collisionSolutionMap[std::make_pair(boxB, planeA)] = t_ColMani;
 	}
@@ -424,7 +424,6 @@ void CollisionManager::PlaneToSphere(GameObjectEntity* planeA, GameObjectEntity*
 	CollisionManifold t_ColMani = CollisionManifold();
 
 	Vector3 t_NearPoint = PlaneNearestPoint(planeA, Vector3(0, 1, 0), sphereB->m_Transform.m_Position);
-	
 	float Distance = t_NearPoint.DistanceTo(sphereB->m_Transform.m_Position);
 
 	if (Distance <= sphereB->GetComponent<SphereCollider>()->m_Radius)
@@ -719,8 +718,8 @@ void CollisionManager::MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity
 		if (Distance <= massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->GetComponent<SphereCollider>()->m_Radius)
 		{
 			t_ColMani.hasCollision = true;
-			t_ColMani.collisionNormal = Vector3(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position - boxB->m_Transform.m_Position).Normalise();
-			t_ColMani.penetrationDepth = 0.5;
+			t_ColMani.collisionNormal = Vector3(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position - Nearest).Normalise();
+			t_ColMani.penetrationDepth = massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->GetComponent<SphereCollider>()->m_Radius - Vector3(Nearest - massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position).Magnitude();
 
 			collisionSolutionMap[std::make_pair(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i], boxB)] = t_ColMani;
 		}
