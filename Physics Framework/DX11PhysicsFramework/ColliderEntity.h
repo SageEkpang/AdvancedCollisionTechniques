@@ -49,7 +49,6 @@ private: // PRIVATE VARIABLE(s)
 
     std::unordered_set<GameObjectEntity*> m_ObjectList;
     std::unordered_set<GameObjectEntity*>::iterator m_ObjectItr;
-    // std::unordered_set<CollisionObjectManifold> m_CollisionObjects;
 
 public: // PUBLIC VARIABLE(s)
 

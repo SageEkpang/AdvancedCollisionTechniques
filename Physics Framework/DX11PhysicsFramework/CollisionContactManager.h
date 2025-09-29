@@ -12,7 +12,7 @@
 namespace CollisionContactManager
 {
 	Vector3 CalculateSeparatingVelocity(GameObjectEntity* gameObjectA, GameObjectEntity* gameObjectB);
-	void ResolveCollision(GameObjectEntity* gameObjectA, GameObjectEntity* gameObjectB, float CoefRest, CollisionManifold collisionManifold);
+	void ResolveCollision(GameObjectEntity** gameObjectA, GameObjectEntity** gameObjectB, float CoefRest, CollisionManifold collisionManifold);
 };
 
 #endif

@@ -33,7 +33,7 @@ void ScreenEntity::Update(float deltaTime)
 		for (int j = 0; j < m_GameObjects.size(); ++j)
 		{
 			if (i == j) continue;
-			m_CollisionManager.CheckCollisions(m_GameObjects[i], m_GameObjects[j], m_CollisionSolutionMap).hasCollision;
+			m_CollisionManager.CheckCollisions(m_GameObjects[i], m_GameObjects[j], m_CollisionSolutionMap);
 		}
 	}
 
@@ -41,7 +41,7 @@ void ScreenEntity::Update(float deltaTime)
 	for (auto itr = m_CollisionSolutionMap.begin(); itr != m_CollisionSolutionMap.end(); ++itr)
 	{
 		auto collision_made_pair = std::make_pair((*itr).first.first, (*itr).first.second);
-		CollisionContactManager::ResolveCollision(collision_made_pair.first, collision_made_pair.second, 0.5, m_CollisionSolutionMap[collision_made_pair]);
+		CollisionContactManager::ResolveCollision(&collision_made_pair.first, &collision_made_pair.second, 0.1, m_CollisionSolutionMap[collision_made_pair]);
 	}
 
 	// NOTE: Clear Collision List

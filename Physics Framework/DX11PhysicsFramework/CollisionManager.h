@@ -85,34 +85,34 @@ public:
     ~CollisionManager();
 
     // COLLIDER FUNCTIONS
-    CollisionManifold CheckCollisions(GameObjectEntity* colliderA, GameObjectEntity* colliderB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
+    void CheckCollisions(GameObjectEntity* colliderA, GameObjectEntity* colliderB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // SPHERE
-    static CollisionManifold SphereToSphere(GameObjectEntity* sphereA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
+    static void SphereToSphere(GameObjectEntity* sphereA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // BOX
-    static CollisionManifold BoxToBox(GameObjectEntity* boxA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
-    static CollisionManifold BoxToSphere(GameObjectEntity* boxA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
+    static void BoxToBox(GameObjectEntity* boxA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static void BoxToSphere(GameObjectEntity* boxA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // PLANE
-    static CollisionManifold PlaneToPlane(GameObjectEntity* planeA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
-    static CollisionManifold PlaneToBox(GameObjectEntity* planeA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
-    static CollisionManifold PlaneToSphere(GameObjectEntity* planeA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
+    static void PlaneToPlane(GameObjectEntity* planeA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static void PlaneToBox(GameObjectEntity* planeA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static void PlaneToSphere(GameObjectEntity* planeA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
     
     // SAT
-    static CollisionManifold SATtoSAT(GameObjectEntity* satA, GameObjectEntity* satB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
-    static CollisionManifold SATtoBox(GameObjectEntity* satA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
+    static void SATtoSAT(GameObjectEntity* satA, GameObjectEntity* satB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static void SATtoBox(GameObjectEntity* satA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // GJK
-    static CollisionManifold GJKtoGJK(GameObjectEntity* gjkA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
+    static void GJKtoGJK(GameObjectEntity* gjkA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // EPA
-    static CollisionManifold EPAtoEPA(GameObjectEntity* epaA, GameObjectEntity* epaB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
+    static void EPAtoEPA(GameObjectEntity* epaA, GameObjectEntity* epaB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // MassAggregate
-    static CollisionManifold MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
-    static CollisionManifold MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
-    static CollisionManifold MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap);
+    static void MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static void MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static void MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
 
     // NEAREST POINT CHECKS

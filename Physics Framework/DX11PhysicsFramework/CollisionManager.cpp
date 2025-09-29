@@ -261,7 +261,7 @@ CollisionManager::~CollisionManager()
 	m_CollisionMapping.clear();
 }
 
-CollisionManifold CollisionManager::CheckCollisions(GameObjectEntity* colliderA, GameObjectEntity* colliderB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::CheckCollisions(GameObjectEntity* colliderA, GameObjectEntity* colliderB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	// NOTE: Temp Collision Variables
 	GameObjectEntity* tempA = nullptr;
@@ -270,8 +270,7 @@ CollisionManifold CollisionManager::CheckCollisions(GameObjectEntity* colliderA,
 	// NOTE: Check if the collider component exists within the game object
 	if (colliderA->FindChildComponent<ColliderEntity>()) { tempA = colliderA; }
 	if (colliderB->FindChildComponent<ColliderEntity>()) { tempB = colliderB; }
-	if (tempA == nullptr || tempB == nullptr) { return CollisionManifold(); }
-
+	if (tempA == nullptr || tempB == nullptr) { return; }
 
 	// NOTE: Assign the static casted class to the Game Objects
 	auto collision_made_pair = std::make_pair(tempA->FindChildComponentID<ColliderEntity>(), tempB->FindChildComponentID<ColliderEntity>());
@@ -279,8 +278,8 @@ CollisionManifold CollisionManager::CheckCollisions(GameObjectEntity* colliderA,
 	auto collision_solution_pair_flip = std::make_pair(tempB, tempA);
 
 	// NOTE: Check if it exists in the Map Already
-	if (!collisionSolutionMap.count(collision_solution_pair) == 0) { return CollisionManifold(); }
-	if (!collisionSolutionMap.count(collision_solution_pair_flip) == 0) { return CollisionManifold(); }
+	if (!collisionSolutionMap.count(collision_solution_pair) == 0) { return; }
+	if (!collisionSolutionMap.count(collision_solution_pair_flip) == 0) { return; }
 
 	// NOTE: Reverse pair if it is not within the collision map
 	if (m_CollisionMapping.count(collision_made_pair) == 0)
@@ -291,33 +290,31 @@ CollisionManifold CollisionManager::CheckCollisions(GameObjectEntity* colliderA,
 
 	switch (m_CollisionMapping[collision_made_pair])
 	{
-		case COLLIDER_TYPE_COLLISIONS_SPHERE_TO_SPHERE: return SphereToSphere(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_SPHERE_TO_SPHERE: SphereToSphere(tempA, tempB, collisionSolutionMap); break;
 		
-		case COLLIDER_TYPE_COLLISIONS_BOX_TO_BOX: return BoxToBox(tempA, tempB, collisionSolutionMap); break;
-		case COLLIDER_TYPE_COLLISIONS_BOX_TO_SPHERE: return BoxToSphere(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_BOX_TO_BOX: BoxToBox(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_BOX_TO_SPHERE: BoxToSphere(tempA, tempB, collisionSolutionMap); break;
 
-		case COLLIDER_TYPE_COLLISIONS_PLANE_TO_PLANE: return PlaneToPlane(tempA, tempB, collisionSolutionMap); break;
-		case COLLIDER_TYPE_COLLISIONS_PLANE_TO_BOX: return PlaneToBox(tempA, tempB, collisionSolutionMap); break;
-		case COLLIDER_TYPE_COLLISIONS_PLANE_TO_SPHERE: return PlaneToSphere(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_PLANE_TO_PLANE: PlaneToPlane(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_PLANE_TO_BOX: PlaneToBox(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_PLANE_TO_SPHERE: PlaneToSphere(tempA, tempB, collisionSolutionMap); break;
 
-		case COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT: return SATtoSAT(tempA, tempB, collisionSolutionMap); break;
-		case COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX: return SATtoBox(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT: SATtoSAT(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX: SATtoBox(tempA, tempB, collisionSolutionMap); break;
 
-		case COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA: return EPAtoEPA(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA: EPAtoEPA(tempA, tempB, collisionSolutionMap); break;
 
-		case COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK: return GJKtoGJK(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK: GJKtoGJK(tempA, tempB, collisionSolutionMap); break;
 
-		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_SPHERE: return MassAggToSphere(tempA, tempB, collisionSolutionMap); break;
-		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_PLANE: return MassAggToPlane(tempA, tempB, collisionSolutionMap); break;
-		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_BOX: return MassAggToBox(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_SPHERE: MassAggToSphere(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_PLANE: MassAggToPlane(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_BOX: MassAggToBox(tempA, tempB, collisionSolutionMap); break;
 
-		default: return CollisionManifold();
+		default: break;
 	}
-
-	return CollisionManifold();
 }
 
-CollisionManifold CollisionManager::SphereToSphere(GameObjectEntity* sphereA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::SphereToSphere(GameObjectEntity* sphereA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -338,11 +335,9 @@ CollisionManifold CollisionManager::SphereToSphere(GameObjectEntity* sphereA, Ga
 
 		collisionSolutionMap[std::make_pair(sphereA, sphereB)] = t_ColMani;
 	}
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::BoxToBox(GameObjectEntity* boxA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::BoxToBox(GameObjectEntity* boxA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -366,15 +361,13 @@ CollisionManifold CollisionManager::BoxToBox(GameObjectEntity* boxA, GameObjectE
 	{
 		t_ColMani.hasCollision = true;
 		t_ColMani.collisionNormal = Vector3(BoxAPosition - BoxBPosition).Normalise();
-		t_ColMani.penetrationDepth = 1 / Vector3(BoxBPosition - BoxAPosition).Magnitude();
+		t_ColMani.penetrationDepth = 1 / Vector3(BoxAPosition - BoxBPosition).Magnitude();
 
 		collisionSolutionMap[std::make_pair(boxA, boxB)] = t_ColMani;
 	}
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::BoxToSphere(GameObjectEntity* boxA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::BoxToSphere(GameObjectEntity* boxA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -386,15 +379,13 @@ CollisionManifold CollisionManager::BoxToSphere(GameObjectEntity* boxA, GameObje
 	{
 		t_ColMani.hasCollision = true;
 		t_ColMani.collisionNormal = Vector3(sphereB->m_Transform.m_Position - boxA->m_Transform.m_Position).Normalise();
-		t_ColMani.penetrationDepth = 0.5;
+		t_ColMani.penetrationDepth = Vector3(sphereB->m_Transform.m_Position - boxA->m_Transform.m_Position).Magnitude();
 
-		collisionSolutionMap[std::make_pair(boxA, sphereB)] = t_ColMani;
+		collisionSolutionMap[std::make_pair(sphereB, boxA)] = t_ColMani;
 	}
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::PlaneToPlane(GameObjectEntity* planeA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::PlaneToPlane(GameObjectEntity* planeA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -406,11 +397,9 @@ CollisionManifold CollisionManager::PlaneToPlane(GameObjectEntity* planeA, GameO
 	//	t_ColMani.penetrationDepth = 0;
 	//	t_ColMani.collisionNormal = Vector3(0, 1, 0);
 	//}
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::PlaneToBox(GameObjectEntity* planeA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::PlaneToBox(GameObjectEntity* planeA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -426,13 +415,11 @@ CollisionManifold CollisionManager::PlaneToBox(GameObjectEntity* planeA, GameObj
 		t_ColMani.penetrationDepth = 0.5;
 		t_ColMani.collisionNormal = Vector3(0, 1, 0);
 
-		collisionSolutionMap[std::make_pair(planeA, boxB)] = t_ColMani;
+		collisionSolutionMap[std::make_pair(boxB, planeA)] = t_ColMani;
 	}
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::PlaneToSphere(GameObjectEntity* planeA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::PlaneToSphere(GameObjectEntity* planeA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -445,15 +432,13 @@ CollisionManifold CollisionManager::PlaneToSphere(GameObjectEntity* planeA, Game
 		t_ColMani.hasCollision = true;
 		// t_ColMani.collisionNormal = planeA->GetComponent<PlaneCollider>()->GetNormal();
 		t_ColMani.collisionNormal = Vector3(0, 1, 0);
-		t_ColMani.penetrationDepth = 1 / Vector3(t_NearPoint - sphereB->m_Transform.m_Position).Magnitude();
+		t_ColMani.penetrationDepth = sphereB->GetComponent<SphereCollider>()->m_Radius - Vector3(t_NearPoint - sphereB->m_Transform.m_Position).Magnitude();
 
-		collisionSolutionMap[std::make_pair(planeA, sphereB)] = t_ColMani;
+		collisionSolutionMap[std::make_pair(sphereB, planeA)] = t_ColMani;
 	}
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::SATtoSAT(GameObjectEntity* satA, GameObjectEntity* satB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::SATtoSAT(GameObjectEntity* satA, GameObjectEntity* satB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -472,8 +457,6 @@ CollisionManifold CollisionManager::SATtoSAT(GameObjectEntity* satA, GameObjectE
 		t_ColMani.penetrationDepth = 1 / Vector3(satA->m_Transform.m_Position - satB->m_Transform.m_Position).Magnitude();
 	}
 
-
-	return t_ColMani;
 }
 
 bool CollisionManager::CollisionOverlapAxis(GameObjectEntity* satA, GameObjectEntity* boxB, Vector3 axis)
@@ -484,7 +467,7 @@ bool CollisionManager::CollisionOverlapAxis(GameObjectEntity* satA, GameObjectEn
 	return (t_B.Min <= t_A.Max) && (t_A.Min <= t_B.Max);
 }
 
-CollisionManifold CollisionManager::SATtoBox(GameObjectEntity* satA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::SATtoBox(GameObjectEntity* satA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -508,11 +491,9 @@ CollisionManifold CollisionManager::SATtoBox(GameObjectEntity* satA, GameObjectE
 			break;
 		}
 	}
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -532,7 +513,7 @@ CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectE
 		// NOTE: No Collision
 		if (t_Support.Dot(t_Direction) <= 0)
 		{ 
-			return t_ColMani;
+			return;
 		}
 	
 		// NOTE: Check the Simplex that the Collision Lies in
@@ -546,14 +527,12 @@ CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectE
 
 			collisionSolutionMap[std::make_pair(gjkA, gjkB)] = t_ColMani;
 		 
-			return t_ColMani;
+			return;
 		}
 	}
-
-	return CollisionManifold();
 }
 
-CollisionManifold CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectEntity* epaB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectEntity* epaB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 	Simplex t_OutSimplex = Simplex();
@@ -574,7 +553,7 @@ CollisionManifold CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectE
 		t_Support = SupportEPA(epaA, epaB, t_Direction);
 
 		// NOTE: No Collision
-		if (t_Support.Dot(t_Direction) <= 0) { return t_ColMani; }
+		if (t_Support.Dot(t_Direction) <= 0) { return; }
 
 		// NOTE: Check the Simplex that the Collision Lies in
 		t_Points.push_front(t_Support);
@@ -676,11 +655,9 @@ CollisionManifold CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectE
 	t_ColMani.hasCollision = true;
 
 	collisionSolutionMap[std::make_pair(epaA, epaB)] = t_ColMani;
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
@@ -700,27 +677,54 @@ CollisionManifold CollisionManager::MassAggToSphere(GameObjectEntity* massAggA, 
 			t_ColMani.hasCollision = true;
 			t_ColMani.collisionNormal = Vector3(t_MassAggPosition - SphereBPosition).Normalise();
 			t_ColMani.penetrationDepth = t_RadiiSum - t_Distance;
-			t_ColMani.contactPointCount = 1;
 
 			collisionSolutionMap[std::make_pair(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i], sphereB)] = t_ColMani;
 		}
 	}
-
-	return t_ColMani;
 }
 
-CollisionManifold CollisionManager::MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
-	
+	CollisionManifold t_ColMani = CollisionManifold();
 
-	return CollisionManifold();
+	for (int i = 0; i < massAggA->GetComponent<MassAggregate>()->m_MassPoints.size(); ++i)
+	{
+		Vector3 t_NearPoint = PlaneNearestPoint(planeB, Vector3(0, 1, 0), massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position);
+
+		float Distance = t_NearPoint.DistanceTo(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position);
+
+		if (Distance <= massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->GetComponent<SphereCollider>()->m_Radius)
+		{
+			t_ColMani.hasCollision = true;
+			// t_ColMani.collisionNormal = planeA->GetComponent<PlaneCollider>()->GetNormal();
+			t_ColMani.collisionNormal = Vector3(0, 1, 0);
+			t_ColMani.penetrationDepth = massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->GetComponent<SphereCollider>()->m_Radius - 
+				Vector3(t_NearPoint - massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position).Magnitude();
+
+			collisionSolutionMap[std::make_pair(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i], planeB)] = t_ColMani;
+		}
+	}
 }
 
-CollisionManifold CollisionManager::MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold> collisionSolutionMap)
+void CollisionManager::MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
+	CollisionManifold t_ColMani = CollisionManifold();
 
+	for (int i = 0; i < massAggA->GetComponent<MassAggregate>()->m_MassPoints.size(); ++i)
+	{
+		Vector3 Nearest = BoxNearestPoint(boxB, massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position);
+		float Distance = Nearest.DistanceTo(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position);
 
-	return CollisionManifold();
+		// Check if the Distance of the Circle is in the Box's "Radius"
+		if (Distance <= massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->GetComponent<SphereCollider>()->m_Radius)
+		{
+			t_ColMani.hasCollision = true;
+			t_ColMani.collisionNormal = Vector3(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position - boxB->m_Transform.m_Position).Normalise();
+			t_ColMani.penetrationDepth = 0.5;
+
+			collisionSolutionMap[std::make_pair(massAggA->GetComponent<MassAggregate>()->m_MassPoints[i], boxB)] = t_ColMani;
+		}
+	}
 }
 
 Vector3 CollisionManager::BoxNearestPoint(GameObjectEntity* boxA, Vector3 pointB)

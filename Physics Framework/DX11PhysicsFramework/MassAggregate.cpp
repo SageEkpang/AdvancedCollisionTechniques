@@ -55,7 +55,18 @@ void MassAggregate::Construct(std::string path, ID3D11Device* device)
 void MassAggregate::Update(float deltaTime)
 {
 	// NOTE: Update all the points with the Rod Code
-	for (auto& v : m_MassPoints) { v->Update(deltaTime); }
+	
+	// NOTE: Spring Code : Hooks Law (F = -kx)
+	// F = Force
+	// k = Spring Constant
+	// x = difference between current length and resting length
+
+	// Spring Dampening (Fd = -vb)
+	// Fd = Resultant dampening force
+	// v = relative velocity between two particles ( 0 to 1)
+	// b = dampening force
+
+	// Result: F = (-kx) + (-vb)
 
 	for (int i = 0; i < m_MassPoints.size(); ++i)
 	{
@@ -63,31 +74,30 @@ void MassAggregate::Update(float deltaTime)
 		{
 			if (i == j) { continue; }
 
-			// NOTE: Rod / Spring Code
+			Vector3 t_RelativePosition = m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position;
+			Vector3 t_RelativeVelocity = m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->GetVelocity() - m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->GetVelocity();
 					
-			// NOTE: "Current Length" is just the distance between the two vectors magnitude
-			float t_CurrentLength = Vector3::S_Magnitude(m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position) / 2;
-					
-			// NOTE: Skip Current Iteration
-			if (t_CurrentLength == m_TargetDistances[i][j]) { continue; }
-				
-			// NOTE: Normal Calculation
-			Vector3 t_Normal = m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position;
-					
-			float t_Target = m_TargetDistances[i][j]; // NOTE: This is the "distance" that the rods need to be at
-			Vector3 t_Disperse = m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position;
-			float t_Distance = t_CurrentLength;
-		
-			Vector3 t_NewNormal = t_Disperse / t_Distance;
-			float t_Delta = t_Target - t_Distance;
-		
-			Vector3 t_TargetPosA = m_MassPoints[i]->m_Transform.m_Position + t_Delta * t_NewNormal.Normalise();
-			Vector3 t_TargetPosB = m_MassPoints[j]->m_Transform.m_Position - t_Delta * t_NewNormal.Normalise();
-		
-			m_MassPoints[i]->m_Transform.m_Position = t_TargetPosA;
-			m_MassPoints[j]->m_Transform.m_Position = t_TargetPosB;
+			float t_X = (Vector3::S_Magnitude(t_RelativePosition) * 0.5f) - m_TargetDistances[i][j];
+			float t_V = Vector3::S_Magnitude(t_RelativeVelocity);
+
+			float t_K = -50.0f; // [ -n to 0 ]
+			float t_F = (-t_K * t_X); // +(-t_B * t_V);
+
+			Vector3 t_Impulse = (Vector3::S_Normalise(t_RelativePosition) * 0.5) * t_F;
+
+			float t_B = 0.1f; // [ 0 to 1 ]
+			Vector3 t_DampeningForce = t_RelativeVelocity * t_B;
+
+			m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->ApplyImpulse((t_Impulse * m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->m_Mass) * -1.f * m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->GetInverseMass());
+			m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->ApplyImpulse(t_DampeningForce * -1.f);
+
+			m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->ApplyImpulse((t_Impulse * m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->m_Mass) * m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->GetInverseMass());
+			m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->ApplyImpulse(t_DampeningForce);
+
 		}
 	}
+
+	for (auto& v : m_MassPoints) { v->Update(deltaTime); }
 }
 
 void MassAggregate::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
@@ -116,7 +126,7 @@ void MassAggregate::FillVerticesArray(char* path, ID3D11Device* device)
 		t_tempGameObject->m_Transform.m_Scale = Vector3(1, 1, 1);
 		t_tempGameObject->AddComponent<Mesh>()->Construct("sphere", device);
 		t_tempGameObject->AddComponent<SphereCollider>()->Construct(1, device);
-		t_tempGameObject->AddComponent<Rigidbody3DObject>()->Construct(1, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+		t_tempGameObject->AddComponent<Rigidbody3DObject>()->Construct(10, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 		m_MassPoints.push_back(t_tempGameObject);
 	}
 }

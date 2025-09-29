@@ -4,8 +4,6 @@
 #include "Vector3.h"
 #include <vector>
 
-class GameObjectEntity;
-
 struct CollisionManifold
 {
 	Vector3 collisionNormal;
