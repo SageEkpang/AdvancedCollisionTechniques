@@ -60,9 +60,7 @@ public: // PUBLIC FUNCTION(s)
 	void GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 
 	// HELPER FUNCTION(s)
-	void PickingTest(int mouseX, int mouseY);
-
-
+	void PickingTest();
 };
 
 #endif

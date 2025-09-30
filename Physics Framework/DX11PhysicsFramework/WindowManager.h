@@ -4,6 +4,7 @@
 // NEEDED INCLUDE(s)
 #include "Camera.h"
 
+#include "WindowConstants.h"
 #include "OBJLoader.h"
 #include "ScreenEntity.h"
 #include "Timer.h"
@@ -13,11 +14,9 @@
 #include <d3dcompiler.h>
 #include <windows.h>
 
-#include "ScreenManager.h"
-
-#include "imGui/imgui.h" // \\ //
-#include "imGui/imgui_impl_win32.h" // \\ // 
-#include "imGui/imgui_impl_dx11.h" // \\ //
+#include "imGui/imgui.h"
+#include "imGui/imgui_impl_win32.h"
+#include "imGui/imgui_impl_dx11.h"
 #include "imGui/ImGuizmo.h"
 
 class WindowManager
@@ -65,8 +64,6 @@ private:
 	int _WindowWidth = WINDOW_WIDTH;
 	int _WindowHeight = WINDOW_HEIGHT;
 
-	static int m_MouseX;
-	static int m_MouseY;
 
 private:
 
@@ -80,6 +77,12 @@ private:
 
 public: // PUBLIC FUNCTION(s)
 
+	static float m_MouseX;
+	static float m_MouseY;
+	static bool m_MouseButtonLeftDown;
+
+public:
+
 	// CLASS FUNCTION(s)
 	WindowManager(HINSTANCE hInstance, int nShowCmd);
 	~WindowManager();
@@ -88,7 +91,7 @@ public: // PUBLIC FUNCTION(s)
 	void BeginRendering();
 	void EndRendering();
 
-	bool HandleEvents(MSG msg);
+	bool HandleEvents(MSG& msg);
 
 	// GETTER FUNCTION(s)
 	ConstantBuffer* GetConstantBufferData() { return &_cbData; }

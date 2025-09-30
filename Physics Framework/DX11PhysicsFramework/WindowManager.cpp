@@ -1,5 +1,9 @@
 #include "WindowManager.h"
 
+float WindowManager::m_MouseX = 0;
+float WindowManager::m_MouseY = 0;
+bool WindowManager::m_MouseButtonLeftDown = false;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
@@ -424,16 +428,28 @@ void WindowManager::EndRendering()
 	_swapChain->Present(0, 0);
 }
 
-bool WindowManager::HandleEvents(MSG msg)
+bool WindowManager::HandleEvents(MSG& msg)
 {
-	switch (msg.wParam)
+	switch (msg.message)
 	{
+		case WM_MOUSEMOVE:
+		{
+			m_MouseX = LOWORD(msg.lParam);
+			m_MouseY = HIWORD(msg.lParam);
+		}
+		break;
 
+		case WM_LBUTTONDOWN:
+		{
+			m_MouseButtonLeftDown = true;
+		}
+		break;
 
-
-
-
-
+		case WM_LBUTTONUP:
+		{
+			m_MouseButtonLeftDown = false;
+		}
+		break;
 	}
 
 	return false;

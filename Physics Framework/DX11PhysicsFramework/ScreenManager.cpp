@@ -1,4 +1,5 @@
 #include "ScreenManager.h"
+#include "WindowManager.h"
 
 ScreenManager::ScreenManager(ID3D11Device* device)
 {
@@ -46,6 +47,8 @@ void ScreenManager::Process()
 
 		// Update Screen
 		m_CurrentScreen->Update(FPS60);
+
+		if (WindowManager::m_MouseButtonLeftDown == true) { PickingTest(); }
 
 		// Get the Current time when the timer is deconstructed
 		auto t_EndTimePoint = high_resolution_clock::now();
@@ -209,6 +212,11 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 
 	ImGui::Begin("Analysis");
 	ImGui::SeparatorText("General Statistics");
+	ImGui::Text("Mouse X: %.1f", WindowManager::m_MouseX);
+	ImGui::SameLine();
+	ImGui::Text("Mouse Y: %.1f", WindowManager::m_MouseY);
+
+	ImGui::Separator();
 	ImGui::Text("Frame Counter: %.1f", m_SimpleCount);
 	ImGui::Text("(Unscaled) Frame Time: %.2f", 100 * ((m_Timer->GetDeltaTime() * 60.f) * 60.f));
 	ImGui::Text("(Scaled) Frame Time: %.2f",  (FPS60 * 60.f) * 60.f);
@@ -249,7 +257,7 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 	GuizmoRendering();
 }
 
-void ScreenManager::PickingTest(int mouseX, int mouseY)
+void ScreenManager::PickingTest()
 {
 	XMMATRIX world, view, proj;
 	
@@ -259,8 +267,8 @@ void ScreenManager::PickingTest(int mouseX, int mouseY)
 
 	DirectX::XMVECTOR roScreen, rdScreen;
 	XMVECTOR ro, rd;
-	roScreen = XMVectorSet(mouseX, mouseY, 0.1, 1.0f);
-	rdScreen = XMVectorSet(mouseX, mouseY, 1, 1.0f);
+	roScreen = XMVectorSet(WindowManager::m_MouseX, WindowManager::m_MouseX, 0.1, 1.0f);
+	rdScreen = XMVectorSet(WindowManager::m_MouseX, WindowManager::m_MouseY, 1, 1.0f);
 
 	ro = XMVector3Unproject(roScreen, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, proj, view, world);
 	rd = XMVector3Unproject(rdScreen, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, proj, view, world);

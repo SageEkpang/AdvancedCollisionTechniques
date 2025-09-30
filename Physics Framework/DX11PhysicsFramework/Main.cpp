@@ -21,12 +21,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 			if (msg.message >= WM_KEYFIRST && msg.message <= WM_KEYLAST)
 			{
-				handled = m_WindowApplication->HandleEvents(msg);
-				
 			}
 			else if (WM_QUIT == msg.message)
 				break;
 
+			handled = m_WindowApplication->HandleEvents(msg);
 			if (!handled)
 			{
 				TranslateMessage(&msg);
