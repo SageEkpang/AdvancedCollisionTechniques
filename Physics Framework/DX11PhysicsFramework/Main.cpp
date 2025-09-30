@@ -47,6 +47,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 					m_WindowApplication->GetDevice()
 				);
 
+				m_ScreenApplication->GUIShowcase();
+
 			m_WindowApplication->EndRendering();
 		}
 	}

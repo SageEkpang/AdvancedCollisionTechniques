@@ -15,6 +15,10 @@
 
 #include "ScreenManager.h"
 
+#include "imGui/imgui.h" // \\ //
+#include "imGui/imgui_impl_win32.h" // \\ // 
+#include "imGui/imgui_impl_dx11.h" // \\ //
+
 class WindowManager
 {
 private:

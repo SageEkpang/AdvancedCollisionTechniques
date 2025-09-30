@@ -19,6 +19,10 @@
 #include "EPAScreen.h"
 #include "MassAggScreen.h"
 
+#include "imGui/imgui.h" // \\ //
+#include "imGui/imgui_impl_win32.h" // \\ // 
+#include "imGui/imgui_impl_dx11.h" // \\ //
+
 class ScreenManager
 {
 private: // PRIVATE VARIABLE(s) (Custom Variables)
@@ -49,6 +53,7 @@ public: // PUBLIC FUNCTION(s)
 	// BASE FUNCTION(s)
 	void Process();
 	void Showcase(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+	void GUIShowcase();
 };
 
 #endif

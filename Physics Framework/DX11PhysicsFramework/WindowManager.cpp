@@ -5,15 +5,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	HDC hdc;
 
+	extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+		return true;
+
+
 	switch (message)
 	{
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		EndPaint(hWnd, &ps);
+		case WM_PAINT:
+			hdc = BeginPaint(hWnd, &ps);
+			EndPaint(hWnd, &ps);
 		break;
 
-	case WM_DESTROY:
-		PostQuitMessage(0);
+		case WM_DESTROY:
+			PostQuitMessage(0);
 		break;
 
 	default:
@@ -53,6 +58,13 @@ WindowManager::WindowManager(HINSTANCE hInstance, int nShowCmd)
 	{
 		std::runtime_error("One of the Application Creation Functions have failed, E_FAIL");
 	}
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui_ImplWin32_Init(_windowHandle);
+	ImGui_ImplDX11_Init(_device, _immediateContext);
+	ImGui::StyleColorsClassic();
 }
 
 WindowManager::~WindowManager()
@@ -387,10 +399,19 @@ void WindowManager::BeginRendering()
 	_immediateContext->VSSetConstantBuffers(0, 1, &_constantBuffer);
 	_immediateContext->PSSetConstantBuffers(0, 1, &_constantBuffer);
 	_immediateContext->PSSetSamplers(0, 1, &_samplerLinear);
+
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+
+	ImGui::NewFrame();
+	ImGui::GetCurrentContext();
 }
 
 void WindowManager::EndRendering()
 {
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
 	// Present Back Buffer to front
 	_swapChain->Present(0, 0);
 }

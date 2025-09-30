@@ -58,4 +58,25 @@ void ScreenManager::Showcase(ConstantBuffer constantBufferData, ID3D11Buffer* co
 
 	// Draw the Current Physics Screen
 	m_CurrentScreen->Draw(constantBufferData, constBuff, pImmediateContext, device);
+
+
+
+	
+}
+
+void ScreenManager::GUIShowcase()
+{
+
+
+	ImGui::Begin("Test");
+	ImGui::End();
+
+
+
+	ImGui::Begin("Analysis");
+	ImGui::End();
+
+
+
+
 }
