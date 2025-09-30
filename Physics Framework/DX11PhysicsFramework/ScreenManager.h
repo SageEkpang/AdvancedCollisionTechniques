@@ -2,6 +2,7 @@
 #define SCREEN_MANAGER_H
 
 // NEEDED INCLUDE(s)
+#include "WindowConstants.h"
 #include "Camera.h"
 #include "OBJLoader.h"
 #include "ScreenEntity.h"
@@ -11,6 +12,8 @@
 
 #include <d3dcompiler.h>
 #include <windows.h>
+#include <string>
+#include <comdef.h>
 
 // FORWARD DEC(s)
 #include "BasicScreen.h"

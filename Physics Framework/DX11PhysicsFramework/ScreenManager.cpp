@@ -10,7 +10,7 @@ ScreenManager::ScreenManager(ID3D11Device* device)
 	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
-	_camera = new Camera(eye, at, up, 1280.f, 768.f, 0.01f, 200.0f);
+	_camera = new Camera(eye, at, up, WINDOW_WIDTH, WINDOW_HEIGHT, 0.01f, 200.0f);
 
 	// Setup the scene's light
 	basicLight.AmbientLight = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
@@ -58,22 +58,48 @@ void ScreenManager::Showcase(ConstantBuffer constantBufferData, ID3D11Buffer* co
 
 	// Draw the Current Physics Screen
 	m_CurrentScreen->Draw(constantBufferData, constBuff, pImmediateContext, device);
-
-
-
-	
 }
 
 void ScreenManager::GUIShowcase()
 {
 
+	ImGui::Begin("Scenes");
+	if (ImGui::Button("Basic Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { }
+	if (ImGui::Button("EPA Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { }
+	if (ImGui::Button("GJK Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { }
+	if (ImGui::Button("MassAgg Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { }
+	if (ImGui::Button("SAT Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { }
+	ImGui::End();
 
-	ImGui::Begin("Test");
+
+	ImGui::Begin("General Window");
+	
+	bool s = false;
+	ImGui::Checkbox("Wireframe", &s);
+	ImGui::Checkbox("Points", &s);
+	ImGui::Checkbox("Fluid", &s);
+	ImGui::Checkbox("Mesh", &s);
+	ImGui::Checkbox("Basis", &s);
+	ImGui::Checkbox("Springs", &s);
+	ImGui::Checkbox("Contacts", &s);
 	ImGui::End();
 
 
 
 	ImGui::Begin("Analysis");
+	ImGui::Text("Frame Counter: %f", m_SimpleCount);
+	ImGui::Text("Frame Time: %f", m_Timer->GetDeltaTime() * 1000000);
+	ImGui::Text("Simulation Time(CPU):");
+	ImGui::Text("Simulation Latency(GPU):");
+
+	ImGui::Separator();
+
+	ImGui::Text("Particle Count");
+	ImGui::Text("Diffuse Count");
+	ImGui::Text("Rigidbody Count");
+	ImGui::Text("SpringCount Count");
+
+	ImGui::Separator();
 	ImGui::End();
 
 

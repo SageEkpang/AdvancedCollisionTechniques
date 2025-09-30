@@ -290,6 +290,9 @@
     <ClInclude Include="WindowManager.h">
       <Filter>Managers\Header</Filter>
     </ClInclude>
+    <ClInclude Include="WindowConstants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

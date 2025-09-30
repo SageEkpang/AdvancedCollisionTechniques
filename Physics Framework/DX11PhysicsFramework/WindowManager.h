@@ -61,8 +61,8 @@ private:
 private:
 
 	// WINDOW VARIABLE(s)
-	int _WindowWidth = 1280;
-	int _WindowHeight = 768;
+	int _WindowWidth = WINDOW_WIDTH;
+	int _WindowHeight = WINDOW_HEIGHT;
 
 private:
 
