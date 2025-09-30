@@ -20,6 +20,10 @@ public:
 	float m_SpringConstant;
 	float m_DampeningForce;
 
+	static bool m_RenderPoints;
+	static int m_PointCount;
+	static int m_SpringCount;
+
 public:
 
 	// CLASS FUNCTION(s) (General)

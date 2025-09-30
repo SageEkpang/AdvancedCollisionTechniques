@@ -23,24 +23,31 @@ public:
 	Vector3 m_NetForce = VECTOR3_ZERO;
 
 	// Mass Variables
-	mutable float m_Gravity = GRAVITY_EARTH;
+	static Vector3 m_Gravity;
+	static Vector3 m_Wind;
 	float m_Mass = 1.0f;
 	float m_Weight = 0.0f;
 
 	// Force Variables
-	float m_Drag = 1.0f;
-	float m_DragCoef = 1.0f;
-	float m_Friction = 1.0f;
-	float m_FrictionCoef = 0.0f;
+	static float m_Drag;
+	static float m_DragCoef;
+
+
+	static float m_Friction;
+	static float m_FrictionCoef;
+
+	static float m_Lift;
+	static float m_LiftCoef;
 
 	// Collision Variables
 	bool m_HasCollided = false;
 
 	// Simulation Variables
-	bool m_SimulateGravity = true;
-	bool m_SimulateFriction = false;
-	bool m_SimulateDrag = false;
-
+	static bool m_SimulateWind;
+	static bool m_SimulateGravity;
+	static bool m_SimulateFriction;
+	static bool m_SimulateDrag;
+	static bool m_SimulateLift;
 
 public:
 
@@ -68,6 +75,9 @@ public:
 
 	/// <summary> Add Gravity force that effects the objects downwards force </summary>
 	Vector3 GravityForce();
+
+	/// <summary> Add Wind force that effects the objects force </summary>
+	Vector3 WindForce();
 
 	/// <summary> Add Tension force that effects the object spring / rope calculation </summary>
 	Vector3 TensionForce();
@@ -97,15 +107,14 @@ public:
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 
 	// GETTER FUNCTION(s)
-	Vector3 GetVelocity() { return m_Velocity; }
-	Vector3 GetAcceleration() { return m_Acceleration; }
-	Vector3 GetGravity() { return Vector3(0.0f, m_Gravity, 0.0f); }
-	Vector3 GetNetForce() { return m_NetForce; }
+	inline Vector3 GetVelocity() { return m_Velocity; }
+	inline Vector3 GetAcceleration() { return m_Acceleration; }
+	inline Vector3 GetGravity() { return m_Gravity; }
+	inline Vector3 GetNetForce() { return m_NetForce; }
 
 	inline float GetMass() { return m_Mass; }
 	inline float GetInverseMass() { if (m_Mass == 0) return 0; return 1 / m_Mass; }
 
-	inline float GetWeight() { return m_Mass * m_Gravity; }
 	float GetDensity();
 
 	// SETTER FUNCTION(s)

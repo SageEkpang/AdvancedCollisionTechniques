@@ -4,8 +4,6 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device) : ScreenEntit
 {
 	m_ScreenInformation.physicsScreenState = PhysicsScreenState::STATE_GJK_SCREEN;
 
-	m_GJKCollider = new GJKCollider();
-
 	// NOTE: Cylinder
 	m_CylinderObject = new GameObjectEntity();
 	m_CylinderObject->m_Transform.m_Position = Vector3(0, 10, 30);
@@ -13,7 +11,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device) : ScreenEntit
 	m_CylinderObject->AddComponent<Mesh>()->Construct("cylinder.obj", COLOUR_RED, device);
 	m_CylinderObject->AddComponent<BoxCollider>()->Construct(Vector3(5, 5, 5), device);
 	// m_CylinderObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
-	InsertObjectIntoList(m_CylinderObject);
+	// InsertObjectIntoList(m_CylinderObject);
 
 	// NOTE: Pyramid
 	m_PyramidObject = new GameObjectEntity();
@@ -22,7 +20,7 @@ GJKScreen::GJKScreen(std::string screenName, ID3D11Device* device) : ScreenEntit
 	m_PyramidObject->AddComponent<Mesh>()->Construct("cone.obj", COLOUR_WHITE, device);
 	m_PyramidObject->AddComponent<BoxCollider>()->Construct(Vector3(2, 2, 2), device);
 	// m_PyramidObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
-	InsertObjectIntoList(m_PyramidObject);
+	// InsertObjectIntoList(m_PyramidObject);
 }
 
 GJKScreen::~GJKScreen()

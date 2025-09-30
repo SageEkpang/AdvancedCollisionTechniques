@@ -65,11 +65,16 @@ WindowManager::WindowManager(HINSTANCE hInstance, int nShowCmd)
 	ImGui_ImplWin32_Init(_windowHandle);
 	ImGui_ImplDX11_Init(_device, _immediateContext);
 	ImGui::StyleColorsClassic();
+
+	ImFont* font_body = io.Fonts->AddFontFromFileTTF("Resources\\Font\\Clofie-Black.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesDefault());
+	ImGui::PushFont(font_body);
+
 }
 
 WindowManager::~WindowManager()
 {
 	Destroy();
+	ImGui::PopFont();
 }
 
 void WindowManager::Destroy()
@@ -405,6 +410,9 @@ void WindowManager::BeginRendering()
 
 	ImGui::NewFrame();
 	ImGui::GetCurrentContext();
+
+	ImGuizmo::SetOrthographic(false);
+	ImGuizmo::BeginFrame();
 }
 
 void WindowManager::EndRendering()
@@ -414,4 +422,19 @@ void WindowManager::EndRendering()
 
 	// Present Back Buffer to front
 	_swapChain->Present(0, 0);
+}
+
+bool WindowManager::HandleEvents(MSG msg)
+{
+	switch (msg.wParam)
+	{
+
+
+
+
+
+
+	}
+
+	return false;
 }

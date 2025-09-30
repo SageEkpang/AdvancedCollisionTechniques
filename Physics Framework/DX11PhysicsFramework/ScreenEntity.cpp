@@ -10,7 +10,6 @@ ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device) : m_Scr
 	m_PlaneObject->AddComponent<Mesh>()->Construct("plane", "floor", device);
 	m_PlaneObject->AddComponent<PlaneCollider>()->Construct(Vector3(1000, 1, 1000), device);
 	InsertObjectIntoList(m_PlaneObject);
-
 }
 
 ScreenEntity::~ScreenEntity()

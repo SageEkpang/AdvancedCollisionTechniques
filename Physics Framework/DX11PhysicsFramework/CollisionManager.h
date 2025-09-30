@@ -34,6 +34,14 @@ enum Collider_Type_Collisions
     COLLIDER_TYPE_COLLISIONS_PLANE_TO_BOX, // DONE
     COLLIDER_TYPE_COLLISIONS_PLANE_TO_SPHERE, // DONE
 
+    // Picking Collisions(s)
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_BOX,
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_SPHERE,
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_PLANE,
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_EPA,
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_GJK,
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_MASS_AGG,
+
     // COMPLEX COLLISION(s)
     COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT, // Needs tweaking
     COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX, // Needs tweaking
@@ -113,7 +121,6 @@ public:
     static void MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
     static void MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
     static void MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
-
 
     // NEAREST POINT CHECKS
     static Vector3 BoxNearestPoint(GameObjectEntity* boxA, Vector3 pointB);

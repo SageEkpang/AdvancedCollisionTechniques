@@ -390,6 +390,7 @@
     <ClCompile Include="GJKCollider.cpp" />
     <ClCompile Include="GJKScreen.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imGui\ImGuizmo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
@@ -446,6 +447,7 @@
     <ClInclude Include="GJKScreen.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imGui\ImGuizmo.h" />
     <ClInclude Include="imgui\imgui_impl_dx11.h" />
     <ClInclude Include="imgui\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imgui_internal.h" />

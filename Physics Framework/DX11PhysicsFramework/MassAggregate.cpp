@@ -2,6 +2,10 @@
 #include "GameObjectEntity.h"
 #include "SphereCollider.h"
 
+bool MassAggregate::m_RenderPoints = true;
+int MassAggregate::m_PointCount = 0;
+int MassAggregate::m_SpringCount = 0;
+
 MassAggregate::MassAggregate()
 {
 	m_Vertices.clear();
@@ -10,10 +14,21 @@ MassAggregate::MassAggregate()
 
 MassAggregate::~MassAggregate()
 {
-	for (int i = 0; i < m_MassPoints.size(); ++i) { delete[] m_TargetDistances[i]; }
+	for (int i = 0; i < m_MassPoints.size(); ++i)
+	{ 
+		delete[] m_TargetDistances[i];
+	}
 	delete[] m_TargetDistances;
+	m_SpringCount -= m_MassPoints.size() * (m_MassPoints.size() - 1);
 
 	m_Vertices.clear();
+
+	for (int i = 0; i < m_MassPoints.size(); ++i)
+	{
+		--m_PointCount;
+		delete m_MassPoints[i];
+	}
+
 	m_MassPoints.clear();
 }
 
@@ -31,6 +46,15 @@ void MassAggregate::Construct(std::string path, float springConstant, float damp
 	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;
 
+	t_Mesh = OBJLoader::Load(t_tempPath.data(), device);
+	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
+	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
+	t_Geometry.vertexBuffer = t_Mesh.VertexBuffer;
+	t_Geometry.vertexBufferOffset = t_Mesh.VBOffset;
+	t_Geometry.vertexBufferStride = t_Mesh.VBStride;
+
+	m_Geometry = t_Geometry;
+	m_Material = MATERIAL_WIREFRAME;
 
 	// NOTE: Making Array
 	m_TargetDistances = new float* [m_MassPoints.size()];
@@ -49,6 +73,7 @@ void MassAggregate::Construct(std::string path, float springConstant, float damp
 			// NOTE: Store Target distances to other points
 			float t_CurrentLength = Vector3::S_Magnitude(m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position) / 2;
 			m_TargetDistances[i][j] = t_CurrentLength;
+			++m_SpringCount;
 		}
 	}
 
@@ -101,9 +126,12 @@ void MassAggregate::Update(float deltaTime)
 
 void MassAggregate::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
-	for (auto& v : m_MassPoints)
-	{
-		v->Draw(constantBufferData, constBuff, pImmediateContext, device);
+	if (m_RenderPoints == true) 
+	{  
+		for (auto& v : m_MassPoints)
+		{
+			v->Draw(constantBufferData, constBuff, pImmediateContext, device);
+		}
 	}
 }
 
@@ -114,6 +142,8 @@ void MassAggregate::FillVerticesArray(char* path, ID3D11Device* device)
 
 	for (int i = 0; i < t_TempVec.size(); ++i)
 	{
+		++m_PointCount;
+
 		// NOTE: Store Untransformed Vertices
 		m_Vertices.push_back(t_TempVec[i]);
 

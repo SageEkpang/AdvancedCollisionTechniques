@@ -1,5 +1,7 @@
 #include "Rigidbody3DObject.h"
 
+int Rigidbody3DObject::m_RigidbodyCount = 0;
+
 Rigidbody3DObject::Rigidbody3DObject(float mass, Rigidbody3DMovementType rigidbody3DMovementType)
 {
 	m_Mass = mass;
@@ -27,13 +29,14 @@ Rigidbody3DObject::Rigidbody3DObject()
 
 void Rigidbody3DObject::Construct(float mass, Rigidbody3DMovementType rigidbody3DMovementType)
 {
+	++m_RigidbodyCount;
 	m_Mass = mass;
 	m_RigidbodyMovementType = rigidbody3DMovementType;
 }
 
 Rigidbody3DObject::~Rigidbody3DObject()
 {
-	
+	--m_RigidbodyCount;
 }
 
 void Rigidbody3DObject::Update(float deltaTime)

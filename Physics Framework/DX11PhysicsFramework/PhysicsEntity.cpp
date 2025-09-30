@@ -1,6 +1,22 @@
 #include "PhysicsEntity.h"
 #include "GameObjectEntity.h"
 
+Vector3 PhysicsEntity::m_Gravity = Vector3(0.f, GRAVITY_EARTH, 0.f);
+Vector3 PhysicsEntity::m_Wind = Vector3(0.f, 0.f, 0.f);
+
+bool PhysicsEntity::m_SimulateGravity = true;
+bool PhysicsEntity::m_SimulateFriction = false;
+bool PhysicsEntity::m_SimulateDrag = false;
+bool PhysicsEntity::m_SimulateLift = false;
+bool PhysicsEntity::m_SimulateWind = false;
+
+float PhysicsEntity::m_Drag = 1.0f;
+float PhysicsEntity::m_DragCoef = 1.0f;
+float PhysicsEntity::m_Friction = 1.0f;
+float PhysicsEntity::m_FrictionCoef = 0.0f;
+float PhysicsEntity::m_Lift = 1.0f;
+float PhysicsEntity::m_LiftCoef = 0.0f;
+
 PhysicsEntity::PhysicsEntity()
 {
 	m_Velocity = Vector3(0.f, 0.f, 0.f);
@@ -31,6 +47,7 @@ void PhysicsEntity::Update(float deltaTime)
 
 	// NET FORCE ACCUMULATION
 	if (m_SimulateGravity) { m_NetForce += GravityForce(); }
+	if (m_SimulateWind) { m_NetForce += WindForce(); }
 	if (m_SimulateDrag) { m_NetForce += DragForce(); }
 	if (m_SimulateFriction) { m_NetForce += FrictionForce(); }
 
@@ -71,7 +88,7 @@ Vector3 PhysicsEntity::DragForce()
 	Vector3 t_CopyVelocity = m_Velocity;
 
 	// Calculate drag using the fluid density, velocity squared, drag coefficient and cross sectional area
-	float t_DensityOfFluid = 0.9; // Density of Air 
+	float t_DensityOfFluid = m_DragCoef; // Density of Air 
 	Vector3 t_CalculateDrag = t_DensityOfFluid * (t_CopyVelocity.Pow(2) * 0.5f) * m_Drag * 1;
 	float t_Drag = t_CalculateDrag.Magnitude();
 
@@ -87,8 +104,13 @@ Vector3 PhysicsEntity::DragForce()
 Vector3 PhysicsEntity::GravityForce()
 {
 	// Calculate the Distance from Object to Ground (0, 0, 0 will always be the ground)
-	Vector3 t_Gravity = GetGravity() * m_Mass * -1; // NOTE: Simplified Gravity Formula
+	Vector3 t_Gravity = m_Gravity * m_Mass * -1; // NOTE: Simplified Gravity Formula
 	return t_Gravity;
+}
+
+Vector3 PhysicsEntity::WindForce()
+{
+	return m_Wind;
 }
 
 Vector3 PhysicsEntity::TensionForce()

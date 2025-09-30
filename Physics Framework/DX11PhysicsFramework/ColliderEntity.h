@@ -55,7 +55,7 @@ public: // PUBLIC VARIABLE(s)
     // BASE VARIABLE(s)
     bool m_HasCollided = false;
     bool m_IsCollideable = true;
-    bool m_RenderCollision = true;
+    static bool m_RenderCollision;
     bool m_IsTrigger;
 
     bool m_IsActivated;

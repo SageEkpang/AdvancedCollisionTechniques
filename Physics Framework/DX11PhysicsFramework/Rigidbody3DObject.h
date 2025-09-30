@@ -26,6 +26,8 @@ public:
 	// MATERIAL VARIABLE(s) 
 	MaterialTypes m_MaterialType;
 
+	static int m_RigidbodyCount;
+
 public:
 
 	// CLASS FUNCTION(s) (General)

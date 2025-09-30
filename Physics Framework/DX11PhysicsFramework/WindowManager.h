@@ -18,6 +18,7 @@
 #include "imGui/imgui.h" // \\ //
 #include "imGui/imgui_impl_win32.h" // \\ // 
 #include "imGui/imgui_impl_dx11.h" // \\ //
+#include "imGui/ImGuizmo.h"
 
 class WindowManager
 {
@@ -64,6 +65,9 @@ private:
 	int _WindowWidth = WINDOW_WIDTH;
 	int _WindowHeight = WINDOW_HEIGHT;
 
+	static int m_MouseX;
+	static int m_MouseY;
+
 private:
 
 	HRESULT CreateWindowHandle(HINSTANCE hInstance, int nShowCmd);
@@ -83,6 +87,8 @@ public: // PUBLIC FUNCTION(s)
 	// NOTE: Object Rendering Functions
 	void BeginRendering();
 	void EndRendering();
+
+	bool HandleEvents(MSG msg);
 
 	// GETTER FUNCTION(s)
 	ConstantBuffer* GetConstantBufferData() { return &_cbData; }

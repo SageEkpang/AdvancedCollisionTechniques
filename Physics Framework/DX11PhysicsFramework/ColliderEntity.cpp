@@ -1,6 +1,8 @@
 #include "ColliderEntity.h"
 #include "GameObjectEntity.h"
 
+bool ColliderEntity::m_RenderCollision = true;
+
 ColliderEntity::ColliderEntity() : m_HasCollided(false), m_IsActivated(true), m_IsTrigger(false)
 {
 	m_World = new XMFLOAT4X4();

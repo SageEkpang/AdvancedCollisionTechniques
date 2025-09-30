@@ -44,6 +44,7 @@ public:
 
 	// GETTER FUNCTION(s)
 	inline XMFLOAT4X4* GetWorld() { return m_World; }
+
 	inline XMFLOAT4X4 GetView() { return m_ViewMatrix; }
 	inline XMFLOAT4X4 GetProjection() { return m_ProjectionMatrix; }
 

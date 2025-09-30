@@ -293,6 +293,9 @@
     <ClInclude Include="WindowConstants.h">
       <Filter>Constants</Filter>
     </ClInclude>
+    <ClInclude Include="imGui\ImGuizmo.h">
+      <Filter>imgui\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -417,6 +420,9 @@
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
       <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="imGui\ImGuizmo.cpp">
+      <Filter>imgui\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

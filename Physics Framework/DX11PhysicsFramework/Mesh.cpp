@@ -4,6 +4,9 @@
 #define CONVHULL_3D_ENABLE
 #include "convhull_3d.h"
 
+bool Mesh::m_IsWireFrame = false;
+bool Mesh::m_RenderMesh = true;
+
 void Mesh::Construct(std::string meshFileName, ID3D11Device* device)
 {
 	m_World = new XMFLOAT4X4();
@@ -31,10 +34,21 @@ void Mesh::Construct(std::string meshFileName, ID3D11Device* device)
 	D3D11_RASTERIZER_DESC cmdesc;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
 	cmdesc.FillMode = D3D11_FILL_SOLID;
-	cmdesc.CullMode = D3D11_CULL_NONE;
+	cmdesc.CullMode = D3D11_CULL_BACK;
 	cmdesc.FrontCounterClockwise = false;
 	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
 
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
+	D3D11_RASTERIZER_DESC cmdescWire;
+	ZeroMemory(&cmdescWire, sizeof(D3D11_RASTERIZER_DESC));
+	cmdescWire.FillMode = D3D11_FILL_WIREFRAME;
+	cmdescWire.CullMode = D3D11_CULL_NONE;
+	cmdescWire.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdescWire, &m_WireFrameCull);
 
 	if (FAILED(t_H_R))
 	{
@@ -97,6 +111,18 @@ void Mesh::Construct(std::string meshFileName, Material material, ID3D11Device* 
 		std::runtime_error("There is an error with creating the Rasterizer State");
 	}
 
+	D3D11_RASTERIZER_DESC cmdescWire;
+	ZeroMemory(&cmdescWire, sizeof(D3D11_RASTERIZER_DESC));
+	cmdescWire.FillMode = D3D11_FILL_WIREFRAME;
+	cmdescWire.CullMode = D3D11_CULL_NONE;
+	cmdescWire.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdescWire, &m_WireFrameCull);
+
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
 	D3D11_SAMPLER_DESC t_sampler_desc;
 	t_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	t_sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -148,6 +174,18 @@ void Mesh::Construct(std::string meshFileName, Vector4 colour, ID3D11Device* dev
 	cmdesc.FrontCounterClockwise = false;
 	t_H_R = device->CreateRasterizerState(&cmdesc, &m_NormalCull);
 
+
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
+	D3D11_RASTERIZER_DESC cmdescWire;
+	ZeroMemory(&cmdescWire, sizeof(D3D11_RASTERIZER_DESC));
+	cmdescWire.FillMode = D3D11_FILL_WIREFRAME;
+	cmdescWire.CullMode = D3D11_CULL_NONE;
+	cmdescWire.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdescWire, &m_WireFrameCull);
 
 	if (FAILED(t_H_R))
 	{
@@ -228,6 +266,18 @@ void Mesh::ConstructHull(std::string meshFileName, Vector4 colour, ID3D11Device*
 		std::runtime_error("There is an error with creating the Rasterizer State");
 	}
 
+	D3D11_RASTERIZER_DESC cmdescWire;
+	ZeroMemory(&cmdescWire, sizeof(D3D11_RASTERIZER_DESC));
+	cmdescWire.FillMode = D3D11_FILL_WIREFRAME;
+	cmdescWire.CullMode = D3D11_CULL_NONE;
+	cmdescWire.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdescWire, &m_WireFrameCull);
+
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
 	D3D11_SAMPLER_DESC t_sampler_desc;
 	t_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	t_sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -298,6 +348,18 @@ void Mesh::Construct(std::string meshFileName, std::string textureFileName, ID3D
 		std::runtime_error("There is an error with creating the Rasterizer State");
 	}
 
+	D3D11_RASTERIZER_DESC cmdescWire;
+	ZeroMemory(&cmdescWire, sizeof(D3D11_RASTERIZER_DESC));
+	cmdescWire.FillMode = D3D11_FILL_WIREFRAME;
+	cmdescWire.CullMode = D3D11_CULL_NONE;
+	cmdescWire.FrontCounterClockwise = false;
+	t_H_R = device->CreateRasterizerState(&cmdescWire, &m_WireFrameCull);
+
+	if (FAILED(t_H_R))
+	{
+		std::runtime_error("There is an error with creating the Rasterizer State");
+	}
+
 	// NOTE: Sampler State
 	D3D11_SAMPLER_DESC t_sampler_desc;
 	t_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -352,6 +414,7 @@ Mesh::~Mesh()
 	if (m_ShaderResource) m_ShaderResource->Release();
 	if (m_SamplerState) m_SamplerState->Release();
 	if (m_NormalCull) m_NormalCull->Release();
+	if (m_WireFrameCull) m_WireFrameCull->Release();
 }
 
 void Mesh::Update(float deltaTime)
@@ -373,8 +436,6 @@ void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D
 {
 	if (m_RenderMesh == false) { return; }
 	
-	pImmediateContext->RSSetState(m_NormalCull);
-
 	if (m_ShaderResource != nullptr)
 	{
 		pImmediateContext->PSSetShaderResources(0, 1, &m_ShaderResource);
@@ -385,6 +446,16 @@ void Mesh::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D
 	{
 		constantBufferData.HasTexture = 0;
 	}
+
+	if (m_IsWireFrame == false)
+	{
+		pImmediateContext->RSSetState(m_NormalCull);
+	}
+	else if (m_IsWireFrame == true)
+	{
+		pImmediateContext->RSSetState(m_WireFrameCull);
+	}
+
 
 	// Draw Render Object
 	constantBufferData.surface.AmbientMtrl = m_Material.ambient;

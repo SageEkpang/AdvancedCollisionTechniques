@@ -25,16 +25,19 @@
 #include "imGui/imgui.h" // \\ //
 #include "imGui/imgui_impl_win32.h" // \\ // 
 #include "imGui/imgui_impl_dx11.h" // \\ //
+#include "imGui/ImGuizmo.h"
 
 class ScreenManager
 {
 private: // PRIVATE VARIABLE(s) (Custom Variables)
 
-	Camera* _camera = nullptr;
+	Camera* m_Camera = nullptr;
 	ScreenEntity* m_CurrentScreen = nullptr;
+	ScreenEntity* m_SavedScreenState = nullptr;
 
 	// TIME VARIABLE(s)
-	Timer* m_Timer;
+	Timer* m_Timer = nullptr;
+	float m_SimulationTime = 0.0f;
 	float m_Accumulator = 0.0f;
 	float m_SimpleCount = 0.0f;
 
@@ -43,9 +46,7 @@ private: // PRIVATE VARIABLE(s) (Custom Variables)
 
 private: // PRIVATE FUNCTION(s)
 
-	// NOTE: Object Rendering Functions
-	void BeginRendering();
-	void EndRendering();
+	void GuizmoRendering();
 
 public: // PUBLIC FUNCTION(s)
 
@@ -56,7 +57,12 @@ public: // PUBLIC FUNCTION(s)
 	// BASE FUNCTION(s)
 	void Process();
 	void Showcase(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
-	void GUIShowcase();
+	void GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+
+	// HELPER FUNCTION(s)
+	void PickingTest(int mouseX, int mouseY);
+
+
 };
 
 #endif

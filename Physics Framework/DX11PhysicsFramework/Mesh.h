@@ -19,12 +19,14 @@ private:
 	ID3D11ShaderResourceView* m_ShaderResource = nullptr;
 	ID3D11SamplerState* m_SamplerState = nullptr;
 	ID3D11RasterizerState* m_NormalCull = nullptr;
+	ID3D11RasterizerState* m_WireFrameCull = nullptr;
 
 public:
 
 	Material m_Material;
 	Geometry m_Geometry;
-	bool m_RenderMesh = true;
+	static bool m_RenderMesh;
+	static bool m_IsWireFrame;
 
 public:
 

@@ -3,8 +3,7 @@
 #include <windows.h>
 #include <comdef.h>
 
-int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
-{
+int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow){
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -22,7 +21,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 			if (msg.message >= WM_KEYFIRST && msg.message <= WM_KEYLAST)
 			{
-				// handled = m_Application->HandleKeyboard(msg);
+				handled = m_WindowApplication->HandleEvents(msg);
 				
 			}
 			else if (WM_QUIT == msg.message)
@@ -36,10 +35,12 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		}
 		else
 		{
+			// NOTE: Being Rendering the Content after Initialisation
 			m_WindowApplication->BeginRendering();
 
 				m_ScreenApplication->Process();
 
+				// NOTE: Show screen content
 				m_ScreenApplication->Showcase(
 					*m_WindowApplication->GetConstantBufferData(), 
 					m_WindowApplication->GetConstantBuffer(), 
@@ -47,7 +48,10 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 					m_WindowApplication->GetDevice()
 				);
 
-				m_ScreenApplication->GUIShowcase();
+				// NOTE: Show GUI for the different Screens
+				m_ScreenApplication->GUIShowcase(
+					m_WindowApplication->GetImmediateContext(),
+					m_WindowApplication->GetDevice());
 
 			m_WindowApplication->EndRendering();
 		}
