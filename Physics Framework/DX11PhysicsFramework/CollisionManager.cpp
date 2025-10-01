@@ -554,12 +554,31 @@ CollisionManifold CollisionManager::RayToSphere(GameObjectEntity* rayA, GameObje
 
 CollisionManifold CollisionManager::RayToPlane(GameObjectEntity* rayA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
+	CollisionManifold t_ColMani;
+
+	//float t_ND = Vector3::S_Dot(rayA->GetComponent<RayCollider>()->m_Direction, Vector3(0, 1, 0));
+	//float t_PN = Vector3::S_Dot(rayA->GetComponent<RayCollider>()->m_Origin, Vector3(0, 1, 0));
+
+	//if (t_ND >= 0.0f) { return CollisionManifold(); }
+
+	//float t_T = (planeB->m_Transform.m_Position.Magnitude() - t_PN) / t_ND;
+
+	//if (t_T >= 0.0f)
+	//{
+	//	t_ColMani.hasCollision = true;
+	//	t_ColMani.ownerObject = rayA;
+	//	t_ColMani.hitObject = planeB;
+	//	t_ColMani.origin = rayA->GetComponent<RayCollider>()->m_Origin;
+	//	t_ColMani.direction = rayA->GetComponent<RayCollider>()->m_Direction;
+	//	return t_ColMani;
+	//}
 
 	return CollisionManifold();
 }
 
 CollisionManifold CollisionManager::RayToEPA(GameObjectEntity* rayA, GameObjectEntity* epaB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
+
 
 	return CollisionManifold();
 }

@@ -37,6 +37,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 			// NOTE: Being Rendering the Content after Initialisation
 			m_WindowApplication->BeginRendering();
 
+				// NOTE: Show GUI for the different Screens
+				m_ScreenApplication->GUIShowcase(
+					m_WindowApplication->GetImmediateContext(),
+					m_WindowApplication->GetDevice());
+
 				m_ScreenApplication->Process();
 
 				// NOTE: Show screen content
@@ -46,11 +51,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 					m_WindowApplication->GetImmediateContext(), 
 					m_WindowApplication->GetDevice()
 				);
-
-				// NOTE: Show GUI for the different Screens
-				m_ScreenApplication->GUIShowcase(
-					m_WindowApplication->GetImmediateContext(),
-					m_WindowApplication->GetDevice());
 
 			m_WindowApplication->EndRendering();
 		}

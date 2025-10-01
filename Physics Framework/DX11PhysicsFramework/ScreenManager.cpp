@@ -6,9 +6,10 @@ ScreenManager::ScreenManager(ID3D11Device* device)
 	m_GuizmoObject = new GameObjectEntity();
 	// Assign Basic Screen to Screen Variable
 	m_CurrentScreen = new BasicScreen("BasicScreen", device);
+	m_ScreenState = SCREENS::SCREEN_BASIC;
 
 	// Setup Camera
-	XMFLOAT3 eye = XMFLOAT3(0.0f, 5.0f, 0.0f);
+	XMFLOAT3 eye = XMFLOAT3(0.0f, 10.0f, -15.0f);
 	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
@@ -29,6 +30,13 @@ ScreenManager::~ScreenManager()
 	delete m_CurrentScreen;
 	delete m_Camera;
 	delete m_Timer;
+	m_CollisionSolutionMap.clear();
+
+	if (m_GuizmoObject != nullptr)
+	{
+		m_GuizmoObject = nullptr;
+		delete m_GuizmoObject;
+	}
 }
 
 void ScreenManager::Process()
@@ -36,7 +44,6 @@ void ScreenManager::Process()
 	// NOTE: Accumulator and FrameCounter Variables
 	m_SimpleCount += m_Timer->GetDeltaTime();
 	m_Accumulator += m_Timer->GetDeltaTime();
-
 
 	// NOTE: Process Execution
 	while (m_Accumulator >= FPS60)
@@ -50,6 +57,7 @@ void ScreenManager::Process()
 		m_CurrentScreen->Update(FPS60);
 
 		if (WindowManager::m_MouseButtonLeftDown == true) { PickingTest(); }
+		if (WindowManager::m_MouseButtonLeftDown == false) { m_GuizmoObject == nullptr; }
 
 		// Get the Current time when the timer is deconstructed
 		auto t_EndTimePoint = high_resolution_clock::now();
@@ -74,6 +82,7 @@ void ScreenManager::Process()
 
 void ScreenManager::Showcase(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
 {
+	if (m_CurrentScreen == nullptr) { return; }
 	// Transpose Matrices and Load Information from Calculated Update function
 	constantBufferData.View = XMMatrixTranspose(m_Camera->GetViewMatrix());
 	constantBufferData.Projection = XMMatrixTranspose(m_Camera->GetProjectionMatrix());
@@ -86,6 +95,8 @@ void ScreenManager::Showcase(ConstantBuffer constantBufferData, ID3D11Buffer* co
 
 void ScreenManager::GuizmoRendering()
 {
+	if (m_GuizmoObject == nullptr) { return; }
+
 	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
 
@@ -101,37 +112,34 @@ void ScreenManager::GuizmoRendering()
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE)) { mCurrentGizmoOperation = ImGuizmo::SCALE; }
 
-	float ObjectTranslation[3] , ObjectRotation[3], ObjectScale[3];
+	float* t_WorldMatrix[16] =
+	{
+		&m_GuizmoObject->GetWorld()->_11, &m_GuizmoObject->GetWorld()->_12, &m_GuizmoObject->GetWorld()->_13, &m_GuizmoObject->GetWorld()->_14,
+		&m_GuizmoObject->GetWorld()->_21, &m_GuizmoObject->GetWorld()->_22, &m_GuizmoObject->GetWorld()->_23, &m_GuizmoObject->GetWorld()->_24,
+		&m_GuizmoObject->GetWorld()->_31, &m_GuizmoObject->GetWorld()->_32, &m_GuizmoObject->GetWorld()->_33, &m_GuizmoObject->GetWorld()->_34,
+		&m_GuizmoObject->GetWorld()->_41, &m_GuizmoObject->GetWorld()->_42, &m_GuizmoObject->GetWorld()->_43, &m_GuizmoObject->GetWorld()->_44,
+	};
 
-	ObjectTranslation[0] = m_GuizmoObject->m_Transform.m_Position.x;
-	ObjectTranslation[1] = m_GuizmoObject->m_Transform.m_Position.y;
-	ObjectTranslation[2] = m_GuizmoObject->m_Transform.m_Position.z;
+	if (ImGuizmo::IsUsing())
+	{
 
-	ObjectRotation[0] = m_GuizmoObject->m_Transform.GetRotation().x;
-	ObjectRotation[1] = m_GuizmoObject->m_Transform.GetRotation().y;
-	ObjectRotation[2] = m_GuizmoObject->m_Transform.GetRotation().z;
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+		ImGuizmo::DecomposeMatrixToComponents(*t_WorldMatrix, matrixTranslation, matrixRotation, matrixScale);
 
-	ObjectScale[0] = m_GuizmoObject->m_Transform.m_Scale.width;
-	ObjectScale[1] = m_GuizmoObject->m_Transform.m_Scale.height;
-	ObjectScale[2] = m_GuizmoObject->m_Transform.m_Scale.length;
+		m_GuizmoObject->m_Transform.m_Position.x = matrixTranslation[0];
+		m_GuizmoObject->m_Transform.m_Position.y = matrixTranslation[1];
+		m_GuizmoObject->m_Transform.m_Position.z = matrixTranslation[2];
 
-	ImGuizmo::RecomposeMatrixFromComponents(ObjectTranslation, ObjectRotation, ObjectScale, m_GuizmoObject->m_Transform.m_Matrix);
-	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
-	ImGuizmo::DecomposeMatrixToComponents(m_GuizmoObject->m_Transform.m_Matrix, matrixTranslation, matrixRotation, matrixScale);
+		m_GuizmoObject->m_Transform.SetRotation(matrixRotation[0], matrixRotation[1], matrixRotation[2]);
 
-	/*m_GuizmoObject->m_Transform.m_Position.x = ObjectTranslation[0];
-	m_GuizmoObject->m_Transform.m_Position.y = ObjectTranslation[1];
-	m_GuizmoObject->m_Transform.m_Position.z = ObjectTranslation[2];
+		m_GuizmoObject->m_Transform.m_Scale.x = matrixScale[0];
+		m_GuizmoObject->m_Transform.m_Scale.y = matrixScale[1];
+		m_GuizmoObject->m_Transform.m_Scale.z = matrixScale[2];
 
-	m_GuizmoObject->m_Transform.SetRotation(ObjectRotation[0], ObjectRotation[1], ObjectRotation[2]);
+		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, *t_WorldMatrix);
+	}
 
-	m_GuizmoObject->m_Transform.m_Scale.x = ObjectScale[0];
-	m_GuizmoObject->m_Transform.m_Scale.y = ObjectScale[1];
-	m_GuizmoObject->m_Transform.m_Scale.z = ObjectScale[2];*/
-
-	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, m_GuizmoObject->m_Transform.m_Matrix);
-
-	float ViewMatrix[16] = 
+	float t_ViewMatrix[16] = 
 	{
 		m_Camera->GetView()._11, m_Camera->GetView()._12, m_Camera->GetView()._13, m_Camera->GetView()._14,
 		m_Camera->GetView()._21, m_Camera->GetView()._22, m_Camera->GetView()._23, m_Camera->GetView()._24,
@@ -139,7 +147,7 @@ void ScreenManager::GuizmoRendering()
 		m_Camera->GetView()._41, m_Camera->GetView()._42, m_Camera->GetView()._43, m_Camera->GetView()._44,
 	};
 
-	float ProjectionMatrix[16] =
+	float t_ProjectionMatrix[16] =
 	{
 		m_Camera->GetProjection()._11, m_Camera->GetProjection()._12, m_Camera->GetProjection()._13, m_Camera->GetProjection()._14,
 		m_Camera->GetProjection()._21, m_Camera->GetProjection()._22, m_Camera->GetProjection()._23, m_Camera->GetProjection()._24,
@@ -147,12 +155,10 @@ void ScreenManager::GuizmoRendering()
 		m_Camera->GetProjection()._41, m_Camera->GetProjection()._42, m_Camera->GetProjection()._43, m_Camera->GetProjection()._44,
 	};
 
-	
 	ImGuizmo::SetRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	ImGuizmo::Manipulate(ViewMatrix, ProjectionMatrix, mCurrentGizmoOperation, mCurrentGizmoMode, m_GuizmoObject->m_Transform.m_Matrix, NULL);
+	ImGuizmo::Manipulate(t_ViewMatrix, t_ProjectionMatrix, mCurrentGizmoOperation, mCurrentGizmoMode, *t_WorldMatrix, NULL);
 	
 	ImGui::End();
-
 }
 
 void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
@@ -160,11 +166,11 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 	#pragma region Screen Select
 
 	ImGui::Begin("Scenes");
-	if (ImGui::Button("Basic Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { delete m_CurrentScreen; m_CurrentScreen = nullptr; m_CurrentScreen = new BasicScreen("Basic Screen", device); }
-	if (ImGui::Button("EPA Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { delete m_CurrentScreen; m_CurrentScreen = nullptr; m_CurrentScreen = new EPAScreen("EPA Screen", device); }
-	if (ImGui::Button("GJK Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { delete m_CurrentScreen; m_CurrentScreen = nullptr; m_CurrentScreen = new GJKScreen("GJK Screen", device); }
-	if (ImGui::Button("MassAgg Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { delete m_CurrentScreen; m_CurrentScreen = nullptr; m_CurrentScreen = new MassAggScreen("MassAggregate Screen", device); }
-	if (ImGui::Button("SAT Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { delete m_CurrentScreen; m_CurrentScreen = nullptr; m_CurrentScreen = new SATScreen("SAT Screen", device); }
+	if (ImGui::Button("Basic Scene", ImVec2(ImGui::GetWindowWidth() - 15, 20))) { TransitionScreen(SCREENS::SCREEN_BASIC, device); }
+	if (ImGui::Button("EPA Scene", ImVec2(ImGui::GetWindowWidth() - 15, 20))) { TransitionScreen(SCREENS::SCREEN_EPA, device); }
+	if (ImGui::Button("GJK Scene", ImVec2(ImGui::GetWindowWidth() - 15, 20))) { TransitionScreen(SCREENS::SCREEN_GJK, device); }
+	if (ImGui::Button("MassAgg Scene", ImVec2(ImGui::GetWindowWidth() - 15, 20))) { TransitionScreen(SCREENS::SCREEN_MASS_AGG, device); }
+	if (ImGui::Button("SAT Scene", ImVec2(ImGui::GetWindowWidth() - 15, 20))) { TransitionScreen(SCREENS::SCREEN_SAT, device); }
 	ImGui::End();
 
 	#pragma endregion
@@ -174,7 +180,7 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 	ImGui::SeparatorText("Scene Attributes");
 	ImGui::Spacing();
 
-	if (ImGui::Button("Reset Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) {}
+	if (ImGui::Button("Reset Scene", ImVec2(ImGui::GetWindowWidth() - 15, 30))) { TransitionScreen(m_ScreenState, device); }
 
 	ImGui::Spacing();
 	ImGui::SeparatorText("Rendering Attributes");
@@ -265,8 +271,25 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 	GuizmoRendering();
 }
 
+void ScreenManager::TransitionScreen(SCREENS screen, ID3D11Device* device)
+{
+	m_CurrentScreen = nullptr; 
+	m_CollisionSolutionMap.clear(); 
+	
+	switch (screen)
+	{
+		case SCREENS::SCREEN_BASIC: m_CurrentScreen = new BasicScreen("Basic Screen", device); m_ScreenState = SCREENS::SCREEN_BASIC; break;
+		case SCREENS::SCREEN_EPA: m_CurrentScreen = new EPAScreen("EPA Screen", device); m_ScreenState = SCREENS::SCREEN_EPA; break;
+		case SCREENS::SCREEN_GJK: m_CurrentScreen = new GJKScreen("GJK Screen", device); m_ScreenState = SCREENS::SCREEN_GJK; break;
+		case SCREENS::SCREEN_MASS_AGG: m_CurrentScreen = new MassAggScreen("MassAgg Screen", device); m_ScreenState = SCREENS::SCREEN_MASS_AGG; break;
+		case SCREENS::SCREEN_SAT: m_CurrentScreen = new SATScreen("SAT Screen", device); m_ScreenState = SCREENS::SCREEN_SAT; break;
+	}
+}
+
 void ScreenManager::PickingTest()
 {
+	if (m_CurrentScreen == nullptr) { return; }
+
 	XMMATRIX view, proj;
 	view = m_Camera->GetViewMatrix();
 	proj = m_Camera->GetProjectionMatrix();

@@ -10,7 +10,7 @@ BasicScreen::BasicScreen(std::string screenName, ID3D11Device* device) : ScreenE
 		m_CubeObject->m_Transform.m_Scale = Vector3(4, 4, 4);
 		m_CubeObject->AddComponent<Mesh>()->Construct("sphere", COLOUR_RED, device);
 		m_CubeObject->AddComponent<SphereCollider>()->Construct(4, device);
-		// m_CubeObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
+		m_CubeObject->AddComponent<Rigidbody3DObject>()->Construct(1.f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 		InsertObjectIntoList(m_CubeObject);
 	}
 

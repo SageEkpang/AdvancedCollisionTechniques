@@ -28,6 +28,15 @@
 #include "imGui/imgui_impl_dx11.h" // \\ //
 #include "imGui/ImGuizmo.h"
 
+enum class SCREENS
+{
+	SCREEN_BASIC,
+	SCREEN_GJK,
+	SCREEN_SAT,
+	SCREEN_EPA,
+	SCREEN_MASS_AGG
+};
+
 class ScreenManager
 {
 private: // PRIVATE VARIABLE(s) (Custom Variables)
@@ -36,6 +45,7 @@ private: // PRIVATE VARIABLE(s) (Custom Variables)
 	ScreenEntity* m_CurrentScreen = nullptr;
 	ScreenEntity* m_SavedScreenState = nullptr;
 	GameObjectEntity* m_GuizmoObject = nullptr;
+	SCREENS m_ScreenState;
 	std::map<col_solution_pair, CollisionManifold> m_CollisionSolutionMap;
 
 	// TIME VARIABLE(s)
@@ -61,6 +71,7 @@ public: // PUBLIC FUNCTION(s)
 	void Process();
 	void Showcase(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
 	void GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11Device* device);
+	void TransitionScreen(SCREENS screen, ID3D11Device* device);
 
 	// HELPER FUNCTION(s)
 	void PickingTest();
