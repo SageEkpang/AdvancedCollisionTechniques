@@ -11,6 +11,7 @@
 #include "ConstantBuffer.h"
 
 #include <d3dcompiler.h>
+// #include <DirectXPackedVector.h>
 #include <windows.h>
 #include <string>
 #include <comdef.h>
@@ -34,6 +35,8 @@ private: // PRIVATE VARIABLE(s) (Custom Variables)
 	Camera* m_Camera = nullptr;
 	ScreenEntity* m_CurrentScreen = nullptr;
 	ScreenEntity* m_SavedScreenState = nullptr;
+	GameObjectEntity* m_GuizmoObject = nullptr;
+	std::map<col_solution_pair, CollisionManifold> m_CollisionSolutionMap;
 
 	// TIME VARIABLE(s)
 	Timer* m_Timer = nullptr;

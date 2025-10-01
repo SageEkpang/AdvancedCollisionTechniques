@@ -26,6 +26,12 @@ typedef struct Vector3
 		this->z = other.z;
 	}
 
+	Vector3(const DirectX::XMFLOAT3& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		this->z = other.z;
+	}
 
 	// Operator Overloading
 

@@ -21,6 +21,7 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "PlaneCollider.h"
+#include "RayCollider.h"
 
 // Complex Collider Components(s)
 #include "EPACollider.h"

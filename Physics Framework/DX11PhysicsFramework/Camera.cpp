@@ -16,7 +16,7 @@ Camera::Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, F
 	// Set Projection Matrix
 	XMMATRIX TempMat;
 	float t_Aspect = _windowWidth / _windowHeight;
-	TempMat = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), t_Aspect, 0.01, 100.0f);
+	TempMat = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), t_Aspect, 1.0f, 100.0f);
 	XMStoreFloat4x4(&m_ProjectionMatrix, TempMat);
 }
 

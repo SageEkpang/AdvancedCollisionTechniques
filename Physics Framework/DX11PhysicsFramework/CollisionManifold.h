@@ -4,8 +4,18 @@
 #include "Vector3.h"
 #include <vector>
 
+class GameObjectEntity;
+
 struct CollisionManifold
 {
+	// NOTE: Ray Variable(s)
+	GameObjectEntity* hitObject;
+	GameObjectEntity* ownerObject;
+	float lineLength;
+	Vector3 origin;
+	Vector3 direction;
+
+	// NOTE: General Variable(s)
 	Vector3 collisionNormal;
 	int contactPointCount;
 	float penetrationDepth;

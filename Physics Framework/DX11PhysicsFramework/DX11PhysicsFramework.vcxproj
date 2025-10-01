@@ -408,6 +408,7 @@
     <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="RayCollider.cpp" />
     <ClCompile Include="Rigidbody3DObject.cpp" />
     <ClCompile Include="SATCollider.cpp" />
     <ClCompile Include="SATScreen.cpp" />
@@ -468,6 +469,7 @@
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="RayCollider.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Rigidbody3DObject.h" />
     <ClInclude Include="SATCollider.h" />

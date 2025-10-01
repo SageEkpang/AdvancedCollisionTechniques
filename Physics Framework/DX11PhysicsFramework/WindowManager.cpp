@@ -72,7 +72,6 @@ WindowManager::WindowManager(HINSTANCE hInstance, int nShowCmd)
 
 	ImFont* font_body = io.Fonts->AddFontFromFileTTF("Resources\\Font\\Clofie-Black.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesDefault());
 	ImGui::PushFont(font_body);
-
 }
 
 WindowManager::~WindowManager()
@@ -124,7 +123,6 @@ HRESULT WindowManager::CreateWindowHandle(HINSTANCE hInstance, int nShowCmd)
 
 	RegisterClassW(&wndClass);
 	_windowHandle = CreateWindowExW(0, windowName, windowName, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, _WindowWidth, _WindowHeight, nullptr, nullptr, hInstance, nullptr);
-
 
 	return S_OK;
 }
@@ -217,6 +215,10 @@ HRESULT WindowManager::CreateSwapChainAndFrameBuffer()
 	depthBufferDesc.SampleDesc.Count = 1;
 	depthBufferDesc.SampleDesc.Quality = 0;
 	depthBufferDesc.MiscFlags = 0;
+
+	depthBufferDesc.ArraySize = 1;
+	depthBufferDesc.Width = WINDOW_WIDTH;
+	depthBufferDesc.Height = WINDOW_HEIGHT;
 
 	_device->CreateTexture2D(&depthBufferDesc, nullptr, &_depthStencilBuffer);
 

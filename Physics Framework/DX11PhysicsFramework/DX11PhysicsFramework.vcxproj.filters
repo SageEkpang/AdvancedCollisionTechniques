@@ -296,6 +296,9 @@
     <ClInclude Include="imGui\ImGuizmo.h">
       <Filter>imgui\Header</Filter>
     </ClInclude>
+    <ClInclude Include="RayCollider.h">
+      <Filter>Components\SimpleColliderComponents\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -423,6 +426,9 @@
     </ClCompile>
     <ClCompile Include="imGui\ImGuizmo.cpp">
       <Filter>imgui\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCollider.cpp">
+      <Filter>Components\SimpleColliderComponents\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

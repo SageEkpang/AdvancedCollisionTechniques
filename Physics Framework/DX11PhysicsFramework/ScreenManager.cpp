@@ -3,6 +3,7 @@
 
 ScreenManager::ScreenManager(ID3D11Device* device)
 {
+	m_GuizmoObject = new GameObjectEntity();
 	// Assign Basic Screen to Screen Variable
 	m_CurrentScreen = new BasicScreen("BasicScreen", device);
 
@@ -100,49 +101,56 @@ void ScreenManager::GuizmoRendering()
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE)) { mCurrentGizmoOperation = ImGuizmo::SCALE; }
 
-	for (auto& v : m_CurrentScreen->GetObjects())
+	float ObjectTranslation[3] , ObjectRotation[3], ObjectScale[3];
+
+	ObjectTranslation[0] = m_GuizmoObject->m_Transform.m_Position.x;
+	ObjectTranslation[1] = m_GuizmoObject->m_Transform.m_Position.y;
+	ObjectTranslation[2] = m_GuizmoObject->m_Transform.m_Position.z;
+
+	ObjectRotation[0] = m_GuizmoObject->m_Transform.GetRotation().x;
+	ObjectRotation[1] = m_GuizmoObject->m_Transform.GetRotation().y;
+	ObjectRotation[2] = m_GuizmoObject->m_Transform.GetRotation().z;
+
+	ObjectScale[0] = m_GuizmoObject->m_Transform.m_Scale.width;
+	ObjectScale[1] = m_GuizmoObject->m_Transform.m_Scale.height;
+	ObjectScale[2] = m_GuizmoObject->m_Transform.m_Scale.length;
+
+	ImGuizmo::RecomposeMatrixFromComponents(ObjectTranslation, ObjectRotation, ObjectScale, m_GuizmoObject->m_Transform.m_Matrix);
+	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+	ImGuizmo::DecomposeMatrixToComponents(m_GuizmoObject->m_Transform.m_Matrix, matrixTranslation, matrixRotation, matrixScale);
+
+	/*m_GuizmoObject->m_Transform.m_Position.x = ObjectTranslation[0];
+	m_GuizmoObject->m_Transform.m_Position.y = ObjectTranslation[1];
+	m_GuizmoObject->m_Transform.m_Position.z = ObjectTranslation[2];
+
+	m_GuizmoObject->m_Transform.SetRotation(ObjectRotation[0], ObjectRotation[1], ObjectRotation[2]);
+
+	m_GuizmoObject->m_Transform.m_Scale.x = ObjectScale[0];
+	m_GuizmoObject->m_Transform.m_Scale.y = ObjectScale[1];
+	m_GuizmoObject->m_Transform.m_Scale.z = ObjectScale[2];*/
+
+	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, m_GuizmoObject->m_Transform.m_Matrix);
+
+	float ViewMatrix[16] = 
 	{
-		float ObjectTranslation[3] , ObjectRotation[3], ObjectScale[3];
+		m_Camera->GetView()._11, m_Camera->GetView()._12, m_Camera->GetView()._13, m_Camera->GetView()._14,
+		m_Camera->GetView()._21, m_Camera->GetView()._22, m_Camera->GetView()._23, m_Camera->GetView()._24,
+		m_Camera->GetView()._31, m_Camera->GetView()._32, m_Camera->GetView()._33, m_Camera->GetView()._34,
+		m_Camera->GetView()._41, m_Camera->GetView()._42, m_Camera->GetView()._43, m_Camera->GetView()._44,
+	};
 
-		ObjectTranslation[0] = v->m_Transform.m_Position.x;
-		ObjectTranslation[1] = v->m_Transform.m_Position.y;
-		ObjectTranslation[2] = v->m_Transform.m_Position.z;
+	float ProjectionMatrix[16] =
+	{
+		m_Camera->GetProjection()._11, m_Camera->GetProjection()._12, m_Camera->GetProjection()._13, m_Camera->GetProjection()._14,
+		m_Camera->GetProjection()._21, m_Camera->GetProjection()._22, m_Camera->GetProjection()._23, m_Camera->GetProjection()._24,
+		m_Camera->GetProjection()._31, m_Camera->GetProjection()._32, m_Camera->GetProjection()._33, m_Camera->GetProjection()._34,
+		m_Camera->GetProjection()._41, m_Camera->GetProjection()._42, m_Camera->GetProjection()._43, m_Camera->GetProjection()._44,
+	};
 
-		ObjectRotation[0] = v->m_Transform.GetRotation().x;
-		ObjectRotation[1] = v->m_Transform.GetRotation().y;
-		ObjectRotation[2] = v->m_Transform.GetRotation().z;
-
-		ObjectScale[0] = v->m_Transform.m_Scale.width;
-		ObjectScale[1] = v->m_Transform.m_Scale.height;
-		ObjectScale[2] = v->m_Transform.m_Scale.length;
-
-		ImGuizmo::RecomposeMatrixFromComponents(ObjectTranslation, ObjectRotation, ObjectScale, v->m_Transform.m_Matrix);
-		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
-		ImGuizmo::DecomposeMatrixToComponents(v->m_Transform.m_Matrix, matrixTranslation, matrixRotation, matrixScale);
-
-		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, v->m_Transform.m_Matrix);
-
-		float ViewMatrix[16] = 
-		{
-			m_Camera->GetView()._11, m_Camera->GetView()._12, m_Camera->GetView()._13, m_Camera->GetView()._14,
-			m_Camera->GetView()._21, m_Camera->GetView()._22, m_Camera->GetView()._23, m_Camera->GetView()._24,
-			m_Camera->GetView()._31, m_Camera->GetView()._32, m_Camera->GetView()._33, m_Camera->GetView()._34,
-			m_Camera->GetView()._41, m_Camera->GetView()._42, m_Camera->GetView()._43, m_Camera->GetView()._44,
-		};
-
-		float ProjectionMatrix[16] =
-		{
-			m_Camera->GetProjection()._11, m_Camera->GetProjection()._12, m_Camera->GetProjection()._13, m_Camera->GetProjection()._14,
-			m_Camera->GetProjection()._21, m_Camera->GetProjection()._22, m_Camera->GetProjection()._23, m_Camera->GetProjection()._24,
-			m_Camera->GetProjection()._31, m_Camera->GetProjection()._32, m_Camera->GetProjection()._33, m_Camera->GetProjection()._34,
-			m_Camera->GetProjection()._41, m_Camera->GetProjection()._42, m_Camera->GetProjection()._43, m_Camera->GetProjection()._44,
-		};
-
-		ImGuiIO& io = ImGui::GetIO();
-		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-		ImGuizmo::Manipulate(ViewMatrix, ProjectionMatrix, mCurrentGizmoOperation, mCurrentGizmoMode, v->m_Transform.m_Matrix, NULL);
-	}
-
+	
+	ImGuizmo::SetRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	ImGuizmo::Manipulate(ViewMatrix, ProjectionMatrix, mCurrentGizmoOperation, mCurrentGizmoMode, m_GuizmoObject->m_Transform.m_Matrix, NULL);
+	
 	ImGui::End();
 
 }
@@ -259,21 +267,46 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 
 void ScreenManager::PickingTest()
 {
-	XMMATRIX world, view, proj;
-	
-	world = XMLoadFloat4x4(m_CurrentScreen->GetObjects()[1]->GetWorld());
+	XMMATRIX view, proj;
 	view = m_Camera->GetViewMatrix();
 	proj = m_Camera->GetProjectionMatrix();
+	
+	XMVECTOR roScreen, rdScreen;
+	roScreen = XMVectorSet(WindowManager::m_MouseX, WindowManager::m_MouseY, 0.0f, 1.0f);
+	rdScreen = XMVectorSet(WindowManager::m_MouseX, WindowManager::m_MouseY, 1.0f, 1.0f);
 
-	DirectX::XMVECTOR roScreen, rdScreen;
 	XMVECTOR ro, rd;
-	roScreen = XMVectorSet(WindowManager::m_MouseX, WindowManager::m_MouseX, 0.1, 1.0f);
-	rdScreen = XMVectorSet(WindowManager::m_MouseX, WindowManager::m_MouseY, 1, 1.0f);
-
-	ro = XMVector3Unproject(roScreen, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, proj, view, world);
-	rd = XMVector3Unproject(rdScreen, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, proj, view, world);
+	ro = XMVector3Unproject(roScreen, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, proj, view, XMMatrixIdentity());
+	rd = XMVector3Unproject(rdScreen, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, proj, view, XMMatrixIdentity());
 	rd = XMVector3Normalize(rd - ro);
 
+	// NOTE: Ray Start
+	XMFLOAT3 t_rayStartFloat;
+	XMStoreFloat3(&t_rayStartFloat, ro);
+	
+	// NOTE: Ray Direction
+	XMFLOAT3 t_rayDirectionFloat;
+	XMStoreFloat3(&t_rayDirectionFloat, rd);
 
+	// NOTE: Ray Object
+	GameObjectEntity* t_RayObject = new GameObjectEntity();
+	t_RayObject->AddComponent<RayCollider>()->Construct(t_rayStartFloat, t_rayDirectionFloat);
+	CollisionManager t_tempManager;
+	CollisionManifold t_tempManifold;
 
+	if (!m_CurrentScreen->GetObjects().empty())
+	{
+		for (int i = 0; i < m_CurrentScreen->GetObjects().size(); ++i)
+		{
+			t_tempManifold = t_tempManager.CheckCollisions(t_RayObject, m_CurrentScreen->GetObjects()[i], m_CollisionSolutionMap);
+			if (t_tempManifold.hasCollision)
+			{
+				m_GuizmoObject = t_tempManifold.hitObject;
+				break;
+			}
+			m_CollisionSolutionMap.clear();
+		}
+	}
+
+	delete t_RayObject;
 }
