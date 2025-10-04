@@ -226,8 +226,15 @@ CollisionManager::CollisionManager()
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(SATCollider)), std::type_index(typeid(BoxCollider)))] = COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX;
 
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(EPACollider)), std::type_index(typeid(EPACollider)))] = COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA;
+	m_CollisionMapping[std::make_pair(std::type_index(typeid(EPACollider)), std::type_index(typeid(SphereCollider)))] = COLLIDER_TYPE_COLLISIONS_EPA_TO_SPHERE;
+	m_CollisionMapping[std::make_pair(std::type_index(typeid(EPACollider)), std::type_index(typeid(BoxCollider)))] = COLLIDER_TYPE_COLLISIONS_EPA_TO_BOX;
+	m_CollisionMapping[std::make_pair(std::type_index(typeid(EPACollider)), std::type_index(typeid(PlaneCollider)))] = COLLIDER_TYPE_COLLISIONS_EPA_TO_PLANE;
+	m_CollisionMapping[std::make_pair(std::type_index(typeid(EPACollider)), std::type_index(typeid(GJKCollider)))] = COLLIDER_TYPE_COLLISIONS_EPA_TO_GJK;
 
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(GJKCollider)), std::type_index(typeid(GJKCollider)))] = COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK;
+	m_CollisionMapping[std::make_pair(std::type_index(typeid(GJKCollider)), std::type_index(typeid(SphereCollider)))] = COLLIDER_TYPE_COLLISIONS_GJK_TO_SPHERE;
+	m_CollisionMapping[std::make_pair(std::type_index(typeid(GJKCollider)), std::type_index(typeid(BoxCollider)))] = COLLIDER_TYPE_COLLISIONS_GJK_TO_BOX;
+	m_CollisionMapping[std::make_pair(std::type_index(typeid(GJKCollider)), std::type_index(typeid(PlaneCollider)))] = COLLIDER_TYPE_COLLISIONS_GJK_TO_PLANE;
 
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(MassAggregate)), std::type_index(typeid(SphereCollider)))] = COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_SPHERE;
 	m_CollisionMapping[std::make_pair(std::type_index(typeid(MassAggregate)), std::type_index(typeid(PlaneCollider)))] = COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_PLANE;
@@ -294,9 +301,17 @@ CollisionManifold CollisionManager::CheckCollisions(GameObjectEntity* colliderA,
 		case COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX: return SATtoBox(tempA, tempB, collisionSolutionMap); break;
 
 		case COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA: return EPAtoEPA(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_EPA_TO_SPHERE: return EPAtoSphere(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_EPA_TO_BOX: return EPAtoBox(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_EPA_TO_PLANE: return EPAtoPlane(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_EPA_TO_GJK: return EPAtoGJK(tempA, tempB, collisionSolutionMap); break;
 
 		case COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK: return GJKtoGJK(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_GJK_TO_SPHERE: return GJKtoSphere(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_GJK_TO_BOX: return GJKtoBox(tempA, tempB, collisionSolutionMap); break;
+		case COLLIDER_TYPE_COLLISIONS_GJK_TO_PLANE: return GJKtoPlane(tempA, tempB, collisionSolutionMap); break;
 
+		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_MASS_AGG: return MassAggToMassAgg(tempA, tempB, collisionSolutionMap); break;
 		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_SPHERE: return MassAggToSphere(tempA, tempB, collisionSolutionMap); break;
 		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_PLANE: return MassAggToPlane(tempA, tempB, collisionSolutionMap); break;
 		case COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_BOX: return MassAggToBox(tempA, tempB, collisionSolutionMap); break;
@@ -686,10 +701,130 @@ CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectE
 		if (NextSimplex(t_Points, t_Direction)) 
 		{ 	
 			t_ColMani.collisionNormal = Vector3(gjkA->m_Transform.m_Position - gjkB->m_Transform.m_Position).Normalise();
-			t_ColMani.penetrationDepth = 0.5f;
+			t_ColMani.penetrationDepth = 0.2f;
 			t_ColMani.hasCollision = true;
 
 			collisionSolutionMap[std::make_pair(gjkA, gjkB)] = t_ColMani;
+			return t_ColMani;
+		}
+	}
+
+	return CollisionManifold();
+}
+
+CollisionManifold CollisionManager::GJKtoSphere(GameObjectEntity* gjkA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	Vector3 t_Support = Support(gjkA, sphereB, Vector3(1, 0, 0));
+
+	// Simplex is an array of points, max count is 4
+	Simplex t_Points;
+	t_Points.push_front(t_Support);
+
+	Vector3 t_Direction = -t_Support;
+
+	while (true)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(gjkA, sphereB, t_Direction);
+
+		// NOTE: No Collision
+		if (t_Support.Dot(t_Direction) <= 0)
+		{
+			return CollisionManifold();
+		}
+
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction))
+		{
+			t_ColMani.collisionNormal = Vector3(gjkA->m_Transform.m_Position - sphereB->m_Transform.m_Position).Normalise();
+			t_ColMani.penetrationDepth = 0.2f;
+			t_ColMani.hasCollision = true;
+
+			collisionSolutionMap[std::make_pair(gjkA, sphereB)] = t_ColMani;
+			return t_ColMani;
+		}
+	}
+
+	return CollisionManifold();
+}
+
+CollisionManifold CollisionManager::GJKtoBox(GameObjectEntity* gjkA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	Vector3 t_Support = Support(gjkA, boxB, Vector3(1, 0, 0));
+
+	// Simplex is an array of points, max count is 4
+	Simplex t_Points;
+	t_Points.push_front(t_Support);
+
+	Vector3 t_Direction = -t_Support;
+
+	while (true)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(gjkA, boxB, t_Direction);
+
+		// NOTE: No Collision
+		if (t_Support.Dot(t_Direction) <= 0)
+		{
+			return CollisionManifold();
+		}
+
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction))
+		{
+			t_ColMani.collisionNormal = Vector3(gjkA->m_Transform.m_Position - boxB->m_Transform.m_Position).Normalise();
+			t_ColMani.penetrationDepth = 0.2f;
+			t_ColMani.hasCollision = true;
+
+			collisionSolutionMap[std::make_pair(gjkA, boxB)] = t_ColMani;
+			return t_ColMani;
+		}
+	}
+
+	return CollisionManifold();
+}
+
+CollisionManifold CollisionManager::GJKtoPlane(GameObjectEntity* gjkA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+
+	Vector3 t_Support = Support(gjkA, planeB, Vector3(1, 0, 0));
+
+	// Simplex is an array of points, max count is 4
+	Simplex t_Points;
+	t_Points.push_front(t_Support);
+
+	Vector3 t_Direction = -t_Support;
+
+	while (true)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(gjkA, planeB, t_Direction);
+
+		// NOTE: No Collision
+		if (t_Support.Dot(t_Direction) <= 0)
+		{
+			return CollisionManifold();
+		}
+
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction))
+		{
+			t_ColMani.collisionNormal = Vector3(0, 1, 0);
+			t_ColMani.penetrationDepth = 0.2f;
+			t_ColMani.hasCollision = true;
+
+			collisionSolutionMap[std::make_pair(gjkA, planeB)] = t_ColMani;
 			return t_ColMani;
 		}
 	}
@@ -823,6 +958,515 @@ CollisionManifold CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectE
 	return t_ColMani;
 }
 
+CollisionManifold CollisionManager::EPAtoSphere(GameObjectEntity* epaA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+	Simplex t_OutSimplex = Simplex();
+
+	// NOTE: Normal GJK Algorithm
+	Vector3 t_Support = Support(epaA, sphereB, Vector3(1, 0, 0));
+
+	// Simplex is an array of points, max count is 4
+	Simplex t_Points;
+	t_Points.push_front(t_Support);
+
+	Vector3 t_Direction = -t_Support;
+
+	// NOTE: Run the GJK Algorithm and Break Out the loop when a simplex is found and store the outsimplex in the out simplex structure
+	while (true)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(epaA, sphereB, t_Direction);
+
+		// NOTE: No Collision
+		if (t_Support.Dot(t_Direction) <= 0) { return CollisionManifold(); }
+
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction)) { t_OutSimplex = t_Points; break; }
+	}
+
+
+	// NOTE: EPA (Expanding Poltyope Algorithm) Begin
+	std::vector<Vector3> t_Polytope(t_OutSimplex.begin(), t_OutSimplex.end());
+
+	// NOTE: Potential Face / Triangle list, in terms of Winding order
+	std::vector<size_t> t_Faces = {
+
+		0, 1, 2,
+		0, 3, 1,
+		0, 2, 3,
+		1, 3, 2
+	};
+
+	// NOTE: n-Polytope of the face, Minimum face normal
+	// NOTE: Calculates the new normals of the Face
+	auto [t_Normals, t_MinFace] = GetFaceNormals(t_Polytope, t_Faces);
+
+	Vector3 t_MinimumNormal;
+	float t_MinimumDistance = FLT_MAX;
+
+	while (t_MinimumDistance == FLT_MAX)
+	{
+		t_MinimumNormal = t_Normals[t_MinFace].xyz();
+		t_MinimumDistance = t_Normals[t_MinFace].w;
+
+		t_Support = Support(epaA, sphereB, t_MinimumNormal);
+		float t_Distance = Vector3::S_Dot(t_MinimumNormal, t_Support);
+
+		// NOTE: Calculate the Distance to see if the normal face is within range of the point
+		if (abs(t_Distance - t_MinimumDistance) > 0.001f)
+		{
+			t_MinimumDistance = FLT_MAX;
+			std::vector<std::pair<size_t, size_t>> t_UniqueEdges;
+
+			for (int i = 0; i < t_Normals.size(); i++)
+			{
+				if ((Vector3::S_Dot(t_Normals[i].xyz(), t_Support) - t_Normals[i].w) > 0)
+				{
+					size_t t_F = i * 3;
+
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F, t_F + 1);
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 1, t_F + 2);
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 2, t_F);
+
+					t_Faces[t_F + 2] = t_Faces.back(); t_Faces.pop_back();
+					t_Faces[t_F + 1] = t_Faces.back(); t_Faces.pop_back();
+					t_Faces[t_F] = t_Faces.back(); t_Faces.pop_back();
+
+					t_Normals[i] = t_Normals.back();
+					t_Normals.pop_back();
+
+					i--;
+				}
+			}
+
+			// NOTE: Work out if the New Faces and the Unique Edges match
+			std::vector<size_t> t_NewFaces;
+			for (auto [edgeIndex1, edgeIndex2] : t_UniqueEdges)
+			{
+				t_NewFaces.push_back(edgeIndex1);
+				t_NewFaces.push_back(edgeIndex2);
+				t_NewFaces.push_back(t_Polytope.size());
+			}
+
+			t_Polytope.push_back(t_Support);
+
+			auto [t_NewNormals, t_NewMinimumFace] = GetFaceNormals(t_Polytope, t_NewFaces);
+
+			// NOTE: Check if the Normal is within the distance from the old distance to calculate the normal distance
+			float t_OldMinDistance = FLT_MAX;
+			for (size_t i = 0; i < t_Normals.size(); i++)
+			{
+				if (t_Normals[i].w < t_OldMinDistance)
+				{
+					t_OldMinDistance = t_Normals[i].w;
+					t_MinFace = i;
+				}
+			}
+
+			if (t_NewNormals[t_NewMinimumFace].w < t_OldMinDistance)
+			{
+				t_MinFace = t_NewMinimumFace + t_Normals.size();
+			}
+
+			t_Faces.insert(t_Faces.end(), t_NewFaces.begin(), t_NewFaces.end());
+			t_Normals.insert(t_Normals.end(), t_NewNormals.begin(), t_NewNormals.end());
+		}
+	}
+
+	t_ColMani.collisionNormal = -1 * (t_MinimumNormal.Normalise());
+	t_ColMani.penetrationDepth = t_MinimumDistance + 0.01f;
+	t_ColMani.hasCollision = true;
+
+	collisionSolutionMap[std::make_pair(epaA, sphereB)] = t_ColMani;
+	return t_ColMani;
+}
+
+CollisionManifold CollisionManager::EPAtoBox(GameObjectEntity* epaA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+	Simplex t_OutSimplex = Simplex();
+
+	// NOTE: Normal GJK Algorithm
+	Vector3 t_Support = Support(epaA, boxB, Vector3(1, 0, 0));
+
+	// Simplex is an array of points, max count is 4
+	Simplex t_Points;
+	t_Points.push_front(t_Support);
+
+	Vector3 t_Direction = -t_Support;
+
+	// NOTE: Run the GJK Algorithm and Break Out the loop when a simplex is found and store the outsimplex in the out simplex structure
+	while (true)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(epaA, boxB, t_Direction);
+
+		// NOTE: No Collision
+		if (t_Support.Dot(t_Direction) <= 0) { return CollisionManifold(); }
+
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction)) { t_OutSimplex = t_Points; break; }
+	}
+
+
+	// NOTE: EPA (Expanding Poltyope Algorithm) Begin
+	std::vector<Vector3> t_Polytope(t_OutSimplex.begin(), t_OutSimplex.end());
+
+	// NOTE: Potential Face / Triangle list, in terms of Winding order
+	std::vector<size_t> t_Faces = {
+
+		0, 1, 2,
+		0, 3, 1,
+		0, 2, 3,
+		1, 3, 2
+	};
+
+	// NOTE: n-Polytope of the face, Minimum face normal
+	// NOTE: Calculates the new normals of the Face
+	auto [t_Normals, t_MinFace] = GetFaceNormals(t_Polytope, t_Faces);
+
+	Vector3 t_MinimumNormal;
+	float t_MinimumDistance = FLT_MAX;
+
+	while (t_MinimumDistance == FLT_MAX)
+	{
+		t_MinimumNormal = t_Normals[t_MinFace].xyz();
+		t_MinimumDistance = t_Normals[t_MinFace].w;
+
+		t_Support = Support(epaA, boxB, t_MinimumNormal);
+		float t_Distance = Vector3::S_Dot(t_MinimumNormal, t_Support);
+
+		// NOTE: Calculate the Distance to see if the normal face is within range of the point
+		if (abs(t_Distance - t_MinimumDistance) > 0.001f)
+		{
+			t_MinimumDistance = FLT_MAX;
+			std::vector<std::pair<size_t, size_t>> t_UniqueEdges;
+
+			for (int i = 0; i < t_Normals.size(); i++)
+			{
+				if ((Vector3::S_Dot(t_Normals[i].xyz(), t_Support) - t_Normals[i].w) > 0)
+				{
+					size_t t_F = i * 3;
+
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F, t_F + 1);
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 1, t_F + 2);
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 2, t_F);
+
+					t_Faces[t_F + 2] = t_Faces.back(); t_Faces.pop_back();
+					t_Faces[t_F + 1] = t_Faces.back(); t_Faces.pop_back();
+					t_Faces[t_F] = t_Faces.back(); t_Faces.pop_back();
+
+					t_Normals[i] = t_Normals.back();
+					t_Normals.pop_back();
+
+					i--;
+				}
+			}
+
+			// NOTE: Work out if the New Faces and the Unique Edges match
+			std::vector<size_t> t_NewFaces;
+			for (auto [edgeIndex1, edgeIndex2] : t_UniqueEdges)
+			{
+				t_NewFaces.push_back(edgeIndex1);
+				t_NewFaces.push_back(edgeIndex2);
+				t_NewFaces.push_back(t_Polytope.size());
+			}
+
+			t_Polytope.push_back(t_Support);
+
+			auto [t_NewNormals, t_NewMinimumFace] = GetFaceNormals(t_Polytope, t_NewFaces);
+
+			// NOTE: Check if the Normal is within the distance from the old distance to calculate the normal distance
+			float t_OldMinDistance = FLT_MAX;
+			for (size_t i = 0; i < t_Normals.size(); i++)
+			{
+				if (t_Normals[i].w < t_OldMinDistance)
+				{
+					t_OldMinDistance = t_Normals[i].w;
+					t_MinFace = i;
+				}
+			}
+
+			if (t_NewNormals[t_NewMinimumFace].w < t_OldMinDistance)
+			{
+				t_MinFace = t_NewMinimumFace + t_Normals.size();
+			}
+
+			t_Faces.insert(t_Faces.end(), t_NewFaces.begin(), t_NewFaces.end());
+			t_Normals.insert(t_Normals.end(), t_NewNormals.begin(), t_NewNormals.end());
+		}
+	}
+
+	t_ColMani.collisionNormal = -1 * (t_MinimumNormal.Normalise());
+	t_ColMani.penetrationDepth = t_MinimumDistance + 0.01f;
+	t_ColMani.hasCollision = true;
+
+	collisionSolutionMap[std::make_pair(epaA, boxB)] = t_ColMani;
+	return t_ColMani;
+}
+
+CollisionManifold CollisionManager::EPAtoPlane(GameObjectEntity* epaA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+	Simplex t_OutSimplex = Simplex();
+
+	// NOTE: Normal GJK Algorithm
+	Vector3 t_Support = Support(epaA, planeB, Vector3(1, 0, 0));
+
+	// Simplex is an array of points, max count is 4
+	Simplex t_Points;
+	t_Points.push_front(t_Support);
+
+	Vector3 t_Direction = -t_Support;
+
+	// NOTE: Run the GJK Algorithm and Break Out the loop when a simplex is found and store the outsimplex in the out simplex structure
+	while (true)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(epaA, planeB, t_Direction);
+
+		// NOTE: No Collision
+		if (t_Support.Dot(t_Direction) <= 0) { return CollisionManifold(); }
+
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction)) { t_OutSimplex = t_Points; break; }
+	}
+
+
+	// NOTE: EPA (Expanding Poltyope Algorithm) Begin
+	std::vector<Vector3> t_Polytope(t_OutSimplex.begin(), t_OutSimplex.end());
+
+	// NOTE: Potential Face / Triangle list, in terms of Winding order
+	std::vector<size_t> t_Faces = {
+
+		0, 1, 2,
+		0, 3, 1,
+		0, 2, 3,
+		1, 3, 2
+	};
+
+	// NOTE: n-Polytope of the face, Minimum face normal
+	// NOTE: Calculates the new normals of the Face
+	auto [t_Normals, t_MinFace] = GetFaceNormals(t_Polytope, t_Faces);
+
+	Vector3 t_MinimumNormal;
+	float t_MinimumDistance = FLT_MAX;
+
+	while (t_MinimumDistance == FLT_MAX)
+	{
+		t_MinimumNormal = t_Normals[t_MinFace].xyz();
+		t_MinimumDistance = t_Normals[t_MinFace].w;
+
+		t_Support = Support(epaA, planeB, t_MinimumNormal);
+		float t_Distance = Vector3::S_Dot(t_MinimumNormal, t_Support);
+
+		// NOTE: Calculate the Distance to see if the normal face is within range of the point
+		if (abs(t_Distance - t_MinimumDistance) > 0.001f)
+		{
+			t_MinimumDistance = FLT_MAX;
+			std::vector<std::pair<size_t, size_t>> t_UniqueEdges;
+
+			for (int i = 0; i < t_Normals.size(); i++)
+			{
+				if ((Vector3::S_Dot(t_Normals[i].xyz(), t_Support) - t_Normals[i].w) > 0)
+				{
+					size_t t_F = i * 3;
+
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F, t_F + 1);
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 1, t_F + 2);
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 2, t_F);
+
+					t_Faces[t_F + 2] = t_Faces.back(); t_Faces.pop_back();
+					t_Faces[t_F + 1] = t_Faces.back(); t_Faces.pop_back();
+					t_Faces[t_F] = t_Faces.back(); t_Faces.pop_back();
+
+					t_Normals[i] = t_Normals.back();
+					t_Normals.pop_back();
+
+					i--;
+				}
+			}
+
+			// NOTE: Work out if the New Faces and the Unique Edges match
+			std::vector<size_t> t_NewFaces;
+			for (auto [edgeIndex1, edgeIndex2] : t_UniqueEdges)
+			{
+				t_NewFaces.push_back(edgeIndex1);
+				t_NewFaces.push_back(edgeIndex2);
+				t_NewFaces.push_back(t_Polytope.size());
+			}
+
+			t_Polytope.push_back(t_Support);
+
+			auto [t_NewNormals, t_NewMinimumFace] = GetFaceNormals(t_Polytope, t_NewFaces);
+
+			// NOTE: Check if the Normal is within the distance from the old distance to calculate the normal distance
+			float t_OldMinDistance = FLT_MAX;
+			for (size_t i = 0; i < t_Normals.size(); i++)
+			{
+				if (t_Normals[i].w < t_OldMinDistance)
+				{
+					t_OldMinDistance = t_Normals[i].w;
+					t_MinFace = i;
+				}
+			}
+
+			if (t_NewNormals[t_NewMinimumFace].w < t_OldMinDistance)
+			{
+				t_MinFace = t_NewMinimumFace + t_Normals.size();
+			}
+
+			t_Faces.insert(t_Faces.end(), t_NewFaces.begin(), t_NewFaces.end());
+			t_Normals.insert(t_Normals.end(), t_NewNormals.begin(), t_NewNormals.end());
+		}
+	}
+
+	t_ColMani.collisionNormal = -1 * (t_MinimumNormal.Normalise());
+	t_ColMani.penetrationDepth = t_MinimumDistance + 0.01f;
+	t_ColMani.hasCollision = true;
+
+	collisionSolutionMap[std::make_pair(epaA, planeB)] = t_ColMani;
+	return t_ColMani;
+}
+
+CollisionManifold CollisionManager::EPAtoGJK(GameObjectEntity* epaA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	CollisionManifold t_ColMani = CollisionManifold();
+	Simplex t_OutSimplex = Simplex();
+
+	// NOTE: Normal GJK Algorithm
+	Vector3 t_Support = Support(epaA, gjkB, Vector3(1, 0, 0));
+
+	// Simplex is an array of points, max count is 4
+	Simplex t_Points;
+	t_Points.push_front(t_Support);
+
+	Vector3 t_Direction = -t_Support;
+
+	// NOTE: Run the GJK Algorithm and Break Out the loop when a simplex is found and store the outsimplex in the out simplex structure
+	while (true)
+	{
+		// NOTE: Check the Collider A and ColliderB Context
+		t_Support = Support(epaA, gjkB, t_Direction);
+
+		// NOTE: No Collision
+		if (t_Support.Dot(t_Direction) <= 0) { return CollisionManifold(); }
+
+		// NOTE: Check the Simplex that the Collision Lies in
+		t_Points.push_front(t_Support);
+
+		if (NextSimplex(t_Points, t_Direction)) { t_OutSimplex = t_Points; break; }
+	}
+
+
+	// NOTE: EPA (Expanding Poltyope Algorithm) Begin
+	std::vector<Vector3> t_Polytope(t_OutSimplex.begin(), t_OutSimplex.end());
+
+	// NOTE: Potential Face / Triangle list, in terms of Winding order
+	std::vector<size_t> t_Faces = {
+
+		0, 1, 2,
+		0, 3, 1,
+		0, 2, 3,
+		1, 3, 2
+	};
+
+	// NOTE: n-Polytope of the face, Minimum face normal
+	// NOTE: Calculates the new normals of the Face
+	auto [t_Normals, t_MinFace] = GetFaceNormals(t_Polytope, t_Faces);
+
+	Vector3 t_MinimumNormal;
+	float t_MinimumDistance = FLT_MAX;
+
+	while (t_MinimumDistance == FLT_MAX)
+	{
+		t_MinimumNormal = t_Normals[t_MinFace].xyz();
+		t_MinimumDistance = t_Normals[t_MinFace].w;
+
+		t_Support = Support(epaA, gjkB, t_MinimumNormal);
+		float t_Distance = Vector3::S_Dot(t_MinimumNormal, t_Support);
+
+		// NOTE: Calculate the Distance to see if the normal face is within range of the point
+		if (abs(t_Distance - t_MinimumDistance) > 0.001f)
+		{
+			t_MinimumDistance = FLT_MAX;
+			std::vector<std::pair<size_t, size_t>> t_UniqueEdges;
+
+			for (int i = 0; i < t_Normals.size(); i++)
+			{
+				if ((Vector3::S_Dot(t_Normals[i].xyz(), t_Support) - t_Normals[i].w) > 0)
+				{
+					size_t t_F = i * 3;
+
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F, t_F + 1);
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 1, t_F + 2);
+					AddIfUniqueEdge(t_UniqueEdges, t_Faces, t_F + 2, t_F);
+
+					t_Faces[t_F + 2] = t_Faces.back(); t_Faces.pop_back();
+					t_Faces[t_F + 1] = t_Faces.back(); t_Faces.pop_back();
+					t_Faces[t_F] = t_Faces.back(); t_Faces.pop_back();
+
+					t_Normals[i] = t_Normals.back();
+					t_Normals.pop_back();
+
+					i--;
+				}
+			}
+
+			// NOTE: Work out if the New Faces and the Unique Edges match
+			std::vector<size_t> t_NewFaces;
+			for (auto [edgeIndex1, edgeIndex2] : t_UniqueEdges)
+			{
+				t_NewFaces.push_back(edgeIndex1);
+				t_NewFaces.push_back(edgeIndex2);
+				t_NewFaces.push_back(t_Polytope.size());
+			}
+
+			t_Polytope.push_back(t_Support);
+
+			auto [t_NewNormals, t_NewMinimumFace] = GetFaceNormals(t_Polytope, t_NewFaces);
+
+			// NOTE: Check if the Normal is within the distance from the old distance to calculate the normal distance
+			float t_OldMinDistance = FLT_MAX;
+			for (size_t i = 0; i < t_Normals.size(); i++)
+			{
+				if (t_Normals[i].w < t_OldMinDistance)
+				{
+					t_OldMinDistance = t_Normals[i].w;
+					t_MinFace = i;
+				}
+			}
+
+			if (t_NewNormals[t_NewMinimumFace].w < t_OldMinDistance)
+			{
+				t_MinFace = t_NewMinimumFace + t_Normals.size();
+			}
+
+			t_Faces.insert(t_Faces.end(), t_NewFaces.begin(), t_NewFaces.end());
+			t_Normals.insert(t_Normals.end(), t_NewNormals.begin(), t_NewNormals.end());
+		}
+	}
+
+	t_ColMani.collisionNormal = -1 * (t_MinimumNormal.Normalise());
+	t_ColMani.penetrationDepth = t_MinimumDistance + 0.01f;
+	t_ColMani.hasCollision = true;
+
+	collisionSolutionMap[std::make_pair(epaA, gjkB)] = t_ColMani;
+	return t_ColMani;
+}
+
+CollisionManifold CollisionManager::MassAggToMassAgg(GameObjectEntity* massAggA, GameObjectEntity* massAggB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	return CollisionManifold();
+}
+
 CollisionManifold CollisionManager::MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
 	CollisionManifold t_ColMani = CollisionManifold();
@@ -896,6 +1540,21 @@ CollisionManifold CollisionManager::MassAggToBox(GameObjectEntity* massAggA, Gam
 		}
 	}
 
+	return CollisionManifold();
+}
+
+CollisionManifold CollisionManager::MassAggToSAT(GameObjectEntity* massAggA, GameObjectEntity* satB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	return CollisionManifold();
+}
+
+CollisionManifold CollisionManager::MassAggToGJK(GameObjectEntity* massAggA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
+	return CollisionManifold();
+}
+
+CollisionManifold CollisionManager::MassAggToEPA(GameObjectEntity* massAggA, GameObjectEntity* epaB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
+{
 	return CollisionManifold();
 }
 

@@ -65,7 +65,6 @@ void EPACollider::ConstructHull(std::string filepath, ID3D11Device* device)
 
 void EPACollider::Update(float deltaTime)
 {
-	// ColliderEntity::Update(deltaTime);
 	ColliderEntity::UpdateVertices(m_Owner->m_Transform.m_Scale, m_Owner->m_Transform.m_Position);
 }
 

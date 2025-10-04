@@ -26,6 +26,7 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device) : ScreenEntit
 
 		++m_XOffset;
 
+			t_temp->AddComponent<Rigidbody3DObject>()->Construct(1.0f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 		if (m_FlipFlop == true)
 		{
 			t_temp->AddComponent<Mesh>()->Construct("cube", COLOUR_RED, device);
@@ -37,7 +38,6 @@ EPAScreen::EPAScreen(std::string screenName, ID3D11Device* device) : ScreenEntit
 			t_temp->AddComponent<EPACollider>()->Construct("sphere", device);
 		}
 
-		t_temp->AddComponent<Rigidbody3DObject>()->Construct(1.0f, Rigidbody3DMovementType::RIGIDBODY_3D_MOVEMENT_TYPE_DYNAMIC);
 
 		InsertObjectIntoList(t_temp);
 	}

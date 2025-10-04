@@ -10,7 +10,6 @@ MassAggregate::MassAggregate()
 {
 	m_SpringConstant = 0;
 	m_DampeningForce = 0;
-	m_Vertices.clear();
 	m_MassPoints.clear();
 }
 
@@ -22,8 +21,6 @@ MassAggregate::~MassAggregate()
 	}
 	delete[] m_TargetDistances;
 	m_SpringCount -= m_MassPoints.size() * (m_MassPoints.size() - 1);
-
-	m_Vertices.clear();
 
 	for (int i = 0; i < m_MassPoints.size(); ++i)
 	{

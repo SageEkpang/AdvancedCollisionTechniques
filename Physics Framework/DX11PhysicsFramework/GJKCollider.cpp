@@ -40,7 +40,6 @@ void GJKCollider::Construct(std::string path, ID3D11Device* device)
 
 void GJKCollider::Update(float deltaTime)
 {
-	// ColliderEntity::Update(deltaTime);
 	ColliderEntity::UpdateVertices(m_Owner->m_Transform.m_Scale, m_Owner->m_Transform.m_Position);
 }
 

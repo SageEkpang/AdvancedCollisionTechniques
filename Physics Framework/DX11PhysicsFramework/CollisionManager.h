@@ -39,15 +39,16 @@ enum Collider_Type_Collisions
     COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT, // Needs tweaking
     COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX, // Needs tweaking
 
-    COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA, // DONE
-    COLLIDER_TYPE_COLLISIONS_EPA_TO_SPHERE, 
-    COLLIDER_TYPE_COLLISIONS_EPA_TO_BOX,
-    COLLIDER_TYPE_COLLISIONS_EPA_TO_PLANE,
-
     COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK, // DONE
-    COLLIDER_TYPE_COLLISIONS_GJK_TO_SPHERE, // TODO
-    COLLIDER_TYPE_COLLISIONS_GJK_TO_BOX, // TODO
-    COLLIDER_TYPE_COLLISIONS_GJK_TO_PLANE, // TODO
+    COLLIDER_TYPE_COLLISIONS_GJK_TO_SPHERE, // DONE
+    COLLIDER_TYPE_COLLISIONS_GJK_TO_BOX, // DONE
+    COLLIDER_TYPE_COLLISIONS_GJK_TO_PLANE, // DONE
+
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA, // DONE
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_SPHERE, // DONE
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_BOX, // DONE
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_PLANE, // DONE
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_GJK, // TODO
 
     COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_MASS_AGG, // TODO
     COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_SPHERE, // DONE
@@ -128,14 +129,25 @@ public:
 
     // GJK
     static CollisionManifold GJKtoGJK(GameObjectEntity* gjkA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold GJKtoSphere(GameObjectEntity* gjkA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold GJKtoBox(GameObjectEntity* gjkA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold GJKtoPlane(GameObjectEntity* gjkA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // EPA
     static CollisionManifold EPAtoEPA(GameObjectEntity* epaA, GameObjectEntity* epaB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold EPAtoSphere(GameObjectEntity* epaA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold EPAtoBox(GameObjectEntity* epaA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold EPAtoPlane(GameObjectEntity* epaA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold EPAtoGJK(GameObjectEntity* epaA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // MassAggregate
+    static CollisionManifold MassAggToMassAgg(GameObjectEntity* massAggA, GameObjectEntity* massAggB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
     static CollisionManifold MassAggToSphere(GameObjectEntity* massAggA, GameObjectEntity* sphereB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
     static CollisionManifold MassAggToPlane(GameObjectEntity* massAggA, GameObjectEntity* planeB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
     static CollisionManifold MassAggToBox(GameObjectEntity* massAggA, GameObjectEntity* boxB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold MassAggToSAT(GameObjectEntity* massAggA, GameObjectEntity* satB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold MassAggToGJK(GameObjectEntity* massAggA, GameObjectEntity* gjkB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
+    static CollisionManifold MassAggToEPA(GameObjectEntity* massAggA, GameObjectEntity* epaB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap);
 
     // NEAREST POINT CHECKS
     static Vector3 BoxNearestPoint(GameObjectEntity* boxA, Vector3 pointB);

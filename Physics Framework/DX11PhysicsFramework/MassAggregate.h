@@ -14,7 +14,6 @@ class MassAggregate : public ColliderEntity
 {
 public:
 
-	std::vector<Vector3> m_Vertices;
 	std::vector<GameObjectEntity*> m_MassPoints;
 	float** m_TargetDistances = nullptr;
 	float m_SpringConstant;

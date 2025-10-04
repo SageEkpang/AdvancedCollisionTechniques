@@ -138,7 +138,7 @@ void PlaneCollider::Update(float deltaTime)
 	// NOTE: Position Matrix
 	XMMATRIX Position = XMMatrixTranslation(m_Owner->m_Transform.m_Position.x + m_Offset.x, m_Owner->m_Transform.m_Position.y + m_Offset.y, m_Owner->m_Transform.m_Position.z + m_Offset.z);
 
-	UpdateVertices(Vector3(m_Scale.x, 1, m_Scale.y), m_Owner->m_Transform.m_Position + m_Offset);
+	UpdateVertices(Vector3(m_Scale.x, 1, m_Scale.z), m_Owner->m_Transform.m_Position + m_Offset);
 
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }
