@@ -30,8 +30,9 @@ void SphereCollider::Update(float deltaTime)
     // NOTE: Position Matrix
     XMMATRIX Position = XMMatrixTranslation(m_Owner->m_Transform.m_Position.x + m_Offset.x, m_Owner->m_Transform.m_Position.y + m_Offset.y, m_Owner->m_Transform.m_Position.z + m_Offset.z);
 
-    XMStoreFloat4x4(m_World, Scale * Orientation * Position);
+    UpdateVertices(Vector3(m_Radius, m_Radius, m_Radius), m_Owner->m_Transform.m_Position + m_Offset);
 
+    XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }
 
 SphereCollider::SphereCollider()
@@ -50,6 +51,8 @@ void SphereCollider::Construct(Vector3 offset, float radius, ID3D11Device* devic
 
     // NOTE: Set the Mesh
     std::string t_tempMeshString = "Resources\\OBJ\\sphere.obj";
+
+    FillVerticesArray((char*)t_tempMeshString.c_str());
 
     t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
     t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
@@ -73,6 +76,8 @@ void SphereCollider::Construct(float x_offset, float y_offset, float z_offset, f
     // NOTE: Set the Mesh
     std::string t_tempMeshString = "Resources\\OBJ\\sphere.obj";
 
+    FillVerticesArray((char*)t_tempMeshString.c_str());
+
     t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
     t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
     t_Geometry.numberOfIndices = t_Mesh.IndexCount;
@@ -94,6 +99,8 @@ void SphereCollider::Construct(float radius, ID3D11Device* device)
 
     // NOTE: Set the Mesh
     std::string t_tempMeshString = "Resources\\OBJ\\sphere.obj";
+
+    FillVerticesArray((char*)t_tempMeshString.c_str());
 
     t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
     t_Geometry.indexBuffer = t_Mesh.IndexBuffer;

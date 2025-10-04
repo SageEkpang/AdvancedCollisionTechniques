@@ -65,14 +65,8 @@ void EPACollider::ConstructHull(std::string filepath, ID3D11Device* device)
 
 void EPACollider::Update(float deltaTime)
 {
-	// NOTE: Update Position Vertices
-	m_PositionStore.clear();
-	for (int i = 0; i < m_Vertices.size(); ++i)
-	{
-		// NOTE: Store Transformed Vertices
-		Vector3 t_VecPos = (m_Vertices[i] * m_Owner->m_Transform.m_Scale) + m_Owner->m_Transform.m_Position;
-		m_PositionStore.push_back(t_VecPos);
-	}
+	// ColliderEntity::Update(deltaTime);
+	ColliderEntity::UpdateVertices(m_Owner->m_Transform.m_Scale, m_Owner->m_Transform.m_Position);
 }
 
 void EPACollider::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device)
@@ -119,21 +113,5 @@ void EPACollider::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuf
 		pImmediateContext->IASetIndexBuffer(m_Geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);
 
 		pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
-	}
-}
-
-void EPACollider::FillVerticesArray(char* path)
-{
-	// NOTE: Fill array with the different mesh load values
-	std::vector<Vector3> t_TempVec = MeshLoader::LoadObj(path);
-
-	for (int i = 0; i < t_TempVec.size(); ++i)
-	{
-		// NOTE: Store Untransformed Vertices
-		m_Vertices.push_back(t_TempVec[i]);
-
-		// NOTE: Store Transformed Vertices
-		Vector3 t_VecPos = (t_TempVec[i] * m_Owner->m_Transform.m_Scale) + m_Owner->m_Transform.m_Position;
-		m_PositionStore.push_back(t_VecPos);
 	}
 }

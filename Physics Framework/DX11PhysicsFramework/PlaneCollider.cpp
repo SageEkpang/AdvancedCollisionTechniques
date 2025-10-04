@@ -42,6 +42,8 @@ void PlaneCollider::Construct(Vector3 offset, Vector3 scale, ID3D11Device* devic
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\plane.obj";
 
+	FillVerticesArray((char*)t_tempMeshString.c_str());
+
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
@@ -63,6 +65,8 @@ void PlaneCollider::Construct(Vector3 offset, float width, float height, float l
 
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\plane.obj";
+
+	FillVerticesArray((char*)t_tempMeshString.c_str());
 
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
@@ -86,6 +90,8 @@ void PlaneCollider::Construct(Vector3 scale, ID3D11Device* device)
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\plane.obj";
 
+	FillVerticesArray((char*)t_tempMeshString.c_str());
+
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
@@ -108,6 +114,8 @@ void PlaneCollider::Construct(float x_offset, float y_offset, float z_offset, fl
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\plane.obj";
 
+	FillVerticesArray((char*)t_tempMeshString.c_str());
+
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
@@ -129,6 +137,8 @@ void PlaneCollider::Update(float deltaTime)
 
 	// NOTE: Position Matrix
 	XMMATRIX Position = XMMatrixTranslation(m_Owner->m_Transform.m_Position.x + m_Offset.x, m_Owner->m_Transform.m_Position.y + m_Offset.y, m_Owner->m_Transform.m_Position.z + m_Offset.z);
+
+	UpdateVertices(Vector3(m_Scale.x, 1, m_Scale.y), m_Owner->m_Transform.m_Position + m_Offset);
 
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }

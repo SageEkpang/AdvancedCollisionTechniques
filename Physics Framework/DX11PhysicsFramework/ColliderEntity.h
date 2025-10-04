@@ -41,6 +41,11 @@ protected:
 
     DirectX::XMFLOAT4X4* m_World;
 
+protected:
+
+    virtual void FillVerticesArray(char* path);
+    virtual void UpdateVertices(Vector3 scale, Vector3 position);
+
 private: // PRIVATE VARIABLE(s)
 
     std::function<void()> m_TriggerEnteredLambda = nullptr;
@@ -50,7 +55,6 @@ private: // PRIVATE VARIABLE(s)
     std::unordered_set<GameObjectEntity*> m_ObjectList;
     std::unordered_set<GameObjectEntity*>::iterator m_ObjectItr;
 
-    // virtual void FillVertices(char* path);
 
 public: // PUBLIC VARIABLE(s)
 
@@ -69,6 +73,9 @@ public: // PUBLIC VARIABLE(s)
     // TRIGGER AREA VARIABLE(s)
     TriggerAreaState m_TriggerState;
 
+    // NOTE: Vertices Variable(s)
+    std::vector<Vector3> m_Vertices;
+    std::vector<Vector3> m_PositionStore;
 
     // COLLIDER VARIABLE(s)
     // ColliderType m_ColliderType;

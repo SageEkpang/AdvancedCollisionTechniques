@@ -16,6 +16,8 @@ ColliderEntity::~ColliderEntity()
 	if (!m_ObjectList.empty()) { m_ObjectList.clear(); }
 
 	m_TriggerState = TriggerAreaState::TRIGGER_AREA_STATE_NONE;
+	m_PositionStore.clear();
+	m_Vertices.clear();
 }
 
 void ColliderEntity::TriggerQuery(GameObjectEntity* gameObject)
@@ -119,6 +121,7 @@ void ColliderEntity::Update(float deltaTime)
 	// NOTE: Position Matrix
 	XMMATRIX Position = XMMatrixTranslation(m_Owner->m_Transform.m_Position.x, m_Owner->m_Transform.m_Position.y, m_Owner->m_Transform.m_Position.z);
 
+	// NOTE: Store Matrices in the transform
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }
 
@@ -126,6 +129,7 @@ void ColliderEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* const
 {
 	if (m_RenderCollision == false || m_Geometry.numberOfIndices <= 0) return;
 
+	// NOTE: Collider Point Rendering
 	D3D11_RASTERIZER_DESC cmdesc;
 	ID3D11RasterizerState* m_WireCull;
 	ZeroMemory(&cmdesc, sizeof(D3D11_RASTERIZER_DESC));
@@ -152,5 +156,40 @@ void ColliderEntity::Draw(ConstantBuffer constantBufferData, ID3D11Buffer* const
 	pImmediateContext->IASetIndexBuffer(m_Geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);
 
 	pImmediateContext->DrawIndexed(m_Geometry.numberOfIndices, 0, 0);
+}
+
+void ColliderEntity::FillVerticesArray(char* path)
+{
+	// NOTE: Fill array with the different mesh load values
+	std::vector<Vector3> t_TempVec = MeshLoader::LoadObj(path);
+
+	for (int i = 0; i < t_TempVec.size(); ++i)
+	{
+		// NOTE: Store Untransformed Vertices
+		m_Vertices.push_back(t_TempVec[i]);
+
+		// NOTE: Store Transformed Vertices
+		Vector3 t_VecPos = (t_TempVec[i] * m_Owner->m_Transform.m_Scale) + m_Owner->m_Transform.m_Position;
+		m_PositionStore.push_back(t_VecPos);
+	}
+}
+
+void ColliderEntity::UpdateVertices(Vector3 scale, Vector3 position)
+{
+	// NOTE: Update Vertex Data
+	if (!m_PositionStore.empty())
+	{
+		m_PositionStore.clear();
+
+		if (!m_Vertices.empty())
+		{
+			for (int i = 0; i < m_Vertices.size(); ++i)
+			{
+				// NOTE: Store Transformed Vertices
+				Vector3 t_VecPos = (m_Vertices[i] * scale) + position;
+				m_PositionStore.push_back(t_VecPos);
+			}
+		}
+	}
 }
 

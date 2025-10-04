@@ -35,25 +35,33 @@ enum Collider_Type_Collisions
     COLLIDER_TYPE_COLLISIONS_PLANE_TO_BOX, // DONE
     COLLIDER_TYPE_COLLISIONS_PLANE_TO_SPHERE, // DONE
 
-    // Picking Collisions(s)
-    COLLIDER_TYPE_COLLISIONS_RAY_TO_BOX, // DONE
-    COLLIDER_TYPE_COLLISIONS_RAY_TO_SPHERE, // DONE
-    COLLIDER_TYPE_COLLISIONS_RAY_TO_PLANE, // NOT NEEDED
-    COLLIDER_TYPE_COLLISIONS_RAY_TO_EPA, 
-    COLLIDER_TYPE_COLLISIONS_RAY_TO_GJK,
-    COLLIDER_TYPE_COLLISIONS_RAY_TO_MASS_AGG,
-
     // COMPLEX COLLISION(s)
     COLLIDER_TYPE_COLLISIONS_SAT_TO_SAT, // Needs tweaking
     COLLIDER_TYPE_COLLISIONS_SAT_TO_BOX, // Needs tweaking
 
     COLLIDER_TYPE_COLLISIONS_EPA_TO_EPA, // DONE
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_SPHERE, 
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_BOX,
+    COLLIDER_TYPE_COLLISIONS_EPA_TO_PLANE,
 
     COLLIDER_TYPE_COLLISIONS_GJK_TO_GJK, // DONE
+    COLLIDER_TYPE_COLLISIONS_GJK_TO_SPHERE, // TODO
+    COLLIDER_TYPE_COLLISIONS_GJK_TO_BOX, // TODO
+    COLLIDER_TYPE_COLLISIONS_GJK_TO_PLANE, // TODO
 
+    COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_MASS_AGG, // TODO
     COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_SPHERE, // DONE
     COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_PLANE, // DONE
-    COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_BOX // DONE
+    COLLIDER_TYPE_COLLISIONS_MASS_AGG_TO_BOX, // DONE
+
+
+    // Picking Collisions(s)
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_BOX, // DONE
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_SPHERE, // DONE
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_PLANE, // NOT NEEDED
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_EPA, // TODO
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_GJK, // TODO
+    COLLIDER_TYPE_COLLISIONS_RAY_TO_MASS_AGG // DONE
 };
 
 typedef std::pair<std::type_index, std::type_index> col_type_pair;
@@ -76,13 +84,11 @@ public:
         static bool Tetrahedron(Simplex& points, Vector3& direction);
         static bool SameDirection(const Vector3& direction, const Vector3& ao);
 
-        static Vector3 SupportGJK(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction);
-        static Vector3 SupportEPA(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction);
+        static Vector3 Support(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction);
 
         static bool NextSimplex(Simplex& points, Vector3& direction);
 
-        static Vector3 FindFurthestPointGJK(GameObjectEntity* gjkA, Vector3 direction);
-        static Vector3 FindFurthestPointEPA(GameObjectEntity* epaA, Vector3 direction);
+        static Vector3 FindFurthestPoint(GameObjectEntity* colliderA, Vector3 direction);
 
     // EPA
         static void AddIfUniqueEdge(std::vector<std::pair<size_t, size_t>>& edges, std::vector<size_t>& faces, size_t a, size_t b);

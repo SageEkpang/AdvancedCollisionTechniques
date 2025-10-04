@@ -20,11 +20,7 @@
 
 class GJKCollider : public ColliderEntity
 {
-public:
-
-	std::vector<Vector3> m_Vertices;
-	std::vector<Vector3> m_PositionStore;
-
+private:
 public:
 
 	// CLASS FUNCTION(s) (Components)
@@ -36,9 +32,6 @@ public:
 	// BASE FUNCTION(s)	
 	void Update(float deltaTime) override;
 	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
-
-	// HELPER FUNCTION(s)
-	void FillVerticesArray(char* path);
 };
 
 #endif

@@ -42,7 +42,6 @@ private:
 	std::map<col_solution_pair, CollisionManifold> m_CollisionSolutionMap;
 
 	GameObjectEntity* m_PlaneObjectBasic;
-	GameObjectEntity* m_PlaneObjectEPA;
 
 	GameObjectEntity* m_LeftWallObject;
 	GameObjectEntity* m_RightWallObject;

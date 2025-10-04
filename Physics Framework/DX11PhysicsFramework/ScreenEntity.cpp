@@ -9,8 +9,6 @@ ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device) : m_Scr
 	m_PlaneObjectBasic->AddComponent<Mesh>()->Construct("plane", "floor", device);
 	m_PlaneObjectBasic->AddComponent<PlaneCollider>()->Construct(Vector3(500, 1, 500), device);
 	m_PlaneObjectBasic->GetComponent<PlaneCollider>()->m_IsCollideable = true;
-	// m_PlaneObjectBasic->AddComponent<EPACollider>()->Construct("plane", device);
-	// m_PlaneObjectBasic->AddComponent<GJKCollider>()->Construct("plane", device);
 	InsertObjectIntoList(m_PlaneObjectBasic);
 
 	// Wall Objects

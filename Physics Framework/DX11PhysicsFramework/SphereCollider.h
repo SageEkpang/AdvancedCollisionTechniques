@@ -28,6 +28,7 @@ public:
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime) override;
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
 };
 
 #endif;

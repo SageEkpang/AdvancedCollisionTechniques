@@ -92,6 +92,8 @@ void MassAggregate::Update(float deltaTime)
 
 	// Result: F = (-kx) + (-vb)
 
+	ColliderEntity::Update(deltaTime);
+
 	for (int i = 0; i < m_MassPoints.size(); ++i)
 	{
 		for (int j = 0; j < m_MassPoints.size(); ++j)

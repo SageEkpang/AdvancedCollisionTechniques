@@ -1,49 +1,5 @@
 #include "CollisionManager.h"
 
-// GJK
-// Minkowaski Difference Function
-Vector3 CollisionManager::FindFurthestPointGJK(GameObjectEntity* gjkA, Vector3 direction)
-{
-	// STEP 1: Find the Max Point
-	Vector3 t_MaxPoint;
-	float t_MaxDistance = -FLT_MAX;
-
-	// NOTE: Find furthest vertex
-	for (Vector3& v : gjkA->GetComponent<GJKCollider>()->m_PositionStore)
-	{
-		float t_Distance = v.Dot(direction);
-
-		if (t_Distance > t_MaxDistance)
-		{
-			t_MaxDistance = t_Distance;
-			t_MaxPoint = v;
-		}
-	}
-	
-	return t_MaxPoint;
-}
-
-Vector3 CollisionManager::FindFurthestPointEPA(GameObjectEntity* epaA, Vector3 direction)
-{
-	// STEP 1: Find the Max Point
-	Vector3 t_MaxPoint;
-	float t_MaxDistance = -FLT_MAX;
-
-	// NOTE: Find furthest vertex
-	for (Vector3& v : epaA->GetComponent<EPACollider>()->m_PositionStore)
-	{
-		float t_Distance = v.Dot(direction);
-
-		if (t_Distance > t_MaxDistance)
-		{
-			t_MaxDistance = t_Distance;
-			t_MaxPoint = v;
-		}
-	}
-
-	return t_MaxPoint;
-}
-
 // EPA
 void CollisionManager::AddIfUniqueEdge(std::vector<std::pair<size_t, size_t>>& edges, std::vector<size_t>& faces, size_t a, size_t b)
 {
@@ -206,17 +162,10 @@ bool CollisionManager::SameDirection(const Vector3& direction, const Vector3& ao
 	return direction.Dot(ao) > 0;
 }
 
-Vector3 CollisionManager::SupportGJK(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction)
+Vector3 CollisionManager::Support(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction)
 {
-	Vector3 t_TempA = FindFurthestPointGJK(colliderA, direction);
-	Vector3 t_TempB = FindFurthestPointGJK(colliderB, -direction);
-	return t_TempA - t_TempB;
-}
-
-Vector3 CollisionManager::SupportEPA(GameObjectEntity* colliderA, GameObjectEntity* colliderB, Vector3 direction)
-{
-	Vector3 t_TempA = FindFurthestPointEPA(colliderA, direction);
-	Vector3 t_TempB = FindFurthestPointEPA(colliderB, -direction);
+	Vector3 t_TempA = FindFurthestPoint(colliderA, direction);
+	Vector3 t_TempB = FindFurthestPoint(colliderB, -direction);
 	return t_TempA - t_TempB;
 }
 
@@ -231,6 +180,28 @@ bool CollisionManager::NextSimplex(Simplex& points, Vector3& direction)
 	
 	// NOTE: Should not get Here
 	return false;
+}
+
+Vector3 CollisionManager::FindFurthestPoint(GameObjectEntity* colliderA, Vector3 direction)
+{
+
+	// STEP 1: Find the Max Point
+	Vector3 t_MaxPoint;
+	float t_MaxDistance = -FLT_MAX;
+
+	// NOTE: Find furthest vertex
+	for (Vector3& v : colliderA->FindChildComponent<ColliderEntity>()->m_PositionStore)
+	{
+		float t_Distance = v.Dot(direction);
+
+		if (t_Distance > t_MaxDistance)
+		{
+			t_MaxDistance = t_Distance;
+			t_MaxPoint = v;
+		}
+	}
+
+	return t_MaxPoint;
 }
 
 CollisionManager::CollisionManager()
@@ -690,7 +661,7 @@ CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectE
 {
 	CollisionManifold t_ColMani = CollisionManifold();
 
-	Vector3 t_Support = SupportGJK(gjkA, gjkB, Vector3(1, 0, 0));
+	Vector3 t_Support = Support(gjkA, gjkB, Vector3(1, 0, 0));
 	
 	// Simplex is an array of points, max count is 4
 	Simplex t_Points;
@@ -701,7 +672,7 @@ CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectE
 	while (true)
 	{
 		// NOTE: Check the Collider A and ColliderB Context
-		t_Support = SupportGJK(gjkA, gjkB, t_Direction);
+		t_Support = Support(gjkA, gjkB, t_Direction);
 
 		// NOTE: No Collision
 		if (t_Support.Dot(t_Direction) <= 0)
@@ -732,7 +703,7 @@ CollisionManifold CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectE
 	Simplex t_OutSimplex = Simplex();
 
 	// NOTE: Normal GJK Algorithm
-	Vector3 t_Support = SupportEPA(epaA, epaB, Vector3(1, 0, 0));
+	Vector3 t_Support = Support(epaA, epaB, Vector3(1, 0, 0));
 
 	// Simplex is an array of points, max count is 4
 	Simplex t_Points;
@@ -744,7 +715,7 @@ CollisionManifold CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectE
 	while (true)
 	{
 		// NOTE: Check the Collider A and ColliderB Context
-		t_Support = SupportEPA(epaA, epaB, t_Direction);
+		t_Support = Support(epaA, epaB, t_Direction);
 
 		// NOTE: No Collision
 		if (t_Support.Dot(t_Direction) <= 0) { return CollisionManifold(); }
@@ -780,7 +751,7 @@ CollisionManifold CollisionManager::EPAtoEPA(GameObjectEntity* epaA, GameObjectE
 		t_MinimumNormal = t_Normals[t_MinFace].xyz();
 		t_MinimumDistance = t_Normals[t_MinFace].w;
 
-		t_Support = SupportEPA(epaA, epaB, t_MinimumNormal);
+		t_Support = Support(epaA, epaB, t_MinimumNormal);
 		float t_Distance = Vector3::S_Dot(t_MinimumNormal, t_Support);
 
 		// NOTE: Calculate the Distance to see if the normal face is within range of the point

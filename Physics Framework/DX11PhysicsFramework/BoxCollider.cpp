@@ -48,6 +48,8 @@ void BoxCollider::Construct(Vector3 offset, Vector3 scale, ID3D11Device* device)
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\cube.obj";
 
+	FillVerticesArray((char*)t_tempMeshString.c_str());
+
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
@@ -69,6 +71,8 @@ void BoxCollider::Construct(Vector3 offset, float width, float height, float len
 
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\cube.obj";
+
+	FillVerticesArray((char*)t_tempMeshString.c_str());
 
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
@@ -92,6 +96,8 @@ void BoxCollider::Construct(float x_scale, float y_scale, float z_scale, ID3D11D
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\cube.obj";
 
+	FillVerticesArray((char*)t_tempMeshString.c_str());
+
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
@@ -113,6 +119,8 @@ void BoxCollider::Construct(Vector3 scale, ID3D11Device* device)
 
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\cube.obj";
+
+	FillVerticesArray((char*)t_tempMeshString.c_str());
 
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
@@ -136,6 +144,8 @@ void BoxCollider::Construct(float x_offset, float y_offset, float z_offset, floa
 	// NOTE: Set the Mesh
 	std::string t_tempMeshString = "Resources\\OBJ\\cube.obj";
 
+	FillVerticesArray((char*)t_tempMeshString.c_str());
+
 	t_Mesh = OBJLoader::Load(t_tempMeshString.data(), device);
 	t_Geometry.indexBuffer = t_Mesh.IndexBuffer;
 	t_Geometry.numberOfIndices = t_Mesh.IndexCount;
@@ -157,6 +167,8 @@ void BoxCollider::Update(float deltaTime)
 
 	// NOTE: Position Matrix
 	XMMATRIX Position = XMMatrixTranslation(m_Owner->m_Transform.m_Position.x + m_Offset.x, m_Owner->m_Transform.m_Position.y + m_Offset.y, m_Owner->m_Transform.m_Position.z + m_Offset.z);
+
+	UpdateVertices(m_Scale, m_Owner->m_Transform.m_Position + m_Offset);
 
 	XMStoreFloat4x4(m_World, Scale * Orientation * Position);
 }
