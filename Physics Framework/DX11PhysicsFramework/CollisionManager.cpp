@@ -279,6 +279,12 @@ CollisionManifold CollisionManager::CheckCollisions(GameObjectEntity* colliderA,
 	if (colliderB->FindChildComponent<ColliderEntity>()) { tempB = colliderB; }
 	if (tempA == nullptr || tempB == nullptr) { return CollisionManifold(); }
 
+	if (tempA->FindChildComponent<ColliderEntity>()->m_IsCollideable == false ||
+		tempB->FindChildComponent<ColliderEntity>()->m_IsCollideable == false)
+	{
+		return CollisionManifold();
+	}
+
 	// NOTE: Assign the static casted class to the Game Objects
 	auto collision_made_pair = std::make_pair(tempA->FindChildComponentID<ColliderEntity>(), tempB->FindChildComponentID<ColliderEntity>());
 	auto collision_solution_pair = std::make_pair(tempA, tempB);
@@ -591,14 +597,32 @@ CollisionManifold CollisionManager::RayToGJK(GameObjectEntity* rayA, GameObjectE
 
 CollisionManifold CollisionManager::RayToMassAgg(GameObjectEntity* rayA, GameObjectEntity* massAggB, std::map<col_solution_pair, CollisionManifold>& collisionSolutionMap)
 {
+	CollisionManifold t_ColMani;
 
+	for (int i = 0; i < massAggB->GetComponent<MassAggregate>()->m_MassPoints.size(); ++i)
+	{
+		const float t_MassAggRadius = massAggB->GetComponent<MassAggregate>()->m_MassPoints[i]->GetComponent<SphereCollider>()->m_Radius;
 
+		Vector3 t_M = rayA->GetComponent<RayCollider>()->m_Origin - massAggB->GetComponent<MassAggregate>()->m_MassPoints[i]->m_Transform.m_Position;
+		float t_B = Vector3::S_Dot(t_M, rayA->GetComponent<RayCollider>()->m_Direction);
+		float t_C = Vector3::S_Dot(t_M, t_M) - (massAggB->GetComponent<MassAggregate>()->m_MassPoints[i]->GetComponent<SphereCollider>()->m_Radius * massAggB->GetComponent<MassAggregate>()->m_MassPoints[i]->GetComponent<SphereCollider>()->m_Radius);
 
+		// Exit if r’s origin outside s (c > 0) and r pointing away from s (b > 0) 
+		if (t_C > 0.0f && t_B > 0.0f) { continue; }
 
+		float discr = t_B * t_B - t_C;
 
+		// A negative discriminant corresponds to ray missing sphere 
+		if (discr < 0.0f) { continue; }
 
+		t_ColMani.hasCollision = true;
+		t_ColMani.ownerObject = rayA;
+		t_ColMani.hitObject = massAggB->GetComponent<MassAggregate>()->m_MassPoints[i];
+		t_ColMani.origin = rayA->GetComponent<RayCollider>()->m_Origin;
+		t_ColMani.direction = rayA->GetComponent<RayCollider>()->m_Direction;
 
-
+		return t_ColMani;
+	}
 
 	return CollisionManifold();
 }

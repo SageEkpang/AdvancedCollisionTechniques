@@ -1,8 +1,22 @@
 #include "WindowManager.h"
 
+bool WindowManager::m_CtrlDown = false;
+bool WindowManager::m_ShiftDown = false;
+
 float WindowManager::m_MouseX = 0;
 float WindowManager::m_MouseY = 0;
+
+float WindowManager::m_MouseNDCX = 0;
+float WindowManager::m_MouseNDCY = 0;
+
+int WindowManager::m_WindowWidth = WINDOW_WIDTH;
+int WindowManager::m_WindowHeight = WINDOW_HEIGHT;
+
 bool WindowManager::m_MouseButtonLeftDown = false;
+bool WindowManager::m_MouseButtonRightDown = false;
+
+short int WindowManager::m_MouseWheel = 0;
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -438,20 +452,38 @@ bool WindowManager::HandleEvents(MSG& msg)
 		{
 			m_MouseX = LOWORD(msg.lParam);
 			m_MouseY = HIWORD(msg.lParam);
+
+			m_MouseNDCX = (float)((2.0 * ((float)m_MouseX) / (float)WINDOW_WIDTH) - 1.0f);
+			m_MouseNDCY = (float)((2.0 * (((float)m_MouseY) / (float)WINDOW_HEIGHT)) - 1.0f) * -1.0f;
 		}
 		break;
 
-		case WM_LBUTTONDOWN:
+		case WM_KEYDOWN:
 		{
-			m_MouseButtonLeftDown = true;
+			switch (msg.wParam)
+			{
+				case VK_CONTROL: { m_CtrlDown = true; } break;
+			}
 		}
 		break;
 
-		case WM_LBUTTONUP:
+		case WM_KEYUP:
 		{
-			m_MouseButtonLeftDown = false;
+			switch (msg.wParam)
+			{
+				case VK_CONTROL: { m_CtrlDown = false; } break;
+			}
 		}
 		break;
+
+		case WM_MOUSEWHEEL: { m_MouseWheel = short(HIWORD(msg.wParam)) / (short)(120); } break;
+
+		case WM_RBUTTONDOWN: { m_MouseButtonRightDown = true; } break;
+		case WM_RBUTTONUP: { m_MouseButtonRightDown = false; } break;
+
+		case WM_LBUTTONDOWN: { m_MouseButtonLeftDown = true; } break;
+		case WM_LBUTTONUP: { m_MouseButtonLeftDown = false; } break;
+
 	}
 
 	return false;

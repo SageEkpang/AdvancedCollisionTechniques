@@ -126,6 +126,8 @@ void ScreenManager::GuizmoRendering()
 		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 		ImGuizmo::DecomposeMatrixToComponents(*t_WorldMatrix, matrixTranslation, matrixRotation, matrixScale);
 
+		// m_GuizmoObject->GetComponent<Rigidbody3DObject>()->ApplyForceX();
+
 		m_GuizmoObject->m_Transform.m_Position.x = matrixTranslation[0];
 		m_GuizmoObject->m_Transform.m_Position.y = matrixTranslation[1];
 		m_GuizmoObject->m_Transform.m_Position.z = matrixTranslation[2];
@@ -135,6 +137,8 @@ void ScreenManager::GuizmoRendering()
 		m_GuizmoObject->m_Transform.m_Scale.x = matrixScale[0];
 		m_GuizmoObject->m_Transform.m_Scale.y = matrixScale[1];
 		m_GuizmoObject->m_Transform.m_Scale.z = matrixScale[2];
+
+
 
 		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, *t_WorldMatrix);
 	}
@@ -226,9 +230,8 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 
 	ImGui::Begin("Analysis");
 	ImGui::SeparatorText("General Statistics");
-	ImGui::Text("Mouse X: %.1f", WindowManager::m_MouseX);
-	ImGui::SameLine();
-	ImGui::Text("Mouse Y: %.1f", WindowManager::m_MouseY);
+	ImGui::Text("Mouse X: %.0f", WindowManager::m_MouseX); ImGui::SameLine(); ImGui::Text("Mouse Y: %.0f", WindowManager::m_MouseY);
+	ImGui::Text("Mouse NDC X: %.1f", WindowManager::m_MouseNDCX); ImGui::SameLine(); ImGui::Text("Mouse NDC Y: %.1f", WindowManager::m_MouseNDCY);
 
 	ImGui::Separator();
 	ImGui::Text("Frame Counter: %.1f", m_SimpleCount);
@@ -239,7 +242,7 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 
 	ImGui::Spacing();
 	ImGui::SeparatorText("Object Statistics");
-	ImGui::Text("Object Count: %d", m_CurrentScreen->GetObjects().size() - 1);
+	ImGui::Text("Object Count: %d", m_CurrentScreen->GetObjects().size() - 4);
 	ImGui::Text("Rigidbody Count: %d", Rigidbody3DObject::m_RigidbodyCount);
 	ImGui::Text("Particle Count: %d", MassAggregate::m_PointCount);
 	ImGui::Text("Spring Count: %d", MassAggregate::m_SpringCount);

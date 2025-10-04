@@ -6,6 +6,8 @@
 #include <directxmath.h>
 #include <directxcolors.h>
 #include <iostream>
+#include <cmath>
+#include <algorithm>
 
 using namespace DirectX;
 
@@ -32,6 +34,10 @@ private:
 	XMFLOAT4X4* m_World;
 	XMFLOAT4X4 m_ViewMatrix;
 	XMFLOAT4X4 m_ProjectionMatrix;
+
+	bool m_SavedPosSet = false;
+	float m_SavedPositionX;
+	float m_SavedPositionY;
 
 public:
 

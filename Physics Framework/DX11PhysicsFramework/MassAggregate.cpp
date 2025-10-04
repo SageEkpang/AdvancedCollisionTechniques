@@ -8,6 +8,8 @@ int MassAggregate::m_SpringCount = 0;
 
 MassAggregate::MassAggregate()
 {
+	m_SpringConstant = 0;
+	m_DampeningForce = 0;
 	m_Vertices.clear();
 	m_MassPoints.clear();
 }
@@ -58,10 +60,7 @@ void MassAggregate::Construct(std::string path, float springConstant, float damp
 
 	// NOTE: Making Array
 	m_TargetDistances = new float* [m_MassPoints.size()];
-	for (int i = 0; i < m_MassPoints.size(); ++i)
-	{
-		m_TargetDistances[i] = new float[m_MassPoints.size()];
-	}
+	for (int i = 0; i < m_MassPoints.size(); ++i) { m_TargetDistances[i] = new float[m_MassPoints.size()]; }
 
 	// NOTE: File Target Positions
 	for (int i = 0; i < m_MassPoints.size(); ++i)
@@ -71,13 +70,12 @@ void MassAggregate::Construct(std::string path, float springConstant, float damp
 			if (i == j) { continue; }
 
 			// NOTE: Store Target distances to other points
-			float t_CurrentLength = Vector3::S_Magnitude(m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position) / 2;
+			float t_CurrentLength = Vector3::S_Magnitude(m_MassPoints[i]->m_Transform.m_Position - m_MassPoints[j]->m_Transform.m_Position) * 0.5f;
 			m_TargetDistances[i][j] = t_CurrentLength;
 			++m_SpringCount;
 		}
 	}
 
-	int i = 9;
 }
 
 void MassAggregate::Update(float deltaTime)
@@ -106,18 +104,17 @@ void MassAggregate::Update(float deltaTime)
 			float t_X = (Vector3::S_Magnitude(t_RelativePosition) * 0.5f) - m_TargetDistances[i][j];
 			float t_V = Vector3::S_Magnitude(t_RelativeVelocity);
 
-			float t_F = (-m_SpringConstant * t_X); // + (-t_B * t_V);
+			float t_F = (-m_SpringConstant * t_X);
 
 			Vector3 t_Impulse = (Vector3::S_Normalise(t_RelativePosition) * 0.5) * t_F;
 
 			Vector3 t_DampeningForce = t_RelativeVelocity * m_DampeningForce;
 
-			m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->ApplyImpulse((t_Impulse * m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->m_Mass) * -1.f * m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->GetInverseMass());
+			m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->ApplyImpulse((t_Impulse * m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->m_Mass * -1.f) * m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->GetInverseMass());
 			m_MassPoints[i]->GetComponent<Rigidbody3DObject>()->ApplyImpulse(t_DampeningForce * -1.f);
 
 			m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->ApplyImpulse((t_Impulse * m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->m_Mass) * m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->GetInverseMass());
 			m_MassPoints[j]->GetComponent<Rigidbody3DObject>()->ApplyImpulse(t_DampeningForce);
-
 		}
 	}
 

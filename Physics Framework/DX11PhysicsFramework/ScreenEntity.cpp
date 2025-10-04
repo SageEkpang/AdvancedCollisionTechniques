@@ -5,11 +5,33 @@ ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device) : m_Scr
 	// Plane Object
 	m_PlaneObject = new GameObjectEntity();
 	m_PlaneObject->m_Transform.m_Position = Vector3(0, 0, 0);
-	m_PlaneObject->m_Transform.m_Scale = Vector3(1000, 1, 1000);
-	m_PlaneObject->m_Transform.m_Orientation = Quaternion4(0, 0, 0, 0);
+	m_PlaneObject->m_Transform.m_Scale = Vector3(500, 1, 500);
 	m_PlaneObject->AddComponent<Mesh>()->Construct("plane", "floor", device);
-	m_PlaneObject->AddComponent<PlaneCollider>()->Construct(Vector3(1000, 1, 1000), device);
+	m_PlaneObject->AddComponent<PlaneCollider>()->Construct(Vector3(500, 1, 500), device);
+	m_PlaneObject->GetComponent<PlaneCollider>()->m_IsCollideable = true;
 	InsertObjectIntoList(m_PlaneObject);
+
+	// Wall Objects
+	m_LeftWallObject = new GameObjectEntity();
+	m_LeftWallObject->m_Transform.m_Position = Vector3(260, 0, 0);
+	m_LeftWallObject->m_Transform.m_Scale = Vector3(10, 100, 250);
+	m_LeftWallObject->AddComponent<BoxCollider>()->Construct(Vector3(10, 100, 250), device);
+	m_LeftWallObject->GetComponent<BoxCollider>()->m_IsCollideable = false;
+	InsertObjectIntoList(m_LeftWallObject);
+
+	m_RightWallObject = new GameObjectEntity();
+	m_RightWallObject->m_Transform.m_Position = Vector3(-260, 0, 0);
+	m_RightWallObject->m_Transform.m_Scale = Vector3(10, 100, 250);
+	m_RightWallObject->AddComponent<BoxCollider>()->Construct(Vector3(10, 100, 250), device);
+	m_RightWallObject->GetComponent<BoxCollider>()->m_IsCollideable = false;
+	InsertObjectIntoList(m_RightWallObject);
+
+	m_BackWallObject = new GameObjectEntity();
+	m_BackWallObject->m_Transform.m_Position = Vector3(0, 0, 260);
+	m_BackWallObject->m_Transform.m_Scale = Vector3(250, 100, 10);
+	m_BackWallObject->AddComponent<BoxCollider>()->Construct(Vector3(250, 100, 10), device);
+	m_BackWallObject->GetComponent<BoxCollider>()->m_IsCollideable = false;
+	InsertObjectIntoList(m_BackWallObject);
 }
 
 ScreenEntity::~ScreenEntity()

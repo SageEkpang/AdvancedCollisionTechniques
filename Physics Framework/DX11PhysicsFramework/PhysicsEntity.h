@@ -113,7 +113,7 @@ public:
 	inline Vector3 GetNetForce() { return m_NetForce; }
 
 	inline float GetMass() { return m_Mass; }
-	inline float GetInverseMass() { if (m_Mass == 0) return 0; return 1 / m_Mass; }
+	inline float GetInverseMass() { if (m_Mass == 0) { return 0; }  return 1.f / m_Mass; }
 
 	float GetDensity();
 

@@ -1,12 +1,13 @@
 #include "Camera.h"
+#include "WindowManager.h"
 
 Camera::Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
 	: m_Eye(position), m_At(at), m_Up(up), _windowWidth(windowWidth), _windowHeight(windowHeight), _nearDepth(nearDepth), _farDepth(farDepth)
 {
 	m_World = new XMFLOAT4X4();
 
-	m_CameraSpeed = 5.0f;
-	m_CameraRotationSpeed = 5.f;
+	m_CameraSpeed = 15.0f;
+	m_CameraRotationSpeed = 10.f;
 
 	m_ForwardLook = XMFLOAT3(0.0f, 0.0f, 1.0f);
 
@@ -45,46 +46,50 @@ void Camera::Update(const float deltaTime)
 	if (GetAsyncKeyState('Q')) { t_TempWorld.r[3] -= t_TempWorld.r[1] * m_CameraSpeed * deltaTime; } // Move Down
 
 
-	// ROTATE (Left and Right) (Yaw)
-	if (GetAsyncKeyState(VK_LEFT)) // Rotate Left
+	if (WindowManager::m_CtrlDown == true && WindowManager::m_MouseWheel > 0)
 	{
-		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[1], XMConvertToRadians(-1 * (m_CameraRotationSpeed * 10) * deltaTime));
-		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
-		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotation);
+		m_CameraSpeed += 1;
+		m_CameraSpeed = std::clamp(m_CameraSpeed, 0.1f, 10.f);
 	}
-	if (GetAsyncKeyState(VK_RIGHT)) // Rotate Right
+	else if (WindowManager::m_CtrlDown == true && WindowManager::m_MouseWheel < 0)
 	{
-		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[1], XMConvertToRadians(1 * (m_CameraRotationSpeed * 10) * deltaTime));
-		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
-		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotation);
+		m_CameraSpeed -= 1;
+		m_CameraSpeed = std::clamp(m_CameraSpeed, 0.1f, 10.f);
 	}
-
-	// ROTATE (Up and Down) (Pitch)
-	if (GetAsyncKeyState(VK_UP)) // Rotate Up
+	else if (WindowManager::m_CtrlDown == false && WindowManager::m_MouseWheel != 0)
 	{
-		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians(-1 * (m_CameraRotationSpeed * 10) * deltaTime));
-		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
-		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotation);
-	}
-	if (GetAsyncKeyState(VK_DOWN)) // Rotate Down
-	{
-		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians(1 * (m_CameraRotationSpeed * 10) * deltaTime));
-		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
-		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotation);
+		WindowManager::m_MouseWheel = 0;
 	}
 
-	// ROTATE (ClockWise and Anti-Clockwise) (Roll)
-	if (GetAsyncKeyState('Z')) // Rotate Anit-Clockwise
+
+
+
+	if (WindowManager::m_MouseButtonRightDown == true)
 	{
-		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[2], XMConvertToRadians(1 * (m_CameraRotationSpeed * 10) * deltaTime));
-		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
-		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
+		if (m_SavedPosSet == false)
+		{
+			m_SavedPositionX = WindowManager::m_MouseNDCX;
+			m_SavedPositionY = WindowManager::m_MouseNDCY;
+			m_SavedPosSet = true;
+		}
+
+		XMMATRIX CamRotationX = XMMatrixRotationAxis(t_TempWorld.r[1], XMConvertToRadians(((WindowManager::m_MouseNDCX) - m_SavedPositionX) * (m_CameraRotationSpeed * 100) * deltaTime));
+		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotationX);
+		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotationX);
+
+		//XMMATRIX CamRotationY = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians((-WindowManager::m_MouseNDCY - m_SavedPositionY) * (m_CameraRotationSpeed * 20) * deltaTime));
+		//t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotationY);
+		//t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotationY);
+
+		//XMMATRIX CamRotationZ = XMMatrixRotationAxis(t_TempWorld.r[2], XMConvertToRadians(0));
+		//t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotationZ);
+		//t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotationZ);
 	}
-	if (GetAsyncKeyState('X')) // Rotate Clockwise
+	else
 	{
-		XMMATRIX CamRotation = XMMatrixRotationAxis(t_TempWorld.r[2], XMConvertToRadians(-1 * (m_CameraRotationSpeed * 10) * deltaTime));
-		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotation);
-		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotation);
+		m_SavedPositionX = 0;
+		m_SavedPositionY = 0;
+		m_SavedPosSet = false;
 	}
 
 	XMStoreFloat4x4(m_World, t_TempWorld);

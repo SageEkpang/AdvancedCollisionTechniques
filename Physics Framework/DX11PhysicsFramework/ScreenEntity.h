@@ -40,7 +40,11 @@ private:
 
 	CollisionManager m_CollisionManager;
 	std::map<col_solution_pair, CollisionManifold> m_CollisionSolutionMap;
+
 	GameObjectEntity* m_PlaneObject;
+	GameObjectEntity* m_LeftWallObject;
+	GameObjectEntity* m_RightWallObject;
+	GameObjectEntity* m_BackWallObject;
 
 protected:
 

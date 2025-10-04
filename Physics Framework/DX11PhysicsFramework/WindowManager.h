@@ -77,9 +77,24 @@ private:
 
 public: // PUBLIC FUNCTION(s)
 
+	static int m_WindowWidth;
+	static int m_WindowHeight;
+
+	static bool m_CtrlDown;
+	static bool m_ShiftDown;
+
+
+	// NOTE: Mouse Commands
 	static float m_MouseX;
 	static float m_MouseY;
+
+	static float m_MouseNDCX;
+	static float m_MouseNDCY;
+
+	static short int m_MouseWheel;
+
 	static bool m_MouseButtonLeftDown;
+	static bool m_MouseButtonRightDown;
 
 public:
 
