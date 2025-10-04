@@ -13,10 +13,6 @@
 class BasicScreen : public ScreenEntity
 {
 private:
-
- 	GameObjectEntity* m_CubeObject;
-	GameObjectEntity* m_SphereObject;
-
 public:
 
 	// CLASS FUNCTION(s)
