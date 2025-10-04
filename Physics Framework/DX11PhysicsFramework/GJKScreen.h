@@ -26,14 +26,12 @@ public:
 	/// <summary> Default Destructor for Class </summary>
 	~GJKScreen() override;
 
-	// HELPER FUNCTION(s)
-	void ProcessGJK(const float deltaTime);
 
 	// BASE FUNCTION(s)
-
 	/// <summary> Default Update function for Class </summary>
 	void Update(float deltaTime) override;
-	void RandomImpulseDirection(float deltaTime);
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
+
 };
 
 #endif

@@ -13,9 +13,13 @@ GJKCollider::~GJKCollider()
 	m_PositionStore.clear();
 }
 
-void GJKCollider::Construct(char* path, ID3D11Device* device)
+void GJKCollider::Construct(std::string path, ID3D11Device* device)
 {
-	FillVerticesArray(path);
+	std::string t_tempPath = "Resources\\OBJ\\";
+	t_tempPath.append(path);
+	t_tempPath.append(".obj");
+
+	FillVerticesArray((char*)t_tempPath.c_str());
 
 	Geometry t_Geometry = Geometry();
 	MeshData t_Mesh;

@@ -50,6 +50,8 @@ private: // PRIVATE VARIABLE(s)
     std::unordered_set<GameObjectEntity*> m_ObjectList;
     std::unordered_set<GameObjectEntity*>::iterator m_ObjectItr;
 
+    // virtual void FillVertices(char* path);
+
 public: // PUBLIC VARIABLE(s)
 
     // BASE VARIABLE(s)
@@ -80,6 +82,10 @@ public: // PUBLIC FUNCTION(s)
     // BASE FUNCTION(s)
     virtual void Update(float deltaTime) override;
     virtual void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
+
+
+    
+
 
     // HELPER FUNCTION(s)
     void TriggerQuery(GameObjectEntity* gameObject);

@@ -12,9 +12,6 @@
 class MassAggScreen : public ScreenEntity
 {
 private:
-
-
-
 public:
 
 	// CLASS FUNCTION(s)

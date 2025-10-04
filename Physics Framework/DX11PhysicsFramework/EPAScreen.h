@@ -3,24 +3,13 @@
 
 // NEEDED INCLUDE(s)
 #include "Constants.h"
-//#include "Structures.h"
 
 // CUSTOM INCLUDE(s)
 #include "ScreenEntity.h"
-#include "EPACollider.h"
-#include "GJKCollider.h"
-#include "Octree.h"
-
-#include "CollisionContactManager.h"
 
 class EPAScreen : public ScreenEntity
 {
 private:
-
-	GJKCollider* m_GJKCollider;
-	EPACollider* m_EPACollider;	
-	bool m_UseOctree = false;
-
 public:
 
 	// CLASS FUNCTION(s)
@@ -31,12 +20,11 @@ public:
 	/// <summary> Default Destructor for Class </summary>
 	~EPAScreen();
 
-	// HELPER FUNCTION(s)
-	void ProcessEPA(const float deltaTime);
 
 	// BASE FUNCTION(s)
 	void Update(float deltaTime) override;
-	void RandomImpulseDirection(float deltaTime);
+	void Draw(ConstantBuffer constantBufferData, ID3D11Buffer* constBuff, ID3D11DeviceContext* pImmediateContext, ID3D11Device* device) override;
+
 };
 
 #endif

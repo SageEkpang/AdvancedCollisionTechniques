@@ -31,7 +31,7 @@ public:
 	GJKCollider();
 	~GJKCollider() override;
 
-	void Construct(char* path, ID3D11Device* device);
+	void Construct(std::string path, ID3D11Device* device);
 
 	// BASE FUNCTION(s)	
 	void Update(float deltaTime) override;

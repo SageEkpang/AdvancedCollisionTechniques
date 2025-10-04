@@ -715,7 +715,7 @@ CollisionManifold CollisionManager::GJKtoGJK(GameObjectEntity* gjkA, GameObjectE
 		if (NextSimplex(t_Points, t_Direction)) 
 		{ 	
 			t_ColMani.collisionNormal = Vector3(gjkA->m_Transform.m_Position - gjkB->m_Transform.m_Position).Normalise();
-			t_ColMani.penetrationDepth = 0.2f;
+			t_ColMani.penetrationDepth = 0.5f;
 			t_ColMani.hasCollision = true;
 
 			collisionSolutionMap[std::make_pair(gjkA, gjkB)] = t_ColMani;
