@@ -61,9 +61,6 @@ void Camera::Update(const float deltaTime)
 		WindowManager::m_MouseWheel = 0;
 	}
 
-
-
-
 	if (WindowManager::m_MouseButtonRightDown == true)
 	{
 		if (m_SavedPosSet == false)
@@ -73,17 +70,30 @@ void Camera::Update(const float deltaTime)
 			m_SavedPosSet = true;
 		}
 
-		XMMATRIX CamRotationX = XMMatrixRotationAxis(t_TempWorld.r[1], XMConvertToRadians(((WindowManager::m_MouseNDCX) - m_SavedPositionX) * (m_CameraRotationSpeed * 100) * deltaTime));
+		XMMATRIX CamRotationX = XMMatrixRotationAxis(t_TempWorld.r[1], XMConvertToRadians(
+			(WindowManager::m_MouseNDCX - m_SavedPositionX) * (m_CameraRotationSpeed * 100) * deltaTime)
+		);
+
 		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotationX);
 		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotationX);
 
-		//XMMATRIX CamRotationY = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians((-WindowManager::m_MouseNDCY - m_SavedPositionY) * (m_CameraRotationSpeed * 20) * deltaTime));
-		//t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotationY);
-		//t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotationY);
+		XMMATRIX CamRotationY = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians(
+			(-WindowManager::m_MouseNDCY - m_SavedPositionY) * (m_CameraRotationSpeed * 20) * deltaTime)
+		);
 
-		//XMMATRIX CamRotationZ = XMMatrixRotationAxis(t_TempWorld.r[2], XMConvertToRadians(0));
-		//t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotationZ);
-		//t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotationZ);
+		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotationY);
+		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotationY);
+
+		//XMMATRIX CamRotationZ_X = XMMatrixRotationAxis(
+		//	t_TempWorld.r[2], XMConvertToRadians((WindowManager::m_MouseNDCX - m_SavedPositionX) / 360.f)
+		//);
+
+		//XMMATRIX CamRotationZ_Y = XMMatrixRotationAxis(
+		//	t_TempWorld.r[2], XMConvertToRadians((-WindowManager::m_MouseNDCY - m_SavedPositionY) / 360.f)
+		//);
+
+		//t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotationZ_Y);
+		//t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotationZ_X);
 	}
 	else
 	{
