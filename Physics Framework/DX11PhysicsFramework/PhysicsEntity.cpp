@@ -32,13 +32,13 @@ void PhysicsEntity::CalculateAcceleration(float deltaTime)
 	// Add NetForce to Acceleration
 	m_Acceleration += m_NetForce; // / m_Mass
 
-	// Get position and add it to the velocity of the object
-	Vector3 t_Position = m_Owner->m_Transform.m_Position;
-	m_Velocity += m_Acceleration * deltaTime;
+	// NOTE: Explicit
+	//m_Owner->m_Transform.m_Position += m_Velocity * deltaTime;
+	//m_Velocity += m_Acceleration * deltaTime;
 
-	// Change position based on velocity and set new position based on velocity
-	t_Position += m_Velocity * deltaTime;
-	m_Owner->m_Transform.m_Position = t_Position;
+	// NOTE: Semi-Implicit (Use this one)
+	m_Velocity += m_Acceleration * deltaTime;
+	m_Owner->m_Transform.m_Position += m_Velocity * deltaTime;
 }
 
 void PhysicsEntity::Update(float deltaTime)
