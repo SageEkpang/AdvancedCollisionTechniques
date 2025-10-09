@@ -77,12 +77,12 @@ void Camera::Update(const float deltaTime)
 		t_TempWorld.r[0] = XMVector3TransformNormal(t_TempWorld.r[0], CamRotationX);
 		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotationX);
 
-		XMMATRIX CamRotationY = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians(
-			(-WindowManager::m_MouseNDCY - m_SavedPositionY) * (m_CameraRotationSpeed * 20) * deltaTime)
-		);
+		//XMMATRIX CamRotationY = XMMatrixRotationAxis(t_TempWorld.r[0], XMConvertToRadians(
+		//	(-WindowManager::m_MouseNDCY - m_SavedPositionY) * (m_CameraRotationSpeed * 20) * deltaTime)
+		//);
 
-		t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotationY);
-		t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotationY);
+		//t_TempWorld.r[1] = XMVector3TransformNormal(t_TempWorld.r[1], CamRotationY);
+		//t_TempWorld.r[2] = XMVector3TransformNormal(t_TempWorld.r[2], CamRotationY);
 
 		//XMMATRIX CamRotationZ_X = XMMatrixRotationAxis(
 		//	t_TempWorld.r[2], XMConvertToRadians((WindowManager::m_MouseNDCX - m_SavedPositionX) / 360.f)
