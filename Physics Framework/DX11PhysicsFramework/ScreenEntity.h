@@ -6,6 +6,7 @@
 #include "CollisionManager.h"
 #include "CollisionContactManager.h"
 #include "Timer.h"
+#include "Octree.h"
 
 using namespace DirectX;
 
@@ -47,6 +48,8 @@ private:
 	GameObjectEntity* m_RightWallObject;
 	GameObjectEntity* m_BackWallObject;
 
+	Octant* m_Octree;
+
 protected:
 
 	// SCREEN VARIABLE(s)
@@ -57,6 +60,8 @@ protected:
 	std::vector<GameObjectEntity*> m_GameObjects;
 
 public:
+
+	static bool m_ActivateOctree;
 
 	// CLASS FUNCTION(s)
 	/// <summary> Default Constructor for Base Class </summary>

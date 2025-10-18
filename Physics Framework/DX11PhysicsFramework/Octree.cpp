@@ -99,7 +99,7 @@ void Octree::P_UpdateTree(Octant* tree, const float deltaTime)
 	}
 }
 
-void Octree::P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObjectEntity*, GameObjectEntity*), void(*ResolveFunc)(GameObjectEntity*, GameObjectEntity*, float, Vector3))
+void Octree::P_QueryTree(Octant* tree)
 {
 	// Keep track of all ancester objects lists in a stack
 	std::list<GameObjectEntity*> t_AncesterStackList;
@@ -108,6 +108,9 @@ void Octree::P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObj
 
 	std::list<GameObjectEntity*>::iterator t_ObjectA, t_ObjectB;
 
+	CollisionManager t_CollisionManager;
+	std::map<col_solution_pair, CollisionManifold> t_CollisionSolutionMap;
+
 	// Collision Response Calculations
 	for (t_ObjectA = t_AncesterStackList.begin(); t_ObjectA != t_AncesterStackList.end(); ++t_ObjectA)
 	{
@@ -115,20 +118,25 @@ void Octree::P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObj
 		{
 			// If they are the same, skip iteration
 			if (*t_ObjectA == *t_ObjectB) break;
-
-			CollisionManifold t_CollisionManifold = CollisionManifold();
-
-
-
+			t_CollisionManager.CheckCollisions(*t_ObjectA, *t_ObjectB, t_CollisionSolutionMap);
 		}
 	}
+
+	// NOTE: Collision Handling
+	for (auto itr = t_CollisionSolutionMap.begin(); itr != t_CollisionSolutionMap.end(); ++itr)
+	{
+		auto collision_made_pair = std::make_pair((*itr).first.first, (*itr).first.second);
+		CollisionContactManager::ResolveCollision(&collision_made_pair.first, &collision_made_pair.second, 0.1, m_CollisionSolutionMap[collision_made_pair]);
+	}
+
+	t_CollisionSolutionMap.clear();
 
 	// recursively visit children
 	for (int i = 0; i < 8; ++i)
 	{
 		if (tree->child[i])
 		{
-			P_QueryTree(tree->child[i], CollisionFunc, ResolveFunc);
+			P_QueryTree(tree->child[i]);
 		}
 	}
 }
@@ -249,7 +257,7 @@ void Octree::QueryTree(CollisionManifold(*CollisionFunc)(GameObjectEntity*, Game
 	{
 		if (m_Octant->child[i])
 		{
-			P_QueryTree(m_Octant->child[i], CollisionFunc, ResolveFunc);
+			P_QueryTree(m_Octant->child[i]);
 		}
 	}
 }

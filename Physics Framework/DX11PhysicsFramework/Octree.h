@@ -11,7 +11,8 @@
 #include "EPACollider.h"
 #include "GJKCollider.h"
 
-// #include "MaterialCoefficient.h"
+#include "CollisionManager.h"
+#include "CollisionContactManager.h"
 
 #include "Timer.h"
 
@@ -42,14 +43,19 @@ private: // PRIVATE VARIABLE(s)
 	Octant* m_Octant;
 	int m_RegionAmount;
 
-private: // PRIVATE FUNCTION(s)
+
+
+public: // PRIVATE FUNCTION(s)
+
+	CollisionManager m_CollisionManager;
+	std::map<col_solution_pair, CollisionManifold> m_CollisionSolutionMap;
 
 	// BASE FUNCTION(s)
-	Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
-	void P_InsertEntity(Octant* tree, GameObjectEntity* entity);
-	void P_UpdateTree(Octant* tree, const float deltaTime);
-	void P_QueryTree(Octant* tree, CollisionManifold(*CollisionFunc)(GameObjectEntity*, GameObjectEntity*), void(*ResolveFunc)(GameObjectEntity*, GameObjectEntity*, float, Vector3));
-	void P_ClearOctant(Octant* tree, int index);
+	static Octant* BuildOctree(Vector3 centre, float halfWidth, int stopDepth);
+	static void P_InsertEntity(Octant* tree, GameObjectEntity* entity);
+	static void P_UpdateTree(Octant* tree, const float deltaTime);
+	static void P_QueryTree(Octant* tree);
+	static void P_ClearOctant(Octant* tree, int index);
 
 public: // PUBLIC FUNCTION(s)
 

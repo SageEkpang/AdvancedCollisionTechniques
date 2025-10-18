@@ -1,5 +1,7 @@
 #include "ScreenEntity.h"
 
+bool ScreenEntity::m_ActivateOctree = false;
+
 ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device) : m_ScreenName(screenName)
 {
 	// Plane Object
@@ -32,6 +34,14 @@ ScreenEntity::ScreenEntity(std::string screenName, ID3D11Device* device) : m_Scr
 	m_BackWallObject->AddComponent<BoxCollider>()->Construct(Vector3(250, 100, 10), device);
 	m_BackWallObject->GetComponent<BoxCollider>()->m_IsCollideable = false;
 	InsertObjectIntoList(m_BackWallObject);
+
+	// Octree
+
+	// m_Octree = new Octree(Vector3(0, 0, 0), 100, 3);
+
+	m_Octree = new Octant();
+	m_Octree = Octree::BuildOctree(Vector3(0, 0, 0), 100, 3);
+
 }
 
 ScreenEntity::~ScreenEntity()
@@ -48,6 +58,26 @@ ScreenEntity::~ScreenEntity()
 
 void ScreenEntity::Update(float deltaTime)
 {
+
+	if (m_ActivateOctree == true)
+	{
+		// NOTE: Insert Game Objects into the Octree
+		for (int i = 0; i < m_GameObjects.size(); ++i) { Octree::P_InsertEntity(m_Octree, *&m_GameObjects[i]); }
+
+		// NOTE: Update Game Objects in Tree
+		Octree::P_UpdateTree(m_Octree, deltaTime);
+
+		// NOTE: Query Game Objects in Tree
+		Octree::P_QueryTree(m_Octree);
+
+		// NOTE: Clear Octants
+		for (int i = 0; i < 8; ++i) { Octree::P_ClearOctant(m_Octree, i); }
+
+		return;
+	}
+
+	// NOTE: Will Not get here
+
 	// NOTE: Collision Checking
 	for (int i = 0; i < m_GameObjects.size(); ++i)
 	{

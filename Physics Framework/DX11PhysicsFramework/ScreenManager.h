@@ -17,6 +17,7 @@
 #include <comdef.h>
 
 // FORWARD DEC(s)
+class ScreenEntity;
 #include "BasicScreen.h"
 #include "GJKScreen.h"
 #include "SATScreen.h"

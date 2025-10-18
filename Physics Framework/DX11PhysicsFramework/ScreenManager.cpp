@@ -1,5 +1,6 @@
 #include "ScreenManager.h"
 #include "WindowManager.h"
+#include "ScreenEntity.h"
 
 ScreenManager::ScreenManager(ID3D11Device* device)
 {
@@ -250,22 +251,21 @@ void ScreenManager::GUIShowcase(ID3D11DeviceContext* pImmediateContext, ID3D11De
 	ImGui::Spacing();
 	ImGui::SeparatorText("Spatilisation Statistics");
 
-	bool t_tempChecking = false;
-	ImGui::Checkbox("Activate Octree", &t_tempChecking);
+	ImGui::Checkbox("Activate Octree", &ScreenEntity::m_ActivateOctree);
 	ImGui::Text("Octants: %d", 0);
 	ImGui::Text("Algo Comp Time: ");
 
-	ImGui::Separator();
+	//ImGui::Separator();
 
-	ImGui::Checkbox("Activate BSP", &t_tempChecking);
-	ImGui::Text("BSP Divisions: %d", 0);
-	ImGui::Text("Algo Comp Time: ");
+	//ImGui::Checkbox("Activate BSP", &t_tempChecking);
+	//ImGui::Text("BSP Divisions: %d", 0);
+	//ImGui::Text("Algo Comp Time: ");
 
-	ImGui::Separator();
+	//ImGui::Separator();
 
-	ImGui::Checkbox("Activate Spatial Hashing", &t_tempChecking);
-	ImGui::Text("Spatial Hashing Cells: %d", 0);
-	ImGui::Text("Algo Comp Time: ");
+	//ImGui::Checkbox("Activate Spatial Hashing", &t_tempChecking);
+	//ImGui::Text("Spatial Hashing Cells: %d", 0);
+	//ImGui::Text("Algo Comp Time: ");
 
 	ImGui::End();
 
